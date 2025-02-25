@@ -32,7 +32,7 @@
 
 
 /**
- ** \file /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/fmwk/ckdumper.hpp
+ ** \file /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.hpp
  ** Define the cecko::parser class.
  */
 
@@ -42,10 +42,10 @@
 // especially those whose name start with YY_ or yy_.  They are
 // private implementation details that can be changed or removed.
 
-#ifndef YY_YY_MNT_C_USERS_JAROM_DESKTOP_PG_EXER_COMPILERS_PROCHJ30_FMWK_CKDUMPER_HPP_INCLUDED
-# define YY_YY_MNT_C_USERS_JAROM_DESKTOP_PG_EXER_COMPILERS_PROCHJ30_FMWK_CKDUMPER_HPP_INCLUDED
+#ifndef YY_YY_MNT_C_USERS_JAROM_DESKTOP_PG_EXER_BAKA_TEST_FILES_FIPCOMPILER_FMWK_CKDUMPER_HPP_INCLUDED
+# define YY_YY_MNT_C_USERS_JAROM_DESKTOP_PG_EXER_BAKA_TEST_FILES_FIPCOMPILER_FMWK_CKDUMPER_HPP_INCLUDED
 // "%code requires" blocks.
-#line 17 "/mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/fmwk/ckdumper.y"
+#line 17 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
 
 // this code is emitted to ckdumper.hpp
 
@@ -60,7 +60,7 @@
 using token_attr_s = std::pair< cecko::CIName, std::string>;
 using token_attr_i = std::pair< cecko::CIName, int>;
 
-#line 64 "/mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/fmwk/ckdumper.hpp"
+#line 64 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.hpp"
 
 # include <cassert>
 # include <cstdlib> // std::abort
@@ -199,9 +199,9 @@ using token_attr_i = std::pair< cecko::CIName, int>;
 # define YYDEBUG 0
 #endif
 
-#line 7 "/mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/fmwk/ckdumper.y"
+#line 7 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
 namespace cecko {
-#line 205 "/mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/fmwk/ckdumper.hpp"
+#line 205 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.hpp"
 
 
 
@@ -2499,11 +2499,11 @@ switch (yykind)
   }
 
 
-#line 7 "/mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/fmwk/ckdumper.y"
+#line 7 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
 } // cecko
-#line 2505 "/mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/fmwk/ckdumper.hpp"
+#line 2505 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.hpp"
 
 
 
 
-#endif // !YY_YY_MNT_C_USERS_JAROM_DESKTOP_PG_EXER_COMPILERS_PROCHJ30_FMWK_CKDUMPER_HPP_INCLUDED
+#endif // !YY_YY_MNT_C_USERS_JAROM_DESKTOP_PG_EXER_BAKA_TEST_FILES_FIPCOMPILER_FMWK_CKDUMPER_HPP_INCLUDED

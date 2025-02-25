@@ -1,4 +1,4 @@
-# Install script for directory: /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/solution
+# Install script for directory: /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

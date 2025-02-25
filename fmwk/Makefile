@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30
+CMAKE_SOURCE_DIR = /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30
+CMAKE_BINARY_DIR = /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -97,14 +97,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/CMakeFiles /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/fmwk//CMakeFiles/progress.marks
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fmwk/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/CMakeFiles 0
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/CMakeFiles /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk//CMakeFiles/progress.marks
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fmwk/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fmwk/clean
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fmwk/clean
 .PHONY : clean
 
 # The main clean target
@@ -113,22 +113,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fmwk/preinstall
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fmwk/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fmwk/preinstall
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fmwk/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 fmwk/CMakeFiles/framework.dir/rule:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fmwk/CMakeFiles/framework.dir/rule
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fmwk/CMakeFiles/framework.dir/rule
 .PHONY : fmwk/CMakeFiles/framework.dir/rule
 
 # Convenience name for target.
@@ -137,12 +137,12 @@ framework: fmwk/CMakeFiles/framework.dir/rule
 
 # fast build rule for target.
 framework/fast:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/build
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/build
 .PHONY : framework/fast
 
 # Convenience name for target.
 fmwk/CMakeFiles/framework_dump.dir/rule:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fmwk/CMakeFiles/framework_dump.dir/rule
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fmwk/CMakeFiles/framework_dump.dir/rule
 .PHONY : fmwk/CMakeFiles/framework_dump.dir/rule
 
 # Convenience name for target.
@@ -151,7 +151,7 @@ framework_dump: fmwk/CMakeFiles/framework_dump.dir/rule
 
 # fast build rule for target.
 framework_dump/fast:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/build
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/build
 .PHONY : framework_dump/fast
 
 ckcontext.o: ckcontext.cpp.o
@@ -159,8 +159,8 @@ ckcontext.o: ckcontext.cpp.o
 
 # target to build an object file
 ckcontext.cpp.o:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/ckcontext.cpp.o
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/ckcontext.cpp.o
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/ckcontext.cpp.o
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/ckcontext.cpp.o
 .PHONY : ckcontext.cpp.o
 
 ckcontext.i: ckcontext.cpp.i
@@ -168,8 +168,8 @@ ckcontext.i: ckcontext.cpp.i
 
 # target to preprocess a source file
 ckcontext.cpp.i:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/ckcontext.cpp.i
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/ckcontext.cpp.i
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/ckcontext.cpp.i
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/ckcontext.cpp.i
 .PHONY : ckcontext.cpp.i
 
 ckcontext.s: ckcontext.cpp.s
@@ -177,8 +177,8 @@ ckcontext.s: ckcontext.cpp.s
 
 # target to generate assembly for a file
 ckcontext.cpp.s:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/ckcontext.cpp.s
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/ckcontext.cpp.s
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/ckcontext.cpp.s
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/ckcontext.cpp.s
 .PHONY : ckcontext.cpp.s
 
 ckdumper.o: ckdumper.cpp.o
@@ -186,7 +186,7 @@ ckdumper.o: ckdumper.cpp.o
 
 # target to build an object file
 ckdumper.cpp.o:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/ckdumper.cpp.o
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/ckdumper.cpp.o
 .PHONY : ckdumper.cpp.o
 
 ckdumper.i: ckdumper.cpp.i
@@ -194,7 +194,7 @@ ckdumper.i: ckdumper.cpp.i
 
 # target to preprocess a source file
 ckdumper.cpp.i:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/ckdumper.cpp.i
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/ckdumper.cpp.i
 .PHONY : ckdumper.cpp.i
 
 ckdumper.s: ckdumper.cpp.s
@@ -202,7 +202,7 @@ ckdumper.s: ckdumper.cpp.s
 
 # target to generate assembly for a file
 ckdumper.cpp.s:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/ckdumper.cpp.s
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/ckdumper.cpp.s
 .PHONY : ckdumper.cpp.s
 
 ckir.o: ckir.cpp.o
@@ -210,8 +210,8 @@ ckir.o: ckir.cpp.o
 
 # target to build an object file
 ckir.cpp.o:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/ckir.cpp.o
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/ckir.cpp.o
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/ckir.cpp.o
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/ckir.cpp.o
 .PHONY : ckir.cpp.o
 
 ckir.i: ckir.cpp.i
@@ -219,8 +219,8 @@ ckir.i: ckir.cpp.i
 
 # target to preprocess a source file
 ckir.cpp.i:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/ckir.cpp.i
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/ckir.cpp.i
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/ckir.cpp.i
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/ckir.cpp.i
 .PHONY : ckir.cpp.i
 
 ckir.s: ckir.cpp.s
@@ -228,8 +228,8 @@ ckir.s: ckir.cpp.s
 
 # target to generate assembly for a file
 ckir.cpp.s:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/ckir.cpp.s
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/ckir.cpp.s
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/ckir.cpp.s
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/ckir.cpp.s
 .PHONY : ckir.cpp.s
 
 ckmain.o: ckmain.cpp.o
@@ -237,8 +237,8 @@ ckmain.o: ckmain.cpp.o
 
 # target to build an object file
 ckmain.cpp.o:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/ckmain.cpp.o
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/ckmain.cpp.o
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/ckmain.cpp.o
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/ckmain.cpp.o
 .PHONY : ckmain.cpp.o
 
 ckmain.i: ckmain.cpp.i
@@ -246,8 +246,8 @@ ckmain.i: ckmain.cpp.i
 
 # target to preprocess a source file
 ckmain.cpp.i:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/ckmain.cpp.i
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/ckmain.cpp.i
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/ckmain.cpp.i
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/ckmain.cpp.i
 .PHONY : ckmain.cpp.i
 
 ckmain.s: ckmain.cpp.s
@@ -255,8 +255,8 @@ ckmain.s: ckmain.cpp.s
 
 # target to generate assembly for a file
 ckmain.cpp.s:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/ckmain.cpp.s
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/ckmain.cpp.s
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/ckmain.cpp.s
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/ckmain.cpp.s
 .PHONY : ckmain.cpp.s
 
 cktables.o: cktables.cpp.o
@@ -264,8 +264,8 @@ cktables.o: cktables.cpp.o
 
 # target to build an object file
 cktables.cpp.o:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/cktables.cpp.o
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/cktables.cpp.o
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/cktables.cpp.o
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/cktables.cpp.o
 .PHONY : cktables.cpp.o
 
 cktables.i: cktables.cpp.i
@@ -273,8 +273,8 @@ cktables.i: cktables.cpp.i
 
 # target to preprocess a source file
 cktables.cpp.i:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/cktables.cpp.i
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/cktables.cpp.i
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/cktables.cpp.i
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/cktables.cpp.i
 .PHONY : cktables.cpp.i
 
 cktables.s: cktables.cpp.s
@@ -282,8 +282,8 @@ cktables.s: cktables.cpp.s
 
 # target to generate assembly for a file
 cktables.cpp.s:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/cktables.cpp.s
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/cktables.cpp.s
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework.dir/build.make fmwk/CMakeFiles/framework.dir/cktables.cpp.s
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f fmwk/CMakeFiles/framework_dump.dir/build.make fmwk/CMakeFiles/framework_dump.dir/cktables.cpp.s
 .PHONY : cktables.cpp.s
 
 # Help Target
@@ -323,6 +323,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

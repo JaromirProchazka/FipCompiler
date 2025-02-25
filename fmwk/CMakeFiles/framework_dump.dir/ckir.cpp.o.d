@@ -1,7 +1,7 @@
 fmwk/CMakeFiles/framework_dump.dir/ckir.cpp.o: \
- /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/fmwk/ckir.cpp \
+ /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckir.cpp \
  /usr/include/stdc-predef.h \
- /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/fmwk/ckir.hpp \
+ /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckir.hpp \
  /usr/lib/llvm-15/include/llvm/ADT/APInt.h \
  /usr/lib/llvm-15/include/llvm/Support/Compiler.h \
  /usr/lib/llvm-15/include/llvm/Config/llvm-config.h \

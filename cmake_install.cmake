@@ -1,4 +1,4 @@
-# Install script for directory: /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30
+# Install script for directory: /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -44,22 +44,22 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/fmwk/cmake_install.cmake")
+  include("/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/stud-sol/cmake_install.cmake")
+  include("/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/stud-main/cmake_install.cmake")
+  include("/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-main/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/stud-test/cmake_install.cmake")
+  include("/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-test/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -70,5 +70,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

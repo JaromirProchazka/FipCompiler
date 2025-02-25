@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30
+CMAKE_SOURCE_DIR = /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30
+CMAKE_BINARY_DIR = /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler
 
 # Include any dependencies generated for this target.
 include stud-sol/CMakeFiles/solution_dump.dir/depend.make
@@ -70,36 +70,36 @@ include stud-sol/CMakeFiles/solution_dump.dir/progress.make
 include stud-sol/CMakeFiles/solution_dump.dir/flags.make
 
 stud-sol/calexer_dump.cpp: solution/calexer.lex
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "[FLEX][calexer_dump.cpp] Building scanner with flex 2.6.4"
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/stud-sol && /usr/bin/flex -o/mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/stud-sol/calexer_dump.cpp /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/solution/calexer.lex
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "[FLEX][calexer_dump.cpp] Building scanner with flex 2.6.4"
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol && /usr/bin/flex -o/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/calexer_dump.cpp /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex
 
 stud-sol/CMakeFiles/solution_dump.dir/calexer_dump.cpp.o: stud-sol/CMakeFiles/solution_dump.dir/flags.make
 stud-sol/CMakeFiles/solution_dump.dir/calexer_dump.cpp.o: stud-sol/calexer_dump.cpp
 stud-sol/CMakeFiles/solution_dump.dir/calexer_dump.cpp.o: stud-sol/CMakeFiles/solution_dump.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object stud-sol/CMakeFiles/solution_dump.dir/calexer_dump.cpp.o"
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/stud-sol && /usr/bin/c++ $(CXX_DEFINES) -DBISON_HEADER=ckdumper.hpp $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT stud-sol/CMakeFiles/solution_dump.dir/calexer_dump.cpp.o -MF CMakeFiles/solution_dump.dir/calexer_dump.cpp.o.d -o CMakeFiles/solution_dump.dir/calexer_dump.cpp.o -c /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/stud-sol/calexer_dump.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object stud-sol/CMakeFiles/solution_dump.dir/calexer_dump.cpp.o"
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol && /usr/bin/c++ $(CXX_DEFINES) -DBISON_HEADER=ckdumper.hpp $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT stud-sol/CMakeFiles/solution_dump.dir/calexer_dump.cpp.o -MF CMakeFiles/solution_dump.dir/calexer_dump.cpp.o.d -o CMakeFiles/solution_dump.dir/calexer_dump.cpp.o -c /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/calexer_dump.cpp
 
 stud-sol/CMakeFiles/solution_dump.dir/calexer_dump.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/solution_dump.dir/calexer_dump.cpp.i"
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/stud-sol && /usr/bin/c++ $(CXX_DEFINES) -DBISON_HEADER=ckdumper.hpp $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/stud-sol/calexer_dump.cpp > CMakeFiles/solution_dump.dir/calexer_dump.cpp.i
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol && /usr/bin/c++ $(CXX_DEFINES) -DBISON_HEADER=ckdumper.hpp $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/calexer_dump.cpp > CMakeFiles/solution_dump.dir/calexer_dump.cpp.i
 
 stud-sol/CMakeFiles/solution_dump.dir/calexer_dump.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/solution_dump.dir/calexer_dump.cpp.s"
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/stud-sol && /usr/bin/c++ $(CXX_DEFINES) -DBISON_HEADER=ckdumper.hpp $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/stud-sol/calexer_dump.cpp -o CMakeFiles/solution_dump.dir/calexer_dump.cpp.s
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol && /usr/bin/c++ $(CXX_DEFINES) -DBISON_HEADER=ckdumper.hpp $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/calexer_dump.cpp -o CMakeFiles/solution_dump.dir/calexer_dump.cpp.s
 
 stud-sol/CMakeFiles/solution_dump.dir/casem.cpp.o: stud-sol/CMakeFiles/solution_dump.dir/flags.make
 stud-sol/CMakeFiles/solution_dump.dir/casem.cpp.o: solution/casem.cpp
 stud-sol/CMakeFiles/solution_dump.dir/casem.cpp.o: stud-sol/CMakeFiles/solution_dump.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object stud-sol/CMakeFiles/solution_dump.dir/casem.cpp.o"
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/stud-sol && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT stud-sol/CMakeFiles/solution_dump.dir/casem.cpp.o -MF CMakeFiles/solution_dump.dir/casem.cpp.o.d -o CMakeFiles/solution_dump.dir/casem.cpp.o -c /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/solution/casem.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object stud-sol/CMakeFiles/solution_dump.dir/casem.cpp.o"
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT stud-sol/CMakeFiles/solution_dump.dir/casem.cpp.o -MF CMakeFiles/solution_dump.dir/casem.cpp.o.d -o CMakeFiles/solution_dump.dir/casem.cpp.o -c /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/casem.cpp
 
 stud-sol/CMakeFiles/solution_dump.dir/casem.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/solution_dump.dir/casem.cpp.i"
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/stud-sol && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/solution/casem.cpp > CMakeFiles/solution_dump.dir/casem.cpp.i
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/casem.cpp > CMakeFiles/solution_dump.dir/casem.cpp.i
 
 stud-sol/CMakeFiles/solution_dump.dir/casem.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/solution_dump.dir/casem.cpp.s"
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/stud-sol && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/solution/casem.cpp -o CMakeFiles/solution_dump.dir/casem.cpp.s
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/casem.cpp -o CMakeFiles/solution_dump.dir/casem.cpp.s
 
 # Object files for target solution_dump
 solution_dump_OBJECTS = \
@@ -113,19 +113,19 @@ stud-sol/libsolution_dump.a: stud-sol/CMakeFiles/solution_dump.dir/calexer_dump.
 stud-sol/libsolution_dump.a: stud-sol/CMakeFiles/solution_dump.dir/casem.cpp.o
 stud-sol/libsolution_dump.a: stud-sol/CMakeFiles/solution_dump.dir/build.make
 stud-sol/libsolution_dump.a: stud-sol/CMakeFiles/solution_dump.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX static library libsolution_dump.a"
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/stud-sol && $(CMAKE_COMMAND) -P CMakeFiles/solution_dump.dir/cmake_clean_target.cmake
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/stud-sol && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/solution_dump.dir/link.txt --verbose=$(VERBOSE)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX static library libsolution_dump.a"
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol && $(CMAKE_COMMAND) -P CMakeFiles/solution_dump.dir/cmake_clean_target.cmake
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/solution_dump.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
 stud-sol/CMakeFiles/solution_dump.dir/build: stud-sol/libsolution_dump.a
 .PHONY : stud-sol/CMakeFiles/solution_dump.dir/build
 
 stud-sol/CMakeFiles/solution_dump.dir/clean:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/stud-sol && $(CMAKE_COMMAND) -P CMakeFiles/solution_dump.dir/cmake_clean.cmake
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol && $(CMAKE_COMMAND) -P CMakeFiles/solution_dump.dir/cmake_clean.cmake
 .PHONY : stud-sol/CMakeFiles/solution_dump.dir/clean
 
 stud-sol/CMakeFiles/solution_dump.dir/depend: stud-sol/calexer_dump.cpp
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/solution /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30 /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/stud-sol /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/stud-sol/CMakeFiles/solution_dump.dir/DependInfo.cmake --color=$(COLOR)
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/CMakeFiles/solution_dump.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : stud-sol/CMakeFiles/solution_dump.dir/depend
 
