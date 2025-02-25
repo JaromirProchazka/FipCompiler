@@ -1,0 +1,2 @@
+/usr/bin/ar qc libframework_dump.a CMakeFiles/framework_dump.dir/ckdumper.cpp.o CMakeFiles/framework_dump.dir/ckir.cpp.o CMakeFiles/framework_dump.dir/cktables.cpp.o CMakeFiles/framework_dump.dir/ckcontext.cpp.o CMakeFiles/framework_dump.dir/ckmain.cpp.o
+/usr/bin/ranlib libframework_dump.a

@@ -1,0 +1,5 @@
+# Hashes of file build rules.
+2b8ed806fe6daa6cd66cde9e39021e8d fmwk/ckdumper.cpp
+ce5d764943a63867d0eb85cbb8ed8400 stud-sol/calexer.cpp
+2761d96328c7a3c497fe36a146617057 stud-sol/calexer_dump.cpp
+19ecfae5ecc43afcd0c626317f87d6cd stud-sol/caparser.cpp
