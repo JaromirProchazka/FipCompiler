@@ -56,6 +56,7 @@ std::string msg = "";
 "match!"			return cecko::parser::make_DMATCH(ctx->line());
 "fip"				return cecko::parser::make_FIP(ctx->line());
 "fn"				return cecko::parser::make_FN(ctx->line());
+"|"					return cecko::parser::make_VERT(ctx->line());
 
 "typedef"			return cecko::parser::make_TYPEDEF(ctx->line());
 "sizeof"			return cecko::parser::make_SIZEOF(ctx->line());
@@ -85,7 +86,6 @@ std::string msg = "";
 ";"         		return cecko::parser::make_SEMIC(ctx->line());
 "{"        			return cecko::parser::make_LCUR(ctx->line());
 "}"        			return cecko::parser::make_RCUR(ctx->line());
-"|"					return cecko::parser::make_VERT(ctx->line());
 
 \/\/.*\n			ctx->incline();
 \/\*				{ 

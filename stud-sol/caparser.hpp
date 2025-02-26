@@ -32,7 +32,7 @@
 
 
 /**
- ** \file /mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/stud-sol/caparser.hpp
+ ** \file /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.hpp
  ** Define the cecko::parser class.
  */
 
@@ -42,10 +42,10 @@
 // especially those whose name start with YY_ or yy_.  They are
 // private implementation details that can be changed or removed.
 
-#ifndef YY_YY_MNT_C_USERS_JAROM_DESKTOP_PG_EXER_COMPILERS_PROCHJ30_STUD_SOL_CAPARSER_HPP_INCLUDED
-# define YY_YY_MNT_C_USERS_JAROM_DESKTOP_PG_EXER_COMPILERS_PROCHJ30_STUD_SOL_CAPARSER_HPP_INCLUDED
+#ifndef YY_YY_MNT_C_USERS_JAROM_DESKTOP_PG_EXER_BAKA_TEST_FILES_FIPCOMPILER_STUD_SOL_CAPARSER_HPP_INCLUDED
+# define YY_YY_MNT_C_USERS_JAROM_DESKTOP_PG_EXER_BAKA_TEST_FILES_FIPCOMPILER_STUD_SOL_CAPARSER_HPP_INCLUDED
 // "%code requires" blocks.
-#line 17 "/mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/solution/caparser.y"
+#line 17 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
 
 // this code is emitted to caparser.hpp
 
@@ -61,7 +61,7 @@
 #include "casem.hpp"
 #include <functional>
 
-#line 65 "/mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/stud-sol/caparser.hpp"
+#line 65 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.hpp"
 
 # include <cassert>
 # include <cstdlib> // std::abort
@@ -200,9 +200,9 @@
 # define YYDEBUG 0
 #endif
 
-#line 7 "/mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/solution/caparser.y"
+#line 7 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
 namespace cecko {
-#line 206 "/mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/stud-sol/caparser.hpp"
+#line 206 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.hpp"
 
 
 
@@ -421,123 +421,25 @@ namespace cecko {
     /// An auxiliary type to compute the largest semantic type.
     union union_type
     {
-      // declaration_specifiers
-      // declaration_specifier
-      // specifier_qualifier_list
-      // type_specifier_qualifier
-      // type_qualifier
-      // type_qualifier_list
-      // parameter_declaration
-      char dummy1[sizeof (casem::CKTypeRefDefPack)];
-
-      // if_statement_head
-      // if_non_split_statement
-      // if_non_split_statement_else
-      char dummy2[sizeof (casem::IfControllFlowData)];
-
-      // argument_expression_list
-      char dummy3[sizeof (casem::InstructionArray)];
-
-      // primary_expression
-      // postfix_expression
-      // unary_expression
-      // cast_expression
-      // multiplicative_expression
-      // additive_expression
-      // relational_expression
-      // equality_expression
-      // logical_and_expression
-      // logical_or_expression
-      // assignment_expression
-      // expression
-      // expression_opt
-      char dummy4[sizeof (casem::InstructionWrapper)];
-
-      // parameter_type_list
-      // parameter_list
-      char dummy5[sizeof (casem::TRDArray)];
-
-      // init_declarator_list
-      // init_declarator
-      // member_declarator_list
-      // member_declarator
-      // declarator
-      // direct_declarator
-      // array_declarator
-      // function_declarator
-      // abstract_declarator
-      // direct_abstract_declarator
-      // array_abstract_declarator
-      // function_abstract_declarator
-      char dummy6[sizeof (casem::TypeRefPack_Action)];
-
-      // pointer
-      char dummy7[sizeof (casem::TypeRefPack_Convertor)];
-
-      // unary_operator
-      char dummy8[sizeof (casem::UnaryOperator)];
-
-      // while_statement_head
-      // do_statement_head
-      char dummy9[sizeof (casem::WhileControllFlowData)];
-
       // "identifier"
       // "type identifier"
       // "string literal"
-      // enum_specifier
-      // enumeration_constant
-      // typedef_name
-      char dummy10[sizeof (cecko::CIName)];
-
-      // statement
-      // compound_statement
-      // compound_statement_body
-      // block_item_list
-      // block_item
-      // expression_statement
-      // non_split_statement
-      // split_statement
-      // jump_statement
-      char dummy11[sizeof (cecko::CKIRBasicBlockObs)];
-
-      // member_declaration_list
-      // member_declaration
-      char dummy12[sizeof (cecko::CKStructItemArray)];
-
-      // struct_decl_head
-      // struct_or_union_specifier
-      char dummy13[sizeof (cecko::CKStructTypeSafeObs)];
-
-      // type_name
-      char dummy14[sizeof (cecko::CKTypeObs)];
-
-      // type_specifier
-      char dummy15[sizeof (cecko::CKTypeSafeObs)];
+      char dummy1[sizeof (cecko::CIName)];
 
       // "+ or -"
-      char dummy16[sizeof (cecko::gt_addop)];
-
-      // "*=, /=, %=, +=, or -="
-      // assignment_operator
-      char dummy17[sizeof (cecko::gt_cass)];
+      char dummy2[sizeof (cecko::gt_addop)];
 
       // "== or !="
-      char dummy18[sizeof (cecko::gt_cmpe)];
+      char dummy3[sizeof (cecko::gt_cmpe)];
 
       // "<, >, <=, or >="
-      char dummy19[sizeof (cecko::gt_cmpo)];
+      char dummy4[sizeof (cecko::gt_cmpo)];
 
       // "/ or %"
-      char dummy20[sizeof (cecko::gt_divop)];
-
-      // "_Bool, char, or int"
-      char dummy21[sizeof (cecko::gt_etype)];
-
-      // "++ or --"
-      char dummy22[sizeof (cecko::gt_incdec)];
+      char dummy5[sizeof (cecko::gt_divop)];
 
       // "integer literal"
-      char dummy23[sizeof (int)];
+      char dummy6[sizeof (int)];
     };
 
     /// The size of the largest semantic type.
@@ -594,45 +496,34 @@ namespace cecko {
     TOK_RBRA = 259,                // "]"
     TOK_LPAR = 260,                // "("
     TOK_RPAR = 261,                // ")"
-    TOK_DOT = 262,                 // "."
-    TOK_ARROW = 263,               // "->"
-    TOK_INCDEC = 264,              // "++ or --"
-    TOK_COMMA = 265,               // ","
-    TOK_AMP = 266,                 // "&"
-    TOK_STAR = 267,                // "*"
-    TOK_ADDOP = 268,               // "+ or -"
-    TOK_EMPH = 269,                // "!"
-    TOK_DIVOP = 270,               // "/ or %"
-    TOK_CMPO = 271,                // "<, >, <=, or >="
-    TOK_CMPE = 272,                // "== or !="
-    TOK_DAMP = 273,                // "&&"
-    TOK_DVERT = 274,               // "||"
-    TOK_ASGN = 275,                // "="
-    TOK_CASS = 276,                // "*=, /=, %=, +=, or -="
-    TOK_SEMIC = 277,               // ";"
-    TOK_LCUR = 278,                // "{"
-    TOK_RCUR = 279,                // "}"
-    TOK_COLON = 280,               // ":"
-    TOK_TYPEDEF = 281,             // "typedef"
-    TOK_VOID = 282,                // "void"
-    TOK_ETYPE = 283,               // "_Bool, char, or int"
-    TOK_STRUCT = 284,              // "struct"
-    TOK_ENUM = 285,                // "enum"
-    TOK_CONST = 286,               // "const"
-    TOK_IF = 287,                  // "if"
-    TOK_ELSE = 288,                // "else"
-    TOK_DO = 289,                  // "do"
-    TOK_WHILE = 290,               // "while"
-    TOK_FOR = 291,                 // "for"
-    TOK_GOTO = 292,                // "goto"
-    TOK_CONTINUE = 293,            // "continue"
-    TOK_BREAK = 294,               // "break"
-    TOK_RETURN = 295,              // "return"
-    TOK_SIZEOF = 296,              // "sizeof"
-    TOK_IDF = 297,                 // "identifier"
-    TOK_TYPEIDF = 298,             // "type identifier"
-    TOK_INTLIT = 299,              // "integer literal"
-    TOK_STRLIT = 300               // "string literal"
+    TOK_ARROW = 262,               // "->"
+    TOK_COMMA = 263,               // ","
+    TOK_AMP = 264,                 // "&"
+    TOK_VERT = 265,                // "|"
+    TOK_STAR = 266,                // "*"
+    TOK_ADDOP = 267,               // "+ or -"
+    TOK_EMPH = 268,                // "!"
+    TOK_DIVOP = 269,               // "/ or %"
+    TOK_CMPO = 270,                // "<, >, <=, or >="
+    TOK_CMPE = 271,                // "== or !="
+    TOK_DAMP = 272,                // "&&"
+    TOK_DVERT = 273,               // "||"
+    TOK_ASGN = 274,                // "="
+    TOK_SEMIC = 275,               // ";"
+    TOK_LCUR = 276,                // "{"
+    TOK_RCUR = 277,                // "}"
+    TOK_TYPEDEF = 278,             // "typedef"
+    TOK_SIZEOF = 279,              // "sizeof"
+    TOK_IN = 280,                  // "in"
+    TOK_LET = 281,                 // "let"
+    TOK_MATCH = 282,               // "match"
+    TOK_DMATCH = 283,              // "match!"
+    TOK_FIP = 284,                 // "fip"
+    TOK_FN = 285,                  // "fn"
+    TOK_IDF = 286,                 // "identifier"
+    TOK_TYPEIDF = 287,             // "type identifier"
+    TOK_INTLIT = 288,              // "integer literal"
+    TOK_STRLIT = 289               // "string literal"
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -649,7 +540,7 @@ namespace cecko {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 46, ///< Number of tokens.
+        YYNTOKENS = 35, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
@@ -658,120 +549,36 @@ namespace cecko {
         S_RBRA = 4,                              // "]"
         S_LPAR = 5,                              // "("
         S_RPAR = 6,                              // ")"
-        S_DOT = 7,                               // "."
-        S_ARROW = 8,                             // "->"
-        S_INCDEC = 9,                            // "++ or --"
-        S_COMMA = 10,                            // ","
-        S_AMP = 11,                              // "&"
-        S_STAR = 12,                             // "*"
-        S_ADDOP = 13,                            // "+ or -"
-        S_EMPH = 14,                             // "!"
-        S_DIVOP = 15,                            // "/ or %"
-        S_CMPO = 16,                             // "<, >, <=, or >="
-        S_CMPE = 17,                             // "== or !="
-        S_DAMP = 18,                             // "&&"
-        S_DVERT = 19,                            // "||"
-        S_ASGN = 20,                             // "="
-        S_CASS = 21,                             // "*=, /=, %=, +=, or -="
-        S_SEMIC = 22,                            // ";"
-        S_LCUR = 23,                             // "{"
-        S_RCUR = 24,                             // "}"
-        S_COLON = 25,                            // ":"
-        S_TYPEDEF = 26,                          // "typedef"
-        S_VOID = 27,                             // "void"
-        S_ETYPE = 28,                            // "_Bool, char, or int"
-        S_STRUCT = 29,                           // "struct"
-        S_ENUM = 30,                             // "enum"
-        S_CONST = 31,                            // "const"
-        S_IF = 32,                               // "if"
-        S_ELSE = 33,                             // "else"
-        S_DO = 34,                               // "do"
-        S_WHILE = 35,                            // "while"
-        S_FOR = 36,                              // "for"
-        S_GOTO = 37,                             // "goto"
-        S_CONTINUE = 38,                         // "continue"
-        S_BREAK = 39,                            // "break"
-        S_RETURN = 40,                           // "return"
-        S_SIZEOF = 41,                           // "sizeof"
-        S_IDF = 42,                              // "identifier"
-        S_TYPEIDF = 43,                          // "type identifier"
-        S_INTLIT = 44,                           // "integer literal"
-        S_STRLIT = 45,                           // "string literal"
-        S_YYACCEPT = 46,                         // $accept
-        S_translation_unit = 47,                 // translation_unit
-        S_external_declaration = 48,             // external_declaration
-        S_function_definition = 49,              // function_definition
-        S_function_definition_info = 50,         // function_definition_info
-        S_function_definition_head = 51,         // function_definition_head
-        S_primary_expression = 52,               // primary_expression
-        S_postfix_expression = 53,               // postfix_expression
-        S_argument_expression_list = 54,         // argument_expression_list
-        S_unary_expression = 55,                 // unary_expression
-        S_unary_operator = 56,                   // unary_operator
-        S_cast_expression = 57,                  // cast_expression
-        S_multiplicative_expression = 58,        // multiplicative_expression
-        S_additive_expression = 59,              // additive_expression
-        S_relational_expression = 60,            // relational_expression
-        S_equality_expression = 61,              // equality_expression
-        S_logical_and_expression = 62,           // logical_and_expression
-        S_logical_or_expression = 63,            // logical_or_expression
-        S_assignment_expression = 64,            // assignment_expression
-        S_assignment_operator = 65,              // assignment_operator
-        S_expression = 66,                       // expression
-        S_constant_expression = 67,              // constant_expression
-        S_declaration = 68,                      // declaration
-        S_no_leading_attribute_declaration = 69, // no_leading_attribute_declaration
-        S_declaration_specifiers = 70,           // declaration_specifiers
-        S_declaration_specifier = 71,            // declaration_specifier
-        S_init_declarator_list = 72,             // init_declarator_list
-        S_init_declarator = 73,                  // init_declarator
-        S_storage_class_specifier = 74,          // storage_class_specifier
-        S_type_specifier = 75,                   // type_specifier
-        S_struct_decl_head = 76,                 // struct_decl_head
-        S_struct_or_union_specifier = 77,        // struct_or_union_specifier
-        S_struct_or_union = 78,                  // struct_or_union
-        S_member_declaration_list = 79,          // member_declaration_list
-        S_member_declaration = 80,               // member_declaration
-        S_specifier_qualifier_list = 81,         // specifier_qualifier_list
-        S_type_specifier_qualifier = 82,         // type_specifier_qualifier
-        S_member_declarator_list = 83,           // member_declarator_list
-        S_member_declarator = 84,                // member_declarator
-        S_enum_specifier = 85,                   // enum_specifier
-        S_enumerator_list = 86,                  // enumerator_list
-        S_enumerator = 87,                       // enumerator
-        S_enumeration_constant = 88,             // enumeration_constant
-        S_type_qualifier = 89,                   // type_qualifier
-        S_declarator = 90,                       // declarator
-        S_direct_declarator = 91,                // direct_declarator
-        S_array_declarator = 92,                 // array_declarator
-        S_function_declarator = 93,              // function_declarator
-        S_pointer = 94,                          // pointer
-        S_type_qualifier_list = 95,              // type_qualifier_list
-        S_parameter_type_list = 96,              // parameter_type_list
-        S_parameter_list = 97,                   // parameter_list
-        S_parameter_declaration = 98,            // parameter_declaration
-        S_type_name = 99,                        // type_name
-        S_abstract_declarator = 100,             // abstract_declarator
-        S_direct_abstract_declarator = 101,      // direct_abstract_declarator
-        S_array_abstract_declarator = 102,       // array_abstract_declarator
-        S_function_abstract_declarator = 103,    // function_abstract_declarator
-        S_typedef_name = 104,                    // typedef_name
-        S_statement = 105,                       // statement
-        S_compound_statement_head = 106,         // compound_statement_head
-        S_compound_statement = 107,              // compound_statement
-        S_compound_statement_body = 108,         // compound_statement_body
-        S_block_item_list = 109,                 // block_item_list
-        S_block_item = 110,                      // block_item
-        S_expression_statement = 111,            // expression_statement
-        S_expression_opt = 112,                  // expression_opt
-        S_if_statement_head = 113,               // if_statement_head
-        S_if_non_split_statement = 114,          // if_non_split_statement
-        S_if_non_split_statement_else = 115,     // if_non_split_statement_else
-        S_while_statement_head = 116,            // while_statement_head
-        S_do_statement_head = 117,               // do_statement_head
-        S_non_split_statement = 118,             // non_split_statement
-        S_split_statement = 119,                 // split_statement
-        S_jump_statement = 120                   // jump_statement
+        S_ARROW = 7,                             // "->"
+        S_COMMA = 8,                             // ","
+        S_AMP = 9,                               // "&"
+        S_VERT = 10,                             // "|"
+        S_STAR = 11,                             // "*"
+        S_ADDOP = 12,                            // "+ or -"
+        S_EMPH = 13,                             // "!"
+        S_DIVOP = 14,                            // "/ or %"
+        S_CMPO = 15,                             // "<, >, <=, or >="
+        S_CMPE = 16,                             // "== or !="
+        S_DAMP = 17,                             // "&&"
+        S_DVERT = 18,                            // "||"
+        S_ASGN = 19,                             // "="
+        S_SEMIC = 20,                            // ";"
+        S_LCUR = 21,                             // "{"
+        S_RCUR = 22,                             // "}"
+        S_TYPEDEF = 23,                          // "typedef"
+        S_SIZEOF = 24,                           // "sizeof"
+        S_IN = 25,                               // "in"
+        S_LET = 26,                              // "let"
+        S_MATCH = 27,                            // "match"
+        S_DMATCH = 28,                           // "match!"
+        S_FIP = 29,                              // "fip"
+        S_FN = 30,                               // "fn"
+        S_IDF = 31,                              // "identifier"
+        S_TYPEIDF = 32,                          // "type identifier"
+        S_INTLIT = 33,                           // "integer literal"
+        S_STRLIT = 34,                           // "string literal"
+        S_YYACCEPT = 35,                         // $accept
+        S_translation_unit = 36                  // translation_unit
       };
     };
 
@@ -808,121 +615,14 @@ namespace cecko {
       {
         switch (this->kind ())
     {
-      case symbol_kind::S_declaration_specifiers: // declaration_specifiers
-      case symbol_kind::S_declaration_specifier: // declaration_specifier
-      case symbol_kind::S_specifier_qualifier_list: // specifier_qualifier_list
-      case symbol_kind::S_type_specifier_qualifier: // type_specifier_qualifier
-      case symbol_kind::S_type_qualifier: // type_qualifier
-      case symbol_kind::S_type_qualifier_list: // type_qualifier_list
-      case symbol_kind::S_parameter_declaration: // parameter_declaration
-        value.move< casem::CKTypeRefDefPack > (std::move (that.value));
-        break;
-
-      case symbol_kind::S_if_statement_head: // if_statement_head
-      case symbol_kind::S_if_non_split_statement: // if_non_split_statement
-      case symbol_kind::S_if_non_split_statement_else: // if_non_split_statement_else
-        value.move< casem::IfControllFlowData > (std::move (that.value));
-        break;
-
-      case symbol_kind::S_argument_expression_list: // argument_expression_list
-        value.move< casem::InstructionArray > (std::move (that.value));
-        break;
-
-      case symbol_kind::S_primary_expression: // primary_expression
-      case symbol_kind::S_postfix_expression: // postfix_expression
-      case symbol_kind::S_unary_expression: // unary_expression
-      case symbol_kind::S_cast_expression: // cast_expression
-      case symbol_kind::S_multiplicative_expression: // multiplicative_expression
-      case symbol_kind::S_additive_expression: // additive_expression
-      case symbol_kind::S_relational_expression: // relational_expression
-      case symbol_kind::S_equality_expression: // equality_expression
-      case symbol_kind::S_logical_and_expression: // logical_and_expression
-      case symbol_kind::S_logical_or_expression: // logical_or_expression
-      case symbol_kind::S_assignment_expression: // assignment_expression
-      case symbol_kind::S_expression: // expression
-      case symbol_kind::S_expression_opt: // expression_opt
-        value.move< casem::InstructionWrapper > (std::move (that.value));
-        break;
-
-      case symbol_kind::S_parameter_type_list: // parameter_type_list
-      case symbol_kind::S_parameter_list: // parameter_list
-        value.move< casem::TRDArray > (std::move (that.value));
-        break;
-
-      case symbol_kind::S_init_declarator_list: // init_declarator_list
-      case symbol_kind::S_init_declarator: // init_declarator
-      case symbol_kind::S_member_declarator_list: // member_declarator_list
-      case symbol_kind::S_member_declarator: // member_declarator
-      case symbol_kind::S_declarator: // declarator
-      case symbol_kind::S_direct_declarator: // direct_declarator
-      case symbol_kind::S_array_declarator: // array_declarator
-      case symbol_kind::S_function_declarator: // function_declarator
-      case symbol_kind::S_abstract_declarator: // abstract_declarator
-      case symbol_kind::S_direct_abstract_declarator: // direct_abstract_declarator
-      case symbol_kind::S_array_abstract_declarator: // array_abstract_declarator
-      case symbol_kind::S_function_abstract_declarator: // function_abstract_declarator
-        value.move< casem::TypeRefPack_Action > (std::move (that.value));
-        break;
-
-      case symbol_kind::S_pointer: // pointer
-        value.move< casem::TypeRefPack_Convertor > (std::move (that.value));
-        break;
-
-      case symbol_kind::S_unary_operator: // unary_operator
-        value.move< casem::UnaryOperator > (std::move (that.value));
-        break;
-
-      case symbol_kind::S_while_statement_head: // while_statement_head
-      case symbol_kind::S_do_statement_head: // do_statement_head
-        value.move< casem::WhileControllFlowData > (std::move (that.value));
-        break;
-
       case symbol_kind::S_IDF: // "identifier"
       case symbol_kind::S_TYPEIDF: // "type identifier"
       case symbol_kind::S_STRLIT: // "string literal"
-      case symbol_kind::S_enum_specifier: // enum_specifier
-      case symbol_kind::S_enumeration_constant: // enumeration_constant
-      case symbol_kind::S_typedef_name: // typedef_name
         value.move< cecko::CIName > (std::move (that.value));
-        break;
-
-      case symbol_kind::S_statement: // statement
-      case symbol_kind::S_compound_statement: // compound_statement
-      case symbol_kind::S_compound_statement_body: // compound_statement_body
-      case symbol_kind::S_block_item_list: // block_item_list
-      case symbol_kind::S_block_item: // block_item
-      case symbol_kind::S_expression_statement: // expression_statement
-      case symbol_kind::S_non_split_statement: // non_split_statement
-      case symbol_kind::S_split_statement: // split_statement
-      case symbol_kind::S_jump_statement: // jump_statement
-        value.move< cecko::CKIRBasicBlockObs > (std::move (that.value));
-        break;
-
-      case symbol_kind::S_member_declaration_list: // member_declaration_list
-      case symbol_kind::S_member_declaration: // member_declaration
-        value.move< cecko::CKStructItemArray > (std::move (that.value));
-        break;
-
-      case symbol_kind::S_struct_decl_head: // struct_decl_head
-      case symbol_kind::S_struct_or_union_specifier: // struct_or_union_specifier
-        value.move< cecko::CKStructTypeSafeObs > (std::move (that.value));
-        break;
-
-      case symbol_kind::S_type_name: // type_name
-        value.move< cecko::CKTypeObs > (std::move (that.value));
-        break;
-
-      case symbol_kind::S_type_specifier: // type_specifier
-        value.move< cecko::CKTypeSafeObs > (std::move (that.value));
         break;
 
       case symbol_kind::S_ADDOP: // "+ or -"
         value.move< cecko::gt_addop > (std::move (that.value));
-        break;
-
-      case symbol_kind::S_CASS: // "*=, /=, %=, +=, or -="
-      case symbol_kind::S_assignment_operator: // assignment_operator
-        value.move< cecko::gt_cass > (std::move (that.value));
         break;
 
       case symbol_kind::S_CMPE: // "== or !="
@@ -935,14 +635,6 @@ namespace cecko {
 
       case symbol_kind::S_DIVOP: // "/ or %"
         value.move< cecko::gt_divop > (std::move (that.value));
-        break;
-
-      case symbol_kind::S_ETYPE: // "_Bool, char, or int"
-        value.move< cecko::gt_etype > (std::move (that.value));
-        break;
-
-      case symbol_kind::S_INCDEC: // "++ or --"
-        value.move< cecko::gt_incdec > (std::move (that.value));
         break;
 
       case symbol_kind::S_INTLIT: // "integer literal"
@@ -973,132 +665,6 @@ namespace cecko {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, casem::CKTypeRefDefPack&& v, location_type&& l)
-        : Base (t)
-        , value (std::move (v))
-        , location (std::move (l))
-      {}
-#else
-      basic_symbol (typename Base::kind_type t, const casem::CKTypeRefDefPack& v, const location_type& l)
-        : Base (t)
-        , value (v)
-        , location (l)
-      {}
-#endif
-
-#if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, casem::IfControllFlowData&& v, location_type&& l)
-        : Base (t)
-        , value (std::move (v))
-        , location (std::move (l))
-      {}
-#else
-      basic_symbol (typename Base::kind_type t, const casem::IfControllFlowData& v, const location_type& l)
-        : Base (t)
-        , value (v)
-        , location (l)
-      {}
-#endif
-
-#if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, casem::InstructionArray&& v, location_type&& l)
-        : Base (t)
-        , value (std::move (v))
-        , location (std::move (l))
-      {}
-#else
-      basic_symbol (typename Base::kind_type t, const casem::InstructionArray& v, const location_type& l)
-        : Base (t)
-        , value (v)
-        , location (l)
-      {}
-#endif
-
-#if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, casem::InstructionWrapper&& v, location_type&& l)
-        : Base (t)
-        , value (std::move (v))
-        , location (std::move (l))
-      {}
-#else
-      basic_symbol (typename Base::kind_type t, const casem::InstructionWrapper& v, const location_type& l)
-        : Base (t)
-        , value (v)
-        , location (l)
-      {}
-#endif
-
-#if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, casem::TRDArray&& v, location_type&& l)
-        : Base (t)
-        , value (std::move (v))
-        , location (std::move (l))
-      {}
-#else
-      basic_symbol (typename Base::kind_type t, const casem::TRDArray& v, const location_type& l)
-        : Base (t)
-        , value (v)
-        , location (l)
-      {}
-#endif
-
-#if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, casem::TypeRefPack_Action&& v, location_type&& l)
-        : Base (t)
-        , value (std::move (v))
-        , location (std::move (l))
-      {}
-#else
-      basic_symbol (typename Base::kind_type t, const casem::TypeRefPack_Action& v, const location_type& l)
-        : Base (t)
-        , value (v)
-        , location (l)
-      {}
-#endif
-
-#if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, casem::TypeRefPack_Convertor&& v, location_type&& l)
-        : Base (t)
-        , value (std::move (v))
-        , location (std::move (l))
-      {}
-#else
-      basic_symbol (typename Base::kind_type t, const casem::TypeRefPack_Convertor& v, const location_type& l)
-        : Base (t)
-        , value (v)
-        , location (l)
-      {}
-#endif
-
-#if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, casem::UnaryOperator&& v, location_type&& l)
-        : Base (t)
-        , value (std::move (v))
-        , location (std::move (l))
-      {}
-#else
-      basic_symbol (typename Base::kind_type t, const casem::UnaryOperator& v, const location_type& l)
-        : Base (t)
-        , value (v)
-        , location (l)
-      {}
-#endif
-
-#if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, casem::WhileControllFlowData&& v, location_type&& l)
-        : Base (t)
-        , value (std::move (v))
-        , location (std::move (l))
-      {}
-#else
-      basic_symbol (typename Base::kind_type t, const casem::WhileControllFlowData& v, const location_type& l)
-        : Base (t)
-        , value (v)
-        , location (l)
-      {}
-#endif
-
-#if 201103L <= YY_CPLUSPLUS
       basic_symbol (typename Base::kind_type t, cecko::CIName&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
@@ -1113,76 +679,6 @@ namespace cecko {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, cecko::CKIRBasicBlockObs&& v, location_type&& l)
-        : Base (t)
-        , value (std::move (v))
-        , location (std::move (l))
-      {}
-#else
-      basic_symbol (typename Base::kind_type t, const cecko::CKIRBasicBlockObs& v, const location_type& l)
-        : Base (t)
-        , value (v)
-        , location (l)
-      {}
-#endif
-
-#if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, cecko::CKStructItemArray&& v, location_type&& l)
-        : Base (t)
-        , value (std::move (v))
-        , location (std::move (l))
-      {}
-#else
-      basic_symbol (typename Base::kind_type t, const cecko::CKStructItemArray& v, const location_type& l)
-        : Base (t)
-        , value (v)
-        , location (l)
-      {}
-#endif
-
-#if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, cecko::CKStructTypeSafeObs&& v, location_type&& l)
-        : Base (t)
-        , value (std::move (v))
-        , location (std::move (l))
-      {}
-#else
-      basic_symbol (typename Base::kind_type t, const cecko::CKStructTypeSafeObs& v, const location_type& l)
-        : Base (t)
-        , value (v)
-        , location (l)
-      {}
-#endif
-
-#if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, cecko::CKTypeObs&& v, location_type&& l)
-        : Base (t)
-        , value (std::move (v))
-        , location (std::move (l))
-      {}
-#else
-      basic_symbol (typename Base::kind_type t, const cecko::CKTypeObs& v, const location_type& l)
-        : Base (t)
-        , value (v)
-        , location (l)
-      {}
-#endif
-
-#if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, cecko::CKTypeSafeObs&& v, location_type&& l)
-        : Base (t)
-        , value (std::move (v))
-        , location (std::move (l))
-      {}
-#else
-      basic_symbol (typename Base::kind_type t, const cecko::CKTypeSafeObs& v, const location_type& l)
-        : Base (t)
-        , value (v)
-        , location (l)
-      {}
-#endif
-
-#if 201103L <= YY_CPLUSPLUS
       basic_symbol (typename Base::kind_type t, cecko::gt_addop&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
@@ -1190,20 +686,6 @@ namespace cecko {
       {}
 #else
       basic_symbol (typename Base::kind_type t, const cecko::gt_addop& v, const location_type& l)
-        : Base (t)
-        , value (v)
-        , location (l)
-      {}
-#endif
-
-#if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, cecko::gt_cass&& v, location_type&& l)
-        : Base (t)
-        , value (std::move (v))
-        , location (std::move (l))
-      {}
-#else
-      basic_symbol (typename Base::kind_type t, const cecko::gt_cass& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
@@ -1253,34 +735,6 @@ namespace cecko {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, cecko::gt_etype&& v, location_type&& l)
-        : Base (t)
-        , value (std::move (v))
-        , location (std::move (l))
-      {}
-#else
-      basic_symbol (typename Base::kind_type t, const cecko::gt_etype& v, const location_type& l)
-        : Base (t)
-        , value (v)
-        , location (l)
-      {}
-#endif
-
-#if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, cecko::gt_incdec&& v, location_type&& l)
-        : Base (t)
-        , value (std::move (v))
-        , location (std::move (l))
-      {}
-#else
-      basic_symbol (typename Base::kind_type t, const cecko::gt_incdec& v, const location_type& l)
-        : Base (t)
-        , value (v)
-        , location (l)
-      {}
-#endif
-
-#if 201103L <= YY_CPLUSPLUS
       basic_symbol (typename Base::kind_type t, int&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
@@ -1318,121 +772,14 @@ namespace cecko {
         // Value type destructor.
 switch (yykind)
     {
-      case symbol_kind::S_declaration_specifiers: // declaration_specifiers
-      case symbol_kind::S_declaration_specifier: // declaration_specifier
-      case symbol_kind::S_specifier_qualifier_list: // specifier_qualifier_list
-      case symbol_kind::S_type_specifier_qualifier: // type_specifier_qualifier
-      case symbol_kind::S_type_qualifier: // type_qualifier
-      case symbol_kind::S_type_qualifier_list: // type_qualifier_list
-      case symbol_kind::S_parameter_declaration: // parameter_declaration
-        value.template destroy< casem::CKTypeRefDefPack > ();
-        break;
-
-      case symbol_kind::S_if_statement_head: // if_statement_head
-      case symbol_kind::S_if_non_split_statement: // if_non_split_statement
-      case symbol_kind::S_if_non_split_statement_else: // if_non_split_statement_else
-        value.template destroy< casem::IfControllFlowData > ();
-        break;
-
-      case symbol_kind::S_argument_expression_list: // argument_expression_list
-        value.template destroy< casem::InstructionArray > ();
-        break;
-
-      case symbol_kind::S_primary_expression: // primary_expression
-      case symbol_kind::S_postfix_expression: // postfix_expression
-      case symbol_kind::S_unary_expression: // unary_expression
-      case symbol_kind::S_cast_expression: // cast_expression
-      case symbol_kind::S_multiplicative_expression: // multiplicative_expression
-      case symbol_kind::S_additive_expression: // additive_expression
-      case symbol_kind::S_relational_expression: // relational_expression
-      case symbol_kind::S_equality_expression: // equality_expression
-      case symbol_kind::S_logical_and_expression: // logical_and_expression
-      case symbol_kind::S_logical_or_expression: // logical_or_expression
-      case symbol_kind::S_assignment_expression: // assignment_expression
-      case symbol_kind::S_expression: // expression
-      case symbol_kind::S_expression_opt: // expression_opt
-        value.template destroy< casem::InstructionWrapper > ();
-        break;
-
-      case symbol_kind::S_parameter_type_list: // parameter_type_list
-      case symbol_kind::S_parameter_list: // parameter_list
-        value.template destroy< casem::TRDArray > ();
-        break;
-
-      case symbol_kind::S_init_declarator_list: // init_declarator_list
-      case symbol_kind::S_init_declarator: // init_declarator
-      case symbol_kind::S_member_declarator_list: // member_declarator_list
-      case symbol_kind::S_member_declarator: // member_declarator
-      case symbol_kind::S_declarator: // declarator
-      case symbol_kind::S_direct_declarator: // direct_declarator
-      case symbol_kind::S_array_declarator: // array_declarator
-      case symbol_kind::S_function_declarator: // function_declarator
-      case symbol_kind::S_abstract_declarator: // abstract_declarator
-      case symbol_kind::S_direct_abstract_declarator: // direct_abstract_declarator
-      case symbol_kind::S_array_abstract_declarator: // array_abstract_declarator
-      case symbol_kind::S_function_abstract_declarator: // function_abstract_declarator
-        value.template destroy< casem::TypeRefPack_Action > ();
-        break;
-
-      case symbol_kind::S_pointer: // pointer
-        value.template destroy< casem::TypeRefPack_Convertor > ();
-        break;
-
-      case symbol_kind::S_unary_operator: // unary_operator
-        value.template destroy< casem::UnaryOperator > ();
-        break;
-
-      case symbol_kind::S_while_statement_head: // while_statement_head
-      case symbol_kind::S_do_statement_head: // do_statement_head
-        value.template destroy< casem::WhileControllFlowData > ();
-        break;
-
       case symbol_kind::S_IDF: // "identifier"
       case symbol_kind::S_TYPEIDF: // "type identifier"
       case symbol_kind::S_STRLIT: // "string literal"
-      case symbol_kind::S_enum_specifier: // enum_specifier
-      case symbol_kind::S_enumeration_constant: // enumeration_constant
-      case symbol_kind::S_typedef_name: // typedef_name
         value.template destroy< cecko::CIName > ();
-        break;
-
-      case symbol_kind::S_statement: // statement
-      case symbol_kind::S_compound_statement: // compound_statement
-      case symbol_kind::S_compound_statement_body: // compound_statement_body
-      case symbol_kind::S_block_item_list: // block_item_list
-      case symbol_kind::S_block_item: // block_item
-      case symbol_kind::S_expression_statement: // expression_statement
-      case symbol_kind::S_non_split_statement: // non_split_statement
-      case symbol_kind::S_split_statement: // split_statement
-      case symbol_kind::S_jump_statement: // jump_statement
-        value.template destroy< cecko::CKIRBasicBlockObs > ();
-        break;
-
-      case symbol_kind::S_member_declaration_list: // member_declaration_list
-      case symbol_kind::S_member_declaration: // member_declaration
-        value.template destroy< cecko::CKStructItemArray > ();
-        break;
-
-      case symbol_kind::S_struct_decl_head: // struct_decl_head
-      case symbol_kind::S_struct_or_union_specifier: // struct_or_union_specifier
-        value.template destroy< cecko::CKStructTypeSafeObs > ();
-        break;
-
-      case symbol_kind::S_type_name: // type_name
-        value.template destroy< cecko::CKTypeObs > ();
-        break;
-
-      case symbol_kind::S_type_specifier: // type_specifier
-        value.template destroy< cecko::CKTypeSafeObs > ();
         break;
 
       case symbol_kind::S_ADDOP: // "+ or -"
         value.template destroy< cecko::gt_addop > ();
-        break;
-
-      case symbol_kind::S_CASS: // "*=, /=, %=, +=, or -="
-      case symbol_kind::S_assignment_operator: // assignment_operator
-        value.template destroy< cecko::gt_cass > ();
         break;
 
       case symbol_kind::S_CMPE: // "== or !="
@@ -1445,14 +792,6 @@ switch (yykind)
 
       case symbol_kind::S_DIVOP: // "/ or %"
         value.template destroy< cecko::gt_divop > ();
-        break;
-
-      case symbol_kind::S_ETYPE: // "_Bool, char, or int"
-        value.template destroy< cecko::gt_etype > ();
-        break;
-
-      case symbol_kind::S_INCDEC: // "++ or --"
-        value.template destroy< cecko::gt_incdec > ();
         break;
 
       case symbol_kind::S_INTLIT: // "integer literal"
@@ -1557,12 +896,9 @@ switch (yykind)
       {
 #if !defined _MSC_VER || defined __clang__
         YY_ASSERT (tok == token::TOK_EOF
-                   || (token::TOK_YYerror <= tok && tok <= token::TOK_ARROW)
-                   || (token::TOK_COMMA <= tok && tok <= token::TOK_STAR)
+                   || (token::TOK_YYerror <= tok && tok <= token::TOK_STAR)
                    || tok == token::TOK_EMPH
-                   || (token::TOK_DAMP <= tok && tok <= token::TOK_ASGN)
-                   || (token::TOK_SEMIC <= tok && tok <= token::TOK_VOID)
-                   || (token::TOK_STRUCT <= tok && tok <= token::TOK_SIZEOF));
+                   || (token::TOK_DAMP <= tok && tok <= token::TOK_FN));
 #endif
       }
 #if 201103L <= YY_CPLUSPLUS
@@ -1588,18 +924,6 @@ switch (yykind)
       {
 #if !defined _MSC_VER || defined __clang__
         YY_ASSERT (tok == token::TOK_ADDOP);
-#endif
-      }
-#if 201103L <= YY_CPLUSPLUS
-      symbol_type (int tok, cecko::gt_cass v, location_type l)
-        : super_type (token_kind_type (tok), std::move (v), std::move (l))
-#else
-      symbol_type (int tok, const cecko::gt_cass& v, const location_type& l)
-        : super_type (token_kind_type (tok), v, l)
-#endif
-      {
-#if !defined _MSC_VER || defined __clang__
-        YY_ASSERT (tok == token::TOK_CASS);
 #endif
       }
 #if 201103L <= YY_CPLUSPLUS
@@ -1636,30 +960,6 @@ switch (yykind)
       {
 #if !defined _MSC_VER || defined __clang__
         YY_ASSERT (tok == token::TOK_DIVOP);
-#endif
-      }
-#if 201103L <= YY_CPLUSPLUS
-      symbol_type (int tok, cecko::gt_etype v, location_type l)
-        : super_type (token_kind_type (tok), std::move (v), std::move (l))
-#else
-      symbol_type (int tok, const cecko::gt_etype& v, const location_type& l)
-        : super_type (token_kind_type (tok), v, l)
-#endif
-      {
-#if !defined _MSC_VER || defined __clang__
-        YY_ASSERT (tok == token::TOK_ETYPE);
-#endif
-      }
-#if 201103L <= YY_CPLUSPLUS
-      symbol_type (int tok, cecko::gt_incdec v, location_type l)
-        : super_type (token_kind_type (tok), std::move (v), std::move (l))
-#else
-      symbol_type (int tok, const cecko::gt_incdec& v, const location_type& l)
-        : super_type (token_kind_type (tok), v, l)
-#endif
-      {
-#if !defined _MSC_VER || defined __clang__
-        YY_ASSERT (tok == token::TOK_INCDEC);
 #endif
       }
 #if 201103L <= YY_CPLUSPLUS
@@ -1830,21 +1130,6 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_DOT (location_type l)
-      {
-        return symbol_type (token::TOK_DOT, std::move (l));
-      }
-#else
-      static
-      symbol_type
-      make_DOT (const location_type& l)
-      {
-        return symbol_type (token::TOK_DOT, l);
-      }
-#endif
-#if 201103L <= YY_CPLUSPLUS
-      static
-      symbol_type
       make_ARROW (location_type l)
       {
         return symbol_type (token::TOK_ARROW, std::move (l));
@@ -1855,21 +1140,6 @@ switch (yykind)
       make_ARROW (const location_type& l)
       {
         return symbol_type (token::TOK_ARROW, l);
-      }
-#endif
-#if 201103L <= YY_CPLUSPLUS
-      static
-      symbol_type
-      make_INCDEC (cecko::gt_incdec v, location_type l)
-      {
-        return symbol_type (token::TOK_INCDEC, std::move (v), std::move (l));
-      }
-#else
-      static
-      symbol_type
-      make_INCDEC (const cecko::gt_incdec& v, const location_type& l)
-      {
-        return symbol_type (token::TOK_INCDEC, v, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -1900,6 +1170,21 @@ switch (yykind)
       make_AMP (const location_type& l)
       {
         return symbol_type (token::TOK_AMP, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_VERT (location_type l)
+      {
+        return symbol_type (token::TOK_VERT, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_VERT (const location_type& l)
+      {
+        return symbol_type (token::TOK_VERT, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -2040,21 +1325,6 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_CASS (cecko::gt_cass v, location_type l)
-      {
-        return symbol_type (token::TOK_CASS, std::move (v), std::move (l));
-      }
-#else
-      static
-      symbol_type
-      make_CASS (const cecko::gt_cass& v, const location_type& l)
-      {
-        return symbol_type (token::TOK_CASS, v, l);
-      }
-#endif
-#if 201103L <= YY_CPLUSPLUS
-      static
-      symbol_type
       make_SEMIC (location_type l)
       {
         return symbol_type (token::TOK_SEMIC, std::move (l));
@@ -2100,21 +1370,6 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_COLON (location_type l)
-      {
-        return symbol_type (token::TOK_COLON, std::move (l));
-      }
-#else
-      static
-      symbol_type
-      make_COLON (const location_type& l)
-      {
-        return symbol_type (token::TOK_COLON, l);
-      }
-#endif
-#if 201103L <= YY_CPLUSPLUS
-      static
-      symbol_type
       make_TYPEDEF (location_type l)
       {
         return symbol_type (token::TOK_TYPEDEF, std::move (l));
@@ -2130,216 +1385,6 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_VOID (location_type l)
-      {
-        return symbol_type (token::TOK_VOID, std::move (l));
-      }
-#else
-      static
-      symbol_type
-      make_VOID (const location_type& l)
-      {
-        return symbol_type (token::TOK_VOID, l);
-      }
-#endif
-#if 201103L <= YY_CPLUSPLUS
-      static
-      symbol_type
-      make_ETYPE (cecko::gt_etype v, location_type l)
-      {
-        return symbol_type (token::TOK_ETYPE, std::move (v), std::move (l));
-      }
-#else
-      static
-      symbol_type
-      make_ETYPE (const cecko::gt_etype& v, const location_type& l)
-      {
-        return symbol_type (token::TOK_ETYPE, v, l);
-      }
-#endif
-#if 201103L <= YY_CPLUSPLUS
-      static
-      symbol_type
-      make_STRUCT (location_type l)
-      {
-        return symbol_type (token::TOK_STRUCT, std::move (l));
-      }
-#else
-      static
-      symbol_type
-      make_STRUCT (const location_type& l)
-      {
-        return symbol_type (token::TOK_STRUCT, l);
-      }
-#endif
-#if 201103L <= YY_CPLUSPLUS
-      static
-      symbol_type
-      make_ENUM (location_type l)
-      {
-        return symbol_type (token::TOK_ENUM, std::move (l));
-      }
-#else
-      static
-      symbol_type
-      make_ENUM (const location_type& l)
-      {
-        return symbol_type (token::TOK_ENUM, l);
-      }
-#endif
-#if 201103L <= YY_CPLUSPLUS
-      static
-      symbol_type
-      make_CONST (location_type l)
-      {
-        return symbol_type (token::TOK_CONST, std::move (l));
-      }
-#else
-      static
-      symbol_type
-      make_CONST (const location_type& l)
-      {
-        return symbol_type (token::TOK_CONST, l);
-      }
-#endif
-#if 201103L <= YY_CPLUSPLUS
-      static
-      symbol_type
-      make_IF (location_type l)
-      {
-        return symbol_type (token::TOK_IF, std::move (l));
-      }
-#else
-      static
-      symbol_type
-      make_IF (const location_type& l)
-      {
-        return symbol_type (token::TOK_IF, l);
-      }
-#endif
-#if 201103L <= YY_CPLUSPLUS
-      static
-      symbol_type
-      make_ELSE (location_type l)
-      {
-        return symbol_type (token::TOK_ELSE, std::move (l));
-      }
-#else
-      static
-      symbol_type
-      make_ELSE (const location_type& l)
-      {
-        return symbol_type (token::TOK_ELSE, l);
-      }
-#endif
-#if 201103L <= YY_CPLUSPLUS
-      static
-      symbol_type
-      make_DO (location_type l)
-      {
-        return symbol_type (token::TOK_DO, std::move (l));
-      }
-#else
-      static
-      symbol_type
-      make_DO (const location_type& l)
-      {
-        return symbol_type (token::TOK_DO, l);
-      }
-#endif
-#if 201103L <= YY_CPLUSPLUS
-      static
-      symbol_type
-      make_WHILE (location_type l)
-      {
-        return symbol_type (token::TOK_WHILE, std::move (l));
-      }
-#else
-      static
-      symbol_type
-      make_WHILE (const location_type& l)
-      {
-        return symbol_type (token::TOK_WHILE, l);
-      }
-#endif
-#if 201103L <= YY_CPLUSPLUS
-      static
-      symbol_type
-      make_FOR (location_type l)
-      {
-        return symbol_type (token::TOK_FOR, std::move (l));
-      }
-#else
-      static
-      symbol_type
-      make_FOR (const location_type& l)
-      {
-        return symbol_type (token::TOK_FOR, l);
-      }
-#endif
-#if 201103L <= YY_CPLUSPLUS
-      static
-      symbol_type
-      make_GOTO (location_type l)
-      {
-        return symbol_type (token::TOK_GOTO, std::move (l));
-      }
-#else
-      static
-      symbol_type
-      make_GOTO (const location_type& l)
-      {
-        return symbol_type (token::TOK_GOTO, l);
-      }
-#endif
-#if 201103L <= YY_CPLUSPLUS
-      static
-      symbol_type
-      make_CONTINUE (location_type l)
-      {
-        return symbol_type (token::TOK_CONTINUE, std::move (l));
-      }
-#else
-      static
-      symbol_type
-      make_CONTINUE (const location_type& l)
-      {
-        return symbol_type (token::TOK_CONTINUE, l);
-      }
-#endif
-#if 201103L <= YY_CPLUSPLUS
-      static
-      symbol_type
-      make_BREAK (location_type l)
-      {
-        return symbol_type (token::TOK_BREAK, std::move (l));
-      }
-#else
-      static
-      symbol_type
-      make_BREAK (const location_type& l)
-      {
-        return symbol_type (token::TOK_BREAK, l);
-      }
-#endif
-#if 201103L <= YY_CPLUSPLUS
-      static
-      symbol_type
-      make_RETURN (location_type l)
-      {
-        return symbol_type (token::TOK_RETURN, std::move (l));
-      }
-#else
-      static
-      symbol_type
-      make_RETURN (const location_type& l)
-      {
-        return symbol_type (token::TOK_RETURN, l);
-      }
-#endif
-#if 201103L <= YY_CPLUSPLUS
-      static
-      symbol_type
       make_SIZEOF (location_type l)
       {
         return symbol_type (token::TOK_SIZEOF, std::move (l));
@@ -2350,6 +1395,96 @@ switch (yykind)
       make_SIZEOF (const location_type& l)
       {
         return symbol_type (token::TOK_SIZEOF, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_IN (location_type l)
+      {
+        return symbol_type (token::TOK_IN, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_IN (const location_type& l)
+      {
+        return symbol_type (token::TOK_IN, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_LET (location_type l)
+      {
+        return symbol_type (token::TOK_LET, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_LET (const location_type& l)
+      {
+        return symbol_type (token::TOK_LET, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_MATCH (location_type l)
+      {
+        return symbol_type (token::TOK_MATCH, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_MATCH (const location_type& l)
+      {
+        return symbol_type (token::TOK_MATCH, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_DMATCH (location_type l)
+      {
+        return symbol_type (token::TOK_DMATCH, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_DMATCH (const location_type& l)
+      {
+        return symbol_type (token::TOK_DMATCH, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_FIP (location_type l)
+      {
+        return symbol_type (token::TOK_FIP, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_FIP (const location_type& l)
+      {
+        return symbol_type (token::TOK_FIP, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_FN (location_type l)
+      {
+        return symbol_type (token::TOK_FN, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_FN (const location_type& l)
+      {
+        return symbol_type (token::TOK_FN, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -2442,7 +1577,7 @@ switch (yykind)
 
 
     /// Stored state numbers (used for stacks).
-    typedef unsigned char state_type;
+    typedef signed char state_type;
 
     /// The arguments of the error message.
     int yy_syntax_error_arguments_ (const context& yyctx,
@@ -2464,8 +1599,8 @@ switch (yykind)
     /// \param yyvalue   the value to check
     static bool yy_table_value_is_error_ (int yyvalue) YY_NOEXCEPT;
 
-    static const short yypact_ninf_;
-    static const short yytable_ninf_;
+    static const signed char yypact_ninf_;
+    static const signed char yytable_ninf_;
 
     /// Convert a scanner token kind \a t to a symbol kind.
     /// In theory \a t should be a token_kind_type, but character literals
@@ -2482,25 +1617,25 @@ switch (yykind)
     // Tables.
     // YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
     // STATE-NUM.
-    static const short yypact_[];
+    static const signed char yypact_[];
 
     // YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
     // Performed when YYTABLE does not specify something else to do.  Zero
     // means the default is an error.
-    static const unsigned char yydefact_[];
+    static const signed char yydefact_[];
 
     // YYPGOTO[NTERM-NUM].
-    static const short yypgoto_[];
+    static const signed char yypgoto_[];
 
     // YYDEFGOTO[NTERM-NUM].
-    static const unsigned char yydefgoto_[];
+    static const signed char yydefgoto_[];
 
     // YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
     // positive, shift that token.  If negative, reduce the rule whose
     // number is the opposite.  If YYTABLE_NINF, syntax error.
-    static const short yytable_[];
+    static const signed char yytable_[];
 
-    static const short yycheck_[];
+    static const signed char yycheck_[];
 
     // YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
     // state STATE-NUM.
@@ -2515,7 +1650,7 @@ switch (yykind)
 
 #if YYDEBUG
     // YYRLINE[YYN] -- Source line where rule number YYN was defined.
-    static const short yyrline_[];
+    static const unsigned char yyrline_[];
     /// Report on the debug stream that the rule \a r is going to be reduced.
     virtual void yy_reduce_print_ (int r) const;
     /// Print the state stack on the debug stream.
@@ -2742,9 +1877,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 405,     ///< Last index in yytable_.
-      yynnts_ = 75,  ///< Number of nonterminal symbols.
-      yyfinal_ = 27 ///< Termination state number.
+      yylast_ = 3,     ///< Last index in yytable_.
+      yynnts_ = 2,  ///< Number of nonterminal symbols.
+      yyfinal_ = 4 ///< Termination state number.
     };
 
 
@@ -2792,12 +1927,10 @@ switch (yykind)
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
-      25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
-      35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
-      45
+      25,    26,    27,    28,    29,    30,    31,    32,    33,    34
     };
     // Last valid token kind.
-    const int code_max = 300;
+    const int code_max = 289;
 
     if (t <= 0)
       return symbol_kind::S_YYEOF;
@@ -2816,121 +1949,14 @@ switch (yykind)
   {
     switch (this->kind ())
     {
-      case symbol_kind::S_declaration_specifiers: // declaration_specifiers
-      case symbol_kind::S_declaration_specifier: // declaration_specifier
-      case symbol_kind::S_specifier_qualifier_list: // specifier_qualifier_list
-      case symbol_kind::S_type_specifier_qualifier: // type_specifier_qualifier
-      case symbol_kind::S_type_qualifier: // type_qualifier
-      case symbol_kind::S_type_qualifier_list: // type_qualifier_list
-      case symbol_kind::S_parameter_declaration: // parameter_declaration
-        value.copy< casem::CKTypeRefDefPack > (YY_MOVE (that.value));
-        break;
-
-      case symbol_kind::S_if_statement_head: // if_statement_head
-      case symbol_kind::S_if_non_split_statement: // if_non_split_statement
-      case symbol_kind::S_if_non_split_statement_else: // if_non_split_statement_else
-        value.copy< casem::IfControllFlowData > (YY_MOVE (that.value));
-        break;
-
-      case symbol_kind::S_argument_expression_list: // argument_expression_list
-        value.copy< casem::InstructionArray > (YY_MOVE (that.value));
-        break;
-
-      case symbol_kind::S_primary_expression: // primary_expression
-      case symbol_kind::S_postfix_expression: // postfix_expression
-      case symbol_kind::S_unary_expression: // unary_expression
-      case symbol_kind::S_cast_expression: // cast_expression
-      case symbol_kind::S_multiplicative_expression: // multiplicative_expression
-      case symbol_kind::S_additive_expression: // additive_expression
-      case symbol_kind::S_relational_expression: // relational_expression
-      case symbol_kind::S_equality_expression: // equality_expression
-      case symbol_kind::S_logical_and_expression: // logical_and_expression
-      case symbol_kind::S_logical_or_expression: // logical_or_expression
-      case symbol_kind::S_assignment_expression: // assignment_expression
-      case symbol_kind::S_expression: // expression
-      case symbol_kind::S_expression_opt: // expression_opt
-        value.copy< casem::InstructionWrapper > (YY_MOVE (that.value));
-        break;
-
-      case symbol_kind::S_parameter_type_list: // parameter_type_list
-      case symbol_kind::S_parameter_list: // parameter_list
-        value.copy< casem::TRDArray > (YY_MOVE (that.value));
-        break;
-
-      case symbol_kind::S_init_declarator_list: // init_declarator_list
-      case symbol_kind::S_init_declarator: // init_declarator
-      case symbol_kind::S_member_declarator_list: // member_declarator_list
-      case symbol_kind::S_member_declarator: // member_declarator
-      case symbol_kind::S_declarator: // declarator
-      case symbol_kind::S_direct_declarator: // direct_declarator
-      case symbol_kind::S_array_declarator: // array_declarator
-      case symbol_kind::S_function_declarator: // function_declarator
-      case symbol_kind::S_abstract_declarator: // abstract_declarator
-      case symbol_kind::S_direct_abstract_declarator: // direct_abstract_declarator
-      case symbol_kind::S_array_abstract_declarator: // array_abstract_declarator
-      case symbol_kind::S_function_abstract_declarator: // function_abstract_declarator
-        value.copy< casem::TypeRefPack_Action > (YY_MOVE (that.value));
-        break;
-
-      case symbol_kind::S_pointer: // pointer
-        value.copy< casem::TypeRefPack_Convertor > (YY_MOVE (that.value));
-        break;
-
-      case symbol_kind::S_unary_operator: // unary_operator
-        value.copy< casem::UnaryOperator > (YY_MOVE (that.value));
-        break;
-
-      case symbol_kind::S_while_statement_head: // while_statement_head
-      case symbol_kind::S_do_statement_head: // do_statement_head
-        value.copy< casem::WhileControllFlowData > (YY_MOVE (that.value));
-        break;
-
       case symbol_kind::S_IDF: // "identifier"
       case symbol_kind::S_TYPEIDF: // "type identifier"
       case symbol_kind::S_STRLIT: // "string literal"
-      case symbol_kind::S_enum_specifier: // enum_specifier
-      case symbol_kind::S_enumeration_constant: // enumeration_constant
-      case symbol_kind::S_typedef_name: // typedef_name
         value.copy< cecko::CIName > (YY_MOVE (that.value));
-        break;
-
-      case symbol_kind::S_statement: // statement
-      case symbol_kind::S_compound_statement: // compound_statement
-      case symbol_kind::S_compound_statement_body: // compound_statement_body
-      case symbol_kind::S_block_item_list: // block_item_list
-      case symbol_kind::S_block_item: // block_item
-      case symbol_kind::S_expression_statement: // expression_statement
-      case symbol_kind::S_non_split_statement: // non_split_statement
-      case symbol_kind::S_split_statement: // split_statement
-      case symbol_kind::S_jump_statement: // jump_statement
-        value.copy< cecko::CKIRBasicBlockObs > (YY_MOVE (that.value));
-        break;
-
-      case symbol_kind::S_member_declaration_list: // member_declaration_list
-      case symbol_kind::S_member_declaration: // member_declaration
-        value.copy< cecko::CKStructItemArray > (YY_MOVE (that.value));
-        break;
-
-      case symbol_kind::S_struct_decl_head: // struct_decl_head
-      case symbol_kind::S_struct_or_union_specifier: // struct_or_union_specifier
-        value.copy< cecko::CKStructTypeSafeObs > (YY_MOVE (that.value));
-        break;
-
-      case symbol_kind::S_type_name: // type_name
-        value.copy< cecko::CKTypeObs > (YY_MOVE (that.value));
-        break;
-
-      case symbol_kind::S_type_specifier: // type_specifier
-        value.copy< cecko::CKTypeSafeObs > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_ADDOP: // "+ or -"
         value.copy< cecko::gt_addop > (YY_MOVE (that.value));
-        break;
-
-      case symbol_kind::S_CASS: // "*=, /=, %=, +=, or -="
-      case symbol_kind::S_assignment_operator: // assignment_operator
-        value.copy< cecko::gt_cass > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_CMPE: // "== or !="
@@ -2943,14 +1969,6 @@ switch (yykind)
 
       case symbol_kind::S_DIVOP: // "/ or %"
         value.copy< cecko::gt_divop > (YY_MOVE (that.value));
-        break;
-
-      case symbol_kind::S_ETYPE: // "_Bool, char, or int"
-        value.copy< cecko::gt_etype > (YY_MOVE (that.value));
-        break;
-
-      case symbol_kind::S_INCDEC: // "++ or --"
-        value.copy< cecko::gt_incdec > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_INTLIT: // "integer literal"
@@ -2988,121 +2006,14 @@ switch (yykind)
     super_type::move (s);
     switch (this->kind ())
     {
-      case symbol_kind::S_declaration_specifiers: // declaration_specifiers
-      case symbol_kind::S_declaration_specifier: // declaration_specifier
-      case symbol_kind::S_specifier_qualifier_list: // specifier_qualifier_list
-      case symbol_kind::S_type_specifier_qualifier: // type_specifier_qualifier
-      case symbol_kind::S_type_qualifier: // type_qualifier
-      case symbol_kind::S_type_qualifier_list: // type_qualifier_list
-      case symbol_kind::S_parameter_declaration: // parameter_declaration
-        value.move< casem::CKTypeRefDefPack > (YY_MOVE (s.value));
-        break;
-
-      case symbol_kind::S_if_statement_head: // if_statement_head
-      case symbol_kind::S_if_non_split_statement: // if_non_split_statement
-      case symbol_kind::S_if_non_split_statement_else: // if_non_split_statement_else
-        value.move< casem::IfControllFlowData > (YY_MOVE (s.value));
-        break;
-
-      case symbol_kind::S_argument_expression_list: // argument_expression_list
-        value.move< casem::InstructionArray > (YY_MOVE (s.value));
-        break;
-
-      case symbol_kind::S_primary_expression: // primary_expression
-      case symbol_kind::S_postfix_expression: // postfix_expression
-      case symbol_kind::S_unary_expression: // unary_expression
-      case symbol_kind::S_cast_expression: // cast_expression
-      case symbol_kind::S_multiplicative_expression: // multiplicative_expression
-      case symbol_kind::S_additive_expression: // additive_expression
-      case symbol_kind::S_relational_expression: // relational_expression
-      case symbol_kind::S_equality_expression: // equality_expression
-      case symbol_kind::S_logical_and_expression: // logical_and_expression
-      case symbol_kind::S_logical_or_expression: // logical_or_expression
-      case symbol_kind::S_assignment_expression: // assignment_expression
-      case symbol_kind::S_expression: // expression
-      case symbol_kind::S_expression_opt: // expression_opt
-        value.move< casem::InstructionWrapper > (YY_MOVE (s.value));
-        break;
-
-      case symbol_kind::S_parameter_type_list: // parameter_type_list
-      case symbol_kind::S_parameter_list: // parameter_list
-        value.move< casem::TRDArray > (YY_MOVE (s.value));
-        break;
-
-      case symbol_kind::S_init_declarator_list: // init_declarator_list
-      case symbol_kind::S_init_declarator: // init_declarator
-      case symbol_kind::S_member_declarator_list: // member_declarator_list
-      case symbol_kind::S_member_declarator: // member_declarator
-      case symbol_kind::S_declarator: // declarator
-      case symbol_kind::S_direct_declarator: // direct_declarator
-      case symbol_kind::S_array_declarator: // array_declarator
-      case symbol_kind::S_function_declarator: // function_declarator
-      case symbol_kind::S_abstract_declarator: // abstract_declarator
-      case symbol_kind::S_direct_abstract_declarator: // direct_abstract_declarator
-      case symbol_kind::S_array_abstract_declarator: // array_abstract_declarator
-      case symbol_kind::S_function_abstract_declarator: // function_abstract_declarator
-        value.move< casem::TypeRefPack_Action > (YY_MOVE (s.value));
-        break;
-
-      case symbol_kind::S_pointer: // pointer
-        value.move< casem::TypeRefPack_Convertor > (YY_MOVE (s.value));
-        break;
-
-      case symbol_kind::S_unary_operator: // unary_operator
-        value.move< casem::UnaryOperator > (YY_MOVE (s.value));
-        break;
-
-      case symbol_kind::S_while_statement_head: // while_statement_head
-      case symbol_kind::S_do_statement_head: // do_statement_head
-        value.move< casem::WhileControllFlowData > (YY_MOVE (s.value));
-        break;
-
       case symbol_kind::S_IDF: // "identifier"
       case symbol_kind::S_TYPEIDF: // "type identifier"
       case symbol_kind::S_STRLIT: // "string literal"
-      case symbol_kind::S_enum_specifier: // enum_specifier
-      case symbol_kind::S_enumeration_constant: // enumeration_constant
-      case symbol_kind::S_typedef_name: // typedef_name
         value.move< cecko::CIName > (YY_MOVE (s.value));
-        break;
-
-      case symbol_kind::S_statement: // statement
-      case symbol_kind::S_compound_statement: // compound_statement
-      case symbol_kind::S_compound_statement_body: // compound_statement_body
-      case symbol_kind::S_block_item_list: // block_item_list
-      case symbol_kind::S_block_item: // block_item
-      case symbol_kind::S_expression_statement: // expression_statement
-      case symbol_kind::S_non_split_statement: // non_split_statement
-      case symbol_kind::S_split_statement: // split_statement
-      case symbol_kind::S_jump_statement: // jump_statement
-        value.move< cecko::CKIRBasicBlockObs > (YY_MOVE (s.value));
-        break;
-
-      case symbol_kind::S_member_declaration_list: // member_declaration_list
-      case symbol_kind::S_member_declaration: // member_declaration
-        value.move< cecko::CKStructItemArray > (YY_MOVE (s.value));
-        break;
-
-      case symbol_kind::S_struct_decl_head: // struct_decl_head
-      case symbol_kind::S_struct_or_union_specifier: // struct_or_union_specifier
-        value.move< cecko::CKStructTypeSafeObs > (YY_MOVE (s.value));
-        break;
-
-      case symbol_kind::S_type_name: // type_name
-        value.move< cecko::CKTypeObs > (YY_MOVE (s.value));
-        break;
-
-      case symbol_kind::S_type_specifier: // type_specifier
-        value.move< cecko::CKTypeSafeObs > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_ADDOP: // "+ or -"
         value.move< cecko::gt_addop > (YY_MOVE (s.value));
-        break;
-
-      case symbol_kind::S_CASS: // "*=, /=, %=, +=, or -="
-      case symbol_kind::S_assignment_operator: // assignment_operator
-        value.move< cecko::gt_cass > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_CMPE: // "== or !="
@@ -3115,14 +2026,6 @@ switch (yykind)
 
       case symbol_kind::S_DIVOP: // "/ or %"
         value.move< cecko::gt_divop > (YY_MOVE (s.value));
-        break;
-
-      case symbol_kind::S_ETYPE: // "_Bool, char, or int"
-        value.move< cecko::gt_etype > (YY_MOVE (s.value));
-        break;
-
-      case symbol_kind::S_INCDEC: // "++ or --"
-        value.move< cecko::gt_incdec > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_INTLIT: // "integer literal"
@@ -3194,11 +2097,11 @@ switch (yykind)
   }
 
 
-#line 7 "/mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/solution/caparser.y"
+#line 7 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
 } // cecko
-#line 3200 "/mnt/c/Users/jarom/Desktop/PG_EXER/Compilers/prochj30/stud-sol/caparser.hpp"
+#line 2103 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.hpp"
 
 
 
 
-#endif // !YY_YY_MNT_C_USERS_JAROM_DESKTOP_PG_EXER_COMPILERS_PROCHJ30_STUD_SOL_CAPARSER_HPP_INCLUDED
+#endif // !YY_YY_MNT_C_USERS_JAROM_DESKTOP_PG_EXER_BAKA_TEST_FILES_FIPCOMPILER_STUD_SOL_CAPARSER_HPP_INCLUDED
