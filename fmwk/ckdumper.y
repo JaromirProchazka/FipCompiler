@@ -49,6 +49,7 @@ YY_DECL;
 %token						LPAR		"("
 %token						RPAR		")"
 %token						DOT			"."
+%token						NEWLINE		"NEW_LINE"
 %token						ARROW		"->"
 %token<cecko::gt_incdec>	INCDEC		"++ or --"
 %token						COMMA		","
@@ -66,20 +67,20 @@ YY_DECL;
 %token						SEMIC		";"
 %token						LCUR		"{"
 %token						RCUR		"}"
-%token						COLON		":"
+%token						IN			"in"
 
 %token						TYPEDEF		"typedef"
 %token						VOID		"void"
 %token<cecko::gt_etype>		ETYPE		"_Bool, char, or int"
-%token						STRUCT		"struct"
-%token						ENUM		"enum"
-%token						CONST		"const"
+%token						LET			"let"
+%token						MATCH		"match"
+%token						DMATCH		"match!"
 %token						IF			"if"
 %token						ELSE		"else"
 %token						DO			"do"
-%token						WHILE		"while"
-%token						FOR			"for"
-%token						GOTO		"goto"
+%token						FIP			"fip"
+%token						FN			"fn"
+%token						VERT		"|"
 %token						CONTINUE	"continue"
 %token						BREAK		"break"
 %token						RETURN		"return"
@@ -137,17 +138,17 @@ token: token_n{
 token_n:
     TYPEDEF { $$ = "typedef"; }
     | VOID				 { $$ = "void"; }
-    | STRUCT				 { $$ = "struct"; }
-    | ENUM				 { $$ = "enum"; }
-    | CONST				 { $$ = "const"; }
+    | LET				 { $$ = "let"; }
+    | MATCH				 { $$ = "match"; }
+    | DMATCH				 { $$ = "match!"; }
     | IF					 { $$ = "if"; }
     | ELSE				 { $$ = "else"; }
     | DO					 { $$ = "do"; }
-    | WHILE				 { $$ = "while"; }
-    | FOR					 { $$ = "for"; }
-    | GOTO				 { $$ = "goto"; }
+    | FIP				 { $$ = "fip"; }
+    | FN					 { $$ = "fn"; }
+    | VERT				 { $$ = "|"; }
     | CONTINUE				 { $$ = "continue"; }
-    | BREAK				 { $$ = "break"; }
+    | NEWLINE				 { $$ = "NEW_LINE"; }
     | RETURN				 { $$ = "return"; }
     | SIZEOF				 { $$ = "sizeof"; }
     | LBRA				 { $$ = "["; }
@@ -166,7 +167,7 @@ token_n:
     | SEMIC				 { $$ = ";"; }
     | LCUR				 { $$ = "{"; }
     | RCUR				 { $$ = "}"; }
-    | COLON				 { $$ = ":"; }
+    | IN				 { $$ = "in"; }
 ;
 
 token_s:

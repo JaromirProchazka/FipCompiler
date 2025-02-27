@@ -1018,26 +1018,26 @@ namespace cecko {
   }
 
 
-  const signed char parser::yypact_ninf_ = -34;
+  const signed char parser::yypact_ninf_ = -32;
 
   const signed char parser::yytable_ninf_ = -1;
 
   const signed char
   parser::yypact_[] =
   {
-     -33,   -11,     2,   -30,   -34,   -34
+     -27,   -31,     2,   -29,   -32,   -16,   -26,   -32
   };
 
   const signed char
   parser::yydefact_[] =
   {
-       3,     0,     0,     0,     1,     2
+       3,     0,     0,     0,     1,     0,     0,     2
   };
 
   const signed char
   parser::yypgoto_[] =
   {
-     -34,   -34
+     -32,   -32
   };
 
   const signed char
@@ -1049,31 +1049,31 @@ namespace cecko {
   const signed char
   parser::yytable_[] =
   {
-       1,     3,     4,     5
+       1,     3,     4,     5,     6,     0,     7
   };
 
   const signed char
   parser::yycheck_[] =
   {
-      33,    12,     0,    33
+      27,    32,     0,    32,    20,    -1,    32
   };
 
   const signed char
   parser::yystos_[] =
   {
-       0,    33,    36,    12,     0,    33
+       0,    27,    37,    32,     0,    32,    20,    32
   };
 
   const signed char
   parser::yyr1_[] =
   {
-       0,    35,    36,    36
+       0,    36,    37,    37
   };
 
   const signed char
   parser::yyr2_[] =
   {
-       0,     2,     3,     0
+       0,     2,     5,     0
   };
 
 
@@ -1084,8 +1084,8 @@ namespace cecko {
   const parser::yytname_[] =
   {
   "\"end of file\"", "error", "\"invalid token\"", "\"[\"", "\"]\"",
-  "\"(\"", "\")\"", "\"->\"", "\",\"", "\"&\"", "\"|\"", "\"*\"",
-  "\"+ or -\"", "\"!\"", "\"/ or %\"", "\"<, >, <=, or >=\"",
+  "\"(\"", "\")\"", "\"NEW_LINE\"", "\"->\"", "\",\"", "\"&\"", "\"|\"",
+  "\"*\"", "\"+ or -\"", "\"!\"", "\"/ or %\"", "\"<, >, <=, or >=\"",
   "\"== or !=\"", "\"&&\"", "\"||\"", "\"=\"", "\";\"", "\"{\"", "\"}\"",
   "\"typedef\"", "\"sizeof\"", "\"in\"", "\"let\"", "\"match\"",
   "\"match!\"", "\"fip\"", "\"fn\"", "\"identifier\"",
@@ -1099,7 +1099,7 @@ namespace cecko {
   const unsigned char
   parser::yyrline_[] =
   {
-       0,   176,   176,   177
+       0,   177,   177,   178
   };
 
   void
@@ -1134,7 +1134,7 @@ namespace cecko {
 } // cecko
 #line 1136 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
 
-#line 1142 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 1143 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
 
 
 namespace cecko {

@@ -822,21 +822,21 @@ namespace cecko {
 #line 823 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
-  case 10: // token_n: "struct"
+  case 10: // token_n: "let"
 #line 140 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
-                                         { yylhs.value.as < cecko::CIName > () = "struct"; }
+                                         { yylhs.value.as < cecko::CIName > () = "let"; }
 #line 829 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
-  case 11: // token_n: "enum"
+  case 11: // token_n: "match"
 #line 141 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
-                                         { yylhs.value.as < cecko::CIName > () = "enum"; }
+                                         { yylhs.value.as < cecko::CIName > () = "match"; }
 #line 835 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
-  case 12: // token_n: "const"
+  case 12: // token_n: "match!"
 #line 142 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
-                                         { yylhs.value.as < cecko::CIName > () = "const"; }
+                                         { yylhs.value.as < cecko::CIName > () = "match!"; }
 #line 841 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
@@ -858,21 +858,21 @@ namespace cecko {
 #line 859 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
-  case 16: // token_n: "while"
+  case 16: // token_n: "fip"
 #line 146 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
-                                         { yylhs.value.as < cecko::CIName > () = "while"; }
+                                         { yylhs.value.as < cecko::CIName > () = "fip"; }
 #line 865 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
-  case 17: // token_n: "for"
+  case 17: // token_n: "fn"
 #line 147 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
-                                                 { yylhs.value.as < cecko::CIName > () = "for"; }
+                                                 { yylhs.value.as < cecko::CIName > () = "fn"; }
 #line 871 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
-  case 18: // token_n: "goto"
+  case 18: // token_n: "|"
 #line 148 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
-                                         { yylhs.value.as < cecko::CIName > () = "goto"; }
+                                         { yylhs.value.as < cecko::CIName > () = "|"; }
 #line 877 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
@@ -882,9 +882,9 @@ namespace cecko {
 #line 883 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
-  case 20: // token_n: "break"
+  case 20: // token_n: "\n"
 #line 150 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
-                                         { yylhs.value.as < cecko::CIName > () = "break"; }
+                                         { yylhs.value.as < cecko::CIName > () = "NEW_LINE"; }
 #line 889 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
@@ -996,9 +996,9 @@ namespace cecko {
 #line 997 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
-  case 39: // token_n: ":"
+  case 39: // token_n: "in"
 #line 169 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
-                                         { yylhs.value.as < cecko::CIName > () = ":"; }
+                                         { yylhs.value.as < cecko::CIName > () = "in"; }
 #line 1003 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
@@ -1594,9 +1594,9 @@ namespace cecko {
   "\"(\"", "\")\"", "\".\"", "\"->\"", "\"++ or --\"", "\",\"", "\"&\"",
   "\"*\"", "\"+ or -\"", "\"!\"", "\"/ or %\"", "\"<, >, <=, or >=\"",
   "\"== or !=\"", "\"&&\"", "\"||\"", "\"=\"", "\"*=, /=, %=, +=, or -=\"",
-  "\";\"", "\"{\"", "\"}\"", "\":\"", "\"typedef\"", "\"void\"",
-  "\"_Bool, char, or int\"", "\"struct\"", "\"enum\"", "\"const\"",
-  "\"if\"", "\"else\"", "\"do\"", "\"while\"", "\"for\"", "\"goto\"",
+  "\";\"", "\"{\"", "\"}\"", "\"in\"", "\"typedef\"", "\"void\"",
+  "\"_Bool, char, or int\"", "\"let\"", "\"match\"", "\"match!\"",
+  "\"if\"", "\"else\"", "\"do\"", "\"fip\"", "\"fn\"", "\"|\"",
   "\"continue\"", "\"break\"", "\"return\"", "\"sizeof\"",
   "\"identifier\"", "\"type identifier\"", "\"integer literal\"",
   "\"string literal\"", "$accept", "translation_unit", "tokens", "token",

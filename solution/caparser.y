@@ -51,6 +51,7 @@ using namespace casem;
 %token						LPAR		"("
 %token						RPAR		")"
 
+%token						NEWLINE		"NEW_LINE"
 %token						ARROW		"->"
 %token						COMMA		","
 %token						AMP			"&"
@@ -173,7 +174,7 @@ doxymentation: https://www.ksi.mff.cuni.cz/teaching/nswi098-web/doxy/html/struct
 
 // FIXME: DEBUG translation_unit, delete me later
 translation_unit:
-	INTLIT ADDOP INTLIT
+	LET IDF IDF ASGN IDF
 	| 
 	;
 

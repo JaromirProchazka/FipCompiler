@@ -42,6 +42,7 @@ ESCAPE_FLAGS		[\\nt\"\']|x[0-9a-fA-F]*
 #include <string>
 #include <stdexcept>
 #include <utility>
+#include <iostream>
 
 std::string strval = "";
 int commentnest = 0;
@@ -267,7 +268,14 @@ std::string msg = "";
 	return cecko::parser::make_IDF(std::string(yytext), ctx->line());
 }
 
-\n								ctx->incline();
+[\n]+								{ 
+	int cline = ctx->line();
+	int newline_count = std::string(yytext).size();
+	for (int i = 0; i < newline_count; i++) {
+		ctx->incline(); 
+	}
+	return cecko::parser::make_NEWLINE(cline);
+}
 [ \t\r]+            			;
 .								ctx->message(cecko::errors::UNCHAR, ctx->line(), yytext);
 

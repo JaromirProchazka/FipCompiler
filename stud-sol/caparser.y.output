@@ -4,31 +4,31 @@ Terminals unused in grammar
     "]"
     "("
     ")"
+    "NEW_LINE"
     "->"
     ","
     "&"
     "|"
     "*"
+    "+ or -"
     "!"
     "/ or %"
     "<, >, <=, or >="
     "== or !="
     "&&"
     "||"
-    "="
     ";"
     "{"
     "}"
     "typedef"
     "sizeof"
     "in"
-    "let"
     "match"
     "match!"
     "fip"
     "fn"
-    "identifier"
     "type identifier"
+    "integer literal"
     "string literal"
 
 
@@ -36,7 +36,7 @@ Grammar
 
     0 $accept: translation_unit "end of file"
 
-    1 translation_unit: "integer literal" "+ or -" "integer literal"
+    1 translation_unit: "let" "identifier" "identifier" "=" "identifier"
     2                 | ε
 
 
@@ -48,41 +48,42 @@ Terminals, with rules where they appear
     "]" (259)
     "(" (260)
     ")" (261)
-    "->" (262)
-    "," (263)
-    "&" (264)
-    "|" (265)
-    "*" (266)
-    "+ or -" <cecko::gt_addop> (267) 1
-    "!" (268)
-    "/ or %" <cecko::gt_divop> (269)
-    "<, >, <=, or >=" <cecko::gt_cmpo> (270)
-    "== or !=" <cecko::gt_cmpe> (271)
-    "&&" (272)
-    "||" (273)
-    "=" (274)
-    ";" (275)
-    "{" (276)
-    "}" (277)
-    "typedef" (278)
-    "sizeof" (279)
-    "in" (280)
-    "let" (281)
-    "match" (282)
-    "match!" (283)
-    "fip" (284)
-    "fn" (285)
-    "identifier" <cecko::CIName> (286)
-    "type identifier" <cecko::CIName> (287)
-    "integer literal" <int> (288) 1
-    "string literal" <cecko::CIName> (289)
+    "NEW_LINE" (262)
+    "->" (263)
+    "," (264)
+    "&" (265)
+    "|" (266)
+    "*" (267)
+    "+ or -" <cecko::gt_addop> (268)
+    "!" (269)
+    "/ or %" <cecko::gt_divop> (270)
+    "<, >, <=, or >=" <cecko::gt_cmpo> (271)
+    "== or !=" <cecko::gt_cmpe> (272)
+    "&&" (273)
+    "||" (274)
+    "=" (275) 1
+    ";" (276)
+    "{" (277)
+    "}" (278)
+    "typedef" (279)
+    "sizeof" (280)
+    "in" (281)
+    "let" (282) 1
+    "match" (283)
+    "match!" (284)
+    "fip" (285)
+    "fn" (286)
+    "identifier" <cecko::CIName> (287) 1
+    "type identifier" <cecko::CIName> (288)
+    "integer literal" <int> (289)
+    "string literal" <cecko::CIName> (290)
 
 
 Nonterminals, with rules where they appear
 
-    $accept (35)
+    $accept (36)
         on left: 0
-    translation_unit (36)
+    translation_unit (37)
         on left: 1 2
         on right: 0
 
@@ -91,7 +92,7 @@ State 0
 
     0 $accept: • translation_unit "end of file"
 
-    "integer literal"  shift, and go to state 1
+    "let"  shift, and go to state 1
 
     $default  reduce using rule 2 (translation_unit)
 
@@ -100,9 +101,9 @@ State 0
 
 State 1
 
-    1 translation_unit: "integer literal" • "+ or -" "integer literal"
+    1 translation_unit: "let" • "identifier" "identifier" "=" "identifier"
 
-    "+ or -"  shift, and go to state 3
+    "identifier"  shift, and go to state 3
 
 
 State 2
@@ -114,9 +115,9 @@ State 2
 
 State 3
 
-    1 translation_unit: "integer literal" "+ or -" • "integer literal"
+    1 translation_unit: "let" "identifier" • "identifier" "=" "identifier"
 
-    "integer literal"  shift, and go to state 5
+    "identifier"  shift, and go to state 5
 
 
 State 4
@@ -128,6 +129,20 @@ State 4
 
 State 5
 
-    1 translation_unit: "integer literal" "+ or -" "integer literal" •
+    1 translation_unit: "let" "identifier" "identifier" • "=" "identifier"
+
+    "="  shift, and go to state 6
+
+
+State 6
+
+    1 translation_unit: "let" "identifier" "identifier" "=" • "identifier"
+
+    "identifier"  shift, and go to state 7
+
+
+State 7
+
+    1 translation_unit: "let" "identifier" "identifier" "=" "identifier" •
 
     $default  reduce using rule 1 (translation_unit)

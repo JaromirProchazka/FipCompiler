@@ -496,34 +496,35 @@ namespace cecko {
     TOK_RBRA = 259,                // "]"
     TOK_LPAR = 260,                // "("
     TOK_RPAR = 261,                // ")"
-    TOK_ARROW = 262,               // "->"
-    TOK_COMMA = 263,               // ","
-    TOK_AMP = 264,                 // "&"
-    TOK_VERT = 265,                // "|"
-    TOK_STAR = 266,                // "*"
-    TOK_ADDOP = 267,               // "+ or -"
-    TOK_EMPH = 268,                // "!"
-    TOK_DIVOP = 269,               // "/ or %"
-    TOK_CMPO = 270,                // "<, >, <=, or >="
-    TOK_CMPE = 271,                // "== or !="
-    TOK_DAMP = 272,                // "&&"
-    TOK_DVERT = 273,               // "||"
-    TOK_ASGN = 274,                // "="
-    TOK_SEMIC = 275,               // ";"
-    TOK_LCUR = 276,                // "{"
-    TOK_RCUR = 277,                // "}"
-    TOK_TYPEDEF = 278,             // "typedef"
-    TOK_SIZEOF = 279,              // "sizeof"
-    TOK_IN = 280,                  // "in"
-    TOK_LET = 281,                 // "let"
-    TOK_MATCH = 282,               // "match"
-    TOK_DMATCH = 283,              // "match!"
-    TOK_FIP = 284,                 // "fip"
-    TOK_FN = 285,                  // "fn"
-    TOK_IDF = 286,                 // "identifier"
-    TOK_TYPEIDF = 287,             // "type identifier"
-    TOK_INTLIT = 288,              // "integer literal"
-    TOK_STRLIT = 289               // "string literal"
+    TOK_NEWLINE = 262,             // "NEW_LINE"
+    TOK_ARROW = 263,               // "->"
+    TOK_COMMA = 264,               // ","
+    TOK_AMP = 265,                 // "&"
+    TOK_VERT = 266,                // "|"
+    TOK_STAR = 267,                // "*"
+    TOK_ADDOP = 268,               // "+ or -"
+    TOK_EMPH = 269,                // "!"
+    TOK_DIVOP = 270,               // "/ or %"
+    TOK_CMPO = 271,                // "<, >, <=, or >="
+    TOK_CMPE = 272,                // "== or !="
+    TOK_DAMP = 273,                // "&&"
+    TOK_DVERT = 274,               // "||"
+    TOK_ASGN = 275,                // "="
+    TOK_SEMIC = 276,               // ";"
+    TOK_LCUR = 277,                // "{"
+    TOK_RCUR = 278,                // "}"
+    TOK_TYPEDEF = 279,             // "typedef"
+    TOK_SIZEOF = 280,              // "sizeof"
+    TOK_IN = 281,                  // "in"
+    TOK_LET = 282,                 // "let"
+    TOK_MATCH = 283,               // "match"
+    TOK_DMATCH = 284,              // "match!"
+    TOK_FIP = 285,                 // "fip"
+    TOK_FN = 286,                  // "fn"
+    TOK_IDF = 287,                 // "identifier"
+    TOK_TYPEIDF = 288,             // "type identifier"
+    TOK_INTLIT = 289,              // "integer literal"
+    TOK_STRLIT = 290               // "string literal"
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -540,7 +541,7 @@ namespace cecko {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 35, ///< Number of tokens.
+        YYNTOKENS = 36, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
@@ -549,36 +550,37 @@ namespace cecko {
         S_RBRA = 4,                              // "]"
         S_LPAR = 5,                              // "("
         S_RPAR = 6,                              // ")"
-        S_ARROW = 7,                             // "->"
-        S_COMMA = 8,                             // ","
-        S_AMP = 9,                               // "&"
-        S_VERT = 10,                             // "|"
-        S_STAR = 11,                             // "*"
-        S_ADDOP = 12,                            // "+ or -"
-        S_EMPH = 13,                             // "!"
-        S_DIVOP = 14,                            // "/ or %"
-        S_CMPO = 15,                             // "<, >, <=, or >="
-        S_CMPE = 16,                             // "== or !="
-        S_DAMP = 17,                             // "&&"
-        S_DVERT = 18,                            // "||"
-        S_ASGN = 19,                             // "="
-        S_SEMIC = 20,                            // ";"
-        S_LCUR = 21,                             // "{"
-        S_RCUR = 22,                             // "}"
-        S_TYPEDEF = 23,                          // "typedef"
-        S_SIZEOF = 24,                           // "sizeof"
-        S_IN = 25,                               // "in"
-        S_LET = 26,                              // "let"
-        S_MATCH = 27,                            // "match"
-        S_DMATCH = 28,                           // "match!"
-        S_FIP = 29,                              // "fip"
-        S_FN = 30,                               // "fn"
-        S_IDF = 31,                              // "identifier"
-        S_TYPEIDF = 32,                          // "type identifier"
-        S_INTLIT = 33,                           // "integer literal"
-        S_STRLIT = 34,                           // "string literal"
-        S_YYACCEPT = 35,                         // $accept
-        S_translation_unit = 36                  // translation_unit
+        S_NEWLINE = 7,                           // "NEW_LINE"
+        S_ARROW = 8,                             // "->"
+        S_COMMA = 9,                             // ","
+        S_AMP = 10,                              // "&"
+        S_VERT = 11,                             // "|"
+        S_STAR = 12,                             // "*"
+        S_ADDOP = 13,                            // "+ or -"
+        S_EMPH = 14,                             // "!"
+        S_DIVOP = 15,                            // "/ or %"
+        S_CMPO = 16,                             // "<, >, <=, or >="
+        S_CMPE = 17,                             // "== or !="
+        S_DAMP = 18,                             // "&&"
+        S_DVERT = 19,                            // "||"
+        S_ASGN = 20,                             // "="
+        S_SEMIC = 21,                            // ";"
+        S_LCUR = 22,                             // "{"
+        S_RCUR = 23,                             // "}"
+        S_TYPEDEF = 24,                          // "typedef"
+        S_SIZEOF = 25,                           // "sizeof"
+        S_IN = 26,                               // "in"
+        S_LET = 27,                              // "let"
+        S_MATCH = 28,                            // "match"
+        S_DMATCH = 29,                           // "match!"
+        S_FIP = 30,                              // "fip"
+        S_FN = 31,                               // "fn"
+        S_IDF = 32,                              // "identifier"
+        S_TYPEIDF = 33,                          // "type identifier"
+        S_INTLIT = 34,                           // "integer literal"
+        S_STRLIT = 35,                           // "string literal"
+        S_YYACCEPT = 36,                         // $accept
+        S_translation_unit = 37                  // translation_unit
       };
     };
 
@@ -1125,6 +1127,21 @@ switch (yykind)
       make_RPAR (const location_type& l)
       {
         return symbol_type (token::TOK_RPAR, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_NEWLINE (location_type l)
+      {
+        return symbol_type (token::TOK_NEWLINE, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_NEWLINE (const location_type& l)
+      {
+        return symbol_type (token::TOK_NEWLINE, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -1877,7 +1894,7 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 3,     ///< Last index in yytable_.
+      yylast_ = 6,     ///< Last index in yytable_.
       yynnts_ = 2,  ///< Number of nonterminal symbols.
       yyfinal_ = 4 ///< Termination state number.
     };
@@ -1927,10 +1944,11 @@ switch (yykind)
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
-      25,    26,    27,    28,    29,    30,    31,    32,    33,    34
+      25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
+      35
     };
     // Last valid token kind.
-    const int code_max = 289;
+    const int code_max = 290;
 
     if (t <= 0)
       return symbol_kind::S_YYEOF;
@@ -2099,7 +2117,7 @@ switch (yykind)
 
 #line 7 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
 } // cecko
-#line 2103 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.hpp"
+#line 2121 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.hpp"
 
 
 
