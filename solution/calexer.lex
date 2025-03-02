@@ -88,7 +88,7 @@ std::string msg = "";
 "{"        			return cecko::parser::make_LCUR(ctx->line());
 "}"        			return cecko::parser::make_RCUR(ctx->line());
 
-\/\/.*\n			ctx->incline();
+\/\/.*\n			ctx->incline(); 
 \/\*				{ 
 	BEGIN(COMMENT); 
 	commentnest = 1; 
@@ -268,15 +268,15 @@ std::string msg = "";
 	return cecko::parser::make_IDF(std::string(yytext), ctx->line());
 }
 
-[\n]+								{ 
-	int cline = ctx->line();
-	int newline_count = std::string(yytext).size();
-	for (int i = 0; i < newline_count; i++) {
+[\n][ \t\r]									ctx->incline(); 
+[\n]+										{ 
+	int n_count = std::string(yytext).size();
+	for (int i = 0; i < n_count; i++) {
 		ctx->incline(); 
 	}
-	return cecko::parser::make_NEWLINE(cline);
+	return cecko::parser::make_NEWLINE(ctx->line());
 }
-[ \t\r]+            			;
+[ \t\r]            				;
 .								ctx->message(cecko::errors::UNCHAR, ctx->line(), yytext);
 
 <<EOF>>							return cecko::parser::make_EOF(ctx->line());
