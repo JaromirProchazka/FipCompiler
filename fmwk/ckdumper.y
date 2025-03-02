@@ -51,7 +51,6 @@ YY_DECL;
 %token						DOT			"."
 %token						NEWLINE		"NEW_LINE"
 %token						ARROW		"->"
-%token<cecko::gt_incdec>	INCDEC		"++ or --"
 %token						COMMA		","
 %token						AMP			"&"
 %token						STAR		"*"
@@ -63,7 +62,6 @@ YY_DECL;
 %token						DAMP		"&&"
 %token						DVERT		"||"
 %token						ASGN		"="
-%token<cecko::gt_cass>		CASS		"*=, /=, %=, +=, or -="
 %token						SEMIC		";"
 %token						LCUR		"{"
 %token						RCUR		"}"
@@ -212,15 +210,6 @@ token_s:
 		default: $$.second = "?"; break;
 		}
 	}
-	| INCDEC{ 
-		$$.first = "INCDEC"; 
-		switch ($1)
-		{
-		case cecko::gt_incdec::INC: $$.second = "++"; break;
-		case cecko::gt_incdec::DEC: $$.second = "--"; break;
-		default: $$.second = "?"; break;
-		}
-	}
 	| DIVOP{ 
 		$$.first = "DIVOP"; 
 		switch ($1)
@@ -237,18 +226,6 @@ token_s:
 		case cecko::gt_etype::BOOL: $$.second = "_Bool"; break;
 		case cecko::gt_etype::CHAR: $$.second = "char";  break;
 		case cecko::gt_etype::INT: $$.second = "int";  break;
-		default: $$.second = "?"; break;
-		}
-	}
-	| CASS{ 
-		$$.first = "CASS"; 
-		switch ($1)
-		{
-		case cecko::gt_cass::MULA: $$.second = "*="; break;
-		case cecko::gt_cass::DIVA: $$.second = "/=";  break;
-		case cecko::gt_cass::MODA: $$.second = "%=";  break;
-		case cecko::gt_cass::ADDA: $$.second = "+=";  break;
-		case cecko::gt_cass::SUBA: $$.second = "-=";  break;
 		default: $$.second = "?"; break;
 		}
 	}

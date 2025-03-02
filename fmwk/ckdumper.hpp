@@ -429,32 +429,26 @@ namespace cecko {
       // "+ or -"
       char dummy2[sizeof (cecko::gt_addop)];
 
-      // "*=, /=, %=, +=, or -="
-      char dummy3[sizeof (cecko::gt_cass)];
-
       // "== or !="
-      char dummy4[sizeof (cecko::gt_cmpe)];
+      char dummy3[sizeof (cecko::gt_cmpe)];
 
       // "<, >, <=, or >="
-      char dummy5[sizeof (cecko::gt_cmpo)];
+      char dummy4[sizeof (cecko::gt_cmpo)];
 
       // "/ or %"
-      char dummy6[sizeof (cecko::gt_divop)];
+      char dummy5[sizeof (cecko::gt_divop)];
 
       // "_Bool, char, or int"
-      char dummy7[sizeof (cecko::gt_etype)];
-
-      // "++ or --"
-      char dummy8[sizeof (cecko::gt_incdec)];
+      char dummy6[sizeof (cecko::gt_etype)];
 
       // "integer literal"
-      char dummy9[sizeof (int)];
+      char dummy7[sizeof (int)];
 
       // token_i
-      char dummy10[sizeof (token_attr_i)];
+      char dummy8[sizeof (token_attr_i)];
 
       // token_s
-      char dummy11[sizeof (token_attr_s)];
+      char dummy9[sizeof (token_attr_s)];
     };
 
     /// The size of the largest semantic type.
@@ -512,8 +506,8 @@ namespace cecko {
     TOK_LPAR = 260,                // "("
     TOK_RPAR = 261,                // ")"
     TOK_DOT = 262,                 // "."
-    TOK_ARROW = 263,               // "->"
-    TOK_INCDEC = 264,              // "++ or --"
+    TOK_NEWLINE = 263,             // "NEW_LINE"
+    TOK_ARROW = 264,               // "->"
     TOK_COMMA = 265,               // ","
     TOK_AMP = 266,                 // "&"
     TOK_STAR = 267,                // "*"
@@ -525,31 +519,30 @@ namespace cecko {
     TOK_DAMP = 273,                // "&&"
     TOK_DVERT = 274,               // "||"
     TOK_ASGN = 275,                // "="
-    TOK_CASS = 276,                // "*=, /=, %=, +=, or -="
-    TOK_SEMIC = 277,               // ";"
-    TOK_LCUR = 278,                // "{"
-    TOK_RCUR = 279,                // "}"
-    TOK_IN = 280,                  // "in"
-    TOK_TYPEDEF = 281,             // "typedef"
-    TOK_VOID = 282,                // "void"
-    TOK_ETYPE = 283,               // "_Bool, char, or int"
-    TOK_LET = 284,                 // "let"
-    TOK_MATCH = 285,               // "match"
-    TOK_DMATCH = 286,              // "match!"
-    TOK_IF = 287,                  // "if"
-    TOK_ELSE = 288,                // "else"
-    TOK_DO = 289,                  // "do"
-    TOK_FIP = 290,                 // "fip"
-    TOK_FN = 291,                  // "fn"
-    TOK_VERT = 292,                // "|"
-    TOK_CONTINUE = 293,            // "continue"
-    TOK_NEWLINE = 294,             // "\n" ("break")
-    TOK_RETURN = 295,              // "return"
-    TOK_SIZEOF = 296,              // "sizeof"
-    TOK_IDF = 297,                 // "identifier"
-    TOK_TYPEIDF = 298,             // "type identifier"
-    TOK_INTLIT = 299,              // "integer literal"
-    TOK_STRLIT = 300               // "string literal"
+    TOK_SEMIC = 276,               // ";"
+    TOK_LCUR = 277,                // "{"
+    TOK_RCUR = 278,                // "}"
+    TOK_IN = 279,                  // "in"
+    TOK_TYPEDEF = 280,             // "typedef"
+    TOK_VOID = 281,                // "void"
+    TOK_ETYPE = 282,               // "_Bool, char, or int"
+    TOK_LET = 283,                 // "let"
+    TOK_MATCH = 284,               // "match"
+    TOK_DMATCH = 285,              // "match!"
+    TOK_IF = 286,                  // "if"
+    TOK_ELSE = 287,                // "else"
+    TOK_DO = 288,                  // "do"
+    TOK_FIP = 289,                 // "fip"
+    TOK_FN = 290,                  // "fn"
+    TOK_VERT = 291,                // "|"
+    TOK_CONTINUE = 292,            // "continue"
+    TOK_BREAK = 293,               // "break"
+    TOK_RETURN = 294,              // "return"
+    TOK_SIZEOF = 295,              // "sizeof"
+    TOK_IDF = 296,                 // "identifier"
+    TOK_TYPEIDF = 297,             // "type identifier"
+    TOK_INTLIT = 298,              // "integer literal"
+    TOK_STRLIT = 299               // "string literal"
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -566,7 +559,7 @@ namespace cecko {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 46, ///< Number of tokens.
+        YYNTOKENS = 45, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
@@ -576,8 +569,8 @@ namespace cecko {
         S_LPAR = 5,                              // "("
         S_RPAR = 6,                              // ")"
         S_DOT = 7,                               // "."
-        S_ARROW = 8,                             // "->"
-        S_INCDEC = 9,                            // "++ or --"
+        S_NEWLINE = 8,                           // "NEW_LINE"
+        S_ARROW = 9,                             // "->"
         S_COMMA = 10,                            // ","
         S_AMP = 11,                              // "&"
         S_STAR = 12,                             // "*"
@@ -589,38 +582,37 @@ namespace cecko {
         S_DAMP = 18,                             // "&&"
         S_DVERT = 19,                            // "||"
         S_ASGN = 20,                             // "="
-        S_CASS = 21,                             // "*=, /=, %=, +=, or -="
-        S_SEMIC = 22,                            // ";"
-        S_LCUR = 23,                             // "{"
-        S_RCUR = 24,                             // "}"
-        S_IN = 25,                               // "in"
-        S_TYPEDEF = 26,                          // "typedef"
-        S_VOID = 27,                             // "void"
-        S_ETYPE = 28,                            // "_Bool, char, or int"
-        S_LET = 29,                              // "let"
-        S_MATCH = 30,                            // "match"
-        S_DMATCH = 31,                           // "match!"
-        S_IF = 32,                               // "if"
-        S_ELSE = 33,                             // "else"
-        S_DO = 34,                               // "do"
-        S_FIP = 35,                              // "fip"
-        S_FN = 36,                               // "fn"
-        S_VERT = 37,                             // "|"
-        S_CONTINUE = 38,                         // "continue"
-        S_BREAK = 39,                            // "break"
-        S_RETURN = 40,                           // "return"
-        S_SIZEOF = 41,                           // "sizeof"
-        S_IDF = 42,                              // "identifier"
-        S_TYPEIDF = 43,                          // "type identifier"
-        S_INTLIT = 44,                           // "integer literal"
-        S_STRLIT = 45,                           // "string literal"
-        S_YYACCEPT = 46,                         // $accept
-        S_translation_unit = 47,                 // translation_unit
-        S_tokens = 48,                           // tokens
-        S_token = 49,                            // token
-        S_token_n = 50,                          // token_n
-        S_token_s = 51,                          // token_s
-        S_token_i = 52                           // token_i
+        S_SEMIC = 21,                            // ";"
+        S_LCUR = 22,                             // "{"
+        S_RCUR = 23,                             // "}"
+        S_IN = 24,                               // "in"
+        S_TYPEDEF = 25,                          // "typedef"
+        S_VOID = 26,                             // "void"
+        S_ETYPE = 27,                            // "_Bool, char, or int"
+        S_LET = 28,                              // "let"
+        S_MATCH = 29,                            // "match"
+        S_DMATCH = 30,                           // "match!"
+        S_IF = 31,                               // "if"
+        S_ELSE = 32,                             // "else"
+        S_DO = 33,                               // "do"
+        S_FIP = 34,                              // "fip"
+        S_FN = 35,                               // "fn"
+        S_VERT = 36,                             // "|"
+        S_CONTINUE = 37,                         // "continue"
+        S_BREAK = 38,                            // "break"
+        S_RETURN = 39,                           // "return"
+        S_SIZEOF = 40,                           // "sizeof"
+        S_IDF = 41,                              // "identifier"
+        S_TYPEIDF = 42,                          // "type identifier"
+        S_INTLIT = 43,                           // "integer literal"
+        S_STRLIT = 44,                           // "string literal"
+        S_YYACCEPT = 45,                         // $accept
+        S_translation_unit = 46,                 // translation_unit
+        S_tokens = 47,                           // tokens
+        S_token = 48,                            // token
+        S_token_n = 49,                          // token_n
+        S_token_s = 50,                          // token_s
+        S_token_i = 51                           // token_i
       };
     };
 
@@ -668,10 +660,6 @@ namespace cecko {
         value.move< cecko::gt_addop > (std::move (that.value));
         break;
 
-      case symbol_kind::S_CASS: // "*=, /=, %=, +=, or -="
-        value.move< cecko::gt_cass > (std::move (that.value));
-        break;
-
       case symbol_kind::S_CMPE: // "== or !="
         value.move< cecko::gt_cmpe > (std::move (that.value));
         break;
@@ -686,10 +674,6 @@ namespace cecko {
 
       case symbol_kind::S_ETYPE: // "_Bool, char, or int"
         value.move< cecko::gt_etype > (std::move (that.value));
-        break;
-
-      case symbol_kind::S_INCDEC: // "++ or --"
-        value.move< cecko::gt_incdec > (std::move (that.value));
         break;
 
       case symbol_kind::S_INTLIT: // "integer literal"
@@ -756,20 +740,6 @@ namespace cecko {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, cecko::gt_cass&& v, location_type&& l)
-        : Base (t)
-        , value (std::move (v))
-        , location (std::move (l))
-      {}
-#else
-      basic_symbol (typename Base::kind_type t, const cecko::gt_cass& v, const location_type& l)
-        : Base (t)
-        , value (v)
-        , location (l)
-      {}
-#endif
-
-#if 201103L <= YY_CPLUSPLUS
       basic_symbol (typename Base::kind_type t, cecko::gt_cmpe&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
@@ -819,20 +789,6 @@ namespace cecko {
       {}
 #else
       basic_symbol (typename Base::kind_type t, const cecko::gt_etype& v, const location_type& l)
-        : Base (t)
-        , value (v)
-        , location (l)
-      {}
-#endif
-
-#if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, cecko::gt_incdec&& v, location_type&& l)
-        : Base (t)
-        , value (std::move (v))
-        , location (std::move (l))
-      {}
-#else
-      basic_symbol (typename Base::kind_type t, const cecko::gt_incdec& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
@@ -916,10 +872,6 @@ switch (yykind)
         value.template destroy< cecko::gt_addop > ();
         break;
 
-      case symbol_kind::S_CASS: // "*=, /=, %=, +=, or -="
-        value.template destroy< cecko::gt_cass > ();
-        break;
-
       case symbol_kind::S_CMPE: // "== or !="
         value.template destroy< cecko::gt_cmpe > ();
         break;
@@ -934,10 +886,6 @@ switch (yykind)
 
       case symbol_kind::S_ETYPE: // "_Bool, char, or int"
         value.template destroy< cecko::gt_etype > ();
-        break;
-
-      case symbol_kind::S_INCDEC: // "++ or --"
-        value.template destroy< cecko::gt_incdec > ();
         break;
 
       case symbol_kind::S_INTLIT: // "integer literal"
@@ -1050,11 +998,9 @@ switch (yykind)
       {
 #if !defined _MSC_VER || defined __clang__
         YY_ASSERT (tok == token::TOK_EOF
-                   || (token::TOK_YYerror <= tok && tok <= token::TOK_ARROW)
-                   || (token::TOK_COMMA <= tok && tok <= token::TOK_STAR)
+                   || (token::TOK_YYerror <= tok && tok <= token::TOK_STAR)
                    || tok == token::TOK_EMPH
-                   || (token::TOK_DAMP <= tok && tok <= token::TOK_ASGN)
-                   || (token::TOK_SEMIC <= tok && tok <= token::TOK_VOID)
+                   || (token::TOK_DAMP <= tok && tok <= token::TOK_VOID)
                    || (token::TOK_LET <= tok && tok <= token::TOK_SIZEOF));
 #endif
       }
@@ -1081,18 +1027,6 @@ switch (yykind)
       {
 #if !defined _MSC_VER || defined __clang__
         YY_ASSERT (tok == token::TOK_ADDOP);
-#endif
-      }
-#if 201103L <= YY_CPLUSPLUS
-      symbol_type (int tok, cecko::gt_cass v, location_type l)
-        : super_type (token_kind_type (tok), std::move (v), std::move (l))
-#else
-      symbol_type (int tok, const cecko::gt_cass& v, const location_type& l)
-        : super_type (token_kind_type (tok), v, l)
-#endif
-      {
-#if !defined _MSC_VER || defined __clang__
-        YY_ASSERT (tok == token::TOK_CASS);
 #endif
       }
 #if 201103L <= YY_CPLUSPLUS
@@ -1141,18 +1075,6 @@ switch (yykind)
       {
 #if !defined _MSC_VER || defined __clang__
         YY_ASSERT (tok == token::TOK_ETYPE);
-#endif
-      }
-#if 201103L <= YY_CPLUSPLUS
-      symbol_type (int tok, cecko::gt_incdec v, location_type l)
-        : super_type (token_kind_type (tok), std::move (v), std::move (l))
-#else
-      symbol_type (int tok, const cecko::gt_incdec& v, const location_type& l)
-        : super_type (token_kind_type (tok), v, l)
-#endif
-      {
-#if !defined _MSC_VER || defined __clang__
-        YY_ASSERT (tok == token::TOK_INCDEC);
 #endif
       }
 #if 201103L <= YY_CPLUSPLUS
@@ -1338,6 +1260,21 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
+      make_NEWLINE (location_type l)
+      {
+        return symbol_type (token::TOK_NEWLINE, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_NEWLINE (const location_type& l)
+      {
+        return symbol_type (token::TOK_NEWLINE, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
       make_ARROW (location_type l)
       {
         return symbol_type (token::TOK_ARROW, std::move (l));
@@ -1348,21 +1285,6 @@ switch (yykind)
       make_ARROW (const location_type& l)
       {
         return symbol_type (token::TOK_ARROW, l);
-      }
-#endif
-#if 201103L <= YY_CPLUSPLUS
-      static
-      symbol_type
-      make_INCDEC (cecko::gt_incdec v, location_type l)
-      {
-        return symbol_type (token::TOK_INCDEC, std::move (v), std::move (l));
-      }
-#else
-      static
-      symbol_type
-      make_INCDEC (const cecko::gt_incdec& v, const location_type& l)
-      {
-        return symbol_type (token::TOK_INCDEC, v, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -1528,21 +1450,6 @@ switch (yykind)
       make_ASGN (const location_type& l)
       {
         return symbol_type (token::TOK_ASGN, l);
-      }
-#endif
-#if 201103L <= YY_CPLUSPLUS
-      static
-      symbol_type
-      make_CASS (cecko::gt_cass v, location_type l)
-      {
-        return symbol_type (token::TOK_CASS, std::move (v), std::move (l));
-      }
-#else
-      static
-      symbol_type
-      make_CASS (const cecko::gt_cass& v, const location_type& l)
-      {
-        return symbol_type (token::TOK_CASS, v, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -1803,16 +1710,16 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_NEWLINE (location_type l)
+      make_BREAK (location_type l)
       {
-        return symbol_type (token::TOK_NEWLINE, std::move (l));
+        return symbol_type (token::TOK_BREAK, std::move (l));
       }
 #else
       static
       symbol_type
-      make_NEWLINE (const location_type& l)
+      make_BREAK (const location_type& l)
       {
-        return symbol_type (token::TOK_NEWLINE, l);
+        return symbol_type (token::TOK_BREAK, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -2008,7 +1915,7 @@ switch (yykind)
 
 #if YYDEBUG
     // YYRLINE[YYN] -- Source line where rule number YYN was defined.
-    static const short yyrline_[];
+    static const unsigned char yyrline_[];
     /// Report on the debug stream that the rule \a r is going to be reduced.
     virtual void yy_reduce_print_ (int r) const;
     /// Print the state stack on the debug stream.
@@ -2235,7 +2142,7 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 43,     ///< Last index in yytable_.
+      yylast_ = 41,     ///< Last index in yytable_.
       yynnts_ = 7,  ///< Number of nonterminal symbols.
       yyfinal_ = 3 ///< Termination state number.
     };
@@ -2286,11 +2193,10 @@ switch (yykind)
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
       25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
-      35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
-      45
+      35,    36,    37,    38,    39,    40,    41,    42,    43,    44
     };
     // Last valid token kind.
-    const int code_max = 300;
+    const int code_max = 299;
 
     if (t <= 0)
       return symbol_kind::S_YYEOF;
@@ -2320,10 +2226,6 @@ switch (yykind)
         value.copy< cecko::gt_addop > (YY_MOVE (that.value));
         break;
 
-      case symbol_kind::S_CASS: // "*=, /=, %=, +=, or -="
-        value.copy< cecko::gt_cass > (YY_MOVE (that.value));
-        break;
-
       case symbol_kind::S_CMPE: // "== or !="
         value.copy< cecko::gt_cmpe > (YY_MOVE (that.value));
         break;
@@ -2338,10 +2240,6 @@ switch (yykind)
 
       case symbol_kind::S_ETYPE: // "_Bool, char, or int"
         value.copy< cecko::gt_etype > (YY_MOVE (that.value));
-        break;
-
-      case symbol_kind::S_INCDEC: // "++ or --"
-        value.copy< cecko::gt_incdec > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_INTLIT: // "integer literal"
@@ -2398,10 +2296,6 @@ switch (yykind)
         value.move< cecko::gt_addop > (YY_MOVE (s.value));
         break;
 
-      case symbol_kind::S_CASS: // "*=, /=, %=, +=, or -="
-        value.move< cecko::gt_cass > (YY_MOVE (s.value));
-        break;
-
       case symbol_kind::S_CMPE: // "== or !="
         value.move< cecko::gt_cmpe > (YY_MOVE (s.value));
         break;
@@ -2416,10 +2310,6 @@ switch (yykind)
 
       case symbol_kind::S_ETYPE: // "_Bool, char, or int"
         value.move< cecko::gt_etype > (YY_MOVE (s.value));
-        break;
-
-      case symbol_kind::S_INCDEC: // "++ or --"
-        value.move< cecko::gt_incdec > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_INTLIT: // "integer literal"
@@ -2501,7 +2391,7 @@ switch (yykind)
 
 #line 7 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
 } // cecko
-#line 2505 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.hpp"
+#line 2395 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.hpp"
 
 
 

@@ -222,10 +222,6 @@ namespace cecko {
         value.YY_MOVE_OR_COPY< cecko::gt_addop > (YY_MOVE (that.value));
         break;
 
-      case symbol_kind::S_CASS: // "*=, /=, %=, +=, or -="
-        value.YY_MOVE_OR_COPY< cecko::gt_cass > (YY_MOVE (that.value));
-        break;
-
       case symbol_kind::S_CMPE: // "== or !="
         value.YY_MOVE_OR_COPY< cecko::gt_cmpe > (YY_MOVE (that.value));
         break;
@@ -240,10 +236,6 @@ namespace cecko {
 
       case symbol_kind::S_ETYPE: // "_Bool, char, or int"
         value.YY_MOVE_OR_COPY< cecko::gt_etype > (YY_MOVE (that.value));
-        break;
-
-      case symbol_kind::S_INCDEC: // "++ or --"
-        value.YY_MOVE_OR_COPY< cecko::gt_incdec > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_INTLIT: // "integer literal"
@@ -284,10 +276,6 @@ namespace cecko {
         value.move< cecko::gt_addop > (YY_MOVE (that.value));
         break;
 
-      case symbol_kind::S_CASS: // "*=, /=, %=, +=, or -="
-        value.move< cecko::gt_cass > (YY_MOVE (that.value));
-        break;
-
       case symbol_kind::S_CMPE: // "== or !="
         value.move< cecko::gt_cmpe > (YY_MOVE (that.value));
         break;
@@ -302,10 +290,6 @@ namespace cecko {
 
       case symbol_kind::S_ETYPE: // "_Bool, char, or int"
         value.move< cecko::gt_etype > (YY_MOVE (that.value));
-        break;
-
-      case symbol_kind::S_INCDEC: // "++ or --"
-        value.move< cecko::gt_incdec > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_INTLIT: // "integer literal"
@@ -346,10 +330,6 @@ namespace cecko {
         value.copy< cecko::gt_addop > (that.value);
         break;
 
-      case symbol_kind::S_CASS: // "*=, /=, %=, +=, or -="
-        value.copy< cecko::gt_cass > (that.value);
-        break;
-
       case symbol_kind::S_CMPE: // "== or !="
         value.copy< cecko::gt_cmpe > (that.value);
         break;
@@ -364,10 +344,6 @@ namespace cecko {
 
       case symbol_kind::S_ETYPE: // "_Bool, char, or int"
         value.copy< cecko::gt_etype > (that.value);
-        break;
-
-      case symbol_kind::S_INCDEC: // "++ or --"
-        value.copy< cecko::gt_incdec > (that.value);
         break;
 
       case symbol_kind::S_INTLIT: // "integer literal"
@@ -407,10 +383,6 @@ namespace cecko {
         value.move< cecko::gt_addop > (that.value);
         break;
 
-      case symbol_kind::S_CASS: // "*=, /=, %=, +=, or -="
-        value.move< cecko::gt_cass > (that.value);
-        break;
-
       case symbol_kind::S_CMPE: // "== or !="
         value.move< cecko::gt_cmpe > (that.value);
         break;
@@ -425,10 +397,6 @@ namespace cecko {
 
       case symbol_kind::S_ETYPE: // "_Bool, char, or int"
         value.move< cecko::gt_etype > (that.value);
-        break;
-
-      case symbol_kind::S_INCDEC: // "++ or --"
-        value.move< cecko::gt_incdec > (that.value);
         break;
 
       case symbol_kind::S_INTLIT: // "integer literal"
@@ -713,10 +681,6 @@ namespace cecko {
         yylhs.value.emplace< cecko::gt_addop > ();
         break;
 
-      case symbol_kind::S_CASS: // "*=, /=, %=, +=, or -="
-        yylhs.value.emplace< cecko::gt_cass > ();
-        break;
-
       case symbol_kind::S_CMPE: // "== or !="
         yylhs.value.emplace< cecko::gt_cmpe > ();
         break;
@@ -731,10 +695,6 @@ namespace cecko {
 
       case symbol_kind::S_ETYPE: // "_Bool, char, or int"
         yylhs.value.emplace< cecko::gt_etype > ();
-        break;
-
-      case symbol_kind::S_INCDEC: // "++ or --"
-        yylhs.value.emplace< cecko::gt_incdec > ();
         break;
 
       case symbol_kind::S_INTLIT: // "integer literal"
@@ -770,7 +730,7 @@ namespace cecko {
           switch (yyn)
             {
   case 5: // token: token_n
-#line 109 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 108 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
               { 
 		if (yystack_[0].location)
 		{
@@ -778,11 +738,11 @@ namespace cecko {
 		}
 		ctx->out() << yystack_[0].value.as < cecko::CIName > () << std::endl; 
 	}
-#line 782 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 742 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 6: // token: token_s
-#line 116 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 115 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                  {
 		if (yystack_[0].location)
 		{
@@ -795,11 +755,11 @@ namespace cecko {
 		}
 		ctx->out() << std::endl;
 	}
-#line 799 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 759 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 7: // token: token_i
-#line 128 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 127 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                  {
 		if (yystack_[0].location)
 		{
@@ -807,230 +767,230 @@ namespace cecko {
 		}
 		ctx->out() << yystack_[0].value.as < token_attr_i > ().first << " " << yystack_[0].value.as < token_attr_i > ().second << std::endl;
 	}
-#line 811 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 771 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 8: // token_n: "typedef"
-#line 138 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 137 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
             { yylhs.value.as < cecko::CIName > () = "typedef"; }
-#line 817 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 777 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 9: // token_n: "void"
-#line 139 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 138 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = "void"; }
-#line 823 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 783 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 10: // token_n: "let"
-#line 140 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 139 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = "let"; }
-#line 829 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 789 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 11: // token_n: "match"
-#line 141 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 140 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = "match"; }
-#line 835 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 795 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 12: // token_n: "match!"
-#line 142 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 141 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = "match!"; }
-#line 841 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 801 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 13: // token_n: "if"
-#line 143 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 142 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                                  { yylhs.value.as < cecko::CIName > () = "if"; }
-#line 847 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 807 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 14: // token_n: "else"
-#line 144 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 143 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = "else"; }
-#line 853 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 813 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 15: // token_n: "do"
-#line 145 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 144 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                                  { yylhs.value.as < cecko::CIName > () = "do"; }
-#line 859 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 819 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 16: // token_n: "fip"
-#line 146 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 145 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = "fip"; }
-#line 865 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 825 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 17: // token_n: "fn"
-#line 147 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 146 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                                  { yylhs.value.as < cecko::CIName > () = "fn"; }
-#line 871 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 831 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 18: // token_n: "|"
-#line 148 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 147 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = "|"; }
-#line 877 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 837 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 19: // token_n: "continue"
-#line 149 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 148 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = "continue"; }
-#line 883 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 843 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
-  case 20: // token_n: "\n"
-#line 150 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+  case 20: // token_n: "NEW_LINE"
+#line 149 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = "NEW_LINE"; }
-#line 889 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 849 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 21: // token_n: "return"
-#line 151 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 150 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = "return"; }
-#line 895 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 855 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 22: // token_n: "sizeof"
-#line 152 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 151 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = "sizeof"; }
-#line 901 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 861 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 23: // token_n: "["
-#line 153 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 152 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = "["; }
-#line 907 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 867 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 24: // token_n: "]"
-#line 154 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 153 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = "]"; }
-#line 913 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 873 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 25: // token_n: "("
-#line 155 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 154 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = "("; }
-#line 919 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 879 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 26: // token_n: ")"
-#line 156 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 155 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = ")"; }
-#line 925 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 885 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 27: // token_n: "."
-#line 157 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 156 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                                  { yylhs.value.as < cecko::CIName > () = "."; }
-#line 931 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 891 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 28: // token_n: "->"
-#line 158 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 157 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = "->"; }
-#line 937 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 897 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 29: // token_n: ","
-#line 159 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 158 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = ","; }
-#line 943 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 903 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 30: // token_n: "&"
-#line 160 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 159 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                                  { yylhs.value.as < cecko::CIName > () = "&"; }
-#line 949 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 909 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 31: // token_n: "*"
-#line 161 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 160 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = "*"; }
-#line 955 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 915 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 32: // token_n: "!"
-#line 162 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 161 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = "!"; }
-#line 961 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 921 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 33: // token_n: "&&"
-#line 163 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 162 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = "&&"; }
-#line 967 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 927 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 34: // token_n: "||"
-#line 164 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 163 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = "||"; }
-#line 973 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 933 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 35: // token_n: "="
-#line 165 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 164 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = "="; }
-#line 979 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 939 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 36: // token_n: ";"
-#line 166 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 165 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = ";"; }
-#line 985 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 945 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 37: // token_n: "{"
-#line 167 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 166 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = "{"; }
-#line 991 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 951 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 38: // token_n: "}"
-#line 168 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 167 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = "}"; }
-#line 997 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 957 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 39: // token_n: "in"
-#line 169 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 168 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                                          { yylhs.value.as < cecko::CIName > () = "in"; }
-#line 1003 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 963 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 40: // token_s: "identifier"
-#line 173 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 172 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
             { 
 		yylhs.value.as < token_attr_s > ().first = "identifier"; 
 		yylhs.value.as < token_attr_s > ().second = ! yystack_[0].value.as < cecko::CIName > ().empty() ? "[" + cecko::context::escape(yystack_[0].value.as < cecko::CIName > ()) + "]" : ""; 
 	}
-#line 1012 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 972 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 41: // token_s: "type identifier"
-#line 177 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 176 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                   { 
 		yylhs.value.as < token_attr_s > ().first = "type identifier"; 
 		yylhs.value.as < token_attr_s > ().second = ! yystack_[0].value.as < cecko::CIName > ().empty() ? "[" + cecko::context::escape(yystack_[0].value.as < cecko::CIName > ()) + "]" : ""; 
 	}
-#line 1021 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 981 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 42: // token_s: "string literal"
-#line 181 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 180 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                 { 
 		yylhs.value.as < token_attr_s > ().first = "string literal"; 
 		yylhs.value.as < token_attr_s > ().second = "\"" + cecko::context::escape(yystack_[0].value.as < cecko::CIName > ()) + "\"";
 	}
-#line 1030 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 990 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 43: // token_s: "<, >, <=, or >="
-#line 185 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 184 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
               { 
 		yylhs.value.as < token_attr_s > ().first = "CMPO"; 
 		switch (yystack_[0].value.as < cecko::gt_cmpo > ())
@@ -1042,11 +1002,11 @@ namespace cecko {
 		default: yylhs.value.as < token_attr_s > ().second = "?"; break;
 		}
 	}
-#line 1046 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 1006 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 44: // token_s: "== or !="
-#line 196 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 195 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
               { 
 		yylhs.value.as < token_attr_s > ().first = "CMPE"; 
 		switch (yystack_[0].value.as < cecko::gt_cmpe > ())
@@ -1056,11 +1016,11 @@ namespace cecko {
 		default: yylhs.value.as < token_attr_s > ().second = "?"; break;
 		}
 	}
-#line 1060 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 1020 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
   case 45: // token_s: "+ or -"
-#line 205 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 204 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                { 
 		yylhs.value.as < token_attr_s > ().first = "ADDOP"; 
 		switch (yystack_[0].value.as < cecko::gt_addop > ())
@@ -1070,25 +1030,11 @@ namespace cecko {
 		default: yylhs.value.as < token_attr_s > ().second = "?"; break;
 		}
 	}
-#line 1074 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 1034 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
-  case 46: // token_s: "++ or --"
-#line 214 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
-                { 
-		yylhs.value.as < token_attr_s > ().first = "INCDEC"; 
-		switch (yystack_[0].value.as < cecko::gt_incdec > ())
-		{
-		case cecko::gt_incdec::INC: yylhs.value.as < token_attr_s > ().second = "++"; break;
-		case cecko::gt_incdec::DEC: yylhs.value.as < token_attr_s > ().second = "--"; break;
-		default: yylhs.value.as < token_attr_s > ().second = "?"; break;
-		}
-	}
-#line 1088 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
-    break;
-
-  case 47: // token_s: "/ or %"
-#line 223 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+  case 46: // token_s: "/ or %"
+#line 213 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                { 
 		yylhs.value.as < token_attr_s > ().first = "DIVOP"; 
 		switch (yystack_[0].value.as < cecko::gt_divop > ())
@@ -1098,11 +1044,11 @@ namespace cecko {
 		default: yylhs.value.as < token_attr_s > ().second = "?"; break;
 		}
 	}
-#line 1102 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 1048 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
-  case 48: // token_s: "_Bool, char, or int"
-#line 232 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+  case 47: // token_s: "_Bool, char, or int"
+#line 222 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
                { 
 		yylhs.value.as < token_attr_s > ().first = "ETYPE"; 
 		switch (yystack_[0].value.as < cecko::gt_etype > ())
@@ -1113,34 +1059,17 @@ namespace cecko {
 		default: yylhs.value.as < token_attr_s > ().second = "?"; break;
 		}
 	}
-#line 1117 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 1063 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
-  case 49: // token_s: "*=, /=, %=, +=, or -="
-#line 242 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
-              { 
-		yylhs.value.as < token_attr_s > ().first = "CASS"; 
-		switch (yystack_[0].value.as < cecko::gt_cass > ())
-		{
-		case cecko::gt_cass::MULA: yylhs.value.as < token_attr_s > ().second = "*="; break;
-		case cecko::gt_cass::DIVA: yylhs.value.as < token_attr_s > ().second = "/=";  break;
-		case cecko::gt_cass::MODA: yylhs.value.as < token_attr_s > ().second = "%=";  break;
-		case cecko::gt_cass::ADDA: yylhs.value.as < token_attr_s > ().second = "+=";  break;
-		case cecko::gt_cass::SUBA: yylhs.value.as < token_attr_s > ().second = "-=";  break;
-		default: yylhs.value.as < token_attr_s > ().second = "?"; break;
-		}
-	}
-#line 1134 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
-    break;
-
-  case 50: // token_i: "integer literal"
-#line 257 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+  case 48: // token_i: "integer literal"
+#line 235 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
               { yylhs.value.as < token_attr_i > ().first = "integer literal"; yylhs.value.as < token_attr_i > ().second = yystack_[0].value.as < int > (); }
-#line 1140 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 1069 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
     break;
 
 
-#line 1144 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 1073 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
 
             default:
               break;
@@ -1499,23 +1428,21 @@ namespace cecko {
   const signed char
   parser::yypact_[] =
   {
-      -4,    43,    -3,    -4,    -4,    -4,    -4,    -4,    -4,    -4,
+      -4,    35,    -3,    -4,    -4,    -4,    -4,    -4,    -4,    -4,
       -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,
       -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,
       -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,
-      -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,
-      -4
+      -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4
   };
 
   const signed char
   parser::yydefact_[] =
   {
-       4,     0,     2,     1,    23,    24,    25,    26,    27,    28,
-      46,    29,    30,    31,    45,    32,    47,    43,    44,    33,
-      34,    35,    49,    36,    37,    38,    39,     8,     9,    48,
-      10,    11,    12,    13,    14,    15,    16,    17,    18,    19,
-      20,    21,    22,    40,    41,    50,    42,     3,     5,     6,
-       7
+       4,     0,     2,     1,    23,    24,    25,    26,    27,    20,
+      28,    29,    30,    31,    45,    32,    46,    43,    44,    33,
+      34,    35,    36,    37,    38,    39,     8,     9,    47,    10,
+      11,    12,    13,    14,    15,    16,    17,    18,    19,    21,
+      22,    40,    41,    48,    42,     3,     5,     6,     7
   };
 
   const signed char
@@ -1527,7 +1454,7 @@ namespace cecko {
   const signed char
   parser::yydefgoto_[] =
   {
-       0,     1,     2,    47,    48,    49,    50
+       0,     1,     2,    45,    46,    47,    48
   };
 
   const signed char
@@ -1536,8 +1463,8 @@ namespace cecko {
        4,     5,     6,     7,     8,     9,    10,    11,    12,    13,
       14,    15,    16,    17,    18,    19,    20,    21,    22,    23,
       24,    25,    26,    27,    28,    29,    30,    31,    32,    33,
-      34,    35,    36,    37,    38,    39,    40,    41,    42,    43,
-      44,    45,    46,     3
+      34,    35,    36,    37,    38,     3,    39,    40,    41,    42,
+      43,    44
   };
 
   const signed char
@@ -1546,30 +1473,28 @@ namespace cecko {
        3,     4,     5,     6,     7,     8,     9,    10,    11,    12,
       13,    14,    15,    16,    17,    18,    19,    20,    21,    22,
       23,    24,    25,    26,    27,    28,    29,    30,    31,    32,
-      33,    34,    35,    36,    37,    38,    39,    40,    41,    42,
-      43,    44,    45,     0
+      33,    34,    35,    36,    37,     0,    39,    40,    41,    42,
+      43,    44
   };
 
   const signed char
   parser::yystos_[] =
   {
-       0,    47,    48,     0,     3,     4,     5,     6,     7,     8,
+       0,    46,    47,     0,     3,     4,     5,     6,     7,     8,
        9,    10,    11,    12,    13,    14,    15,    16,    17,    18,
       19,    20,    21,    22,    23,    24,    25,    26,    27,    28,
-      29,    30,    31,    32,    33,    34,    35,    36,    37,    38,
-      39,    40,    41,    42,    43,    44,    45,    49,    50,    51,
-      52
+      29,    30,    31,    32,    33,    34,    35,    36,    37,    39,
+      40,    41,    42,    43,    44,    48,    49,    50,    51
   };
 
   const signed char
   parser::yyr1_[] =
   {
-       0,    46,    47,    48,    48,    49,    49,    49,    50,    50,
-      50,    50,    50,    50,    50,    50,    50,    50,    50,    50,
-      50,    50,    50,    50,    50,    50,    50,    50,    50,    50,
-      50,    50,    50,    50,    50,    50,    50,    50,    50,    50,
-      51,    51,    51,    51,    51,    51,    51,    51,    51,    51,
-      52
+       0,    45,    46,    47,    47,    48,    48,    48,    49,    49,
+      49,    49,    49,    49,    49,    49,    49,    49,    49,    49,
+      49,    49,    49,    49,    49,    49,    49,    49,    49,    49,
+      49,    49,    49,    49,    49,    49,    49,    49,    49,    49,
+      50,    50,    50,    50,    50,    50,    50,    50,    51
   };
 
   const signed char
@@ -1579,8 +1504,7 @@ namespace cecko {
        1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
        1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
        1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       1
+       1,     1,     1,     1,     1,     1,     1,     1,     1
   };
 
 
@@ -1591,30 +1515,28 @@ namespace cecko {
   const parser::yytname_[] =
   {
   "\"end of file\"", "error", "\"invalid token\"", "\"[\"", "\"]\"",
-  "\"(\"", "\")\"", "\".\"", "\"->\"", "\"++ or --\"", "\",\"", "\"&\"",
+  "\"(\"", "\")\"", "\".\"", "\"NEW_LINE\"", "\"->\"", "\",\"", "\"&\"",
   "\"*\"", "\"+ or -\"", "\"!\"", "\"/ or %\"", "\"<, >, <=, or >=\"",
-  "\"== or !=\"", "\"&&\"", "\"||\"", "\"=\"", "\"*=, /=, %=, +=, or -=\"",
-  "\";\"", "\"{\"", "\"}\"", "\"in\"", "\"typedef\"", "\"void\"",
-  "\"_Bool, char, or int\"", "\"let\"", "\"match\"", "\"match!\"",
-  "\"if\"", "\"else\"", "\"do\"", "\"fip\"", "\"fn\"", "\"|\"",
-  "\"continue\"", "\"break\"", "\"return\"", "\"sizeof\"",
-  "\"identifier\"", "\"type identifier\"", "\"integer literal\"",
-  "\"string literal\"", "$accept", "translation_unit", "tokens", "token",
-  "token_n", "token_s", "token_i", YY_NULLPTR
+  "\"== or !=\"", "\"&&\"", "\"||\"", "\"=\"", "\";\"", "\"{\"", "\"}\"",
+  "\"in\"", "\"typedef\"", "\"void\"", "\"_Bool, char, or int\"",
+  "\"let\"", "\"match\"", "\"match!\"", "\"if\"", "\"else\"", "\"do\"",
+  "\"fip\"", "\"fn\"", "\"|\"", "\"continue\"", "\"break\"", "\"return\"",
+  "\"sizeof\"", "\"identifier\"", "\"type identifier\"",
+  "\"integer literal\"", "\"string literal\"", "$accept",
+  "translation_unit", "tokens", "token", "token_n", "token_s", "token_i", YY_NULLPTR
   };
 #endif
 
 
 #if YYDEBUG
-  const short
+  const unsigned char
   parser::yyrline_[] =
   {
-       0,   102,   102,   105,   106,   109,   116,   128,   138,   139,
-     140,   141,   142,   143,   144,   145,   146,   147,   148,   149,
-     150,   151,   152,   153,   154,   155,   156,   157,   158,   159,
-     160,   161,   162,   163,   164,   165,   166,   167,   168,   169,
-     173,   177,   181,   185,   196,   205,   214,   223,   232,   242,
-     257
+       0,   101,   101,   104,   105,   108,   115,   127,   137,   138,
+     139,   140,   141,   142,   143,   144,   145,   146,   147,   148,
+     149,   150,   151,   152,   153,   154,   155,   156,   157,   158,
+     159,   160,   161,   162,   163,   164,   165,   166,   167,   168,
+     172,   176,   180,   184,   195,   204,   213,   222,   235
   };
 
   void
@@ -1647,9 +1569,9 @@ namespace cecko {
 
 #line 7 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
 } // cecko
-#line 1651 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
+#line 1573 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp"
 
-#line 262 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
+#line 240 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
 
 
 namespace cecko {

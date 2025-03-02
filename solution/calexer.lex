@@ -66,6 +66,8 @@ std::string msg = "";
 "]"        			return cecko::parser::make_RBRA(ctx->line());
 "("        			return cecko::parser::make_LPAR(ctx->line());
 ")"        			return cecko::parser::make_RPAR(ctx->line());
+"{"        			return cecko::parser::make_LCUR(ctx->line());
+"}"        			return cecko::parser::make_RCUR(ctx->line());
 
 "->"        		return cecko::parser::make_ARROW(ctx->line());
 ","         		return cecko::parser::make_COMMA(ctx->line());
@@ -85,8 +87,6 @@ std::string msg = "";
 "||"      			return cecko::parser::make_DVERT(ctx->line());
 "="         		return cecko::parser::make_ASGN(ctx->line());
 ";"         		return cecko::parser::make_SEMIC(ctx->line());
-"{"        			return cecko::parser::make_LCUR(ctx->line());
-"}"        			return cecko::parser::make_RCUR(ctx->line());
 
 \/\/.*\n			ctx->incline(); 
 \/\*				{ 
@@ -269,13 +269,13 @@ std::string msg = "";
 }
 
 [\n][ \t\r]									ctx->incline(); 
-[\n]+										{ 
+[\n]+									{ 
 	int n_count = std::string(yytext).size();
 	for (int i = 0; i < n_count; i++) {
 		ctx->incline(); 
 	}
 	return cecko::parser::make_NEWLINE(ctx->line());
-}
+}												
 [ \t\r]            				;
 .								ctx->message(cecko::errors::UNCHAR, ctx->line(), yytext);
 
