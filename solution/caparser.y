@@ -70,6 +70,7 @@ using namespace casem;
 %token						RCUR		"}"
 
 %token						TYPEDEF		"typedef"
+%token<cecko::gt_etype>		ETYPE		"_Bool, char, or int"
 %token						SIZEOF		"sizeof"
 %token                      IN          "in"
 %token                      LET         "let"
@@ -83,58 +84,68 @@ using namespace casem;
 %token<int>					INTLIT		"integer literal"
 %token<cecko::CIName>		STRLIT		"string literal"
 
+%type<casem::InstructionWrapper>        primary_expression
+%type<casem::InstructionWrapper>        unary_expression
+%type<casem::InstructionWrapper>        cast_expression
+%type<casem::InstructionWrapper>        multiplicative_expression
+%type<casem::InstructionWrapper>        additive_expression
+%type<casem::InstructionWrapper>        relational_expression
+%type<casem::InstructionWrapper>        equality_expression
+%type<casem::InstructionWrapper>        logical_and_expression
+%type<casem::InstructionWrapper>        logical_or_expression
+%type<casem::InstructionWrapper>        expression 
+%type<casem::InstructionWrapper>        expression_body
+%type<casem::UnaryOperator>             unary_operator
+%type<cecko::CIName>                    enumeration_constant
+%type<casem::InstructionWrapper>        postfix_expression
+%type<cecko::gt_cass>                   assignment_operator
+%type<casem::InstructionWrapper>        assignment_expression
+%type<cecko::CKTypeSafeObs>             type_specifier
+%type                                   expression_end
+%type<cecko::CIName>                    typedef_name
+%type<casem::CKTypeRefDefPack>          declaration_specifiers
+%type<casem::CKTypeRefDefPack>          declaration_specifier
+%type<casem::CKTypeRefDefPack>          type_specifier_qualifier
+%type<casem::TypeRefPack_Action>        declarator
+%type<casem::TypeRefPack_Action>        direct_declarator
+%type<casem::TypeRefPack_Action>        function_declarator
+%type<casem::TRDArray>                  parameter_type_list
+%type<casem::TRDArray>                  parameter_list
+%type<casem::TypeRefPack_Convertor>     pointer
+%type<casem::CKTypeRefDefPack>          parameter_declaration
+
+%type<cecko::CKStructTypeSafeObs>       enumtype_decl_head
+%type<cecko::CKStructTypeSafeObs>       enumtype_decl_specifier
+%type<cecko::CKStructTypeSafeObs>       member_types_declaration
+%type<casem::StructObservers>           member_types_declaration_list
+%type<cecko::CKStructItemArray>         member_declaration_list
+%type<cecko::CKStructItemArray>         member_declaration
+%type<casem::CKTypeRefDefPack>          specifier_qualifier_list
+%type<casem::TypeRefPack_Action>        member_declarator
 
 
 /////////////////////////////////
 
 %%
 
-// %type<casem::CKTypeRefDefPack>          declaration_specifiers
-// %type<casem::CKTypeRefDefPack>          declaration_specifier
-// %type<cecko::CKTypeSafeObs>             type_specifier
-// %type<casem::CKTypeRefDefPack>          type_specifier_qualifier
-// %type<casem::CKTypeRefDefPack>          specifier_qualifier_list
+// TODO: Move those you want to use up above "%%"
+// %type<casem::InstructionWrapper>        unboxing_rule
+// %type<casem::InstructionWrapper>        application_rule
+// %type<cecko::CKTypeObs>                 type_name
 
-// %type<casem::TypeRefPack_Action>        member_declarator_list
+// %type<casem::InstructionArray>          argument_expression_list
 // %type<casem::TypeRefPack_Action>        init_declarator_list
 // %type<casem::TypeRefPack_Action>        init_declarator
-// %type<casem::TypeRefPack_Action>        member_declarator
-// %type<casem::TypeRefPack_Action>        declarator
-// %type<casem::TypeRefPack_Action>        direct_declarator
 // %type<casem::TypeRefPack_Action>        array_declarator
-// %type<casem::TypeRefPack_Action>        function_declarator
-// %type<cecko::CIName>                    enumeration_constant
 
-// %type<cecko::CKStructItemArray>         member_declaration
-// %type<cecko::CKStructItemArray>         member_declaration_list
 
-// %type<casem::TRDArray>                  parameter_type_list
-// %type<casem::TRDArray>                  parameter_list
-// %type<casem::CKTypeRefDefPack>          parameter_declaration
 // %type<casem::TypeRefPack_Action>        abstract_declarator
 // %type<casem::TypeRefPack_Action>        direct_abstract_declarator
 // %type<casem::TypeRefPack_Action>        function_abstract_declarator
 // %type<casem::TypeRefPack_Action>        array_abstract_declarator
 
-// %type<cecko::CKTypeObs>                 type_name
-// %type<cecko::CIName>                    typedef_name
 
-// %type<cecko::gt_cass>                   assignment_operator
-// %type<casem::InstructionArray>          argument_expression_list
-// %type<casem::InstructionWrapper>        assignment_expression
-// %type<casem::InstructionWrapper>        primary_expression
-// %type<casem::InstructionWrapper>        postfix_expression
-// %type<casem::InstructionWrapper>        unary_expression
-// %type<casem::InstructionWrapper>        cast_expression
-// %type<casem::InstructionWrapper>        multiplicative_expression
-// %type<casem::InstructionWrapper>        additive_expression
-// %type<casem::InstructionWrapper>        relational_expression
-// %type<casem::InstructionWrapper>        equality_expression
-// %type<casem::InstructionWrapper>        logical_and_expression
-// %type<casem::InstructionWrapper>        logical_or_expression
-// %type<casem::InstructionWrapper>        expression 
 // %type<casem::InstructionWrapper>        expression_opt
-// %type<casem::UnaryOperator>             unary_operator
 
 // %type<cecko::CKIRBasicBlockObs>         expression_statement
 // %type<cecko::CKIRBasicBlockObs>         compound_statement
@@ -173,62 +184,89 @@ doxymentation: https://www.ksi.mff.cuni.cz/teaching/nswi098-web/doxy/html/struct
 /////////////////////////////////
 
 // FIXME: DEBUG translation_unit, delete me later
-translation_unit:
-	LET IDF IDF ASGN IDF
-	| 
-	;
-
-
 // translation_unit:
-//     external_declaration
-//     | translation_unit external_declaration
-// ;
+// 	LET IDF IDF ASGN IDF
+// 	| 
+// 	;
 
-// external_declaration:
-//     function_definition
-//     | declaration
-// ;
 
-// function_definition:
-//     function_definition_head block_item_list RCUR   {
-//         log("[function_definition:] with BODY, if not returned explicitely, we void return here\n");
-//         if (! ctx->builder()->GetInsertBlock() || ctx->current_function_return_type()->is_void()) {
-//             ctx->builder()-> CreateRetVoid();
-//         }
+translation_unit:
+    external_declaration
+    | translation_unit external_declaration
+;
 
-//         ctx->exit_function();
-//     }
-//     | function_definition_head RCUR   {
-//         log("[function_definition:] with EMPTY BODY, implicite void return\n");
-//         ctx->builder()-> CreateRetVoid();
-//         ctx->exit_function();
-//     }
-// ;
+external_declaration:
+    function_definition
+    | enumtype_decl_specifier    {
+        log("[declaration:] found enumtype_decl_specifier\n");
+        // $$ = $1;
+    }
+;
 
-// function_definition_info: 
-//     declaration_specifiers declarator   {
-//         log("[function_definition_info:]\n");
-//         auto cur_l = ctx->line();
-//         casem::TypeRefPack_Action DEFINER_BODY = $2;
-//         casem::CKTypeRefDefPack rfpack = $1;
+expression_end:
+    NEWLINE
+    | EOF
+;
 
-//         casem::CKTypeRefDefPack res_tpack = DEFINER_BODY(rfpack, std::function(FETCH_FINAL_TYPEPACK));
+function_definition:
+    function_definition_head expression  {
+        log("[function_definition:] with BODY, if not returned explicitely, we void return here\n");
 
-//         cur_l--;
-//         if (res_tpack.name.value() == "main" && cur_l != 0) {
-//             log("decrementing loc\n");
-//         }
-//         cecko::CKFunctionSafeObs f_observer = ctx->declare_function(res_tpack.name.value(), res_tpack.type, cur_l);
+        log("jump_statement: ");
+        // auto ret_obs = static_cast<cecko::CKIRConstantIntObs>($2);
+        auto ret_obs = $2;
+        if (ret_obs.is_valid()) {
+            log("return val\n");
+            if (ret_obs.type != ctx->current_function_return_type())
+                ctx->builder()->CreateRet(ret_obs.to_type(ctx->current_function_return_type()->get_ir()).read_ir());
+            else
+                ctx->builder()->CreateRet(ret_obs.read_ir());
+        }
+        else {
+            log("return void\n");
+            ctx->builder()->CreateRetVoid();
+        }
+        ctx->builder()->ClearInsertionPoint();
+        // $$ = ctx->builder()->GetInsertBlock();
 
-//         ctx->enter_function(f_observer, res_tpack.optinonal_param_names, ctx->line());
-//     }
-// ;
+        if (! ctx->builder()->GetInsertBlock() || ctx->current_function_return_type()->is_void()) {
+            ctx->builder()-> CreateRetVoid();
+        }
 
-// function_definition_head:
-//     function_definition_info LCUR {
-//         log("[function_definition_head:]");
-//     }
-// ;
+        ctx->exit_function();
+    }
+    // | function_definition_head RCUR   {
+    //     log("[function_definition:] with EMPTY BODY, implicite void return\n");
+    //     ctx->builder()-> CreateRetVoid();
+    //     ctx->exit_function();
+    // }
+;
+
+function_definition_info: 
+    declaration_specifiers declarator   {
+        log("[function_definition_info:]\n");
+        auto cur_l = ctx->line();
+        casem::TypeRefPack_Action DEFINER_BODY = $2;
+        casem::CKTypeRefDefPack rfpack = $1;
+
+        casem::CKTypeRefDefPack res_tpack = DEFINER_BODY(rfpack, std::function(FETCH_FINAL_TYPEPACK));
+
+        cur_l--;
+        if (res_tpack.name.value() == "main" && cur_l != 0) {
+            log("decrementing loc\n");
+        }
+        cecko::CKFunctionSafeObs f_observer = ctx->declare_function(res_tpack.name.value(), res_tpack.type, cur_l);
+
+        ctx->enter_function(f_observer, res_tpack.optinonal_param_names, ctx->line());
+    }
+;
+
+function_definition_head:
+    function_definition_info ASGN {
+        log("[function_definition_head:]");
+    }
+;
+
 //////////////////////////////////////////////////////////////////////////////////
 // Notes
 //////////////////////////////////////////////////////////////////////////////////
@@ -243,41 +281,47 @@ translation_unit:
 // Create rules for expressions 
 /////////////////////////////////
 
-// primary_expression:
-//     enumeration_constant    {
-//         log("[primary_expression:] name\n");
-//         $$ = init_instruction_from_name(ctx, $1);
-//     }
-//     | INTLIT    {
-//         //CKIRConstantIntObs
-//         log("[primary_expression:] Found int lit '%d'\n", (int)$1);
-//         $$ = init_instruction_const(ctx, $1);
-//     }
-//     | STRLIT    {
-//         log_name("[primary_expression:] Found string lit ", $1);
-//         // (StringRef Str, const Twine &Name = "", unsigned AddressSpace = 0, Module *M = nullptr, bool AddNull = true)	
-//         $$ = init_instruction_const(ctx, $1);
-//     }
-//     | LPAR expression RPAR  {
-//         $$ = $2;
-//     }
+primary_expression:
+    enumeration_constant    {
+        log("[primary_expression:] name\n");
+        $$ = init_instruction_from_name(ctx, $1);
+    }
+    | INTLIT    {
+        //CKIRConstantIntObs
+        log("[primary_expression:] Found int lit '%d'\n", (int)$1);
+        $$ = init_instruction_const(ctx, $1);
+    }
+    | STRLIT    {
+        log_name("[primary_expression:] Found string lit ", $1);
+        // (StringRef Str, const Twine &Name = "", unsigned AddressSpace = 0, Module *M = nullptr, bool AddNull = true)	
+        $$ = init_instruction_const(ctx, $1);
+    }
+    | LPAR expression RPAR  {
+        $$ = $2;
+    }
+;
+
+postfix_expression:
+    primary_expression     {
+        $$ = $1;
+    }
+    // | application_rule
+    // | unboxing_rule
+    // | postfix_expression LPAR argument_expression_list RPAR     {
+    //     log("[postfix_expression:] FUNCTION CALL, postfix_expression ( expression )\n");
+    //     $$ = init_instruction_function_call(ctx, $1, $3);
+    // }
+;
+
+// FIXME: APPLICATION RULE
+// application_rule:
+//     postfix_expression argument_expression_list
 // ;
 
-// postfix_expression:
-//     primary_expression      {
-//         $$ = $1;
-//     }
-//     | postfix_expression LBRA expression RBRA   {
-//         log("[postfix_expression:] postfix_expression [ expression ]\n");
-//         // $$ = $1;
-//     }
-//     | postfix_expression LPAR argument_expression_list RPAR     {
-//         log("[postfix_expression:] FUNCTION CALL, postfix_expression ( expression )\n");
-//         $$ = init_instruction_function_call(ctx, $1, $3);
-//     }
-//     | postfix_expression ARROW IDF              {
-//         log_name("[postfix_expression:] postfix_expression -> IDF", $3);
-//         // $$ = $1;
+// FIXME: BOXING RULE
+// unboxing_rule:
+//     LPAR argument_expression_list RPAR {
+//         $$ = $2;
 //     }
 // ;
 
@@ -286,204 +330,210 @@ translation_unit:
 //         casem::InstructionArray args = { $1 };
 //         $$ = args;
 //     }
-//     | argument_expression_list COMMA assignment_expression  {
+//     | assignment_expression COMMA argument_expression_list  {
 //         casem::InstructionArray args = $1;
 //         args.push_back($3);
 //         $$ = args;
 //     }
-//     | %empty    {
-//         casem::InstructionArray args = {};
-//         $$ = args;
-//     }
 // ;
 
-// unary_expression:
-//     postfix_expression  {
-//         log("[unary_expression:]>");
-//         $$ = $1;
-//     }
-//     | unary_operator cast_expression    {
-//         log("[unary_expression:] unary_operator cast_expression\n");
-//         switch ($1) {
-//         case AMPERSANT:
-//             $$ = &($2);
-//             break;
-//         case STAR:
-//             $$ = *($2);
-//             break;
-//         case SUB_S:
-//             $$ = -($2);
-//             break;
-//         case ADD_S:
-//             $$ = $2; 
-//             break;
-//         case EXCALMATION_MARK:
-//             $$ = !($2);
-//             break;
-//         }
-//     }
-//     | SIZEOF LPAR type_name RPAR        {
-//         log("[unary_expression:] SIZEOF LPAR type_name RPAR\n");
-//         $$ = InstructionWrapper(
-//             ctx,
-//             RValue,
-//             ctx->get_type_size($3),
-//             ctx->get_int_type(),
-//             true,
-//             "size_of");
-//     }
-// ;
+unary_expression:
+    postfix_expression  {
+        log("[unary_expression:]>");
+        $$ = $1;
+    } 
+    | unary_operator cast_expression    {
+        log("[unary_expression:] unary_operator cast_expression\n");
+        switch ($1) {
+        case AMPERSANT:
+            $$ = &($2);
+            break;
+        case STAR:
+            $$ = *($2);
+            break;
+        case SUB_S:
+            $$ = -($2);
+            break;
+        case ADD_S:
+            $$ = $2; 
+            break;
+        case EXCALMATION_MARK:
+            $$ = !($2);
+            break;
+        }
+    } 
+    // | SIZEOF LPAR type_name RPAR        {
+    //     log("[unary_expression:] SIZEOF LPAR type_name RPAR\n");
+    //     $$ = InstructionWrapper(
+    //         ctx,
+    //         RValue,
+    //         ctx->get_type_size($3),
+    //         ctx->get_int_type(),
+    //         true,
+    //         "size_of");
+    // }
+;
 
-// unary_operator:
-//     AMP         { $$ = AMPERSANT; }
-//     | STAR      { $$ = STAR; }
-//     | ADDOP     { 
-//         switch ($1) {
-//         case cecko::gt_addop::ADD:
-//             $$ = ADD_S;
-//             break;
-//         case cecko::gt_addop::SUB:
-//             $$ = SUB_S;
-//             break;
-//         }
-//     }
-//     | EMPH      { $$ = EXCALMATION_MARK; }
-// ;
+unary_operator:
+    AMP         { $$ = AMPERSANT; }
+    | STAR      { $$ = STAR; }
+    | ADDOP     { 
+        switch ($1) {
+        case cecko::gt_addop::ADD:
+            $$ = ADD_S;
+            break;
+        case cecko::gt_addop::SUB:
+            $$ = SUB_S;
+            break;
+        }
+    }
+    | EMPH      { $$ = EXCALMATION_MARK; }
+;
 
-// cast_expression:
-//     unary_expression        {
-//         // log("[cast_expression:]>");
-//         $$ = $1;
-//     }
-// ;
+cast_expression:
+    unary_expression        {
+        // log("[cast_expression:]>");
+        $$ = $1;
+    }
+;
 
-// multiplicative_expression:
-//     cast_expression     {
-//         // log("[multiplicative_expression:]>");
-//         $$ = $1;
-//     }
-//     | multiplicative_expression STAR cast_expression    {
-//         log("[multiplicative_expression:] multiplicative_expression * cast_expression\n");
-//         $$ = ($1) * ($3);
-//     }
-//     | multiplicative_expression DIVOP cast_expression    {
-//         log("[multiplicative_expression:] multiplicative_expression / cast_expression\n");
-//         switch ($2) {
-//         case cecko::gt_divop::DIV: 
-//             $$ = ($1) / ($3);
-//             break;
-//         case cecko::gt_divop::MOD:
-//             $$ = ($1) % ($3);
-//             break;
-//         }
-//     }
-// ;
+multiplicative_expression:
+    cast_expression     {
+        // log("[multiplicative_expression:]>");
+        $$ = $1;
+    }
+    | multiplicative_expression STAR cast_expression    {
+        log("[multiplicative_expression:] multiplicative_expression * cast_expression\n");
+        $$ = ($1) * ($3);
+    }
+    | multiplicative_expression DIVOP cast_expression    {
+        log("[multiplicative_expression:] multiplicative_expression / cast_expression\n");
+        switch ($2) {
+        case cecko::gt_divop::DIV: 
+            $$ = ($1) / ($3);
+            break;
+        case cecko::gt_divop::MOD:
+            $$ = ($1) % ($3);
+            break;
+        }
+    }
+;
 
-// additive_expression:
-//     multiplicative_expression   {
-//         // log("[multiplicative_expression:]>");
-//         $$ = $1;
-//     }
-//     | additive_expression ADDOP multiplicative_expression   {
-//         log("[additive_expression:] additive_expression + multiplicative_expression\n");
-//         switch ($2) {
-//         case cecko::gt_addop::ADD:
-//             $$ = ($1) + ($3);
-//             break;
-//         case cecko::gt_addop::SUB:
-//             $$ = ($1) - ($3);
-//             break;
-//         }
-//     }
-// ;
+additive_expression:
+    multiplicative_expression   {
+        // log("[multiplicative_expression:]>");
+        $$ = $1;
+    }
+    | additive_expression ADDOP multiplicative_expression   {
+        log("[additive_expression:] additive_expression + multiplicative_expression\n");
+        switch ($2) {
+        case cecko::gt_addop::ADD:
+            $$ = ($1) + ($3);
+            break;
+        case cecko::gt_addop::SUB:
+            $$ = ($1) - ($3);
+            break;
+        }
+    }
+;
 
-// relational_expression:
-//     additive_expression     {
-//         // log("[relational_expression:]>");
-//         $$ = $1;
-//     }
-//     | relational_expression CMPO additive_expression     {
-//         log("[relational_expression:] relational_expression <,>,<=,>= additive_expression\n");
-//         // $$ = $1;
-//     }
-// ;
+relational_expression:
+    additive_expression     {
+        // log("[relational_expression:]>");
+        $$ = $1;
+    }
+    | relational_expression CMPO additive_expression     {
+        log("[relational_expression:] relational_expression <,>,<=,>= additive_expression\n");
+        // $$ = $1;
+    }
+;
 
-// equality_expression:
-//     relational_expression   {
-//         // log("[equality_expression:]>");
-//         $$ = $1;
-//     }
-//     | equality_expression CMPE relational_expression    {
-//         log("[equality_expression:] equality_expression ==,!= relational_expression\n");
-//         // $$ = $1;
-//     }
-// ;
+equality_expression:
+    relational_expression   {
+        // log("[equality_expression:]>");
+        $$ = $1;
+    }
+    | equality_expression CMPE relational_expression    {
+        log("[equality_expression:] equality_expression ==,!= relational_expression\n");
+        // $$ = $1;
+    }
+;
 
 
-// logical_and_expression:
-//     equality_expression     {
-//         // log("[logical_and_expression:]>");
-//         $$ = $1;
-//     }
-//     | logical_and_expression DAMP equality_expression     {
-//         log("[logical_and_expression:] logical_and_expression && equality_expression\n");
-//         // $$ = $1;
-//     }
-// ;
+logical_and_expression:
+    equality_expression     {
+        // log("[logical_and_expression:]>");
+        $$ = $1;
+    }
+    | logical_and_expression DAMP equality_expression     {
+        log("[logical_and_expression:] logical_and_expression && equality_expression\n");
+        // $$ = $1;
+    }
+;
 
-// logical_or_expression:
-//     logical_and_expression     {
-//         // log("[logical_or_expression:]>");
-//         $$ = $1;
-//     }
-//     | logical_or_expression DVERT logical_and_expression         {
-//         log("[logical_or_expression:] logical_or_expression || logical_and_expression\n");
-//         // $$ = $1;
-//     }
-// ;
+logical_or_expression:
+    logical_and_expression     {
+        // log("[logical_or_expression:]>");
+        $$ = $1;
+    }
+    | logical_or_expression DVERT logical_and_expression         {
+        log("[logical_or_expression:] logical_or_expression || logical_and_expression\n");
+        // $$ = $1;
+    }
+;
 
-// assignment_expression:
-//     logical_or_expression   {
-//         // log("[assignment_expression:]>");
-//         $$ = $1;
-//     }
-//     | unary_expression assignment_operator assignment_expression    {
-//         log("[assignment_expression:] unary_expression assignment_operator assignment_expression\n");
-//         switch ($2) {
-//         case cecko::gt_cass::MULA:
-//             $$ = ($1).store($1 * $3);
-//             break; 
-//         case cecko::gt_cass::DIVA:
-//             $$ = ($1).store($1 / $3);
-//             break; 
-//         case cecko::gt_cass::MODA:
-//             $$ = ($1).store($1 % $3);
-//             break; 
-//         case cecko::gt_cass::ADDA:
-//             $$ = ($1).store($1 + $3);
-//             break;
-//         case cecko::gt_cass::SUBA:
-//             $$ = ($1).store($1 - $3);
-//             break;
-//         default:
-//             // normal assignment =
-//             $$ = ($1).store($3);
-//         }
-//         $$ = $1;
-//     }
-// ;
+assignment_expression:
+    logical_or_expression   {
+        // log("[assignment_expression:]>");
+        $$ = $1;
+    }
+    | unary_expression assignment_operator assignment_expression    {
+        log("[assignment_expression:] unary_expression assignment_operator assignment_expression\n");
+        switch ($2) {
+        case cecko::gt_cass::MULA:
+            $$ = ($1).store($1 * $3);
+            break; 
+        case cecko::gt_cass::DIVA:
+            $$ = ($1).store($1 / $3);
+            break; 
+        case cecko::gt_cass::MODA:
+            $$ = ($1).store($1 % $3);
+            break; 
+        case cecko::gt_cass::ADDA:
+            $$ = ($1).store($1 + $3);
+            break;
+        case cecko::gt_cass::SUBA:
+            $$ = ($1).store($1 - $3);
+            break;
+        default:
+            // normal assignment =
+            $$ = ($1).store($3);
+        }
+        $$ = $1;
+    }
+;
 
-// assignment_operator:
-//     ASGN  {
-//         $$ = (cecko::gt_cass)1000;
-//     }
-// ;
+assignment_operator:
+    ASGN  {
+        $$ = (cecko::gt_cass)1000;
+    }
+;
 
-// expression:
-//     assignment_expression   {
-//         $$ = $1;
-//     }
-// ;
+expression_body:
+    assignment_expression  {
+        $$ = $1;
+    }
+	// | logical_or_expression   {
+    //     // log("[assignment_expression:]>");
+    //     $$ = $1;
+    // }
+;
+
+expression:
+    expression_body expression_end {
+        $$ = $1;
+    }
+;
 
 // constant_expression:
 //     logical_or_expression
@@ -508,61 +558,61 @@ translation_unit:
 //     }
 // ;
 
-// declaration_specifiers:
-//     declaration_specifier   { 
-//             log("[declaration_specifiers:] ^ simply give refpack from declaration_specifier to the list\n");
-//             $$ = $1;
-//         }
-//     | declaration_specifier declaration_specifiers  {
-//             log("[declaration_specifiers:] take the list and update its info by the new element\n");
-//             casem::CKTypeRefDefPack rfpack = $2;
+declaration_specifiers:
+    declaration_specifier   { 
+            log("[declaration_specifiers:] ^ simply give refpack from declaration_specifier to the list\n");
+            $$ = $1;
+        }
+    | declaration_specifier declaration_specifiers  {
+            log("[declaration_specifiers:] take the list and update its info by the new element\n");
+            casem::CKTypeRefDefPack rfpack = $2;
 
-//             if (rfpack.type == NULL && ($1).type != NULL) {
-//                 rfpack.type = ($1).type;
-//             }
-//             else if (rfpack.is_const == false && ($1).is_const == true) {
-//                 rfpack.is_const = true;
-//             }
-//             else if (rfpack.has_typedef == false && ($1).has_typedef == true) {
-//                 casem::CKTypeRefDefPack new_rfpack(rfpack.type, rfpack.is_const, true);
-//                 rfpack = new_rfpack;
-//             }
-//             else {
-//                 ctx->message(errors::INVALID_SPECIFIERS, ctx->line());
-//             }
+            if (rfpack.type == NULL && ($1).type != NULL) {
+                rfpack.type = ($1).type;
+            }
+            else if (rfpack.is_const == false && ($1).is_const == true) {
+                rfpack.is_const = true;
+            }
+            else if (rfpack.has_typedef == false && ($1).has_typedef == true) {
+                casem::CKTypeRefDefPack new_rfpack(rfpack.type, rfpack.is_const, true);
+                rfpack = new_rfpack;
+            }
+            else {
+                ctx->message(errors::INVALID_SPECIFIERS, ctx->line());
+            }
 
-//             $$ = rfpack;
-//         }
-// ;
+            $$ = rfpack;
+        }
+;
 
-// declaration_specifier:
-//     storage_class_specifier { 
-//             casem::CKTypeRefDefPack rfpack;
-//             rfpack.has_typedef = true;
-//             $$ = rfpack;
-//         }
-//     | type_specifier_qualifier {
-//             log("[declaration_specifier:] ^ Found type_specifier_qualifier ");
-//             casem::CKTypeRefDefPack rpack;
-//             if (($1).type) {
-//                 log("with set type, ");
-//                 rpack.type = ($1).type;
-//             }
-//             else {
-//                 log("with not set type, ");
-//             }
-//             if (($1).is_const) {
-//                 log("with set const");
-//                 rpack.is_const = true;
-//             }
-//             else {
-//                 log("with not set const");
-//                 rpack.is_const = false;
-//             }
-//             log("\n");
-//             $$ = rpack;
-//         }
-// ;
+declaration_specifier:
+    // storage_class_specifier { 
+    //         casem::CKTypeRefDefPack rfpack;
+    //         rfpack.has_typedef = true;
+    //         $$ = rfpack;
+    //     }
+    type_specifier_qualifier {
+            log("[declaration_specifier:] ^ Found type_specifier_qualifier ");
+            casem::CKTypeRefDefPack rpack;
+            if (($1).type) {
+                log("with set type, ");
+                rpack.type = ($1).type;
+            }
+            else {
+                log("with not set type, ");
+            }
+            if (($1).is_const) {
+                log("with set const");
+                rpack.is_const = true;
+            }
+            else {
+                log("with not set const");
+                rpack.is_const = false;
+            }
+            log("\n");
+            $$ = rpack;
+        }
+;
 
 // init_declarator_list:
 //     init_declarator     { 
@@ -587,92 +637,157 @@ translation_unit:
 //     TYPEDEF
 // ;
 
-// type_specifier:
-//     // | ETYPE { 
-//     //     log("[type_specifier:] ^ Found ETYPE '"); 
-//     //     switch ($1) {
-//     //         case cecko::gt_etype::INT:
-//     //             log("INT'\n");
-//     //             $$ = ctx->get_int_type();
-//     //             break;
-//     //         case cecko::gt_etype::CHAR:
-//     //             log("CHAR'\n");
-//     //             $$ = ctx->get_char_type();
-//     //             break;
-//     //         case cecko::gt_etype::BOOL:
-//     //             log("BOOL'\n");
-//     //             $$ = ctx->get_bool_type();
-//     //             break;
-//     //     }
-//     //  }
-//     typedef_name  {
-//             log("[type_specifier:] ^ found typedef_name '%s'\n", ($1).c_str());
-//             auto type_def_data = ctx->find_typedef($1);
-//             if (type_def_data) {
-//                 $$ = type_def_data->get_type_pack().type;
-//             }
-//             else {
-//                 std::string e_msg = "Undefined type '" + $1 + "'!\n";
-//                 ctx->message(cecko::errors::SYNTAX, ctx->line(), e_msg);
-//             }
-//         }
-// ;
+type_specifier:
+    ETYPE { 
+        log("[type_specifier:] ^ Found ETYPE '"); 
+        switch ($1) {
+            case cecko::gt_etype::INT:
+                log("INT'\n");
+                $$ = ctx->get_int_type();
+                break;
+            case cecko::gt_etype::CHAR:
+                log("CHAR'\n");
+                $$ = ctx->get_char_type();
+                break;
+            case cecko::gt_etype::BOOL:
+                log("BOOL'\n");
+                $$ = ctx->get_bool_type();
+                break;
+        }
+     }
+    | typedef_name  {
+            log("[type_specifier:] ^ found typedef_name '%s'\n", ($1).c_str());
+            auto type_def_data = ctx->find_typedef($1);
+            if (type_def_data) {
+                $$ = type_def_data->get_type_pack().type;
+            }
+            else {
+                std::string e_msg = "Undefined type '" + $1 + "'!\n";
+                ctx->message(cecko::errors::SYNTAX, ctx->line(), e_msg);
+            }
+        }
+;
 
-// member_declaration_list:
-//     member_declaration      {
-//         $$ = $1;
-//     }
-//     | member_declaration_list member_declaration    {
-//         cecko::CKStructItemArray s_items = $1;
-//         s_items.push_back($2[0]);
-//         $$ = s_items;
-//     }
-// ;
+enumtype_decl_head:
+    TYPEDEF IDF     {
+        // FIXME: Handle tag range
+        log_name("[enumtype_decl_head:]", $2);
+        auto struct_obs = ctx->declare_struct_type($2, ctx->line()); 
+        int first_enumtype_tag = max_type_tag;
 
-// member_declaration:
-//     specifier_qualifier_list member_declarator_list SEMIC   { 
-//         log("[member_declaration:] give refpack to member_declarator_list\n");
-//         casem::TypeRefPack_Action DEFINER_BODY = $2;
-//         casem::CKTypeRefDefPack rfpack = $1;
+        $$ = struct_obs;
+    }
+;
 
-//         casem::CKTypeRefDefPack final_type = DEFINER_BODY(rfpack, std::function(FETCH_FINAL_TYPEPACK));
-//         cecko::CKStructItem s_item(final_type, final_type.name.value(), ctx->line());
+enumtype_decl_block_start:
+    LCUR
+    | LCUR NEWLINE 
+;
 
-//         cecko::CKStructItemArray s_items = { s_item };
-//         $$ = s_items;
-//      }
-// ;
+enumtype_decl_block_end:
+    RCUR
+    | NEWLINE RCUR
+;
 
-// specifier_qualifier_list:
-//     type_specifier_qualifier    { 
-//         log("[specifier_qualifier_list:] ^ type_specifier_qualifier\n");
-//         $$ = $1;
-//      }
-//     | type_specifier_qualifier specifier_qualifier_list { 
-//         log("[specifier_qualifier_list:] ^ type_specifier_qualifier specifier_qualifier_list\n");
-//         auto t = $2;
-//         auto nt = $1;
-//         if (!t.is_const && nt.is_const) {
-//             t.is_const = true;
-//         }
-//         else if (t.type == NULL && nt.type) {
-//             t.type = nt.type;
-//         }
-//         else {
-//             ctx->message(errors::INVALID_SPECIFIERS, ctx->line());
-//         }
+enumtype_decl_specifier:
+    enumtype_decl_head enumtype_decl_block_start member_types_declaration_list enumtype_decl_block_end NEWLINE  {
+        // FIXME: Handle tag range
+        int enumtype_tag_end = max_type_tag;
+        $$ = $1;
+    }
+;
 
-//         $$ = t;
-//      }
-// ;
+member_types_declaration_list:
+    member_types_declaration     {
+        StructObservers vec = { $1 };
+        $$ = vec;
+    }
+    | member_types_declaration_list member_types_declaration      {
+        auto&& vec = $1; 
+        vec.push_back($2);
+        $$ = vec;
+    }
+;
 
-// type_specifier_qualifier:
-//     type_specifier  { 
-//             log("[type_specifier_qualifier:] ^ Found type_specifier\n"); 
-//             casem::CKTypeRefDefPack t($1, false, false);
-//             $$ = t;
-//         }
-// ;
+member_types_declaration:
+    IDF LPAR member_declaration_list RPAR SEMIC     {
+        log_name("[member_types_declaration:]", $1);
+        auto struct_obs = ctx->declare_struct_type($1, ctx->line()); 
+        ctx->define_struct_type_open($1, ctx->line());
+
+        ctx->define_struct_type_close(struct_obs, $3);
+        ++max_type_tag;
+
+        $$ = struct_obs;
+    }
+    | IDF SEMIC    {
+        log_name("[member_types_declaration:]", $1);
+        auto struct_obs = ctx->declare_struct_type($1, ctx->line()); 
+        ctx->define_struct_type_open($1, ctx->line());
+
+        ctx->define_struct_type_close(struct_obs, {});
+        ++max_type_tag;
+
+        $$ = struct_obs;
+    }
+;
+
+member_declaration_list:
+    member_declaration      {
+        $$ = $1;
+    }
+    | member_declaration_list COMMA member_declaration    {
+        cecko::CKStructItemArray s_items = $1;
+        s_items.push_back($3[0]);
+        $$ = s_items;
+    }
+;
+
+member_declaration:
+    specifier_qualifier_list member_declarator   { 
+        log("[member_declaration:] give refpack to member_declarator_list\n");
+        casem::TypeRefPack_Action DEFINER_BODY = $2;
+        casem::CKTypeRefDefPack rfpack = $1;
+
+        casem::CKTypeRefDefPack final_type = DEFINER_BODY(rfpack, std::function(FETCH_FINAL_TYPEPACK));
+        cecko::CKStructItem s_item(final_type, final_type.name.value(), ctx->line());
+
+        cecko::CKStructItemArray s_items = { s_item };
+        $$ = s_items;
+     }
+;
+
+specifier_qualifier_list:
+    type_specifier_qualifier    { 
+        log("[specifier_qualifier_list:] ^ type_specifier_qualifier\n");
+        $$ = $1;
+     }
+    | type_specifier_qualifier specifier_qualifier_list { 
+        log("[specifier_qualifier_list:] ^ type_specifier_qualifier specifier_qualifier_list\n");
+        auto t = $2;
+        auto nt = $1;
+        if (!t.is_const && nt.is_const) {
+            t.is_const = true;
+        }
+        else if (t.type == NULL && nt.type) {
+            t.type = nt.type;
+        }
+        else {
+            ctx->message(errors::INVALID_SPECIFIERS, ctx->line());
+        }
+
+        $$ = t;
+     }
+;
+
+type_specifier_qualifier:
+    type_specifier  { 
+            log("[type_specifier_qualifier:] ^ Found type_specifier\n"); 
+            casem::CKTypeRefDefPack t($1, false, false);
+            $$ = t;
+        }
+    
+;
 
 // member_declarator_list:
 //     member_declarator   {
@@ -686,60 +801,92 @@ translation_unit:
 //     // }
 // ;
 
-// member_declarator:
-//     declarator      {
-//         $$ = $1;
-//     }
-// ;
+member_declarator:
+    declarator      {
+        $$ = $1;
+    }
+;
 
 // enumerator_list:
 //     enumerator
 //     | enumerator_list COMMA enumerator
 // ;
 
-// // enumerator:
-// //     enumeration_constant {
-// //         log("[enumerator:] constant\n");
-// //     }
-// //     | enumeration_constant ASGN constant_expression {
-// //         log("[enumerator:] ASGN\n");
-// //     }
-// // ;
-
-// enumeration_constant:
-//     IDF     {
-//         log_name("[enumeration_constant:]", $1);
-//         $$ = $1;
+// enumerator:
+//     enumeration_constant {
+//         log("[enumerator:] constant\n");
+//     }
+//     | enumeration_constant ASGN constant_expression {
+//         log("[enumerator:] ASGN\n");
 //     }
 // ;
 
-// declarator:
-//     direct_declarator {
-//             log("[declarator:] v found direct_declarator, gave refpack to it\n");
-//             $$ = $1;    // giving the casem::CKTypeRefDefPack(type, is_const, has_typedef)
-//         }
-// ;
+enumeration_constant:
+    IDF     {
+        log_name("[enumeration_constant:]", $1);
+        $$ = $1;
+    }
+;
 
-// direct_declarator:
-//     IDF { 
-//         auto name = $1;
-//         log_name("[direct_declarator:] .() found IDF and define LAMBDA", name);
+declarator:
+    pointer direct_declarator {
+        log("[declarator:] >v found pointer direct_declarator define LAMBDA\n");
+        auto DEFINER_F = $2;
+        auto POINTER_F = $1;
 
-//         $$ = GET_DEFINER(ctx, name);
-//     }
-//     | LPAR declarator RPAR  {
-//         log("[direct_declarator:] ^ found (declarator) and gave it refpack\n");
-//         $$ = $2;
-//     }
-//     | array_declarator      {
-//         log("[direct_declarator:] v found array_declarator\n");
-//         $$ = $1;
-//     }
-//     | function_declarator   {
-//         log("[direct_declarator:] v found function_declarator\n");
-//         $$ = $1;
-//     }
-// ;
+        $$ = GET_POINTER_ADDER(POINTER_F, DEFINER_F);
+    }
+    | direct_declarator {
+            log("[declarator:] v found direct_declarator, gave refpack to it\n");
+            $$ = $1;    // giving the casem::CKTypeRefDefPack(type, is_const, has_typedef)
+        }
+;
+
+pointer:
+    STAR pointer  {
+        auto LOWER_POINTER = $2;
+        std::function<casem::CKTypeRefDefPack(casem::CKTypeRefDefPack&)> 
+            POINTER_TO_DEFINER = [LOWER_POINTER, this](casem::CKTypeRefDefPack rfpack) {
+                auto pt = ctx->get_pointer_type(rfpack);
+                casem::CKTypeRefDefPack pointer_pack(pt, false, rfpack.has_typedef);
+                return LOWER_POINTER(pointer_pack);
+            };
+
+        $$ = POINTER_TO_DEFINER;
+    }
+    | STAR      {
+        std::function<casem::CKTypeRefDefPack(casem::CKTypeRefDefPack&)> 
+            POINTER_TO_DEFINER = [this](casem::CKTypeRefDefPack rfpack) {
+                auto pt = ctx->get_pointer_type(rfpack);
+                casem::CKTypeRefDefPack pointer_pack(pt, false, rfpack.has_typedef);
+                return pointer_pack;
+            };
+
+        $$ = POINTER_TO_DEFINER;
+    }
+;
+
+direct_declarator:
+    IDF { 
+        auto name = $1;
+        log_name("[direct_declarator:] .() found IDF and define LAMBDA", name);
+
+        $$ = GET_DEFINER(ctx, name);
+    }
+    // | LPAR declarator RPAR  {
+    //     log("[direct_declarator:] ^ found (declarator) and gave it refpack\n");
+    //     $$ = $2;
+    // }
+    // | array_declarator      {
+    //     log("[direct_declarator:] v found array_declarator\n");
+    //     $$ = $1;
+    // }
+    // TODO: ADD "| "
+    | function_declarator   {
+        log("[direct_declarator:] v found function_declarator\n");
+        $$ = $1;
+    }
+;
 
 // array_declarator:
 //     direct_declarator LBRA assignment_expression RBRA   {
@@ -754,112 +901,117 @@ translation_unit:
 //     }
 // ;
 
-// function_declarator:
-//     direct_declarator LPAR parameter_type_list RPAR {
-//         log("[function_declarator:] v< wrap current lambdas rfpack in function\n");
-//         //ctx->get_function_type(CKTypeObs ret_type, CKTypeObsArray arg_types, bool variadic=false)
-//         // GET_FUNCTION_ADDER(cecko::context *ctx, TypeRefPack_Action old_action, CKTypeObsArray arg_types);
-//         bool is_variadic = ($3).back().is_variadic;
-//         if (is_variadic) log("FOUND VARIADIC ... on args len = %d\n", (int)($3).size());
-//         cecko::CKFunctionFormalPackArray param_names;
-//         for (auto& name_pack : ($3)) {
-//             if (name_pack.optinonal_param_names.size() > 0)
-//                 param_names.push_back(name_pack.optinonal_param_names[0]);
-//         }
-//         cecko::CKTypeObsArray param_types;
-//         for (auto& pt : ($3)) {
-//             if (pt.is_variadic) break; 
-//             param_types.push_back(pt.type);
-//         }
+function_declarator: 
+    direct_declarator LBRA parameter_type_list RBRA  {
+        log("[function_declarator:] v< wrap current lambdas rfpack in function\n");
+        //ctx->get_function_type(CKTypeObs ret_type, CKTypeObsArray arg_types, bool variadic=false)
+        // GET_FUNCTION_ADDER(cecko::context *ctx, TypeRefPack_Action old_action, CKTypeObsArray arg_types);
+        bool is_variadic = (($3).empty()) ? false : ($3).back().is_variadic;
+        if (is_variadic) log("FOUND VARIADIC ... on args len = %d\n", (int)($3).size());
+        cecko::CKFunctionFormalPackArray param_names;
+        for (auto& name_pack : ($3)) {
+            if (name_pack.optinonal_param_names.size() > 0)
+                param_names.push_back(name_pack.optinonal_param_names[0]);
+        }
+        cecko::CKTypeObsArray param_types;
+        for (auto& pt : ($3)) {
+            if (pt.is_variadic) break; 
+            param_types.push_back(pt.type);
+        }
 
-//         // TypeRefPack_Convertor UNPACK_PARAMETERS([](casem::CKTypeRefDefPack &rfpack) {
-//         // }); 
+        // TypeRefPack_Convertor UNPACK_PARAMETERS([](casem::CKTypeRefDefPack &rfpack) {
+        // }); 
 
-//         $$ = GET_FUNCTION_ADDER(ctx, $1, param_types, is_variadic, param_names);
-//     }
-// ;
 
-// parameter_type_list:
-//     parameter_list {
-//         log("[parameter_type_list:] ^ parameter_list\n");
-//         $$ = $1;
-//     }
-// ;
+        $$ = GET_FUNCTION_ADDER(ctx, $1, param_types, is_variadic, param_names);
+    }
+;
 
-// parameter_list:
-//     parameter_declaration   {
-//         log("[parameter_list:] ^ init parameter_list\n");
-//         if (($1).type->is_void()) {
-//             std::vector<casem::CKTypeRefDefPack> empty_param_array;
-//             $$ = empty_param_array;
-//         }
-//         else {
-//             std::vector<casem::CKTypeRefDefPack> param_array = { $1 };
-//             $$ = param_array;
-//         }
-//     }
-//     | parameter_list COMMA parameter_declaration {
-//         log("[parameter_list:] ^ push_back to parameter_list\n");
-//         if (($3).type->is_void()) {
-//             log("ERROR: non-first void argument!\n");
-//             ctx->message(cecko::errors::INVALID_FUNCTION_TYPE, ctx->line());
-//         }
-//         else {
-//             auto param_array = $1;
-//             if (param_array.back().is_variadic) {
-//                 log("ERROR: non-last variadic argument!\n");
-//                 ctx->message(cecko::errors::INVALID_FUNCTION_TYPE, ctx->line());
-//             }
-//             else {
-//                 param_array.push_back($3);
-//                 $$ = param_array;
-//             }
-//         }
-//     }
-// ;
+parameter_type_list:
+    parameter_list {
+        log("[parameter_type_list:] ^ parameter_list\n");
+        $$ = $1;
+    }
+    | %empty      {
+        std::vector<casem::CKTypeRefDefPack> empty_param_array;
+        $$ = empty_param_array;
+    }
+;
 
-// parameter_declaration:
-//     declaration_specifiers declarator   { 
-//         // FIXME: Send also the cecko::CKFunctionFormalPackArray to the function_definition 
-//         // and from it to declarator and up
+parameter_list:
+    parameter_declaration   {
+        log("[parameter_list:] ^ init parameter_list\n");
+        if (($1).type->is_void()) {
+            std::vector<casem::CKTypeRefDefPack> empty_param_array;
+            $$ = empty_param_array;
+        }
+        else {
+            std::vector<casem::CKTypeRefDefPack> param_array = { $1 };
+            $$ = param_array;
+        }
+    }
+    | parameter_list COMMA parameter_declaration {
+        log("[parameter_list:] ^ push_back to parameter_list\n");
+        if (($3).type->is_void()) {
+            log("ERROR: non-first void argument!\n");
+            ctx->message(cecko::errors::INVALID_FUNCTION_TYPE, ctx->line());
+        }
+        else {
+            auto param_array = $1;
+            if (param_array.back().is_variadic) {
+                log("ERROR: non-last variadic argument!\n");
+                ctx->message(cecko::errors::INVALID_FUNCTION_TYPE, ctx->line());
+            }
+            else {
+                param_array.push_back($3);
+                $$ = param_array;
+            }
+        }
+    }
+;
 
-//         log("[parameter_declaration:] ^ found declaration_specifiers declarator, sent up the type observer\n");
-//         casem::TypeRefPack_Action DEFINER_BODY = $2;
-//         casem::CKTypeRefDefPack rfpack = $1;
+parameter_declaration:
+    declaration_specifiers declarator   { 
+        // FIXME: Send also the cecko::CKFunctionFormalPackArray to the function_definition 
+        // and from it to declarator and up
 
-//         // TODO: Add the param name to the rfpack.optinonal_param_names
-//         // We give declarator a definer, that just adds to the 
-//         // rfpack.optinonal_param_names the name and returs the rfpack back 
-//         DefinerFunction PARAM_NAME_ADDER([](cecko::context *ctx, const cecko::CIName &name, CKTypeRefDefPack &rfpack) {
-//             log("lambda from [parameter_declaration:] add named param to rfpack.optinonal_param_names and return it\n");
-//             CKFunctionFormalPack param(std::make_optional(name), rfpack.is_const, ctx->line());
-//             rfpack.optinonal_param_names.push_back(param);
+        log("[parameter_declaration:] ^ found declaration_specifiers declarator, sent up the type observer\n");
+        casem::TypeRefPack_Action DEFINER_BODY = $2;
+        casem::CKTypeRefDefPack rfpack = $1;
 
-//             return rfpack;
-//         });
+        // TODO: Add the param name to the rfpack.optinonal_param_names
+        // We give declarator a definer, that just adds to the 
+        // rfpack.optinonal_param_names the name and returs the rfpack back 
+        DefinerFunction PARAM_NAME_ADDER([](cecko::context *ctx, const cecko::CIName &name, CKTypeRefDefPack &rfpack) {
+            log("lambda from [parameter_declaration:] add named param to rfpack.optinonal_param_names and return it\n");
+            CKFunctionFormalPack param(std::make_optional(name), rfpack.is_const, ctx->line());
+            rfpack.optinonal_param_names.push_back(param);
 
-//         auto param_typepack = DEFINER_BODY(rfpack, PARAM_NAME_ADDER);
-//         if (param_typepack.has_typedef) {
-//             ctx->message(errors::INVALID_SPECIFIERS, ctx->line());
-//         }
+            return rfpack;
+        });
 
-//         $$ = param_typepack;
-//     }
-//     | declaration_specifiers abstract_declarator    {
-//         log("[parameter_declaration:] ^ found declaration_specifiers abstract_declarator\n");
-//         casem::TypeRefPack_Action DEFINER_BODY = $2;
-//         casem::CKTypeRefDefPack rfpack = $1;
+        auto param_typepack = DEFINER_BODY(rfpack, PARAM_NAME_ADDER);
+        if (param_typepack.has_typedef) {
+            ctx->message(errors::INVALID_SPECIFIERS, ctx->line());
+        }
 
-//         auto param_typepack = DEFINER_BODY(rfpack, std::function(FETCH_FINAL_TYPEPACK));
+        $$ = param_typepack;
+    }
+    // | declaration_specifiers abstract_declarator    {
+    //     log("[parameter_declaration:] ^ found declaration_specifiers abstract_declarator\n");
+    //     casem::TypeRefPack_Action DEFINER_BODY = $2;
+    //     casem::CKTypeRefDefPack rfpack = $1;
 
-//         $$ = param_typepack;
-//     }
-//     | declaration_specifiers                        {
-//         log("[parameter_declaration:] ^ found declaration_specifiers\n");
-//         casem::CKTypeRefDefPack rfpack = $1;
-//         $$ = rfpack;
-//     }
-// ;
+    //     auto param_typepack = DEFINER_BODY(rfpack, std::function(FETCH_FINAL_TYPEPACK));
+
+    //     $$ = param_typepack;
+    // }
+    | declaration_specifiers                        {
+        log("[parameter_declaration:] ^ found declaration_specifiers\n");
+        casem::CKTypeRefDefPack rfpack = $1;
+        $$ = rfpack;
+    }
+;
 
 // type_name:
 //     specifier_qualifier_list abstract_declarator    {
@@ -922,9 +1074,9 @@ translation_unit:
 //     }
 // ;
 
-// typedef_name:
-//     TYPEIDF     { $$ = $1; }
-// ;
+typedef_name:
+    TYPEIDF     { $$ = $1; }
+;
 
 /////////////////////////////////
 // Create rules for statements

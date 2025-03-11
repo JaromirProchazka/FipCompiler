@@ -421,25 +421,86 @@ namespace cecko {
     /// An auxiliary type to compute the largest semantic type.
     union union_type
     {
+      // declaration_specifiers
+      // declaration_specifier
+      // specifier_qualifier_list
+      // type_specifier_qualifier
+      // parameter_declaration
+      char dummy1[sizeof (casem::CKTypeRefDefPack)];
+
+      // primary_expression
+      // postfix_expression
+      // unary_expression
+      // cast_expression
+      // multiplicative_expression
+      // additive_expression
+      // relational_expression
+      // equality_expression
+      // logical_and_expression
+      // logical_or_expression
+      // assignment_expression
+      // expression_body
+      // expression
+      char dummy2[sizeof (casem::InstructionWrapper)];
+
+      // member_types_declaration_list
+      char dummy3[sizeof (casem::StructObservers)];
+
+      // parameter_type_list
+      // parameter_list
+      char dummy4[sizeof (casem::TRDArray)];
+
+      // member_declarator
+      // declarator
+      // direct_declarator
+      // function_declarator
+      char dummy5[sizeof (casem::TypeRefPack_Action)];
+
+      // pointer
+      char dummy6[sizeof (casem::TypeRefPack_Convertor)];
+
+      // unary_operator
+      char dummy7[sizeof (casem::UnaryOperator)];
+
       // "identifier"
       // "type identifier"
       // "string literal"
-      char dummy1[sizeof (cecko::CIName)];
+      // enumeration_constant
+      // typedef_name
+      char dummy8[sizeof (cecko::CIName)];
+
+      // member_declaration_list
+      // member_declaration
+      char dummy9[sizeof (cecko::CKStructItemArray)];
+
+      // enumtype_decl_head
+      // enumtype_decl_specifier
+      // member_types_declaration
+      char dummy10[sizeof (cecko::CKStructTypeSafeObs)];
+
+      // type_specifier
+      char dummy11[sizeof (cecko::CKTypeSafeObs)];
 
       // "+ or -"
-      char dummy2[sizeof (cecko::gt_addop)];
+      char dummy12[sizeof (cecko::gt_addop)];
+
+      // assignment_operator
+      char dummy13[sizeof (cecko::gt_cass)];
 
       // "== or !="
-      char dummy3[sizeof (cecko::gt_cmpe)];
+      char dummy14[sizeof (cecko::gt_cmpe)];
 
       // "<, >, <=, or >="
-      char dummy4[sizeof (cecko::gt_cmpo)];
+      char dummy15[sizeof (cecko::gt_cmpo)];
 
       // "/ or %"
-      char dummy5[sizeof (cecko::gt_divop)];
+      char dummy16[sizeof (cecko::gt_divop)];
+
+      // "_Bool, char, or int"
+      char dummy17[sizeof (cecko::gt_etype)];
 
       // "integer literal"
-      char dummy6[sizeof (int)];
+      char dummy18[sizeof (int)];
     };
 
     /// The size of the largest semantic type.
@@ -514,17 +575,18 @@ namespace cecko {
     TOK_LCUR = 277,                // "{"
     TOK_RCUR = 278,                // "}"
     TOK_TYPEDEF = 279,             // "typedef"
-    TOK_SIZEOF = 280,              // "sizeof"
-    TOK_IN = 281,                  // "in"
-    TOK_LET = 282,                 // "let"
-    TOK_MATCH = 283,               // "match"
-    TOK_DMATCH = 284,              // "match!"
-    TOK_FIP = 285,                 // "fip"
-    TOK_FN = 286,                  // "fn"
-    TOK_IDF = 287,                 // "identifier"
-    TOK_TYPEIDF = 288,             // "type identifier"
-    TOK_INTLIT = 289,              // "integer literal"
-    TOK_STRLIT = 290               // "string literal"
+    TOK_ETYPE = 280,               // "_Bool, char, or int"
+    TOK_SIZEOF = 281,              // "sizeof"
+    TOK_IN = 282,                  // "in"
+    TOK_LET = 283,                 // "let"
+    TOK_MATCH = 284,               // "match"
+    TOK_DMATCH = 285,              // "match!"
+    TOK_FIP = 286,                 // "fip"
+    TOK_FN = 287,                  // "fn"
+    TOK_IDF = 288,                 // "identifier"
+    TOK_TYPEIDF = 289,             // "type identifier"
+    TOK_INTLIT = 290,              // "integer literal"
+    TOK_STRLIT = 291               // "string literal"
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -541,7 +603,7 @@ namespace cecko {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 36, ///< Number of tokens.
+        YYNTOKENS = 37, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
@@ -568,19 +630,63 @@ namespace cecko {
         S_LCUR = 22,                             // "{"
         S_RCUR = 23,                             // "}"
         S_TYPEDEF = 24,                          // "typedef"
-        S_SIZEOF = 25,                           // "sizeof"
-        S_IN = 26,                               // "in"
-        S_LET = 27,                              // "let"
-        S_MATCH = 28,                            // "match"
-        S_DMATCH = 29,                           // "match!"
-        S_FIP = 30,                              // "fip"
-        S_FN = 31,                               // "fn"
-        S_IDF = 32,                              // "identifier"
-        S_TYPEIDF = 33,                          // "type identifier"
-        S_INTLIT = 34,                           // "integer literal"
-        S_STRLIT = 35,                           // "string literal"
-        S_YYACCEPT = 36,                         // $accept
-        S_translation_unit = 37                  // translation_unit
+        S_ETYPE = 25,                            // "_Bool, char, or int"
+        S_SIZEOF = 26,                           // "sizeof"
+        S_IN = 27,                               // "in"
+        S_LET = 28,                              // "let"
+        S_MATCH = 29,                            // "match"
+        S_DMATCH = 30,                           // "match!"
+        S_FIP = 31,                              // "fip"
+        S_FN = 32,                               // "fn"
+        S_IDF = 33,                              // "identifier"
+        S_TYPEIDF = 34,                          // "type identifier"
+        S_INTLIT = 35,                           // "integer literal"
+        S_STRLIT = 36,                           // "string literal"
+        S_YYACCEPT = 37,                         // $accept
+        S_translation_unit = 38,                 // translation_unit
+        S_external_declaration = 39,             // external_declaration
+        S_expression_end = 40,                   // expression_end
+        S_function_definition = 41,              // function_definition
+        S_function_definition_info = 42,         // function_definition_info
+        S_function_definition_head = 43,         // function_definition_head
+        S_primary_expression = 44,               // primary_expression
+        S_postfix_expression = 45,               // postfix_expression
+        S_unary_expression = 46,                 // unary_expression
+        S_unary_operator = 47,                   // unary_operator
+        S_cast_expression = 48,                  // cast_expression
+        S_multiplicative_expression = 49,        // multiplicative_expression
+        S_additive_expression = 50,              // additive_expression
+        S_relational_expression = 51,            // relational_expression
+        S_equality_expression = 52,              // equality_expression
+        S_logical_and_expression = 53,           // logical_and_expression
+        S_logical_or_expression = 54,            // logical_or_expression
+        S_assignment_expression = 55,            // assignment_expression
+        S_assignment_operator = 56,              // assignment_operator
+        S_expression_body = 57,                  // expression_body
+        S_expression = 58,                       // expression
+        S_declaration_specifiers = 59,           // declaration_specifiers
+        S_declaration_specifier = 60,            // declaration_specifier
+        S_type_specifier = 61,                   // type_specifier
+        S_enumtype_decl_head = 62,               // enumtype_decl_head
+        S_enumtype_decl_block_start = 63,        // enumtype_decl_block_start
+        S_enumtype_decl_block_end = 64,          // enumtype_decl_block_end
+        S_enumtype_decl_specifier = 65,          // enumtype_decl_specifier
+        S_member_types_declaration_list = 66,    // member_types_declaration_list
+        S_member_types_declaration = 67,         // member_types_declaration
+        S_member_declaration_list = 68,          // member_declaration_list
+        S_member_declaration = 69,               // member_declaration
+        S_specifier_qualifier_list = 70,         // specifier_qualifier_list
+        S_type_specifier_qualifier = 71,         // type_specifier_qualifier
+        S_member_declarator = 72,                // member_declarator
+        S_enumeration_constant = 73,             // enumeration_constant
+        S_declarator = 74,                       // declarator
+        S_pointer = 75,                          // pointer
+        S_direct_declarator = 76,                // direct_declarator
+        S_function_declarator = 77,              // function_declarator
+        S_parameter_type_list = 78,              // parameter_type_list
+        S_parameter_list = 79,                   // parameter_list
+        S_parameter_declaration = 80,            // parameter_declaration
+        S_typedef_name = 81                      // typedef_name
       };
     };
 
@@ -617,14 +723,83 @@ namespace cecko {
       {
         switch (this->kind ())
     {
+      case symbol_kind::S_declaration_specifiers: // declaration_specifiers
+      case symbol_kind::S_declaration_specifier: // declaration_specifier
+      case symbol_kind::S_specifier_qualifier_list: // specifier_qualifier_list
+      case symbol_kind::S_type_specifier_qualifier: // type_specifier_qualifier
+      case symbol_kind::S_parameter_declaration: // parameter_declaration
+        value.move< casem::CKTypeRefDefPack > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_primary_expression: // primary_expression
+      case symbol_kind::S_postfix_expression: // postfix_expression
+      case symbol_kind::S_unary_expression: // unary_expression
+      case symbol_kind::S_cast_expression: // cast_expression
+      case symbol_kind::S_multiplicative_expression: // multiplicative_expression
+      case symbol_kind::S_additive_expression: // additive_expression
+      case symbol_kind::S_relational_expression: // relational_expression
+      case symbol_kind::S_equality_expression: // equality_expression
+      case symbol_kind::S_logical_and_expression: // logical_and_expression
+      case symbol_kind::S_logical_or_expression: // logical_or_expression
+      case symbol_kind::S_assignment_expression: // assignment_expression
+      case symbol_kind::S_expression_body: // expression_body
+      case symbol_kind::S_expression: // expression
+        value.move< casem::InstructionWrapper > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_member_types_declaration_list: // member_types_declaration_list
+        value.move< casem::StructObservers > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_parameter_type_list: // parameter_type_list
+      case symbol_kind::S_parameter_list: // parameter_list
+        value.move< casem::TRDArray > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_member_declarator: // member_declarator
+      case symbol_kind::S_declarator: // declarator
+      case symbol_kind::S_direct_declarator: // direct_declarator
+      case symbol_kind::S_function_declarator: // function_declarator
+        value.move< casem::TypeRefPack_Action > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_pointer: // pointer
+        value.move< casem::TypeRefPack_Convertor > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_unary_operator: // unary_operator
+        value.move< casem::UnaryOperator > (std::move (that.value));
+        break;
+
       case symbol_kind::S_IDF: // "identifier"
       case symbol_kind::S_TYPEIDF: // "type identifier"
       case symbol_kind::S_STRLIT: // "string literal"
+      case symbol_kind::S_enumeration_constant: // enumeration_constant
+      case symbol_kind::S_typedef_name: // typedef_name
         value.move< cecko::CIName > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_member_declaration_list: // member_declaration_list
+      case symbol_kind::S_member_declaration: // member_declaration
+        value.move< cecko::CKStructItemArray > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_enumtype_decl_head: // enumtype_decl_head
+      case symbol_kind::S_enumtype_decl_specifier: // enumtype_decl_specifier
+      case symbol_kind::S_member_types_declaration: // member_types_declaration
+        value.move< cecko::CKStructTypeSafeObs > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_type_specifier: // type_specifier
+        value.move< cecko::CKTypeSafeObs > (std::move (that.value));
         break;
 
       case symbol_kind::S_ADDOP: // "+ or -"
         value.move< cecko::gt_addop > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_assignment_operator: // assignment_operator
+        value.move< cecko::gt_cass > (std::move (that.value));
         break;
 
       case symbol_kind::S_CMPE: // "== or !="
@@ -637,6 +812,10 @@ namespace cecko {
 
       case symbol_kind::S_DIVOP: // "/ or %"
         value.move< cecko::gt_divop > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_ETYPE: // "_Bool, char, or int"
+        value.move< cecko::gt_etype > (std::move (that.value));
         break;
 
       case symbol_kind::S_INTLIT: // "integer literal"
@@ -667,6 +846,104 @@ namespace cecko {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, casem::CKTypeRefDefPack&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const casem::CKTypeRefDefPack& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, casem::InstructionWrapper&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const casem::InstructionWrapper& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, casem::StructObservers&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const casem::StructObservers& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, casem::TRDArray&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const casem::TRDArray& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, casem::TypeRefPack_Action&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const casem::TypeRefPack_Action& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, casem::TypeRefPack_Convertor&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const casem::TypeRefPack_Convertor& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, casem::UnaryOperator&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const casem::UnaryOperator& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
       basic_symbol (typename Base::kind_type t, cecko::CIName&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
@@ -681,6 +958,48 @@ namespace cecko {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, cecko::CKStructItemArray&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const cecko::CKStructItemArray& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, cecko::CKStructTypeSafeObs&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const cecko::CKStructTypeSafeObs& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, cecko::CKTypeSafeObs&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const cecko::CKTypeSafeObs& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
       basic_symbol (typename Base::kind_type t, cecko::gt_addop&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
@@ -688,6 +1007,20 @@ namespace cecko {
       {}
 #else
       basic_symbol (typename Base::kind_type t, const cecko::gt_addop& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, cecko::gt_cass&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const cecko::gt_cass& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
@@ -737,6 +1070,20 @@ namespace cecko {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, cecko::gt_etype&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const cecko::gt_etype& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
       basic_symbol (typename Base::kind_type t, int&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
@@ -774,14 +1121,83 @@ namespace cecko {
         // Value type destructor.
 switch (yykind)
     {
+      case symbol_kind::S_declaration_specifiers: // declaration_specifiers
+      case symbol_kind::S_declaration_specifier: // declaration_specifier
+      case symbol_kind::S_specifier_qualifier_list: // specifier_qualifier_list
+      case symbol_kind::S_type_specifier_qualifier: // type_specifier_qualifier
+      case symbol_kind::S_parameter_declaration: // parameter_declaration
+        value.template destroy< casem::CKTypeRefDefPack > ();
+        break;
+
+      case symbol_kind::S_primary_expression: // primary_expression
+      case symbol_kind::S_postfix_expression: // postfix_expression
+      case symbol_kind::S_unary_expression: // unary_expression
+      case symbol_kind::S_cast_expression: // cast_expression
+      case symbol_kind::S_multiplicative_expression: // multiplicative_expression
+      case symbol_kind::S_additive_expression: // additive_expression
+      case symbol_kind::S_relational_expression: // relational_expression
+      case symbol_kind::S_equality_expression: // equality_expression
+      case symbol_kind::S_logical_and_expression: // logical_and_expression
+      case symbol_kind::S_logical_or_expression: // logical_or_expression
+      case symbol_kind::S_assignment_expression: // assignment_expression
+      case symbol_kind::S_expression_body: // expression_body
+      case symbol_kind::S_expression: // expression
+        value.template destroy< casem::InstructionWrapper > ();
+        break;
+
+      case symbol_kind::S_member_types_declaration_list: // member_types_declaration_list
+        value.template destroy< casem::StructObservers > ();
+        break;
+
+      case symbol_kind::S_parameter_type_list: // parameter_type_list
+      case symbol_kind::S_parameter_list: // parameter_list
+        value.template destroy< casem::TRDArray > ();
+        break;
+
+      case symbol_kind::S_member_declarator: // member_declarator
+      case symbol_kind::S_declarator: // declarator
+      case symbol_kind::S_direct_declarator: // direct_declarator
+      case symbol_kind::S_function_declarator: // function_declarator
+        value.template destroy< casem::TypeRefPack_Action > ();
+        break;
+
+      case symbol_kind::S_pointer: // pointer
+        value.template destroy< casem::TypeRefPack_Convertor > ();
+        break;
+
+      case symbol_kind::S_unary_operator: // unary_operator
+        value.template destroy< casem::UnaryOperator > ();
+        break;
+
       case symbol_kind::S_IDF: // "identifier"
       case symbol_kind::S_TYPEIDF: // "type identifier"
       case symbol_kind::S_STRLIT: // "string literal"
+      case symbol_kind::S_enumeration_constant: // enumeration_constant
+      case symbol_kind::S_typedef_name: // typedef_name
         value.template destroy< cecko::CIName > ();
+        break;
+
+      case symbol_kind::S_member_declaration_list: // member_declaration_list
+      case symbol_kind::S_member_declaration: // member_declaration
+        value.template destroy< cecko::CKStructItemArray > ();
+        break;
+
+      case symbol_kind::S_enumtype_decl_head: // enumtype_decl_head
+      case symbol_kind::S_enumtype_decl_specifier: // enumtype_decl_specifier
+      case symbol_kind::S_member_types_declaration: // member_types_declaration
+        value.template destroy< cecko::CKStructTypeSafeObs > ();
+        break;
+
+      case symbol_kind::S_type_specifier: // type_specifier
+        value.template destroy< cecko::CKTypeSafeObs > ();
         break;
 
       case symbol_kind::S_ADDOP: // "+ or -"
         value.template destroy< cecko::gt_addop > ();
+        break;
+
+      case symbol_kind::S_assignment_operator: // assignment_operator
+        value.template destroy< cecko::gt_cass > ();
         break;
 
       case symbol_kind::S_CMPE: // "== or !="
@@ -794,6 +1210,10 @@ switch (yykind)
 
       case symbol_kind::S_DIVOP: // "/ or %"
         value.template destroy< cecko::gt_divop > ();
+        break;
+
+      case symbol_kind::S_ETYPE: // "_Bool, char, or int"
+        value.template destroy< cecko::gt_etype > ();
         break;
 
       case symbol_kind::S_INTLIT: // "integer literal"
@@ -900,7 +1320,8 @@ switch (yykind)
         YY_ASSERT (tok == token::TOK_EOF
                    || (token::TOK_YYerror <= tok && tok <= token::TOK_STAR)
                    || tok == token::TOK_EMPH
-                   || (token::TOK_DAMP <= tok && tok <= token::TOK_FN));
+                   || (token::TOK_DAMP <= tok && tok <= token::TOK_TYPEDEF)
+                   || (token::TOK_SIZEOF <= tok && tok <= token::TOK_FN));
 #endif
       }
 #if 201103L <= YY_CPLUSPLUS
@@ -962,6 +1383,18 @@ switch (yykind)
       {
 #if !defined _MSC_VER || defined __clang__
         YY_ASSERT (tok == token::TOK_DIVOP);
+#endif
+      }
+#if 201103L <= YY_CPLUSPLUS
+      symbol_type (int tok, cecko::gt_etype v, location_type l)
+        : super_type (token_kind_type (tok), std::move (v), std::move (l))
+#else
+      symbol_type (int tok, const cecko::gt_etype& v, const location_type& l)
+        : super_type (token_kind_type (tok), v, l)
+#endif
+      {
+#if !defined _MSC_VER || defined __clang__
+        YY_ASSERT (tok == token::TOK_ETYPE);
 #endif
       }
 #if 201103L <= YY_CPLUSPLUS
@@ -1402,6 +1835,21 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
+      make_ETYPE (cecko::gt_etype v, location_type l)
+      {
+        return symbol_type (token::TOK_ETYPE, std::move (v), std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_ETYPE (const cecko::gt_etype& v, const location_type& l)
+      {
+        return symbol_type (token::TOK_ETYPE, v, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
       make_SIZEOF (location_type l)
       {
         return symbol_type (token::TOK_SIZEOF, std::move (l));
@@ -1667,7 +2115,7 @@ switch (yykind)
 
 #if YYDEBUG
     // YYRLINE[YYN] -- Source line where rule number YYN was defined.
-    static const unsigned char yyrline_[];
+    static const short yyrline_[];
     /// Report on the debug stream that the rule \a r is going to be reduced.
     virtual void yy_reduce_print_ (int r) const;
     /// Print the state stack on the debug stream.
@@ -1894,9 +2342,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 6,     ///< Last index in yytable_.
-      yynnts_ = 2,  ///< Number of nonterminal symbols.
-      yyfinal_ = 4 ///< Termination state number.
+      yylast_ = 85,     ///< Last index in yytable_.
+      yynnts_ = 45,  ///< Number of nonterminal symbols.
+      yyfinal_ = 17 ///< Termination state number.
     };
 
 
@@ -1945,10 +2393,10 @@ switch (yykind)
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
       25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
-      35
+      35,    36
     };
     // Last valid token kind.
-    const int code_max = 290;
+    const int code_max = 291;
 
     if (t <= 0)
       return symbol_kind::S_YYEOF;
@@ -1967,14 +2415,83 @@ switch (yykind)
   {
     switch (this->kind ())
     {
+      case symbol_kind::S_declaration_specifiers: // declaration_specifiers
+      case symbol_kind::S_declaration_specifier: // declaration_specifier
+      case symbol_kind::S_specifier_qualifier_list: // specifier_qualifier_list
+      case symbol_kind::S_type_specifier_qualifier: // type_specifier_qualifier
+      case symbol_kind::S_parameter_declaration: // parameter_declaration
+        value.copy< casem::CKTypeRefDefPack > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_primary_expression: // primary_expression
+      case symbol_kind::S_postfix_expression: // postfix_expression
+      case symbol_kind::S_unary_expression: // unary_expression
+      case symbol_kind::S_cast_expression: // cast_expression
+      case symbol_kind::S_multiplicative_expression: // multiplicative_expression
+      case symbol_kind::S_additive_expression: // additive_expression
+      case symbol_kind::S_relational_expression: // relational_expression
+      case symbol_kind::S_equality_expression: // equality_expression
+      case symbol_kind::S_logical_and_expression: // logical_and_expression
+      case symbol_kind::S_logical_or_expression: // logical_or_expression
+      case symbol_kind::S_assignment_expression: // assignment_expression
+      case symbol_kind::S_expression_body: // expression_body
+      case symbol_kind::S_expression: // expression
+        value.copy< casem::InstructionWrapper > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_member_types_declaration_list: // member_types_declaration_list
+        value.copy< casem::StructObservers > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_parameter_type_list: // parameter_type_list
+      case symbol_kind::S_parameter_list: // parameter_list
+        value.copy< casem::TRDArray > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_member_declarator: // member_declarator
+      case symbol_kind::S_declarator: // declarator
+      case symbol_kind::S_direct_declarator: // direct_declarator
+      case symbol_kind::S_function_declarator: // function_declarator
+        value.copy< casem::TypeRefPack_Action > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_pointer: // pointer
+        value.copy< casem::TypeRefPack_Convertor > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_unary_operator: // unary_operator
+        value.copy< casem::UnaryOperator > (YY_MOVE (that.value));
+        break;
+
       case symbol_kind::S_IDF: // "identifier"
       case symbol_kind::S_TYPEIDF: // "type identifier"
       case symbol_kind::S_STRLIT: // "string literal"
+      case symbol_kind::S_enumeration_constant: // enumeration_constant
+      case symbol_kind::S_typedef_name: // typedef_name
         value.copy< cecko::CIName > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_member_declaration_list: // member_declaration_list
+      case symbol_kind::S_member_declaration: // member_declaration
+        value.copy< cecko::CKStructItemArray > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_enumtype_decl_head: // enumtype_decl_head
+      case symbol_kind::S_enumtype_decl_specifier: // enumtype_decl_specifier
+      case symbol_kind::S_member_types_declaration: // member_types_declaration
+        value.copy< cecko::CKStructTypeSafeObs > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_type_specifier: // type_specifier
+        value.copy< cecko::CKTypeSafeObs > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_ADDOP: // "+ or -"
         value.copy< cecko::gt_addop > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_assignment_operator: // assignment_operator
+        value.copy< cecko::gt_cass > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_CMPE: // "== or !="
@@ -1987,6 +2504,10 @@ switch (yykind)
 
       case symbol_kind::S_DIVOP: // "/ or %"
         value.copy< cecko::gt_divop > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_ETYPE: // "_Bool, char, or int"
+        value.copy< cecko::gt_etype > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_INTLIT: // "integer literal"
@@ -2024,14 +2545,83 @@ switch (yykind)
     super_type::move (s);
     switch (this->kind ())
     {
+      case symbol_kind::S_declaration_specifiers: // declaration_specifiers
+      case symbol_kind::S_declaration_specifier: // declaration_specifier
+      case symbol_kind::S_specifier_qualifier_list: // specifier_qualifier_list
+      case symbol_kind::S_type_specifier_qualifier: // type_specifier_qualifier
+      case symbol_kind::S_parameter_declaration: // parameter_declaration
+        value.move< casem::CKTypeRefDefPack > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_primary_expression: // primary_expression
+      case symbol_kind::S_postfix_expression: // postfix_expression
+      case symbol_kind::S_unary_expression: // unary_expression
+      case symbol_kind::S_cast_expression: // cast_expression
+      case symbol_kind::S_multiplicative_expression: // multiplicative_expression
+      case symbol_kind::S_additive_expression: // additive_expression
+      case symbol_kind::S_relational_expression: // relational_expression
+      case symbol_kind::S_equality_expression: // equality_expression
+      case symbol_kind::S_logical_and_expression: // logical_and_expression
+      case symbol_kind::S_logical_or_expression: // logical_or_expression
+      case symbol_kind::S_assignment_expression: // assignment_expression
+      case symbol_kind::S_expression_body: // expression_body
+      case symbol_kind::S_expression: // expression
+        value.move< casem::InstructionWrapper > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_member_types_declaration_list: // member_types_declaration_list
+        value.move< casem::StructObservers > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_parameter_type_list: // parameter_type_list
+      case symbol_kind::S_parameter_list: // parameter_list
+        value.move< casem::TRDArray > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_member_declarator: // member_declarator
+      case symbol_kind::S_declarator: // declarator
+      case symbol_kind::S_direct_declarator: // direct_declarator
+      case symbol_kind::S_function_declarator: // function_declarator
+        value.move< casem::TypeRefPack_Action > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_pointer: // pointer
+        value.move< casem::TypeRefPack_Convertor > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_unary_operator: // unary_operator
+        value.move< casem::UnaryOperator > (YY_MOVE (s.value));
+        break;
+
       case symbol_kind::S_IDF: // "identifier"
       case symbol_kind::S_TYPEIDF: // "type identifier"
       case symbol_kind::S_STRLIT: // "string literal"
+      case symbol_kind::S_enumeration_constant: // enumeration_constant
+      case symbol_kind::S_typedef_name: // typedef_name
         value.move< cecko::CIName > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_member_declaration_list: // member_declaration_list
+      case symbol_kind::S_member_declaration: // member_declaration
+        value.move< cecko::CKStructItemArray > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_enumtype_decl_head: // enumtype_decl_head
+      case symbol_kind::S_enumtype_decl_specifier: // enumtype_decl_specifier
+      case symbol_kind::S_member_types_declaration: // member_types_declaration
+        value.move< cecko::CKStructTypeSafeObs > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_type_specifier: // type_specifier
+        value.move< cecko::CKTypeSafeObs > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_ADDOP: // "+ or -"
         value.move< cecko::gt_addop > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_assignment_operator: // assignment_operator
+        value.move< cecko::gt_cass > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_CMPE: // "== or !="
@@ -2044,6 +2634,10 @@ switch (yykind)
 
       case symbol_kind::S_DIVOP: // "/ or %"
         value.move< cecko::gt_divop > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_ETYPE: // "_Bool, char, or int"
+        value.move< cecko::gt_etype > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_INTLIT: // "integer literal"
@@ -2117,7 +2711,7 @@ switch (yykind)
 
 #line 7 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
 } // cecko
-#line 2121 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.hpp"
+#line 2715 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.hpp"
 
 
 

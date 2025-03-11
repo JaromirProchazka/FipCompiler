@@ -10,6 +10,8 @@
 
 namespace casem
 {
+    int max_type_tag = 0;
+
 #if LOG_DEBBUG
     void log(const char *msg, ...)
     {

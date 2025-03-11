@@ -61,6 +61,9 @@ std::string msg = "";
 
 "typedef"			return cecko::parser::make_TYPEDEF(ctx->line());
 "sizeof"			return cecko::parser::make_SIZEOF(ctx->line());
+"_Bool"				return cecko::parser::make_ETYPE(cecko::gt_etype::BOOL, ctx->line());
+"char"				return cecko::parser::make_ETYPE(cecko::gt_etype::CHAR, ctx->line());
+"int"				return cecko::parser::make_ETYPE(cecko::gt_etype::INT, ctx->line());
 
 "["        			return cecko::parser::make_LBRA(ctx->line());
 "]"        			return cecko::parser::make_RBRA(ctx->line());

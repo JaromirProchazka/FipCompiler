@@ -10,10 +10,12 @@
 #include <cstdint>
 
 // A swith that says if we should log
-#define LOG_DEBBUG false
+#define LOG_DEBBUG true
 
 namespace casem
 {
+    extern int max_type_tag;
+
     void log(const char *msg, ...);
     void log_name(const char *msg, const std::string &name);
 
@@ -625,6 +627,7 @@ namespace casem
     using TypeRefPack_Convertor = std::function<CKTypeRefDefPack(CKTypeRefDefPack &)>;
     using TRDArray = std::vector<casem::CKTypeRefDefPack>;
     using PrimaryExpressionType = int;
+    using StructObservers = std::vector<cecko::CKStructTypeSafeObs>;
 
     cecko::CKIRBasicBlockObs new_basic_block(cecko::context *ctx, std::function<void(cecko::context *)> instruction_inserter, cecko::CIName name = "basic_block");
     /// @brief Get lambda that defines var in given context.
