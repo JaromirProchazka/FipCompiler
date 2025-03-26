@@ -11,6 +11,8 @@
 namespace casem
 {
     int max_type_tag = 0;
+    std::unordered_map<std::string, std::pair<int, int>> type_to_id;
+    const std::string ttype_tag_label = "tag";
 
 #if LOG_DEBBUG
     void log(const char *msg, ...)
@@ -21,6 +23,10 @@ namespace casem
         vprintf(msg, args);
         va_end(args);
     }
+    void log(const std::string &msgs)
+    {
+        std::cout << msgs;
+    }
     void log_name(const char *msg, const std::string &name)
     {
         std::cout << msg << " | '" << name << "'" << std::endl;
@@ -29,6 +35,23 @@ namespace casem
     void log(const char *msg, ...) {}
     void log_name(const char *msg, const std::string &name) {}
 #endif
+
+    void insert_ttype(const std::string &tlabel, int first_tag, int end_tag)
+    {
+        type_to_id.emplace(tlabel, std::make_pair(first_tag, end_tag));
+    }
+    void insert_ttype(const std::string &tlabel, int tag)
+    {
+        type_to_id.emplace(tlabel, std::make_pair(tag, tag));
+    }
+    const std::pair<int, int> &find_ttype(const std::string &tlabel)
+    {
+        auto it = type_to_id.find(tlabel);
+        if (it != type_to_id.end())
+            return it->second;
+        static const std::pair<int, int> empty_pair(-1, -1);
+        return empty_pair;
+    }
 
     InstructionWrapper init_instruction_from_name(cecko::context *ctx, const cecko::CIName &name)
     {
@@ -122,6 +145,32 @@ namespace casem
             ctx->get_pointer_type(cecko::CKTypeRefPack(ctx->get_char_type(), true)),
             true,
             strlit);
+    }
+    InstructionWrapper init_instruction_malloca(cecko::context *ctx, cecko::CKTypeSafeObs type, const cecko::CIName &name)
+    {
+        auto &&ret_type = ctx->get_pointer_type(cecko::CKTypeRefPack(type, false));
+        auto &&type_size_num = (cecko::CKIRValueObs)ctx->get_type_size(type);
+        // auto &&type_size = InstructionWrapper(ctx, RValue, type_size_num, ctx->get_int_type(), true, "type_size");
+
+        auto &&malloc_call = llvm::CallInst::CreateMalloc(
+            ctx->builder()->GetInsertBlock(),
+            ctx->get_int_type()->get_ir(), // type of int that will be used for sizes
+            type->get_ir(),                // allocated type
+            type_size_num,                 // size of allocated type
+            nullptr,                       // implicitely 1, array with 1 element same in mem as 1 element
+            nullptr,                       // on fail
+            "malloc"                       // name
+        );
+
+        cecko::CIName casted_label = "(type)malloc";
+        auto &&casted = ctx->builder()->CreateBitCast(malloc_call, ret_type->get_ir(), casted_label);
+        return InstructionWrapper(ctx, RValue, casted, ret_type, false, casted_label);
+    }
+
+    std::string get_constructor_label(const cecko::CIName &tname)
+    {
+        const std::string constructor_name_template = "@const_";
+        return constructor_name_template + tname;
     }
 
     /** Creates control flow data at start of the if statement and preares context to create control flow */
@@ -284,6 +333,86 @@ namespace casem
         return data.end_block;
     }
 
+    CKTypeRefDefPack to_ckt(const cecko::CKStructItem &other)
+    {
+        CKTypeRefDefPack res(other.pack.type, other.pack.is_const, false);
+        res.name = other.name;
+        return res;
+    }
+
+    void declare_type_constructor(cecko::context *ctx, const std::string &tname, const cecko::CKStructTypeSafeObs &type, const cecko::CKStructItemArray &params)
+    {
+        auto &&type_tag_range = find_ttype(tname);
+        log("|declare_type_constructor| found type tag value\n");
+        if (type_tag_range.first < 0)
+        {
+            ctx->message(cecko::errors::SYNTAX, ctx->line(), "\nError: tagged type '" + tname + "' tag value was not found!\n");
+            return;
+        }
+
+        std::string constructor_name = get_constructor_label(tname);
+
+        log("|declare_type_constructor| Parsing struct items to function args\n");
+        bool ontag = true;
+        cecko::CKTypeObsArray param_types;
+        cecko::CKFunctionFormalPackArray param_names_pack;
+        for (auto &struct_name_pack : params)
+        {
+            if (ontag)
+            {
+                ontag = false;
+                continue;
+            }
+            cecko::CKFunctionFormalPack arg(struct_name_pack.name, true, ctx->line());
+            param_names_pack.push_back(arg);
+            auto &&name_pack = to_ckt(struct_name_pack);
+            param_types.push_back(name_pack.type);
+        }
+        log("|declare_type_constructor| parsing done, Declaring function\n");
+
+        auto &&ret_type = ctx->get_pointer_type(cecko::CKTypeRefPack(type, false));
+        auto &&ftype = ctx->get_function_type(ret_type, param_types);
+        cecko::CKFunctionObs fobs = ctx->declare_function(constructor_name, ftype, ctx->line());
+
+        log("|declare_type_constructor| declare done, declaring function body\n");
+
+        const std::string res_label = "@res";
+        ctx->enter_function(fobs, param_names_pack, ctx->line());
+
+        log("|declare_type_constructor| alloc result temporary variable\n");
+        ctx->define_var(res_label, cecko::CKTypeRefPack(ret_type, false), ctx->line());
+        auto &&res = init_instruction_from_name(ctx, res_label);
+        auto &&allocated = init_instruction_malloca(ctx, type, res_label);
+        log("|declare_type_constructor| storing allocated to temporary variable\n");
+        res.store(allocated);
+
+        // TODO: set tag
+        log("|declare_type_constructor| set tag field\n");
+        auto tag_field = res.field(ttype_tag_label, ctx->get_int_type());
+        log("|declare_type_constructor| found tag field\n");
+        auto &&tag_val_inst = init_instruction_const(ctx, type_tag_range.first);
+        log("|declare_type_constructor| inited tag value '" + std::to_string(type_tag_range.first) + "' constant instruction\n");
+        tag_field.store(tag_val_inst);
+
+        log("|declare_type_constructor| stored tag val, Set rest fields\n");
+        // TODO: set fields
+        auto &&param_name = param_names_pack.begin();
+        for (auto &&param_type = param_types.begin(); param_type < param_types.end(); ++param_name, ++param_type)
+        {
+            auto &&arg_name = param_name->name.value();
+            auto &&field = res.field(arg_name, cecko::safe_ptr(*param_type));
+            auto &&farg = init_instruction_from_name(ctx, arg_name);
+            field.store(farg);
+        }
+
+        log("|declare_type_constructor| set return\n");
+        // return
+        ctx->builder()->CreateRet(res.get_ir());
+        ctx->exit_function();
+
+        log("|declare_type_constructor| function body done, DONE\n");
+    }
+
     CKTypeRefDefPack get_variadic_type()
     {
         CKTypeRefDefPack trdp;
@@ -299,6 +428,16 @@ namespace casem
             res_a.push_back(iarg.read_ir());
         }
         return res_a;
+    }
+
+    bool is_struct_label(cecko::context *ctx, const cecko::CIName &label)
+    {
+        auto &&type = ctx->declare_struct_type(label, ctx->line());
+        return type && type->is_defined();
+    }
+    bool is_tagged_type(cecko::CKTypeSafeObs type)
+    {
+        return type->is_struct() || (type->is_pointer() && type->get_pointer_points_to().type->is_struct());
     }
 
     /**
@@ -512,5 +651,11 @@ namespace casem
         }
 
         return n;
+    }
+
+    cecko::CKStructItem get_tag_strauct_item(cecko::context *ctx)
+    {
+        cecko::CKTypeRefPack tag_item(ctx->get_int_type(), true);
+        return cecko::CKStructItem(tag_item, ttype_tag_label, ctx->line());
     }
 }

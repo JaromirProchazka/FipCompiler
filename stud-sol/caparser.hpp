@@ -428,6 +428,9 @@ namespace cecko {
       // parameter_declaration
       char dummy1[sizeof (casem::CKTypeRefDefPack)];
 
+      // argument_expression_list
+      char dummy2[sizeof (casem::InstructionArray)];
+
       // primary_expression
       // postfix_expression
       // unary_expression
@@ -439,68 +442,90 @@ namespace cecko {
       // logical_and_expression
       // logical_or_expression
       // assignment_expression
+      // match_expression
       // expression_body
       // expression
-      char dummy2[sizeof (casem::InstructionWrapper)];
+      char dummy3[sizeof (casem::InstructionWrapper)];
+
+      // match_binder_head
+      // match_binder_definer
+      char dummy4[sizeof (casem::MatchBinderChackerData)];
+
+      // match_binders_list_head_start
+      // match_binders_list_head
+      char dummy5[sizeof (casem::MatchBinderListHeadData)];
+
+      // match_head
+      // match_binders_list
+      char dummy6[sizeof (casem::MatchWrapper)];
 
       // member_types_declaration_list
-      char dummy3[sizeof (casem::StructObservers)];
+      char dummy7[sizeof (casem::StructObservers)];
 
       // parameter_type_list
       // parameter_list
-      char dummy4[sizeof (casem::TRDArray)];
+      char dummy8[sizeof (casem::TRDArray)];
+
+      // enumtype_decl_head
+      char dummy9[sizeof (casem::TaggedTypeDecl)];
 
       // member_declarator
       // declarator
       // direct_declarator
       // function_declarator
-      char dummy5[sizeof (casem::TypeRefPack_Action)];
+      char dummy10[sizeof (casem::TypeRefPack_Action)];
 
       // pointer
-      char dummy6[sizeof (casem::TypeRefPack_Convertor)];
+      char dummy11[sizeof (casem::TypeRefPack_Convertor)];
 
       // unary_operator
-      char dummy7[sizeof (casem::UnaryOperator)];
+      char dummy12[sizeof (casem::UnaryOperator)];
 
       // "identifier"
       // "type identifier"
       // "string literal"
+      // declared_type_name
       // enumeration_constant
       // typedef_name
-      char dummy8[sizeof (cecko::CIName)];
+      char dummy13[sizeof (cecko::CIName)];
 
       // member_declaration_list
       // member_declaration
-      char dummy9[sizeof (cecko::CKStructItemArray)];
+      char dummy14[sizeof (cecko::CKStructItemArray)];
 
-      // enumtype_decl_head
       // enumtype_decl_specifier
       // member_types_declaration
-      char dummy10[sizeof (cecko::CKStructTypeSafeObs)];
+      char dummy15[sizeof (cecko::CKStructTypeSafeObs)];
 
       // type_specifier
-      char dummy11[sizeof (cecko::CKTypeSafeObs)];
+      char dummy16[sizeof (cecko::CKTypeSafeObs)];
 
       // "+ or -"
-      char dummy12[sizeof (cecko::gt_addop)];
+      char dummy17[sizeof (cecko::gt_addop)];
 
       // assignment_operator
-      char dummy13[sizeof (cecko::gt_cass)];
+      char dummy18[sizeof (cecko::gt_cass)];
 
       // "== or !="
-      char dummy14[sizeof (cecko::gt_cmpe)];
+      char dummy19[sizeof (cecko::gt_cmpe)];
 
       // "<, >, <=, or >="
-      char dummy15[sizeof (cecko::gt_cmpo)];
+      char dummy20[sizeof (cecko::gt_cmpo)];
 
       // "/ or %"
-      char dummy16[sizeof (cecko::gt_divop)];
+      char dummy21[sizeof (cecko::gt_divop)];
 
       // "_Bool, char, or int"
-      char dummy17[sizeof (cecko::gt_etype)];
+      char dummy22[sizeof (cecko::gt_etype)];
+
+      // "match"
+      char dummy23[sizeof (cecko::match_type)];
 
       // "integer literal"
-      char dummy18[sizeof (int)];
+      char dummy24[sizeof (int)];
+
+      // match_binder_arguments_list
+      char dummy25[sizeof (std::vector<cecko::CIName>)];
     };
 
     /// The size of the largest semantic type.
@@ -572,15 +597,15 @@ namespace cecko {
     TOK_DVERT = 274,               // "||"
     TOK_ASGN = 275,                // "="
     TOK_SEMIC = 276,               // ";"
-    TOK_LCUR = 277,                // "{"
-    TOK_RCUR = 278,                // "}"
-    TOK_TYPEDEF = 279,             // "typedef"
-    TOK_ETYPE = 280,               // "_Bool, char, or int"
-    TOK_SIZEOF = 281,              // "sizeof"
-    TOK_IN = 282,                  // "in"
-    TOK_LET = 283,                 // "let"
-    TOK_MATCH = 284,               // "match"
-    TOK_DMATCH = 285,              // "match!"
+    TOK_COLON = 277,               // ":"
+    TOK_LCUR = 278,                // "{"
+    TOK_RCUR = 279,                // "}"
+    TOK_TYPEDEF = 280,             // "type"
+    TOK_ETYPE = 281,               // "_Bool, char, or int"
+    TOK_SIZEOF = 282,              // "sizeof"
+    TOK_IN = 283,                  // "in"
+    TOK_LET = 284,                 // "let"
+    TOK_MATCH = 285,               // "match"
     TOK_FIP = 286,                 // "fip"
     TOK_FN = 287,                  // "fn"
     TOK_IDF = 288,                 // "identifier"
@@ -627,15 +652,15 @@ namespace cecko {
         S_DVERT = 19,                            // "||"
         S_ASGN = 20,                             // "="
         S_SEMIC = 21,                            // ";"
-        S_LCUR = 22,                             // "{"
-        S_RCUR = 23,                             // "}"
-        S_TYPEDEF = 24,                          // "typedef"
-        S_ETYPE = 25,                            // "_Bool, char, or int"
-        S_SIZEOF = 26,                           // "sizeof"
-        S_IN = 27,                               // "in"
-        S_LET = 28,                              // "let"
-        S_MATCH = 29,                            // "match"
-        S_DMATCH = 30,                           // "match!"
+        S_COLON = 22,                            // ":"
+        S_LCUR = 23,                             // "{"
+        S_RCUR = 24,                             // "}"
+        S_TYPEDEF = 25,                          // "type"
+        S_ETYPE = 26,                            // "_Bool, char, or int"
+        S_SIZEOF = 27,                           // "sizeof"
+        S_IN = 28,                               // "in"
+        S_LET = 29,                              // "let"
+        S_MATCH = 30,                            // "match"
         S_FIP = 31,                              // "fip"
         S_FN = 32,                               // "fn"
         S_IDF = 33,                              // "identifier"
@@ -651,42 +676,52 @@ namespace cecko {
         S_function_definition_head = 43,         // function_definition_head
         S_primary_expression = 44,               // primary_expression
         S_postfix_expression = 45,               // postfix_expression
-        S_unary_expression = 46,                 // unary_expression
-        S_unary_operator = 47,                   // unary_operator
-        S_cast_expression = 48,                  // cast_expression
-        S_multiplicative_expression = 49,        // multiplicative_expression
-        S_additive_expression = 50,              // additive_expression
-        S_relational_expression = 51,            // relational_expression
-        S_equality_expression = 52,              // equality_expression
-        S_logical_and_expression = 53,           // logical_and_expression
-        S_logical_or_expression = 54,            // logical_or_expression
-        S_assignment_expression = 55,            // assignment_expression
-        S_assignment_operator = 56,              // assignment_operator
-        S_expression_body = 57,                  // expression_body
-        S_expression = 58,                       // expression
-        S_declaration_specifiers = 59,           // declaration_specifiers
-        S_declaration_specifier = 60,            // declaration_specifier
-        S_type_specifier = 61,                   // type_specifier
-        S_enumtype_decl_head = 62,               // enumtype_decl_head
-        S_enumtype_decl_block_start = 63,        // enumtype_decl_block_start
-        S_enumtype_decl_block_end = 64,          // enumtype_decl_block_end
-        S_enumtype_decl_specifier = 65,          // enumtype_decl_specifier
-        S_member_types_declaration_list = 66,    // member_types_declaration_list
-        S_member_types_declaration = 67,         // member_types_declaration
-        S_member_declaration_list = 68,          // member_declaration_list
-        S_member_declaration = 69,               // member_declaration
-        S_specifier_qualifier_list = 70,         // specifier_qualifier_list
-        S_type_specifier_qualifier = 71,         // type_specifier_qualifier
-        S_member_declarator = 72,                // member_declarator
-        S_enumeration_constant = 73,             // enumeration_constant
-        S_declarator = 74,                       // declarator
-        S_pointer = 75,                          // pointer
-        S_direct_declarator = 76,                // direct_declarator
-        S_function_declarator = 77,              // function_declarator
-        S_parameter_type_list = 78,              // parameter_type_list
-        S_parameter_list = 79,                   // parameter_list
-        S_parameter_declaration = 80,            // parameter_declaration
-        S_typedef_name = 81                      // typedef_name
+        S_argument_expression_list = 46,         // argument_expression_list
+        S_unary_expression = 47,                 // unary_expression
+        S_unary_operator = 48,                   // unary_operator
+        S_cast_expression = 49,                  // cast_expression
+        S_multiplicative_expression = 50,        // multiplicative_expression
+        S_additive_expression = 51,              // additive_expression
+        S_relational_expression = 52,            // relational_expression
+        S_equality_expression = 53,              // equality_expression
+        S_logical_and_expression = 54,           // logical_and_expression
+        S_logical_or_expression = 55,            // logical_or_expression
+        S_assignment_expression = 56,            // assignment_expression
+        S_assignment_operator = 57,              // assignment_operator
+        S_match_head = 58,                       // match_head
+        S_match_expression = 59,                 // match_expression
+        S_match_binders_list = 60,               // match_binders_list
+        S_match_binders_list_head_start = 61,    // match_binders_list_head_start
+        S_match_binders_list_head = 62,          // match_binders_list_head
+        S_match_binder_head = 63,                // match_binder_head
+        S_match_binder_definer = 64,             // match_binder_definer
+        S_match_binder_arguments_list = 65,      // match_binder_arguments_list
+        S_expression_body = 66,                  // expression_body
+        S_expression = 67,                       // expression
+        S_declaration_specifiers = 68,           // declaration_specifiers
+        S_declaration_specifier = 69,            // declaration_specifier
+        S_type_specifier = 70,                   // type_specifier
+        S_declared_type_name = 71,               // declared_type_name
+        S_enumtype_decl_head = 72,               // enumtype_decl_head
+        S_block_start = 73,                      // block_start
+        S_block_end = 74,                        // block_end
+        S_enumtype_decl_specifier = 75,          // enumtype_decl_specifier
+        S_member_types_declaration_list = 76,    // member_types_declaration_list
+        S_member_types_declaration = 77,         // member_types_declaration
+        S_member_declaration_list = 78,          // member_declaration_list
+        S_member_declaration = 79,               // member_declaration
+        S_specifier_qualifier_list = 80,         // specifier_qualifier_list
+        S_type_specifier_qualifier = 81,         // type_specifier_qualifier
+        S_member_declarator = 82,                // member_declarator
+        S_enumeration_constant = 83,             // enumeration_constant
+        S_declarator = 84,                       // declarator
+        S_pointer = 85,                          // pointer
+        S_direct_declarator = 86,                // direct_declarator
+        S_function_declarator = 87,              // function_declarator
+        S_parameter_type_list = 88,              // parameter_type_list
+        S_parameter_list = 89,                   // parameter_list
+        S_parameter_declaration = 90,            // parameter_declaration
+        S_typedef_name = 91                      // typedef_name
       };
     };
 
@@ -731,6 +766,10 @@ namespace cecko {
         value.move< casem::CKTypeRefDefPack > (std::move (that.value));
         break;
 
+      case symbol_kind::S_argument_expression_list: // argument_expression_list
+        value.move< casem::InstructionArray > (std::move (that.value));
+        break;
+
       case symbol_kind::S_primary_expression: // primary_expression
       case symbol_kind::S_postfix_expression: // postfix_expression
       case symbol_kind::S_unary_expression: // unary_expression
@@ -742,9 +781,25 @@ namespace cecko {
       case symbol_kind::S_logical_and_expression: // logical_and_expression
       case symbol_kind::S_logical_or_expression: // logical_or_expression
       case symbol_kind::S_assignment_expression: // assignment_expression
+      case symbol_kind::S_match_expression: // match_expression
       case symbol_kind::S_expression_body: // expression_body
       case symbol_kind::S_expression: // expression
         value.move< casem::InstructionWrapper > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_match_binder_head: // match_binder_head
+      case symbol_kind::S_match_binder_definer: // match_binder_definer
+        value.move< casem::MatchBinderChackerData > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_match_binders_list_head_start: // match_binders_list_head_start
+      case symbol_kind::S_match_binders_list_head: // match_binders_list_head
+        value.move< casem::MatchBinderListHeadData > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_match_head: // match_head
+      case symbol_kind::S_match_binders_list: // match_binders_list
+        value.move< casem::MatchWrapper > (std::move (that.value));
         break;
 
       case symbol_kind::S_member_types_declaration_list: // member_types_declaration_list
@@ -754,6 +809,10 @@ namespace cecko {
       case symbol_kind::S_parameter_type_list: // parameter_type_list
       case symbol_kind::S_parameter_list: // parameter_list
         value.move< casem::TRDArray > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_enumtype_decl_head: // enumtype_decl_head
+        value.move< casem::TaggedTypeDecl > (std::move (that.value));
         break;
 
       case symbol_kind::S_member_declarator: // member_declarator
@@ -774,6 +833,7 @@ namespace cecko {
       case symbol_kind::S_IDF: // "identifier"
       case symbol_kind::S_TYPEIDF: // "type identifier"
       case symbol_kind::S_STRLIT: // "string literal"
+      case symbol_kind::S_declared_type_name: // declared_type_name
       case symbol_kind::S_enumeration_constant: // enumeration_constant
       case symbol_kind::S_typedef_name: // typedef_name
         value.move< cecko::CIName > (std::move (that.value));
@@ -784,7 +844,6 @@ namespace cecko {
         value.move< cecko::CKStructItemArray > (std::move (that.value));
         break;
 
-      case symbol_kind::S_enumtype_decl_head: // enumtype_decl_head
       case symbol_kind::S_enumtype_decl_specifier: // enumtype_decl_specifier
       case symbol_kind::S_member_types_declaration: // member_types_declaration
         value.move< cecko::CKStructTypeSafeObs > (std::move (that.value));
@@ -818,8 +877,16 @@ namespace cecko {
         value.move< cecko::gt_etype > (std::move (that.value));
         break;
 
+      case symbol_kind::S_MATCH: // "match"
+        value.move< cecko::match_type > (std::move (that.value));
+        break;
+
       case symbol_kind::S_INTLIT: // "integer literal"
         value.move< int > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_match_binder_arguments_list: // match_binder_arguments_list
+        value.move< std::vector<cecko::CIName> > (std::move (that.value));
         break;
 
       default:
@@ -860,6 +927,20 @@ namespace cecko {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, casem::InstructionArray&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const casem::InstructionArray& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
       basic_symbol (typename Base::kind_type t, casem::InstructionWrapper&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
@@ -867,6 +948,48 @@ namespace cecko {
       {}
 #else
       basic_symbol (typename Base::kind_type t, const casem::InstructionWrapper& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, casem::MatchBinderChackerData&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const casem::MatchBinderChackerData& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, casem::MatchBinderListHeadData&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const casem::MatchBinderListHeadData& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, casem::MatchWrapper&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const casem::MatchWrapper& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
@@ -895,6 +1018,20 @@ namespace cecko {
       {}
 #else
       basic_symbol (typename Base::kind_type t, const casem::TRDArray& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, casem::TaggedTypeDecl&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const casem::TaggedTypeDecl& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
@@ -1084,6 +1221,20 @@ namespace cecko {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, cecko::match_type&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const cecko::match_type& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
       basic_symbol (typename Base::kind_type t, int&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
@@ -1091,6 +1242,20 @@ namespace cecko {
       {}
 #else
       basic_symbol (typename Base::kind_type t, const int& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::vector<cecko::CIName>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::vector<cecko::CIName>& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
@@ -1129,6 +1294,10 @@ switch (yykind)
         value.template destroy< casem::CKTypeRefDefPack > ();
         break;
 
+      case symbol_kind::S_argument_expression_list: // argument_expression_list
+        value.template destroy< casem::InstructionArray > ();
+        break;
+
       case symbol_kind::S_primary_expression: // primary_expression
       case symbol_kind::S_postfix_expression: // postfix_expression
       case symbol_kind::S_unary_expression: // unary_expression
@@ -1140,9 +1309,25 @@ switch (yykind)
       case symbol_kind::S_logical_and_expression: // logical_and_expression
       case symbol_kind::S_logical_or_expression: // logical_or_expression
       case symbol_kind::S_assignment_expression: // assignment_expression
+      case symbol_kind::S_match_expression: // match_expression
       case symbol_kind::S_expression_body: // expression_body
       case symbol_kind::S_expression: // expression
         value.template destroy< casem::InstructionWrapper > ();
+        break;
+
+      case symbol_kind::S_match_binder_head: // match_binder_head
+      case symbol_kind::S_match_binder_definer: // match_binder_definer
+        value.template destroy< casem::MatchBinderChackerData > ();
+        break;
+
+      case symbol_kind::S_match_binders_list_head_start: // match_binders_list_head_start
+      case symbol_kind::S_match_binders_list_head: // match_binders_list_head
+        value.template destroy< casem::MatchBinderListHeadData > ();
+        break;
+
+      case symbol_kind::S_match_head: // match_head
+      case symbol_kind::S_match_binders_list: // match_binders_list
+        value.template destroy< casem::MatchWrapper > ();
         break;
 
       case symbol_kind::S_member_types_declaration_list: // member_types_declaration_list
@@ -1152,6 +1337,10 @@ switch (yykind)
       case symbol_kind::S_parameter_type_list: // parameter_type_list
       case symbol_kind::S_parameter_list: // parameter_list
         value.template destroy< casem::TRDArray > ();
+        break;
+
+      case symbol_kind::S_enumtype_decl_head: // enumtype_decl_head
+        value.template destroy< casem::TaggedTypeDecl > ();
         break;
 
       case symbol_kind::S_member_declarator: // member_declarator
@@ -1172,6 +1361,7 @@ switch (yykind)
       case symbol_kind::S_IDF: // "identifier"
       case symbol_kind::S_TYPEIDF: // "type identifier"
       case symbol_kind::S_STRLIT: // "string literal"
+      case symbol_kind::S_declared_type_name: // declared_type_name
       case symbol_kind::S_enumeration_constant: // enumeration_constant
       case symbol_kind::S_typedef_name: // typedef_name
         value.template destroy< cecko::CIName > ();
@@ -1182,7 +1372,6 @@ switch (yykind)
         value.template destroy< cecko::CKStructItemArray > ();
         break;
 
-      case symbol_kind::S_enumtype_decl_head: // enumtype_decl_head
       case symbol_kind::S_enumtype_decl_specifier: // enumtype_decl_specifier
       case symbol_kind::S_member_types_declaration: // member_types_declaration
         value.template destroy< cecko::CKStructTypeSafeObs > ();
@@ -1216,8 +1405,16 @@ switch (yykind)
         value.template destroy< cecko::gt_etype > ();
         break;
 
+      case symbol_kind::S_MATCH: // "match"
+        value.template destroy< cecko::match_type > ();
+        break;
+
       case symbol_kind::S_INTLIT: // "integer literal"
         value.template destroy< int > ();
+        break;
+
+      case symbol_kind::S_match_binder_arguments_list: // match_binder_arguments_list
+        value.template destroy< std::vector<cecko::CIName> > ();
         break;
 
       default:
@@ -1321,7 +1518,8 @@ switch (yykind)
                    || (token::TOK_YYerror <= tok && tok <= token::TOK_STAR)
                    || tok == token::TOK_EMPH
                    || (token::TOK_DAMP <= tok && tok <= token::TOK_TYPEDEF)
-                   || (token::TOK_SIZEOF <= tok && tok <= token::TOK_FN));
+                   || (token::TOK_SIZEOF <= tok && tok <= token::TOK_LET)
+                   || (token::TOK_FIP <= tok && tok <= token::TOK_FN));
 #endif
       }
 #if 201103L <= YY_CPLUSPLUS
@@ -1395,6 +1593,18 @@ switch (yykind)
       {
 #if !defined _MSC_VER || defined __clang__
         YY_ASSERT (tok == token::TOK_ETYPE);
+#endif
+      }
+#if 201103L <= YY_CPLUSPLUS
+      symbol_type (int tok, cecko::match_type v, location_type l)
+        : super_type (token_kind_type (tok), std::move (v), std::move (l))
+#else
+      symbol_type (int tok, const cecko::match_type& v, const location_type& l)
+        : super_type (token_kind_type (tok), v, l)
+#endif
+      {
+#if !defined _MSC_VER || defined __clang__
+        YY_ASSERT (tok == token::TOK_MATCH);
 #endif
       }
 #if 201103L <= YY_CPLUSPLUS
@@ -1790,6 +2000,21 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
+      make_COLON (location_type l)
+      {
+        return symbol_type (token::TOK_COLON, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_COLON (const location_type& l)
+      {
+        return symbol_type (token::TOK_COLON, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
       make_LCUR (location_type l)
       {
         return symbol_type (token::TOK_LCUR, std::move (l));
@@ -1895,31 +2120,16 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_MATCH (location_type l)
+      make_MATCH (cecko::match_type v, location_type l)
       {
-        return symbol_type (token::TOK_MATCH, std::move (l));
+        return symbol_type (token::TOK_MATCH, std::move (v), std::move (l));
       }
 #else
       static
       symbol_type
-      make_MATCH (const location_type& l)
+      make_MATCH (const cecko::match_type& v, const location_type& l)
       {
-        return symbol_type (token::TOK_MATCH, l);
-      }
-#endif
-#if 201103L <= YY_CPLUSPLUS
-      static
-      symbol_type
-      make_DMATCH (location_type l)
-      {
-        return symbol_type (token::TOK_DMATCH, std::move (l));
-      }
-#else
-      static
-      symbol_type
-      make_DMATCH (const location_type& l)
-      {
-        return symbol_type (token::TOK_DMATCH, l);
+        return symbol_type (token::TOK_MATCH, v, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -2042,7 +2252,7 @@ switch (yykind)
 
 
     /// Stored state numbers (used for stacks).
-    typedef signed char state_type;
+    typedef unsigned char state_type;
 
     /// The arguments of the error message.
     int yy_syntax_error_arguments_ (const context& yyctx,
@@ -2093,14 +2303,14 @@ switch (yykind)
     static const signed char yypgoto_[];
 
     // YYDEFGOTO[NTERM-NUM].
-    static const signed char yydefgoto_[];
+    static const unsigned char yydefgoto_[];
 
     // YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
     // positive, shift that token.  If negative, reduce the rule whose
     // number is the opposite.  If YYTABLE_NINF, syntax error.
-    static const signed char yytable_[];
+    static const short yytable_[];
 
-    static const signed char yycheck_[];
+    static const unsigned char yycheck_[];
 
     // YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
     // state STATE-NUM.
@@ -2342,9 +2552,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 85,     ///< Last index in yytable_.
-      yynnts_ = 45,  ///< Number of nonterminal symbols.
-      yyfinal_ = 17 ///< Termination state number.
+      yylast_ = 118,     ///< Last index in yytable_.
+      yynnts_ = 55,  ///< Number of nonterminal symbols.
+      yyfinal_ = 18 ///< Termination state number.
     };
 
 
@@ -2423,6 +2633,10 @@ switch (yykind)
         value.copy< casem::CKTypeRefDefPack > (YY_MOVE (that.value));
         break;
 
+      case symbol_kind::S_argument_expression_list: // argument_expression_list
+        value.copy< casem::InstructionArray > (YY_MOVE (that.value));
+        break;
+
       case symbol_kind::S_primary_expression: // primary_expression
       case symbol_kind::S_postfix_expression: // postfix_expression
       case symbol_kind::S_unary_expression: // unary_expression
@@ -2434,9 +2648,25 @@ switch (yykind)
       case symbol_kind::S_logical_and_expression: // logical_and_expression
       case symbol_kind::S_logical_or_expression: // logical_or_expression
       case symbol_kind::S_assignment_expression: // assignment_expression
+      case symbol_kind::S_match_expression: // match_expression
       case symbol_kind::S_expression_body: // expression_body
       case symbol_kind::S_expression: // expression
         value.copy< casem::InstructionWrapper > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_match_binder_head: // match_binder_head
+      case symbol_kind::S_match_binder_definer: // match_binder_definer
+        value.copy< casem::MatchBinderChackerData > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_match_binders_list_head_start: // match_binders_list_head_start
+      case symbol_kind::S_match_binders_list_head: // match_binders_list_head
+        value.copy< casem::MatchBinderListHeadData > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_match_head: // match_head
+      case symbol_kind::S_match_binders_list: // match_binders_list
+        value.copy< casem::MatchWrapper > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_member_types_declaration_list: // member_types_declaration_list
@@ -2446,6 +2676,10 @@ switch (yykind)
       case symbol_kind::S_parameter_type_list: // parameter_type_list
       case symbol_kind::S_parameter_list: // parameter_list
         value.copy< casem::TRDArray > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_enumtype_decl_head: // enumtype_decl_head
+        value.copy< casem::TaggedTypeDecl > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_member_declarator: // member_declarator
@@ -2466,6 +2700,7 @@ switch (yykind)
       case symbol_kind::S_IDF: // "identifier"
       case symbol_kind::S_TYPEIDF: // "type identifier"
       case symbol_kind::S_STRLIT: // "string literal"
+      case symbol_kind::S_declared_type_name: // declared_type_name
       case symbol_kind::S_enumeration_constant: // enumeration_constant
       case symbol_kind::S_typedef_name: // typedef_name
         value.copy< cecko::CIName > (YY_MOVE (that.value));
@@ -2476,7 +2711,6 @@ switch (yykind)
         value.copy< cecko::CKStructItemArray > (YY_MOVE (that.value));
         break;
 
-      case symbol_kind::S_enumtype_decl_head: // enumtype_decl_head
       case symbol_kind::S_enumtype_decl_specifier: // enumtype_decl_specifier
       case symbol_kind::S_member_types_declaration: // member_types_declaration
         value.copy< cecko::CKStructTypeSafeObs > (YY_MOVE (that.value));
@@ -2510,8 +2744,16 @@ switch (yykind)
         value.copy< cecko::gt_etype > (YY_MOVE (that.value));
         break;
 
+      case symbol_kind::S_MATCH: // "match"
+        value.copy< cecko::match_type > (YY_MOVE (that.value));
+        break;
+
       case symbol_kind::S_INTLIT: // "integer literal"
         value.copy< int > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_match_binder_arguments_list: // match_binder_arguments_list
+        value.copy< std::vector<cecko::CIName> > (YY_MOVE (that.value));
         break;
 
       default:
@@ -2553,6 +2795,10 @@ switch (yykind)
         value.move< casem::CKTypeRefDefPack > (YY_MOVE (s.value));
         break;
 
+      case symbol_kind::S_argument_expression_list: // argument_expression_list
+        value.move< casem::InstructionArray > (YY_MOVE (s.value));
+        break;
+
       case symbol_kind::S_primary_expression: // primary_expression
       case symbol_kind::S_postfix_expression: // postfix_expression
       case symbol_kind::S_unary_expression: // unary_expression
@@ -2564,9 +2810,25 @@ switch (yykind)
       case symbol_kind::S_logical_and_expression: // logical_and_expression
       case symbol_kind::S_logical_or_expression: // logical_or_expression
       case symbol_kind::S_assignment_expression: // assignment_expression
+      case symbol_kind::S_match_expression: // match_expression
       case symbol_kind::S_expression_body: // expression_body
       case symbol_kind::S_expression: // expression
         value.move< casem::InstructionWrapper > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_match_binder_head: // match_binder_head
+      case symbol_kind::S_match_binder_definer: // match_binder_definer
+        value.move< casem::MatchBinderChackerData > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_match_binders_list_head_start: // match_binders_list_head_start
+      case symbol_kind::S_match_binders_list_head: // match_binders_list_head
+        value.move< casem::MatchBinderListHeadData > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_match_head: // match_head
+      case symbol_kind::S_match_binders_list: // match_binders_list
+        value.move< casem::MatchWrapper > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_member_types_declaration_list: // member_types_declaration_list
@@ -2576,6 +2838,10 @@ switch (yykind)
       case symbol_kind::S_parameter_type_list: // parameter_type_list
       case symbol_kind::S_parameter_list: // parameter_list
         value.move< casem::TRDArray > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_enumtype_decl_head: // enumtype_decl_head
+        value.move< casem::TaggedTypeDecl > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_member_declarator: // member_declarator
@@ -2596,6 +2862,7 @@ switch (yykind)
       case symbol_kind::S_IDF: // "identifier"
       case symbol_kind::S_TYPEIDF: // "type identifier"
       case symbol_kind::S_STRLIT: // "string literal"
+      case symbol_kind::S_declared_type_name: // declared_type_name
       case symbol_kind::S_enumeration_constant: // enumeration_constant
       case symbol_kind::S_typedef_name: // typedef_name
         value.move< cecko::CIName > (YY_MOVE (s.value));
@@ -2606,7 +2873,6 @@ switch (yykind)
         value.move< cecko::CKStructItemArray > (YY_MOVE (s.value));
         break;
 
-      case symbol_kind::S_enumtype_decl_head: // enumtype_decl_head
       case symbol_kind::S_enumtype_decl_specifier: // enumtype_decl_specifier
       case symbol_kind::S_member_types_declaration: // member_types_declaration
         value.move< cecko::CKStructTypeSafeObs > (YY_MOVE (s.value));
@@ -2640,8 +2906,16 @@ switch (yykind)
         value.move< cecko::gt_etype > (YY_MOVE (s.value));
         break;
 
+      case symbol_kind::S_MATCH: // "match"
+        value.move< cecko::match_type > (YY_MOVE (s.value));
+        break;
+
       case symbol_kind::S_INTLIT: // "integer literal"
         value.move< int > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_match_binder_arguments_list: // match_binder_arguments_list
+        value.move< std::vector<cecko::CIName> > (YY_MOVE (s.value));
         break;
 
       default:
@@ -2711,7 +2985,7 @@ switch (yykind)
 
 #line 7 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
 } // cecko
-#line 2715 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.hpp"
+#line 2989 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.hpp"
 
 
 

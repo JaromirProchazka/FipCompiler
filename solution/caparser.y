@@ -66,16 +66,16 @@ using namespace casem;
 %token						DVERT		"||"
 %token						ASGN		"="
 %token						SEMIC		";"
+%token						COLON		":"
 %token						LCUR		"{"
 %token						RCUR		"}"
 
-%token						TYPEDEF		"typedef"
+%token						TYPEDEF		"type"
 %token<cecko::gt_etype>		ETYPE		"_Bool, char, or int"
 %token						SIZEOF		"sizeof"
 %token                      IN          "in"
 %token                      LET         "let"
-%token                      MATCH       "match"
-%token                      DMATCH      "match!"
+%token<cecko::match_type>   MATCH       "match"
 %token                      FIP         "fip"
 %token                      FN          "fn"
 
@@ -100,9 +100,11 @@ using namespace casem;
 %type<casem::InstructionWrapper>        postfix_expression
 %type<cecko::gt_cass>                   assignment_operator
 %type<casem::InstructionWrapper>        assignment_expression
+%type<casem::InstructionWrapper>        match_expression
 %type<cecko::CKTypeSafeObs>             type_specifier
 %type                                   expression_end
 %type<cecko::CIName>                    typedef_name
+%type<cecko::CIName>                    declared_type_name
 %type<casem::CKTypeRefDefPack>          declaration_specifiers
 %type<casem::CKTypeRefDefPack>          declaration_specifier
 %type<casem::CKTypeRefDefPack>          type_specifier_qualifier
@@ -113,8 +115,10 @@ using namespace casem;
 %type<casem::TRDArray>                  parameter_list
 %type<casem::TypeRefPack_Convertor>     pointer
 %type<casem::CKTypeRefDefPack>          parameter_declaration
+%type<casem::MatchWrapper>              match_head
+%type<casem::MatchWrapper>              match_binders_list
 
-%type<cecko::CKStructTypeSafeObs>       enumtype_decl_head
+%type<casem::TaggedTypeDecl>            enumtype_decl_head
 %type<cecko::CKStructTypeSafeObs>       enumtype_decl_specifier
 %type<cecko::CKStructTypeSafeObs>       member_types_declaration
 %type<casem::StructObservers>           member_types_declaration_list
@@ -122,6 +126,12 @@ using namespace casem;
 %type<cecko::CKStructItemArray>         member_declaration
 %type<casem::CKTypeRefDefPack>          specifier_qualifier_list
 %type<casem::TypeRefPack_Action>        member_declarator
+%type<casem::InstructionArray>          argument_expression_list
+%type<std::vector<cecko::CIName>>       match_binder_arguments_list
+%type<casem::MatchBinderChackerData>    match_binder_definer
+%type<casem::MatchBinderChackerData>    match_binder_head
+%type<casem::MatchBinderListHeadData>   match_binders_list_head_start
+%type<casem::MatchBinderListHeadData>   match_binders_list_head
 
 
 /////////////////////////////////
@@ -133,7 +143,6 @@ using namespace casem;
 // %type<casem::InstructionWrapper>        application_rule
 // %type<cecko::CKTypeObs>                 type_name
 
-// %type<casem::InstructionArray>          argument_expression_list
 // %type<casem::TypeRefPack_Action>        init_declarator_list
 // %type<casem::TypeRefPack_Action>        init_declarator
 // %type<casem::TypeRefPack_Action>        array_declarator
@@ -250,14 +259,19 @@ function_definition_info:
         casem::CKTypeRefDefPack rfpack = $1;
 
         casem::CKTypeRefDefPack res_tpack = DEFINER_BODY(rfpack, std::function(FETCH_FINAL_TYPEPACK));
+        log("[function_definition_info:] function type made\n");
 
-        cur_l--;
+        --cur_l;
         if (res_tpack.name.value() == "main" && cur_l != 0) {
-            log("decrementing loc\n");
+            log("[function_definition_info:] decrementing loc\n");
         }
+        log("[function_definition_info:] handled main current line\n");
+
         cecko::CKFunctionSafeObs f_observer = ctx->declare_function(res_tpack.name.value(), res_tpack.type, cur_l);
+        log("[function_definition_info:] function declared\n");
 
         ctx->enter_function(f_observer, res_tpack.optinonal_param_names, ctx->line());
+        log("[function_definition_info:] function body entered\n");
     }
 ;
 
@@ -307,10 +321,17 @@ postfix_expression:
     }
     // | application_rule
     // | unboxing_rule
-    // | postfix_expression LPAR argument_expression_list RPAR     {
-    //     log("[postfix_expression:] FUNCTION CALL, postfix_expression ( expression )\n");
-    //     $$ = init_instruction_function_call(ctx, $1, $3);
-    // }
+    | IDF LPAR argument_expression_list RPAR     {
+        log("[postfix_expression:] FUNCTION CALL, postfix_expression ( expression )\n");
+        
+        if (casem::is_struct_label(ctx, $1)) {
+            auto&& constructor_name = get_constructor_label($1);
+            $$ = init_instruction_function_call(ctx, init_instruction_from_name(ctx, constructor_name), $3);
+        }
+        else {
+            $$ = init_instruction_function_call(ctx, init_instruction_from_name(ctx, $1), $3);
+        }
+    }
 ;
 
 // FIXME: APPLICATION RULE
@@ -325,17 +346,17 @@ postfix_expression:
 //     }
 // ;
 
-// argument_expression_list:
-//     assignment_expression   {
-//         casem::InstructionArray args = { $1 };
-//         $$ = args;
-//     }
-//     | assignment_expression COMMA argument_expression_list  {
-//         casem::InstructionArray args = $1;
-//         args.push_back($3);
-//         $$ = args;
-//     }
-// ;
+argument_expression_list:
+    assignment_expression   {
+        casem::InstructionArray args = { $1 };
+        $$ = args;
+    }
+    | assignment_expression COMMA argument_expression_list  {
+        auto &args = $3;
+        args.push_back($1);
+        $$ = args;
+    }
+;
 
 unary_expression:
     postfix_expression  {
@@ -519,8 +540,125 @@ assignment_operator:
     }
 ;
 
+match_head:
+    MATCH IDF ARROW declaration_specifiers  {
+        log("[match_head:] MATCH IDF ARROW declaration_speci  fiers - define result var\n");
+        casem::TypeRefPack_Action DEFINER_BODY = GET_DEFINER(ctx, casem::match_result_template);
+        casem::CKTypeRefDefPack rfpack = $4;
+        DEFINER_BODY(rfpack, std::function(CHOOSE_AND_DEFINE));
+        auto rfpack_ptr = std::make_shared<casem::CKTypeRefDefPack>(rfpack);
+        casem::MatchWrapper mw($1 == cecko::match_type::DMATCH, $2, rfpack_ptr); 
+        log("match head done\n");
+        $$ = mw;
+    }
+;
+
+match_expression:
+    assignment_expression   {
+        $$ = $1;
+    }
+    | match_binders_list block_end    {
+        log("[match_expression:] MATCH IDF ARROW declaration_specifiers block_start match_binders_list block_end\n");
+        casem::MatchWrapper match_data = $1;
+
+        auto&& res = init_instruction_from_name(ctx, casem::match_result_template);
+        $$ = res;
+    }
+;
+
+match_binders_list:
+    match_binders_list_head_start expression_body  {
+        log("[match_binders_list:] match_binders_list_head_start expression_body\n");
+        auto&& data = $1;
+        auto&& match_dt = data.head_data;
+        auto&& binder_data = data.binder_data;
+        auto& if_data = binder_data.if_data;
+        auto&& conditioned_result_value = $2;
+
+        init_instruction_from_name(ctx, match_result_template)
+            .store(conditioned_result_value);
+        ctx->exit_block();
+        ctx->builder()->SetInsertPoint(if_data.continue_block);
+        create_if_control_flow(ctx, if_data);
+        
+        $$ = match_dt;
+    }
+    | match_binders_list_head expression_body  {
+        log("[match_binders_list:] match_binders_list_head expression_body\n");
+        auto&& data = $1;
+        auto&& match_dt = data.head_data;
+        auto&& binder_data = data.binder_data;
+        auto& if_data = binder_data.if_data;
+        auto&& conditioned_result_value = $2;
+
+        init_instruction_from_name(ctx, match_result_template)
+            .store(conditioned_result_value);
+        ctx->exit_block();
+        ctx->builder()->SetInsertPoint(if_data.continue_block);
+        create_if_control_flow(ctx, if_data);
+        
+        $$ = match_dt;
+    }
+;
+
+match_binders_list_head_start:
+    match_head block_start match_binder_head {
+        log("[match_binders_list_head_start:] match_head block_start match_binder_head\n");
+        auto&& match_dt = $1;
+        auto&& binder_data = $3;
+        binder_data.create_if_statement(ctx, match_dt);
+        ctx->enter_block();
+        binder_data.init_binder_vars(ctx, match_dt);
+
+        $$ = casem::MatchBinderListHeadData(match_dt, $3);
+    }
+;
+
+match_binders_list_head:
+    match_binders_list match_binder_head {
+        log("[match_binders_list_head:] match_binders_list match_binder_head\n");
+        auto&& match_dt = $1;
+        auto&& binder_data = $2;
+        binder_data.create_if_statement(ctx, match_dt);
+        ctx->enter_block();
+        binder_data.init_binder_vars(ctx, match_dt);
+
+        $$ = casem::MatchBinderListHeadData(match_dt, $2);
+    }
+;
+
+match_binder_head:
+    VERT match_binder_definer ARROW     {
+        log("[match_binder_head:] VERT match_binder_definer ARROW\n");
+        $$ = $2;
+    }
+;
+
+match_binder_definer:
+    IDF LPAR match_binder_arguments_list RPAR   {
+        log("[match_binder_definer:] IDF LPAR match_binder_arguments_list RPAR\n");
+        $$ = casem::MatchBinderChackerData($1).set_args(ctx, $3);
+    }
+    | IDF   {
+        log("[match_binder_definer:] IDF\n");
+        $$ = casem::MatchBinderChackerData($1);
+    }
+;
+
+match_binder_arguments_list:
+    IDF    { // FIXME: switch for `match_binder_definer`
+        log("[match_binder_arguments_list:] IDF\n");
+        $$ = { $1 };
+    }
+    | match_binder_arguments_list COMMA IDF {
+        log("[match_binder_arguments_list:] match_binder_arguments_list COMMA IDF\n");
+        ($1).push_back($3);
+        $$ = $1;
+    }
+;
+
 expression_body:
-    assignment_expression  {
+    match_expression  {
         $$ = $1;
     }
 	// | logical_or_expression   {
@@ -655,6 +793,16 @@ type_specifier:
                 break;
         }
      }
+    | declared_type_name    {
+        auto&& type = ctx->declare_struct_type($1, ctx->line());
+        if (type && type->is_defined())  {
+            $$ = ctx->get_pointer_type(cecko::CKTypeRefPack(type, false));
+        }
+        else {
+            std::string e_msg = "Undefined type '" + $1 + "'!\n";
+            ctx->message(cecko::errors::SYNTAX, ctx->line(), e_msg);
+        }
+    }
     | typedef_name  {
             log("[type_specifier:] ^ found typedef_name '%s'\n", ($1).c_str());
             auto type_def_data = ctx->find_typedef($1);
@@ -668,41 +816,62 @@ type_specifier:
         }
 ;
 
+declared_type_name:
+    TYPEDEF IDF     {
+        log_name("[declared_type_name:] TYPEDEF IDF", $2);
+        $$ = $2;
+    }
+;
+
 enumtype_decl_head:
     TYPEDEF IDF     {
         // FIXME: Handle tag range
         log_name("[enumtype_decl_head:]", $2);
-        auto struct_obs = ctx->declare_struct_type($2, ctx->line()); 
-        int first_enumtype_tag = max_type_tag;
+        cecko::CKStructItemArray struct_items;
+        struct_items.push_back(casem::get_tag_strauct_item(ctx)); 
 
-        $$ = struct_obs;
+        log("Define struct type\n");
+        auto struct_obs = ctx->declare_struct_type($2, ctx->line());
+        ctx->define_struct_type_open($2, ctx->line());
+        ctx->define_struct_type_close(struct_obs, struct_items);
+
+        int first_enumtype_tag = max_type_tag;
+        casem::TaggedTypeDecl res(struct_obs, first_enumtype_tag);
+
+        $$ = res;
     }
 ;
 
-enumtype_decl_block_start:
+block_start:
     LCUR
     | LCUR NEWLINE 
 ;
 
-enumtype_decl_block_end:
+block_end:
     RCUR
     | NEWLINE RCUR
 ;
 
 enumtype_decl_specifier:
-    enumtype_decl_head enumtype_decl_block_start member_types_declaration_list enumtype_decl_block_end NEWLINE  {
+    enumtype_decl_head block_start member_types_declaration_list block_end NEWLINE  {
         // FIXME: Handle tag range
+        log("[enumtype_decl_specifier:] enumtype_decl_head block_start member_types_declaration_list block_end NEWLINE\n");
+        auto&& type_data = $1;
         int enumtype_tag_end = max_type_tag;
-        $$ = $1;
+        casem::insert_ttype(type_data.name() , type_data.first_tag, enumtype_tag_end);
+        log("Inserted father type tag range\n");
+        $$ = type_data.struct_decl;
     }
 ;
 
 member_types_declaration_list:
     member_types_declaration     {
+        log("[member_types_declaration_list:] member_types_declaration\n");
         StructObservers vec = { $1 };
         $$ = vec;
     }
     | member_types_declaration_list member_types_declaration      {
+        log("[member_types_declaration_list:] member_types_declaration_list member_types_declaration\n");
         auto&& vec = $1; 
         vec.push_back($2);
         $$ = vec;
@@ -711,22 +880,31 @@ member_types_declaration_list:
 
 member_types_declaration:
     IDF LPAR member_declaration_list RPAR SEMIC     {
-        log_name("[member_types_declaration:]", $1);
-        auto struct_obs = ctx->declare_struct_type($1, ctx->line()); 
-        ctx->define_struct_type_open($1, ctx->line());
+        log_name("[member_types_declaration:] includes member_declaration_list", $1);
+        auto&& struct_items = $3;
+        struct_items.insert(struct_items.begin(), casem::get_tag_strauct_item(ctx));
+        auto&& struct_obs = ctx->declare_struct_type($1, ctx->line());
 
-        ctx->define_struct_type_close(struct_obs, $3);
-        ++max_type_tag;
+        ctx->define_struct_type_open($1, ctx->line());
+        ctx->define_struct_type_close(struct_obs, struct_items);
+        casem::insert_ttype($1, max_type_tag);
+        ++casem::max_type_tag;
+
+        casem::declare_type_constructor(ctx, $1, struct_obs, struct_items);
 
         $$ = struct_obs;
     }
     | IDF SEMIC    {
-        log_name("[member_types_declaration:]", $1);
+        log_name("[member_types_declaration:] found IDF SEMIC", $1);
         auto struct_obs = ctx->declare_struct_type($1, ctx->line()); 
         ctx->define_struct_type_open($1, ctx->line());
+        cecko::CKStructItemArray struct_items = { casem::get_tag_strauct_item(ctx) };
 
-        ctx->define_struct_type_close(struct_obs, {});
-        ++max_type_tag;
+        ctx->define_struct_type_close(struct_obs, struct_items);
+        casem::insert_ttype($1, max_type_tag);
+        ++casem::max_type_tag;
+
+        casem::declare_type_constructor(ctx, $1, struct_obs, struct_items);
 
         $$ = struct_obs;
     }
@@ -734,9 +912,11 @@ member_types_declaration:
 
 member_declaration_list:
     member_declaration      {
+        log("[member_declaration_list:] member_declaration\n");
         $$ = $1;
     }
     | member_declaration_list COMMA member_declaration    {
+        log("[member_declaration_list:] member_declaration_list COMMA member_declaration\n");
         cecko::CKStructItemArray s_items = $1;
         s_items.push_back($3[0]);
         $$ = s_items;

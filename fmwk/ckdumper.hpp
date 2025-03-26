@@ -441,14 +441,17 @@ namespace cecko {
       // "_Bool, char, or int"
       char dummy6[sizeof (cecko::gt_etype)];
 
+      // "match"
+      char dummy7[sizeof (cecko::match_type)];
+
       // "integer literal"
-      char dummy7[sizeof (int)];
+      char dummy8[sizeof (int)];
 
       // token_i
-      char dummy8[sizeof (token_attr_i)];
+      char dummy9[sizeof (token_attr_i)];
 
       // token_s
-      char dummy9[sizeof (token_attr_s)];
+      char dummy10[sizeof (token_attr_s)];
     };
 
     /// The size of the largest semantic type.
@@ -520,15 +523,15 @@ namespace cecko {
     TOK_DVERT = 274,               // "||"
     TOK_ASGN = 275,                // "="
     TOK_SEMIC = 276,               // ";"
-    TOK_LCUR = 277,                // "{"
-    TOK_RCUR = 278,                // "}"
-    TOK_IN = 279,                  // "in"
-    TOK_TYPEDEF = 280,             // "typedef"
-    TOK_VOID = 281,                // "void"
-    TOK_ETYPE = 282,               // "_Bool, char, or int"
-    TOK_LET = 283,                 // "let"
-    TOK_MATCH = 284,               // "match"
-    TOK_DMATCH = 285,              // "match!"
+    TOK_COLON = 277,               // ":"
+    TOK_LCUR = 278,                // "{"
+    TOK_RCUR = 279,                // "}"
+    TOK_IN = 280,                  // "in"
+    TOK_TYPEDEF = 281,             // "type"
+    TOK_VOID = 282,                // "void"
+    TOK_ETYPE = 283,               // "_Bool, char, or int"
+    TOK_LET = 284,                 // "let"
+    TOK_MATCH = 285,               // "match"
     TOK_IF = 286,                  // "if"
     TOK_ELSE = 287,                // "else"
     TOK_DO = 288,                  // "do"
@@ -583,15 +586,15 @@ namespace cecko {
         S_DVERT = 19,                            // "||"
         S_ASGN = 20,                             // "="
         S_SEMIC = 21,                            // ";"
-        S_LCUR = 22,                             // "{"
-        S_RCUR = 23,                             // "}"
-        S_IN = 24,                               // "in"
-        S_TYPEDEF = 25,                          // "typedef"
-        S_VOID = 26,                             // "void"
-        S_ETYPE = 27,                            // "_Bool, char, or int"
-        S_LET = 28,                              // "let"
-        S_MATCH = 29,                            // "match"
-        S_DMATCH = 30,                           // "match!"
+        S_COLON = 22,                            // ":"
+        S_LCUR = 23,                             // "{"
+        S_RCUR = 24,                             // "}"
+        S_IN = 25,                               // "in"
+        S_TYPEDEF = 26,                          // "type"
+        S_VOID = 27,                             // "void"
+        S_ETYPE = 28,                            // "_Bool, char, or int"
+        S_LET = 29,                              // "let"
+        S_MATCH = 30,                            // "match"
         S_IF = 31,                               // "if"
         S_ELSE = 32,                             // "else"
         S_DO = 33,                               // "do"
@@ -674,6 +677,10 @@ namespace cecko {
 
       case symbol_kind::S_ETYPE: // "_Bool, char, or int"
         value.move< cecko::gt_etype > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_MATCH: // "match"
+        value.move< cecko::match_type > (std::move (that.value));
         break;
 
       case symbol_kind::S_INTLIT: // "integer literal"
@@ -796,6 +803,20 @@ namespace cecko {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, cecko::match_type&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const cecko::match_type& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
       basic_symbol (typename Base::kind_type t, int&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
@@ -886,6 +907,10 @@ switch (yykind)
 
       case symbol_kind::S_ETYPE: // "_Bool, char, or int"
         value.template destroy< cecko::gt_etype > ();
+        break;
+
+      case symbol_kind::S_MATCH: // "match"
+        value.template destroy< cecko::match_type > ();
         break;
 
       case symbol_kind::S_INTLIT: // "integer literal"
@@ -1001,7 +1026,8 @@ switch (yykind)
                    || (token::TOK_YYerror <= tok && tok <= token::TOK_STAR)
                    || tok == token::TOK_EMPH
                    || (token::TOK_DAMP <= tok && tok <= token::TOK_VOID)
-                   || (token::TOK_LET <= tok && tok <= token::TOK_SIZEOF));
+                   || tok == token::TOK_LET
+                   || (token::TOK_IF <= tok && tok <= token::TOK_SIZEOF));
 #endif
       }
 #if 201103L <= YY_CPLUSPLUS
@@ -1075,6 +1101,18 @@ switch (yykind)
       {
 #if !defined _MSC_VER || defined __clang__
         YY_ASSERT (tok == token::TOK_ETYPE);
+#endif
+      }
+#if 201103L <= YY_CPLUSPLUS
+      symbol_type (int tok, cecko::match_type v, location_type l)
+        : super_type (token_kind_type (tok), std::move (v), std::move (l))
+#else
+      symbol_type (int tok, const cecko::match_type& v, const location_type& l)
+        : super_type (token_kind_type (tok), v, l)
+#endif
+      {
+#if !defined _MSC_VER || defined __clang__
+        YY_ASSERT (tok == token::TOK_MATCH);
 #endif
       }
 #if 201103L <= YY_CPLUSPLUS
@@ -1470,6 +1508,21 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
+      make_COLON (location_type l)
+      {
+        return symbol_type (token::TOK_COLON, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_COLON (const location_type& l)
+      {
+        return symbol_type (token::TOK_COLON, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
       make_LCUR (location_type l)
       {
         return symbol_type (token::TOK_LCUR, std::move (l));
@@ -1575,31 +1628,16 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_MATCH (location_type l)
+      make_MATCH (cecko::match_type v, location_type l)
       {
-        return symbol_type (token::TOK_MATCH, std::move (l));
+        return symbol_type (token::TOK_MATCH, std::move (v), std::move (l));
       }
 #else
       static
       symbol_type
-      make_MATCH (const location_type& l)
+      make_MATCH (const cecko::match_type& v, const location_type& l)
       {
-        return symbol_type (token::TOK_MATCH, l);
-      }
-#endif
-#if 201103L <= YY_CPLUSPLUS
-      static
-      symbol_type
-      make_DMATCH (location_type l)
-      {
-        return symbol_type (token::TOK_DMATCH, std::move (l));
-      }
-#else
-      static
-      symbol_type
-      make_DMATCH (const location_type& l)
-      {
-        return symbol_type (token::TOK_DMATCH, l);
+        return symbol_type (token::TOK_MATCH, v, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -2242,6 +2280,10 @@ switch (yykind)
         value.copy< cecko::gt_etype > (YY_MOVE (that.value));
         break;
 
+      case symbol_kind::S_MATCH: // "match"
+        value.copy< cecko::match_type > (YY_MOVE (that.value));
+        break;
+
       case symbol_kind::S_INTLIT: // "integer literal"
         value.copy< int > (YY_MOVE (that.value));
         break;
@@ -2310,6 +2352,10 @@ switch (yykind)
 
       case symbol_kind::S_ETYPE: // "_Bool, char, or int"
         value.move< cecko::gt_etype > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_MATCH: // "match"
+        value.move< cecko::match_type > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_INTLIT: // "integer literal"
@@ -2391,7 +2437,7 @@ switch (yykind)
 
 #line 7 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y"
 } // cecko
-#line 2395 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.hpp"
+#line 2441 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.hpp"
 
 
 

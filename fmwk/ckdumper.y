@@ -63,16 +63,16 @@ YY_DECL;
 %token						DVERT		"||"
 %token						ASGN		"="
 %token						SEMIC		";"
+%token						COLON		":"
 %token						LCUR		"{"
 %token						RCUR		"}"
 %token						IN			"in"
 
-%token						TYPEDEF		"typedef"
+%token						TYPEDEF		"type"
 %token						VOID		"void"
 %token<cecko::gt_etype>		ETYPE		"_Bool, char, or int"
 %token						LET			"let"
-%token						MATCH		"match"
-%token						DMATCH		"match!"
+%token<cecko::match_type> 	MATCH		"match"
 %token						IF			"if"
 %token						ELSE		"else"
 %token						DO			"do"
@@ -137,8 +137,6 @@ token_n:
     TYPEDEF { $$ = "typedef"; }
     | VOID				 { $$ = "void"; }
     | LET				 { $$ = "let"; }
-    | MATCH				 { $$ = "match"; }
-    | DMATCH				 { $$ = "match!"; }
     | IF					 { $$ = "if"; }
     | ELSE				 { $$ = "else"; }
     | DO					 { $$ = "do"; }
@@ -166,6 +164,7 @@ token_n:
     | LCUR				 { $$ = "{"; }
     | RCUR				 { $$ = "}"; }
     | IN				 { $$ = "in"; }
+	| COLON				 { $$ = ":"; }
 ;
 
 token_s:
@@ -180,6 +179,14 @@ token_s:
 	| STRLIT{ 
 		$$.first = "string literal"; 
 		$$.second = "\"" + cecko::context::escape($1) + "\"";
+	}
+    | MATCH				 { 
+		$$.first = "match"; 
+		switch ($1)
+		{
+		case cecko::match_type::MATCH: $$.second = ""; break;
+		case cecko::match_type::DMATCH: $$.second = "!"; break;
+		}
 	}
 	| CMPO{ 
 		$$.first = "CMPO"; 

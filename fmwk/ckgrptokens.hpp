@@ -32,6 +32,9 @@ namespace cecko {
 	/// ETYPE token
 	enum class gt_etype { BOOL, CHAR, INT };
 
+	// MATCH token
+	enum class match_type { MATCH, DMATCH };
+
 }
 
 #endif

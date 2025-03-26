@@ -53,13 +53,13 @@ std::string msg = "";
 
 "in"				return cecko::parser::make_IN(ctx->line());
 "let"				return cecko::parser::make_LET(ctx->line());
-"match"				return cecko::parser::make_MATCH(ctx->line());
-"match!"			return cecko::parser::make_DMATCH(ctx->line());
+"match"				return cecko::parser::make_MATCH(cecko::match_type::MATCH, ctx->line());
+"match!"			return cecko::parser::make_MATCH(cecko::match_type::DMATCH, ctx->line());
 "fip"				return cecko::parser::make_FIP(ctx->line());
 "fn"				return cecko::parser::make_FN(ctx->line());
 "|"					return cecko::parser::make_VERT(ctx->line());
 
-"typedef"			return cecko::parser::make_TYPEDEF(ctx->line());
+"type"			return cecko::parser::make_TYPEDEF(ctx->line());
 "sizeof"			return cecko::parser::make_SIZEOF(ctx->line());
 "_Bool"				return cecko::parser::make_ETYPE(cecko::gt_etype::BOOL, ctx->line());
 "char"				return cecko::parser::make_ETYPE(cecko::gt_etype::CHAR, ctx->line());
@@ -90,6 +90,7 @@ std::string msg = "";
 "||"      			return cecko::parser::make_DVERT(ctx->line());
 "="         		return cecko::parser::make_ASGN(ctx->line());
 ";"         		return cecko::parser::make_SEMIC(ctx->line());
+":"         		return cecko::parser::make_COLON(ctx->line());
 
 \/\/.*\n			ctx->incline(); 
 \/\*				{ 
