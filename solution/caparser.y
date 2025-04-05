@@ -20,6 +20,7 @@
 #include "ckbisonflex.hpp"
 #include <iostream>
 #include <vector>
+#include <stdlib.h>
 
 // adjust YYLLOC_DEFAULT macro for our api.location.type
 #define YYLLOC_DEFAULT(res,rhs,N)	(res = (N)?YYRHSLOC(rhs, 1):YYRHSLOC(rhs, 0))
@@ -226,10 +227,14 @@ function_definition:
         auto ret_obs = $2;
         if (ret_obs.is_valid()) {
             log("return val\n");
+            casem::InstructionWrapper ret_inst;
             if (ret_obs.type != ctx->current_function_return_type())
-                ctx->builder()->CreateRet(ret_obs.to_type(ctx->current_function_return_type()->get_ir()).read_ir());
+                ret_inst = ret_obs.to_type(ctx->current_function_return_type());
             else
-                ctx->builder()->CreateRet(ret_obs.read_ir());
+                ret_inst = ret_obs;
+            
+            ret_inst.generate_debug_print(ret_inst.name);       
+            ctx->builder()->CreateRet(ret_inst.read_ir());
         }
         else {
             log("return void\n");
@@ -351,9 +356,13 @@ argument_expression_list:
         casem::InstructionArray args = { $1 };
         $$ = args;
     }
-    | assignment_expression COMMA argument_expression_list  {
-        auto &args = $3;
-        args.push_back($1);
+    | argument_expression_list COMMA assignment_expression  {
+        auto &args = $1;
+        args.push_back($3);
+        $$ = args;
+    }
+    | %empty                  {
+        casem::InstructionArray args = {};
         $$ = args;
     }
 ;
@@ -542,12 +551,16 @@ assignment_operator:
 
 match_head:
     MATCH IDF ARROW declaration_specifiers  {
+        if ($1 == cecko::match_type::DMATCH) {
+            FipState::enter_fip_mode();
+        } 
         log("[match_head:] MATCH IDF ARROW declaration_speci  fiers - define result var\n");
         casem::TypeRefPack_Action DEFINER_BODY = GET_DEFINER(ctx, casem::match_result_template);
         casem::CKTypeRefDefPack rfpack = $4;
         DEFINER_BODY(rfpack, std::function(CHOOSE_AND_DEFINE));
         auto rfpack_ptr = std::make_shared<casem::CKTypeRefDefPack>(rfpack);
-        casem::MatchWrapper mw($1 == cecko::match_type::DMATCH, $2, rfpack_ptr); 
+        casem::MatchWrapper mw(ctx, $1 == cecko::match_type::DMATCH, $2, rfpack_ptr, $1); 
+        init_instruction_from_name(ctx, $2).generate_debug_print("'match_head' matched argument is");
         log("match head done\n");
         $$ = mw;
     }
@@ -560,6 +573,7 @@ match_expression:
     | match_binders_list block_end    {
         log("[match_expression:] MATCH IDF ARROW declaration_specifiers block_start match_binders_list block_end\n");
         casem::MatchWrapper match_data = $1;
+        FipState::exit_fip_mode();
 
         auto&& res = init_instruction_from_name(ctx, casem::match_result_template);
         $$ = res;
@@ -575,8 +589,10 @@ match_binders_list:
         auto& if_data = binder_data.if_data;
         auto&& conditioned_result_value = $2;
 
-        init_instruction_from_name(ctx, match_result_template)
-            .store(conditioned_result_value);
+        auto res = init_instruction_from_name(ctx, match_result_template);
+        res.generate_debug_print("'match binder' match result before store");
+        res.store(conditioned_result_value);
+        res.generate_debug_print("'match binder' match result after store");
         ctx->exit_block();
         ctx->builder()->SetInsertPoint(if_data.continue_block);
         create_if_control_flow(ctx, if_data);
@@ -591,8 +607,11 @@ match_binders_list:
         auto& if_data = binder_data.if_data;
         auto&& conditioned_result_value = $2;
 
-        init_instruction_from_name(ctx, match_result_template)
-            .store(conditioned_result_value);
+        conditioned_result_value.generate_debug_print("match_binder_if -> result = ");
+        auto res = init_instruction_from_name(ctx, match_result_template);
+        res.generate_debug_print("'match binder' match result before store");
+        res.store(conditioned_result_value);
+        res.generate_debug_print("'match binder' match result after store");
         ctx->exit_block();
         ctx->builder()->SetInsertPoint(if_data.continue_block);
         create_if_control_flow(ctx, if_data);
@@ -609,6 +628,7 @@ match_binders_list_head_start:
         binder_data.create_if_statement(ctx, match_dt);
         ctx->enter_block();
         binder_data.init_binder_vars(ctx, match_dt);
+        generate_debug_print(ctx, "Entered if block of type '" + binder_data.type_label + "'");
 
         $$ = casem::MatchBinderListHeadData(match_dt, $3);
     }
@@ -891,6 +911,7 @@ member_types_declaration:
         ++casem::max_type_tag;
 
         casem::declare_type_constructor(ctx, $1, struct_obs, struct_items);
+        casem::declare_type_reuser(ctx, $1, struct_obs, struct_items);
 
         $$ = struct_obs;
     }

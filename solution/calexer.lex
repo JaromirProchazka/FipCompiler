@@ -3,6 +3,7 @@
 // allow access to YY_DECL macro
 #include "ckbisonflex.hpp"
 #include "casem.hpp"
+#include <stdlib.h>
 
 #include INCLUDE_WRAP(BISON_HEADER)
 

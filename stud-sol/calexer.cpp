@@ -529,16 +529,17 @@ static const flex_int16_t yy_chk[277] =
 // allow access to YY_DECL macro
 #include "ckbisonflex.hpp"
 #include "casem.hpp"
+#include <stdlib.h>
 
 #include INCLUDE_WRAP(BISON_HEADER)
 
-#line 536 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/calexer.cpp"
+#line 537 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/calexer.cpp"
 /* NEVER SET %option outfile INTERNALLY - SHALL BE SET BY CMAKE */
 #define YY_NO_INPUT 1
 #define YY_NO_UNISTD_H 1
 /* AVOID backup perf-report - DO NOT CREATE UNMANAGEABLE BYPRODUCT FILES */
 
-#line 542 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/calexer.cpp"
+#line 543 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/calexer.cpp"
 
 #define INITIAL 0
 #define COMMENT 1
@@ -803,11 +804,11 @@ YY_DECL
 		}
 
 	{
-#line 39 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 40 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 
 
 
-#line 43 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 44 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 #include <string>
 #include <stdexcept>
 #include <utility>
@@ -820,7 +821,7 @@ std::string msg = "";
 
 
 
-#line 824 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/calexer.cpp"
+#line 825 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/calexer.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -875,198 +876,198 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 55 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 56 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_IN(ctx->line());
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 56 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 57 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_LET(ctx->line());
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 57 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 58 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_MATCH(cecko::match_type::MATCH, ctx->line());
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 58 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 59 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_MATCH(cecko::match_type::DMATCH, ctx->line());
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 59 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 60 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_FIP(ctx->line());
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 60 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 61 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_FN(ctx->line());
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 61 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 62 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_VERT(ctx->line());
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 63 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 64 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_TYPEDEF(ctx->line());
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 64 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 65 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_SIZEOF(ctx->line());
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 65 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 66 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_ETYPE(cecko::gt_etype::BOOL, ctx->line());
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 66 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 67 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_ETYPE(cecko::gt_etype::CHAR, ctx->line());
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 67 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 68 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_ETYPE(cecko::gt_etype::INT, ctx->line());
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 69 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 70 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_LBRA(ctx->line());
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 70 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 71 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_RBRA(ctx->line());
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 71 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 72 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_LPAR(ctx->line());
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 72 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 73 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_RPAR(ctx->line());
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 73 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 74 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_LCUR(ctx->line());
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 74 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 75 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_RCUR(ctx->line());
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 76 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 77 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_ARROW(ctx->line());
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 77 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 78 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_COMMA(ctx->line());
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 78 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 79 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_STAR(ctx->line());
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 79 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 80 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_ADDOP(cecko::gt_addop::ADD, ctx->line());
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 80 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 81 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_ADDOP(cecko::gt_addop::SUB, ctx->line());
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 81 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 82 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_EMPH(ctx->line());
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 82 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 83 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_DIVOP(cecko::gt_divop::DIV, ctx->line());
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 83 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 84 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_DIVOP(cecko::gt_divop::MOD, ctx->line());
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 84 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 85 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_CMPO(cecko::gt_cmpo::LT, ctx->line()); 
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 85 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 86 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_CMPO(cecko::gt_cmpo::LE, ctx->line()); 
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 86 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 87 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_CMPO(cecko::gt_cmpo::GT, ctx->line()); 
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 87 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 88 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_CMPO(cecko::gt_cmpo::GE, ctx->line()); 
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 88 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 89 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_CMPE(cecko::gt_cmpe::EQ, ctx->line());  
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 89 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 90 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_CMPE(cecko::gt_cmpe::NE, ctx->line()); 
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 90 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 91 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_DAMP(ctx->line());
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 91 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 92 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_DVERT(ctx->line());
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 92 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 93 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_ASGN(ctx->line());
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 93 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 94 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_SEMIC(ctx->line());
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 94 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 95 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_COLON(ctx->line());
 	YY_BREAK
 case 38:
 /* rule 38 can match eol */
 YY_RULE_SETUP
-#line 96 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 97 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 ctx->incline(); 
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 97 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 98 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 { 
 	BEGIN(COMMENT); 
 	commentnest = 1; 
@@ -1074,17 +1075,17 @@ YY_RULE_SETUP
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 101 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 102 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 ctx->message(cecko::errors::UNEXPENDCMT, ctx->line());
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 102 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 103 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 { commentnest++; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 103 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 104 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	commentnest--;
 	if (commentnest == 0) {
@@ -1095,11 +1096,11 @@ YY_RULE_SETUP
 case 43:
 /* rule 43 can match eol */
 YY_RULE_SETUP
-#line 109 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 110 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 ctx->incline();
 	YY_BREAK
 case YY_STATE_EOF(COMMENT):
-#line 110 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 111 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	ctx->message(cecko::errors::EOFINCMT, ctx->line());
 	BEGIN(INITIAL);
@@ -1107,12 +1108,12 @@ case YY_STATE_EOF(COMMENT):
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 114 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 115 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 ;
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 116 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 117 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 { 
 	BEGIN(STR); 
 	strval = ""; 
@@ -1120,14 +1121,14 @@ YY_RULE_SETUP
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 120 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 121 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	BEGIN(STR_SPECIALCHAR);
 }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 123 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 124 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 { 
 	bool stat = casem::escape_interp(yytext, strval);
 	if (!stat) {
@@ -1140,7 +1141,7 @@ YY_RULE_SETUP
 case 48:
 /* rule 48 can match eol */
 YY_RULE_SETUP
-#line 131 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 132 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	msg = std::string("\\");
 	ctx->message(cecko::errors::BADESCAPE, ctx->line(), msg);
@@ -1153,7 +1154,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 140 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 141 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	msg = std::string("\\") + std::string(yytext);
 	ctx->message(cecko::errors::BADESCAPE, ctx->line(), msg);
@@ -1163,7 +1164,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 146 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 147 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	BEGIN(INITIAL);
 	return cecko::parser::make_STRLIT(strval, ctx->line());
@@ -1172,7 +1173,7 @@ YY_RULE_SETUP
 case 51:
 /* rule 51 can match eol */
 YY_RULE_SETUP
-#line 150 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 151 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	ctx->message(cecko::errors::EOLINSTRCHR, ctx->line());
 	int l = ctx->line();
@@ -1182,7 +1183,7 @@ YY_RULE_SETUP
 }
 	YY_BREAK
 case YY_STATE_EOF(STR):
-#line 157 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 158 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 { 
 	ctx->message(cecko::errors::EOFINSTRCHR, ctx->line());
 	BEGIN(INITIAL);
@@ -1191,14 +1192,14 @@ case YY_STATE_EOF(STR):
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 162 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 163 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	strval.append(std::string(yytext));
 }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 166 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 167 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	strval = "";
 	BEGIN(LETTER);
@@ -1206,14 +1207,14 @@ YY_RULE_SETUP
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 170 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 171 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	BEGIN(LETTER_SPECIALCHAR);
 }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 173 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 174 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	bool stat = casem::escape_interp(yytext, strval);
 	if (!stat) {
@@ -1226,7 +1227,7 @@ YY_RULE_SETUP
 case 56:
 /* rule 56 can match eol */
 YY_RULE_SETUP
-#line 181 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 182 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	msg = std::string("\\");
 	ctx->message(cecko::errors::BADESCAPE, ctx->line(), msg);
@@ -1239,7 +1240,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 190 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 191 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	msg = std::string("\\") + std::string(yytext);
 	ctx->message(cecko::errors::BADESCAPE, ctx->line(), msg);
@@ -1249,7 +1250,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 196 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 197 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	ctx->message(cecko::errors::EMPTYCHAR, ctx->line());
 	BEGIN(INITIAL);
@@ -1259,7 +1260,7 @@ YY_RULE_SETUP
 case 59:
 /* rule 59 can match eol */
 YY_RULE_SETUP
-#line 201 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 202 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 { 
 	ctx->message(cecko::errors::EOLINSTRCHR, ctx->line()); 
 	ctx->incline(); 
@@ -1268,7 +1269,7 @@ YY_RULE_SETUP
 }
 	YY_BREAK
 case YY_STATE_EOF(LETTER):
-#line 207 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 208 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 { 
 	ctx->message(cecko::errors::EOFINSTRCHR, ctx->line()); 
 	BEGIN(INITIAL);
@@ -1276,7 +1277,7 @@ case YY_STATE_EOF(LETTER):
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 211 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 212 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	std::string schar = std::string(yytext);
 	strval += schar;
@@ -1285,7 +1286,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 217 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 218 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	int c = static_cast<unsigned char>(strval[0]);
 	strval = "";
@@ -1294,7 +1295,7 @@ YY_RULE_SETUP
 }
 	YY_BREAK
 case YY_STATE_EOF(LETTER_FOUND):
-#line 223 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 224 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	ctx->message(cecko::errors::EOFINSTRCHR, ctx->line()); 
 	BEGIN(INITIAL); 
@@ -1306,7 +1307,7 @@ case YY_STATE_EOF(LETTER_FOUND):
 case 62:
 /* rule 62 can match eol */
 YY_RULE_SETUP
-#line 230 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 231 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	ctx->message(cecko::errors::UNTERMCHAR, ctx->line());
 	BEGIN(INITIAL);
@@ -1315,7 +1316,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 236 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 237 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	ctx->message(cecko::errors::BADINT, ctx->line(), yytext);
 
@@ -1328,7 +1329,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 245 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 246 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	ctx->message(cecko::errors::BADINT, ctx->line(), yytext);
 
@@ -1341,7 +1342,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 255 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 256 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	int i = 0;
 	if (!casem::safe_str_to_int(yytext, false, i)) {
@@ -1352,7 +1353,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 262 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 263 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	int i = 0;
 	if (!casem::safe_str_to_int(yytext, true, i)) {
@@ -1363,7 +1364,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 269 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 270 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	if (ctx->is_typedef(yytext)) {
 		return cecko::parser::make_TYPEIDF(std::string(yytext), ctx->line());
@@ -1374,13 +1375,13 @@ YY_RULE_SETUP
 case 68:
 /* rule 68 can match eol */
 YY_RULE_SETUP
-#line 276 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 277 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 ctx->incline(); 
 	YY_BREAK
 case 69:
 /* rule 69 can match eol */
 YY_RULE_SETUP
-#line 277 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 278 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 { 
 	int n_count = std::string(yytext).size();
 	for (int i = 0; i < n_count; i++) {
@@ -1391,27 +1392,27 @@ YY_RULE_SETUP
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 284 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 285 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 ;
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 285 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 286 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 ctx->message(cecko::errors::UNCHAR, ctx->line(), yytext);
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(STRUCT_DEF):
 case YY_STATE_EOF(STR_SPECIALCHAR):
 case YY_STATE_EOF(LETTER_SPECIALCHAR):
-#line 287 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 288 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_EOF(ctx->line());
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 289 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 290 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 ECHO;
 	YY_BREAK
-#line 1415 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/calexer.cpp"
+#line 1416 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/calexer.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2541,7 +2542,7 @@ void yyfree (void * ptr , yyscan_t yyscanner)
 
 #define YYTABLES_NAME "yytables"
 
-#line 289 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 290 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 
 
 namespace cecko {

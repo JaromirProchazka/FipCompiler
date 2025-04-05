@@ -52,6 +52,7 @@
 #include "ckbisonflex.hpp"
 #include <iostream>
 #include <vector>
+#include <stdlib.h>
 
 // adjust YYLLOC_DEFAULT macro for our api.location.type
 #define YYLLOC_DEFAULT(res,rhs,N)	(res = (N)?YYRHSLOC(rhs, 1):YYRHSLOC(rhs, 0))
@@ -61,7 +62,7 @@
 #include "casem.hpp"
 #include <functional>
 
-#line 65 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.hpp"
+#line 66 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.hpp"
 
 # include <cassert>
 # include <cstdlib> // std::abort
@@ -202,7 +203,7 @@
 
 #line 7 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
 namespace cecko {
-#line 206 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.hpp"
+#line 207 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.hpp"
 
 
 
@@ -2310,7 +2311,7 @@ switch (yykind)
     // number is the opposite.  If YYTABLE_NINF, syntax error.
     static const short yytable_[];
 
-    static const unsigned char yycheck_[];
+    static const short yycheck_[];
 
     // YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
     // state STATE-NUM.
@@ -2552,7 +2553,7 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 118,     ///< Last index in yytable_.
+      yylast_ = 120,     ///< Last index in yytable_.
       yynnts_ = 55,  ///< Number of nonterminal symbols.
       yyfinal_ = 18 ///< Termination state number.
     };
@@ -2985,7 +2986,7 @@ switch (yykind)
 
 #line 7 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
 } // cecko
-#line 2989 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.hpp"
+#line 2990 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.hpp"
 
 
 

@@ -10,6 +10,8 @@
 #include <cstdint>
 #include <unordered_map>
 #include <utility>
+#include <cassert>
+#define assertm(exp, msg) assert((void(msg), exp))
 
 // A swith that says if we should log
 #define LOG_DEBBUG true
@@ -44,8 +46,10 @@ namespace casem
     InstructionWrapper init_instruction_function_call(cecko::context *ctx, const InstructionWrapper &inst, InstructionArray fargs);
     InstructionWrapper init_instruction_const(cecko::context *ctx, int intlit);
     InstructionWrapper init_instruction_const(cecko::context *ctx, const cecko::CIName &strlit);
+    InstructionWrapper init_instruction_malloca(cecko::context *ctx, cecko::CKTypeSafeObs type, const cecko::CIName &name);
 
     std::string get_constructor_label(const std::string &tname);
+    std::string get_reuser_label(const cecko::CIName &tname);
 
     /// @brief for functional types defined in code, inserts the type name and its tags into lookup table
     ///
@@ -66,11 +70,29 @@ namespace casem
     /// @return the range of tags (the secod number is one greater than the last tag)
     const std::pair<int, int> &find_ttype(const std::string &tlabel);
 
-    bool is_tagged_type(cecko::CKTypeSafeObs type);
-
-    void log(const char *msg, ...);
     void log(const std::string &msgs);
+    void log(const char *msg, ...);
     void log_name(const char *msg, const std::string &name);
+
+    class FipState
+    {
+        inline static int fip_counter = 0;
+
+    public:
+        FipState() = delete;
+
+        static void enter_fip_mode()
+        {
+            log("[FipState] ENTER\n");
+            ++fip_counter;
+        }
+        static void exit_fip_mode()
+        {
+            log("[FipState] EXIT\n");
+            --fip_counter;
+        }
+        static bool is_in_fip_mode() { return fip_counter > 0; }
+    };
 
     enum UnaryOperator
     {
@@ -80,6 +102,11 @@ namespace casem
         SUB_S,
         EXCALMATION_MARK
     };
+
+    bool is_tagged_type(cecko::CKTypeSafeObs tagged_type);
+    bool is_tagged_type(cecko::CKTypeObs tagged_type);
+
+    void generate_debug_print(cecko::context *ctx, const cecko::CIName &label);
 
     enum VarMode
     {
@@ -130,11 +157,40 @@ namespace casem
             log("making string done\n");
         }
 
+        /// @brief If in casem debug mod, Generates a call to printf with the label info and the value of instruction
+        void generate_debug_print(const cecko::CIName &label)
+        {
+            if (!LOG_DEBBUG)
+                return;
+            std::string text = "|" + label + "| '";
+            InstructionWrapper print_text;
+            InstructionArray print_args;
+            bool printable_type = false;
+
+            if (type->is_pointer())
+            {
+                text += "%p";
+                printable_type = true;
+            }
+            else if (type->is_int())
+            {
+                text += "%i";
+                printable_type = true;
+            }
+
+            text += "'\n";
+            print_text = init_instruction_const(ctx, text);
+            if (printable_type)
+                print_args = {print_text, *this};
+            else
+                print_args = {print_text};
+            init_instruction_function_call(ctx, init_instruction_from_name(ctx, "printf"), print_args);
+        }
+
         bool is_valid()
         {
             return valid;
         }
-
         InstructionWrapper operator*() const
         {
             if (mode == RValue)
@@ -211,7 +267,7 @@ namespace casem
             else
             {
                 log("|store| storing to NON pointer\n");
-                stored = other.to_type(type->get_ir());
+                stored = other.to_type(type);
                 ctx->builder()->CreateStore(stored.read_ir(), address);
             }
 
@@ -251,7 +307,8 @@ namespace casem
             case RValue:
                 return value;
             case LValue:
-                return ctx->builder()->CreateLoad(type->get_ir(), address, "sload_" + name);
+                // return ctx->builder()->CreateLoad(type->get_ir(), address, "sload_" + name);
+                return ctx->builder()->CreateLoad(type->get_ir(), address, "$" + name);
             }
 
             // unreachable
@@ -286,7 +343,7 @@ namespace casem
             {
                 auto conv = to_num();
                 t0 = conv.read_ir();
-                t1 = other.to_type(conv.type->get_ir()).read_ir();
+                t1 = other.to_type(conv.type).read_ir();
                 instruction = ctx->builder()->CreateAdd(t0, t1, vname);
 
                 return InstructionWrapper(
@@ -344,7 +401,7 @@ namespace casem
             {
                 auto conv = to_num();
                 t0 = conv.read_ir();
-                t1 = other.to_type(conv.type->get_ir()).read_ir();
+                t1 = other.to_type(conv.type).read_ir();
                 instruction = ctx->builder()->CreateSub(t0, t1, vname);
 
                 return InstructionWrapper(
@@ -385,7 +442,7 @@ namespace casem
         {
             auto conv = to_num();
             auto t0 = conv.read_ir();
-            auto t1 = other.to_type(conv.type->get_ir()).read_ir();
+            auto t1 = other.to_type(conv.type).read_ir();
             auto vname = name + "*" + other.name;
             return InstructionWrapper(
                 ctx,
@@ -399,7 +456,7 @@ namespace casem
         {
             auto conv = to_num();
             auto t0 = conv.read_ir();
-            auto t1 = other.to_type(conv.type->get_ir()).read_ir();
+            auto t1 = other.to_type(conv.type).read_ir();
             auto vname = name + "/" + other.name;
             return InstructionWrapper(
                 ctx,
@@ -413,7 +470,7 @@ namespace casem
         {
             auto conv = to_num();
             auto t0 = conv.read_ir();
-            auto t1 = other.to_type(conv.type->get_ir()).read_ir();
+            auto t1 = other.to_type(conv.type).read_ir();
             auto vname = name + "%" + other.name;
             return InstructionWrapper(
                 ctx,
@@ -470,20 +527,27 @@ namespace casem
             }
 
             log("finding field index\n");
-            unsigned int field_id = struct_type
-                                        ->find_struct_element(field_name)
-                                        ->get_idx();
+            auto field_id_obs = struct_type->find_struct_element(field_name);
+            if (!field_id_obs)
+            {
+                std::string e_msg = name + " has no field: '" + field_name + "'!";
+                ctx->message(cecko::errors::SYNTAX, ctx->line(), e_msg);
+                return *this;
+            }
+            unsigned int field_id = field_id_obs->get_idx();
             log("found field index " + std::to_string(field_id) + " for " + field_name + "\n");
 
-            return InstructionWrapper(
+            std::string inst_label = name + "." + field_name;
+            InstructionWrapper result(
                 ctx,
                 LValue,
-                ctx->builder()->CreateStructGEP(struct_type->get_ir(), read_ir(), field_id, field_name),
-                // FIXME: maybe should't be pointer type to the field
-                // ctx->get_pointer_type(cecko::CKTypeRefPack(field_type, false)),
+                ctx->builder()->CreateStructGEP(struct_type->get_ir(), read_ir(), field_id, inst_label),
                 field_type,
                 false,
-                field_name);
+                inst_label);
+            // result.generate_debug_print("field[" + std::to_string(field_id) + "] == ");
+
+            return result;
         }
         InstructionWrapper field(unsigned int field_id, cecko::CKTypeSafeObs field_type)
         {
@@ -495,8 +559,12 @@ namespace casem
                 return *this;
             }
 
-            auto field_name = name + ".field_id(" + std::to_string(field_id) + ")";
-            return InstructionWrapper(
+            std::string field_name;
+            if (field_id == 0)
+                field_name = name + ".tag";
+            else
+                field_name = name + ".[" + std::to_string(field_id) + "]";
+            InstructionWrapper result(
                 ctx,
                 LValue,
                 ctx->builder()->CreateStructGEP(struct_type->get_ir(), read_ir(), field_id, field_name),
@@ -505,6 +573,9 @@ namespace casem
                 field_type,
                 false,
                 field_name);
+            // result.generate_debug_print("field[" + std::to_string(field_id) + "] == ");
+
+            return result;
         }
         /// @brief generates instruction representing bool value, which says wether this Tagged type pointer has given tag value
         /// @param tag the expected tag of this type
@@ -512,7 +583,9 @@ namespace casem
         /// @return the tag of this type is equil to the given tag
         InstructionWrapper has_tag(int tag)
         {
+            log("|.has_tag| \n");
             std::string label = name + "==" + std::to_string(tag);
+            generate_debug_print("'.has_tag' entered");
             if (!is_tagged_type(type))
             {
                 ctx->message(cecko::errors::SYNTAX, ctx->line(), name + " isn't a Defined type!");
@@ -524,6 +597,9 @@ namespace casem
             }
             auto expected_tag = init_instruction_const(ctx, tag);
             auto &&this_tag = field(0, ctx->get_int_type());
+            this_tag.generate_debug_print("'.has_tag' expecting tag to be '" + std::to_string(tag) + "' and found tag is");
+
+            log("|.has_tag| done, returning...\n");
 
             return InstructionWrapper(
                 ctx,
@@ -642,27 +718,102 @@ namespace casem
                 true,
                 vname);
         }
-        InstructionWrapper to_type(cecko::CKIRTypeObs to_type) const
+        InstructionWrapper to_type(cecko::CKTypeSafeObs to_type) const
         {
-            if (type->get_ir() == to_type)
+            log("|.to_type| \n");
+            if (type == to_type)
+            {
                 return *this;
+            }
 
-            if (to_type->isPointerTy())
+            if (is_tagged_type(to_type))
+            { // Tagged type
+                return to_tagged(to_type);
+            }
+            else if (to_type->is_pointer())
+            {
                 return to_ptr();
-            else if (to_type->isIntegerTy(1)) // bool
+            }
+            else if (to_type->get_ir()->isIntegerTy(1))
+            { // bool
                 return to_bool();
-            else if (to_type->isIntegerTy(8)) // char
+            }
+            else if (to_type->get_ir()->isIntegerTy(8))
+            { // char
                 return to_char();
-            else if (to_type->isIntegerTy(32)) // int
+            }
+            else if (to_type->get_ir()->isIntegerTy(32))
+            { // int
                 return to_int();
+            }
             else
+            {
                 ctx->message(cecko::errors::SYNTAX, ctx->line(), "Couldn't cast to wanted type!");
-            return InstructionWrapper();
+            }
+            return *this;
+        }
+        InstructionWrapper to_tagged(cecko::CKTypeSafeObs tagged_type) const
+        {
+            log("|.to_tagged(cecko::CKTypeSafeObs tagged_type)| started\n");
+            if (is_tagged_type(type) && is_tagged_type(tagged_type))
+            {
+                log("|.to_tagged(cecko::CKTypeSafeObs tagged_type)| both this type and casted to type are tagged\n");
+                auto check_res = check_tagged_cast_safety(tagged_type);
+                auto to_type_label = InstructionWrapper::get_struct_type_name(tagged_type);
+                auto from_type_label = InstructionWrapper::get_struct_type_name(type);
+                std::string error_start = "Cast from type '" + from_type_label + "' to type '" + to_type_label + "' failed! ";
+                switch (check_res)
+                {
+                case EOK:
+                    log("|.to_tagged(cecko::CKTypeSafeObs tagged_type)| done OK");
+                    return InstructionWrapper(
+                        ctx,
+                        mode,
+                        ctx->builder()->CreateBitCast(get_ir(), tagged_type->get_ir(), name),
+                        tagged_type,
+                        is_const,
+                        name);
+                case DIFFERENT_SUBTYPES:
+                    ctx->message(cecko::errors::SYNTAX, ctx->line(),
+                                 error_start + "They are both different subtypes!");
+                    break;
+                case FROM_NOT_TO_ITS_SUBTYPE:
+                    ctx->message(cecko::errors::SYNTAX, ctx->line(),
+                                 error_start + "Casting parent type not to its subtype!");
+                    break;
+                case TO_NOT_FROM_ITS_SUBTYPE:
+                    ctx->message(cecko::errors::SYNTAX, ctx->line(),
+                                 error_start + "Casting subtype not to its parent type!");
+                    break;
+                case NOT_SAME_PARRENT_TYPES:
+                    ctx->message(cecko::errors::SYNTAX, ctx->line(),
+                                 error_start + "They are both different parent types!");
+                    break;
+                }
+            }
+
+            log("|.to_tagged(cecko::CKTypeSafeObs tagged_type)| done not OK");
+            return *this;
+        }
+        InstructionWrapper to_tagged(const std::string &tagged_type_label) const
+        {
+            log("|.to_tagged(const std::string &tagged_type_label)| started\n");
+            auto struct_type = ctx->declare_struct_type(tagged_type_label, ctx->line());
+            if (!struct_type->is_defined())
+            {
+                ctx->message(cecko::errors::SYNTAX, ctx->line(),
+                             std::string("Casting to undefined type '") + tagged_type_label + "'!");
+            }
+            cecko::CKTypeRefPack struct_type_pack(struct_type, false);
+            cecko::CKTypeSafeObs tagged_type = ctx->get_pointer_type(struct_type_pack);
+            log("|.to_tagged(const std::string &tagged_type_label)| calling to_tagged(tagged_type)\n");
+            auto &&res = to_tagged(tagged_type);
+            log("|.to_tagged(const std::string &tagged_type_label)| done\n");
+            return res;
         }
 
     private:
         cecko::context *ctx;
-
         InstructionWrapper get_int_const(int i) const
         {
             return InstructionWrapper(
@@ -672,6 +823,85 @@ namespace casem
                 ctx->get_int_type(),
                 true,
                 std::to_string(i));
+        }
+        static std::string get_struct_type_name(cecko::CKTypeSafeObs t)
+        {
+            log("|.get_struct_type_name| started\n");
+            cecko::CKTypeObs t_ptr;
+            if (t->is_struct())
+            {
+                t_ptr = t;
+            }
+            else if (t->is_pointer())
+            {
+                t_ptr = t->get_pointer_points_to().type;
+            }
+            else
+            {
+                assertm(false, "trying to get struct type name but given type isn't struct or struct pointer!");
+            }
+            log("|.get_struct_type_name| casted t to CKTypeObs\n");
+            auto res = ((cecko::CKStructTypeObs)t_ptr)->get_name();
+            log("|.get_struct_type_name| return res, done...\n");
+            return res;
+        }
+        enum tagged_cast_safety_result
+        {
+            EOK,
+            DIFFERENT_SUBTYPES,
+            FROM_NOT_TO_ITS_SUBTYPE,
+            TO_NOT_FROM_ITS_SUBTYPE,
+            NOT_SAME_PARRENT_TYPES
+        };
+        /// @brief check is this tagged type and given tagged type are safe to cast (only type check, no istructions generated)
+        /// @param tagged_type tagged type to be casted to
+        /// @return Resulting enum (EOK means that cast is safe)
+        tagged_cast_safety_result check_tagged_cast_safety(cecko::CKTypeSafeObs tagged_type) const
+        {
+            log("|.check_tagged_cast_safety| started\n");
+            auto to_type_label = InstructionWrapper::get_struct_type_name(tagged_type);
+            auto from_type_label = InstructionWrapper::get_struct_type_name(type);
+            log(std::string("|.check_tagged_cast_safety| '") + from_type_label + "' casted to '" + to_type_label + "'\n");
+
+            auto to_tags = find_ttype(to_type_label);
+            auto from_tags = find_ttype(from_type_label);
+
+            auto to_tag_min = to_tags.first;
+            auto to_tag_max = to_tags.second;
+            auto from_tag_min = from_tags.first;
+            auto from_tag_max = from_tags.second;
+
+            bool to_is_subtype = to_tag_min == to_tag_max;
+            bool from_is_subtype = from_tag_min == from_tag_max;
+            bool both_are_subtypes = to_is_subtype && from_is_subtype;
+
+            if (both_are_subtypes)
+            {
+                if (from_tag_min == to_tag_min)
+                    return EOK; // same type
+                else
+                    return DIFFERENT_SUBTYPES; // different subtypes
+            }
+            else if (to_is_subtype)
+            {                             // from parent -> to subtype (from must be parrent type)
+                auto to_tag = to_tag_min; // sice to is subtype
+                if (from_tag_min <= to_tag && to_tag < from_tag_max)
+                    return EOK; // to_tag is in bounds (necessary to check tag field)
+                else
+                    return FROM_NOT_TO_ITS_SUBTYPE; // to is not subtype of from type
+            }
+            else if (from_is_subtype)
+            {                                 // from subtype -> to parent (to must be parrent type)
+                auto from_tag = from_tag_min; // sice from is subtype
+                if (to_tag_min <= from_tag && from_tag < to_tag_max)
+                    return EOK; // from_tag is in bounds (necessary to check tag field)
+                else
+                    return TO_NOT_FROM_ITS_SUBTYPE; // from is not subtype of to type
+            }
+            else
+            { // both are parrent types
+                return NOT_SAME_PARRENT_TYPES;
+            }
         }
     };
 
@@ -688,7 +918,6 @@ namespace casem
             return block;
         }
     };
-
     class TaggedTypeDecl
     {
     public:
@@ -704,7 +933,6 @@ namespace casem
             return struct_decl->get_name();
         }
     };
-
     class ControllFlowData
     {
     public:
@@ -730,18 +958,31 @@ namespace casem
         bool is_destructive;
         std::string matched_var_name;
         std::shared_ptr<casem::CKTypeRefDefPack> return_type;
+        cecko::match_type fip_mod;
 
-        MatchWrapper(bool _is_destructive, std::string &_matched_var_name, std::shared_ptr<casem::CKTypeRefDefPack> _return_type)
+        MatchWrapper(cecko::context *ctx, bool _is_destructive, std::string &_matched_var_name, std::shared_ptr<casem::CKTypeRefDefPack> _return_type, cecko::match_type mode)
             : is_destructive(_is_destructive),
               matched_var_name(_matched_var_name),
-              return_type(std::move(_return_type))
+              return_type(std::move(_return_type)),
+              fip_mod(mode)
         {
+            if (fip_mod == cecko::match_type::MATCH && FipState::is_in_fip_mode())
+            {
+                ctx->message(cecko::errors::SYNTAX, ctx->line(), "Can't use regular match in fip expression!");
+                FipState::enter_fip_mode();
+                return;
+            }
+            if (fip_mod == cecko::match_type::DMATCH)
+            {
+                FipState::enter_fip_mode();
+            }
         }
 
         MatchWrapper()
             : is_destructive(false),
               matched_var_name(""),
-              return_type(nullptr)
+              return_type(nullptr),
+              fip_mod()
         {
         }
     };
@@ -801,23 +1042,31 @@ namespace casem
         /// @brief inits the if statement and sets the InsertPoint to the if.then block end
         MatchBinderChackerData &create_if_statement(cecko::context *ctx, MatchWrapper &match_data)
         {
-            auto &&matched = init_instruction_from_name(ctx, match_data.matched_var_name);
+            log("|MatchBinderChackerData::create_if_statement| started creating if statement");
+            auto matched = init_instruction_from_name(ctx, match_data.matched_var_name);
+            matched.generate_debug_print("'match binder' matched var pointer is");
             auto &&cond = matched.has_tag(find_ttype(type_label).first);
+            log("|MatchBinderChackerData::create_if_statement| initalizing if block\n");
+            cond.generate_debug_print("cond in match");
             if_data = init_if_data(ctx, cond);
 
             // auto match_than = ctx->create_basic_block(std::string("match_") + type_label + ".then");
             // ctx->builder()->SetInsertPoint(match_than);
 
+            log("|MatchBinderChackerData::create_if_statement| DONE\n");
             return *this;
         }
         MatchBinderChackerData &init_binder_vars(cecko::context *ctx, MatchWrapper &match_data)
         {
+            log("|MatchBinderChackerData::init_binder_vars| started\n");
+            auto matched = init_instruction_from_name(ctx, match_data.matched_var_name)
+                               .to_tagged(type_label);
+            log("|MatchBinderChackerData::init_binder_vars| casted matched to the binders type\n");
             for (std::size_t i = 0; i < declarations.size(); ++i)
             {
                 auto &decl = declarations[i];
                 decl.declare(ctx);
                 auto declared = init_instruction_from_name(ctx, decl.label);
-                auto matched = init_instruction_from_name(ctx, match_data.matched_var_name);
                 unsigned int field_id = (unsigned int)i + 1; // since the id 0 is the Tag
                 auto field_stored_type = decl.type.type;
                 declared.store(matched.field(field_id, cecko::safe_ptr(field_stored_type)));
@@ -874,11 +1123,10 @@ namespace casem
     CKTypeRefDefPack to_ckt(const cecko::CKStructItem &other);
 
     void declare_type_constructor(cecko::context *ctx, const std::string &tname, const cecko::CKStructTypeSafeObs &type, const cecko::CKStructItemArray &params);
+    void declare_type_reuser(cecko::context *ctx, const std::string &tname, const cecko::CKStructTypeSafeObs &type, const cecko::CKStructItemArray &params);
 
     CKTypeRefDefPack get_variadic_type();
-
     cecko::CKStructItem get_tag_strauct_item(cecko::context *ctx);
-
     cecko::CKIRBasicBlockObs new_basic_block(cecko::context *ctx, std::function<void(cecko::context *)> instruction_inserter, cecko::CIName name = "basic_block");
     /// @brief Get lambda that defines var in given context.
     /// @param ctx The current context instance pointer
@@ -925,20 +1173,16 @@ namespace casem
     /// @param packs the CKTypeRefDefPack vector
     /// @return cecko::CKTypeObsArray
     cecko::CKTypeObsArray get_types_from_tpacks(TRDArray packs);
-
     /// @brief takes an escape sequence after the '\' and adds the reesulting char to the end of acum parameter
     /// @param acum: a string to which end the result is appended, if the process ends successfuly
     /// @returns a status of the interpretations. If true, the resulting char is in the acum, else the escape sequence is invalid.
-    bool
-    escape_interp(const char *y, std::string &acum);
-
+    bool escape_interp(const char *y, std::string &acum);
     /// @brief converts safely an input string into an int in the result parameter.
     /// @param y: input string
     /// @param look_for_dec: says if the given num is decimal, otherwise interpreted as hex.
     /// @param result:
     /// @return if the int conversion fails, returns false and in INT_MAX to the result. Else true.
     bool safe_str_to_int(const char *y, bool look_for_dec, int &result);
-
     /// @brief takes string and ruturns the longest prefix that is a valid number
     /// @param y the string to be converted
     /// @param look_for_dec if true, the number is decimal, else hex

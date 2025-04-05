@@ -6,22 +6,23 @@
 
 #if defined _WIN32 || defined __CYGWIN__
 #ifdef __GNUC__
-#define DLL_PUBLIC __attribute__ ((dllexport))
+#define DLL_PUBLIC __attribute__((dllexport))
 #else
 #define DLL_PUBLIC __declspec(dllexport) // Note: actually gcc seems to also supports this syntax.
 #endif
 #else
 #if __GNUC__ >= 4
-#define DLL_PUBLIC __attribute__ ((visibility ("default")))
+#define DLL_PUBLIC __attribute__((visibility("default")))
 #else
 #define DLL_PUBLIC
 #endif
 #endif
 
-std::ostream* ckrt_out = &std::cout;
+std::ostream *ckrt_out = &std::cout;
 
-extern "C" {
-	int DLL_PUBLIC ckrt_printf(const char* s, ...)
+extern "C"
+{
+	int DLL_PUBLIC ckrt_printf(const char *s, ...)
 	{
 		static std::vector<char> buffer;
 		va_list va;
@@ -30,13 +31,13 @@ extern "C" {
 		va_copy(va2, va);
 		auto rv2 = std::vsnprintf(nullptr, 0, s, va2);
 		va_end(va2);
-		if (rv2 < 0)	// vsnprintf failed
+		if (rv2 < 0) // vsnprintf failed
 		{
 			std::vsnprintf(nullptr, 0, s, va);
 		}
 		else
 		{
-			auto rsize = (std::size_t)rv2 + 1;	// ending zero
+			auto rsize = (std::size_t)rv2 + 1; // ending zero
 			if (rsize >= buffer.size())
 				buffer.resize(rsize);
 			auto rv = std::vsnprintf(buffer.data(), buffer.size(), s, va);
@@ -50,7 +51,21 @@ extern "C" {
 		return rv2;
 	}
 
-	int DLL_PUBLIC ckrt_scanf(const char* s, ...)
+	void DLL_PUBLIC *ckrt_malloc(int size)
+	{
+		auto res = malloc((std::size_t)size);
+		if (!res)
+		{
+			ckrt_printf("[ckrt_malloc] malloc returned NULL!\n");
+		}
+		else
+		{
+			ckrt_printf("[ckrt_malloc] malloced '%p'\n", res);
+		}
+		return res;
+	}
+
+	int DLL_PUBLIC ckrt_scanf(const char *s, ...)
 	{
 		va_list va;
 		va_start(va, s);
@@ -59,7 +74,7 @@ extern "C" {
 		return rv;
 	}
 
-	int DLL_PUBLIC ckrt_sprintf(char* b, const char* s, ...)
+	int DLL_PUBLIC ckrt_sprintf(char *b, const char *s, ...)
 	{
 		va_list va;
 		va_start(va, s);
@@ -68,7 +83,7 @@ extern "C" {
 		return rv;
 	}
 
-	int DLL_PUBLIC ckrt_sscanf(const char* b, const char* s, ...)
+	int DLL_PUBLIC ckrt_sscanf(const char *b, const char *s, ...)
 	{
 		va_list va;
 		va_start(va, s);
@@ -77,17 +92,18 @@ extern "C" {
 		return rv;
 	}
 
-	void DLL_PUBLIC ckrt_memset(void* d, int s, int l)
+	void DLL_PUBLIC ckrt_memset(void *d, int s, int l)
 	{
 		memset(d, s, l);
 	}
 }
 
-namespace cecko {
+namespace cecko
+{
 
 	CKIRTypeObs CKGetPtrType(CKIRContextRef irc)
 	{
-		return llvm::PointerType::getUnqual( irc);
+		return llvm::PointerType::getUnqual(irc);
 	}
 
 	CKIRTypeObs CKGetArrayType(CKIRTypeObs element, CKIRConstantIntObs size)
@@ -95,7 +111,7 @@ namespace cecko {
 		return llvm::ArrayType::get(element, size->getValue().getSExtValue());
 	}
 
-	CKIRConstantObs CKCreateGlobalVariable(CKIRTypeObs irtp, const std::string& name, CKIRModuleObs M)
+	CKIRConstantObs CKCreateGlobalVariable(CKIRTypeObs irtp, const std::string &name, CKIRModuleObs M)
 	{
 		auto var = M->getOrInsertGlobal(name, irtp);
 		auto gvar = llvm::cast<llvm::GlobalVariable>(var);
@@ -110,7 +126,7 @@ namespace cecko {
 		return var;
 	}
 
-	CKIRConstantObs CKCreateExternVariable(CKIRTypeObs irtp, const std::string& name, CKIRModuleObs M)
+	CKIRConstantObs CKCreateExternVariable(CKIRTypeObs irtp, const std::string &name, CKIRModuleObs M)
 	{
 		auto var = M->getOrInsertGlobal(name, irtp);
 		auto gvar = llvm::cast<llvm::GlobalVariable>(var);
@@ -128,13 +144,13 @@ namespace cecko {
 		ckirdatalayoutptr_ = std::make_unique<llvm::DataLayout>(ckirmoduleobs_);
 	}
 
-	void CKIREnvironment::dump_module(std::ostream& os, CKIRModuleObs module) const
+	void CKIREnvironment::dump_module(std::ostream &os, CKIRModuleObs module) const
 	{
 		llvm::raw_os_ostream raw_os(os);
 		raw_os << *module;
 	}
 
-	std::error_code CKIREnvironment::write_bitcode_module(const std::string& fname, CKIRModuleObs module) const
+	std::error_code CKIREnvironment::write_bitcode_module(const std::string &fname, CKIRModuleObs module) const
 	{
 		std::error_code oec;
 		llvm::raw_fd_ostream ofile(fname, oec);
@@ -145,7 +161,7 @@ namespace cecko {
 		return oec;
 	}
 
-	int CKIREnvironment::run_main(CKIRFunctionObs fnc, int argc, char** argv, std::ostream & os)
+	int CKIREnvironment::run_main(CKIRFunctionObs fnc, int argc, char **argv, std::ostream &os)
 	{
 		int mainrv = -1;
 		{
@@ -153,10 +169,11 @@ namespace cecko {
 			std::string errStr;
 			auto EE =
 				llvm::EngineBuilder(std::move(ckirmoduleptr_))
-				.setErrorStr(&errStr)
-				.create();
+					.setErrorStr(&errStr)
+					.create();
 
-			if (!EE) {
+			if (!EE)
+			{
 				os << "========== Failed to construct ExecutionEngine: " << errStr << "==========\n";
 				return 1;
 			}
@@ -164,13 +181,15 @@ namespace cecko {
 			std::string errors;
 			llvm::raw_string_ostream errors_ostream(errors);
 			bool dummy;
-			if (verifyModule(*ckirmoduleobs_, &errors_ostream, &dummy)) {
-				os << "========== Error constructing function ==========\n" << errors;
+			if (verifyModule(*ckirmoduleobs_, &errors_ostream, &dummy))
+			{
+				os << "========== Error constructing function ==========\n"
+				   << errors;
 				return 1;
 			}
 
 			os << "========== starting main() ==========\n";
-			os.flush();	// flush before running unsafe code
+			os.flush(); // flush before running unsafe code
 			ckrt_out = &os;
 
 			std::vector<llvm::GenericValue> Args(2);
