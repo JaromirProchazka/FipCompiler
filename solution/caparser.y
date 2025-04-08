@@ -303,7 +303,13 @@ function_definition_head:
 primary_expression:
     enumeration_constant    {
         log("[primary_expression:] name\n");
-        $$ = init_instruction_from_name(ctx, $1);
+        if (casem::is_struct_label(ctx, $1)) {
+            auto&& constructor_name = get_constructor_label($1);
+            $$ = init_instruction_function_call(ctx, init_instruction_from_name(ctx, constructor_name), {});
+        }
+        else {
+            $$ = init_instruction_from_name(ctx, $1);
+        }
     }
     | INTLIT    {
         //CKIRConstantIntObs
