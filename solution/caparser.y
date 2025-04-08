@@ -559,7 +559,8 @@ match_head:
         casem::CKTypeRefDefPack rfpack = $4;
         DEFINER_BODY(rfpack, std::function(CHOOSE_AND_DEFINE));
         auto rfpack_ptr = std::make_shared<casem::CKTypeRefDefPack>(rfpack);
-        casem::MatchWrapper mw(ctx, $1 == cecko::match_type::DMATCH, $2, rfpack_ptr, $1); 
+        auto res_var = init_instruction_from_name(ctx, casem::match_result_template);
+        casem::MatchWrapper mw(ctx, $1 == cecko::match_type::DMATCH, $2, rfpack_ptr, $1, res_var); 
         init_instruction_from_name(ctx, $2).generate_debug_print("'match_head' matched argument is");
         log("match head done\n");
         $$ = mw;
@@ -575,8 +576,8 @@ match_expression:
         casem::MatchWrapper match_data = $1;
         FipState::exit_fip_mode();
 
-        auto&& res = init_instruction_from_name(ctx, casem::match_result_template);
-        $$ = res;
+        // auto&& res = init_instruction_from_name(ctx, casem::match_result_template);
+        $$ = match_data.result;
     }
 ;
 
@@ -589,11 +590,15 @@ match_binders_list:
         auto& if_data = binder_data.if_data;
         auto&& conditioned_result_value = $2;
 
-        auto res = init_instruction_from_name(ctx, match_result_template);
+        conditioned_result_value.generate_debug_print("match_binder_if -> result = ");
+        auto res = match_dt.result; // init_instruction_from_name(ctx, match_result_template);
         res.generate_debug_print("'match binder' match result before store");
         res.store(conditioned_result_value);
         res.generate_debug_print("'match binder' match result after store");
         ctx->exit_block();
+        // set current insertion block as the back of the if.then block
+        binder_data.if_data.if_block_back = ctx->builder()->GetInsertBlock();
+
         ctx->builder()->SetInsertPoint(if_data.continue_block);
         create_if_control_flow(ctx, if_data);
         
@@ -608,11 +613,14 @@ match_binders_list:
         auto&& conditioned_result_value = $2;
 
         conditioned_result_value.generate_debug_print("match_binder_if -> result = ");
-        auto res = init_instruction_from_name(ctx, match_result_template);
+        auto res = match_dt.result; // init_instruction_from_name(ctx, match_result_template);
         res.generate_debug_print("'match binder' match result before store");
         res.store(conditioned_result_value);
         res.generate_debug_print("'match binder' match result after store");
         ctx->exit_block();
+        // set current insertion block as the back of the if.then block
+        if_data.if_block_back = ctx->builder()->GetInsertBlock();
+
         ctx->builder()->SetInsertPoint(if_data.continue_block);
         create_if_control_flow(ctx, if_data);
         

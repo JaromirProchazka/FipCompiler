@@ -959,12 +959,14 @@ namespace casem
         std::string matched_var_name;
         std::shared_ptr<casem::CKTypeRefDefPack> return_type;
         cecko::match_type fip_mod;
+        casem::InstructionWrapper result;
 
-        MatchWrapper(cecko::context *ctx, bool _is_destructive, std::string &_matched_var_name, std::shared_ptr<casem::CKTypeRefDefPack> _return_type, cecko::match_type mode)
+        MatchWrapper(cecko::context *ctx, bool _is_destructive, std::string &_matched_var_name, std::shared_ptr<casem::CKTypeRefDefPack> _return_type, cecko::match_type mode, casem::InstructionWrapper &result_var)
             : is_destructive(_is_destructive),
               matched_var_name(_matched_var_name),
               return_type(std::move(_return_type)),
-              fip_mod(mode)
+              fip_mod(mode),
+              result(result_var)
         {
             if (fip_mod == cecko::match_type::MATCH && FipState::is_in_fip_mode())
             {
@@ -982,7 +984,8 @@ namespace casem
             : is_destructive(false),
               matched_var_name(""),
               return_type(nullptr),
-              fip_mod()
+              fip_mod(),
+              result()
         {
         }
     };

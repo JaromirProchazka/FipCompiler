@@ -48,6 +48,11 @@ extern "C"
 			}
 		}
 		va_end(va);
+
+		// change for fip
+		rv2 = (rv2 != -1) ? 0 : 1;
+		// change for fip
+
 		return rv2;
 	}
 
@@ -71,6 +76,7 @@ extern "C"
 		va_start(va, s);
 		int rv = vscanf(s, va);
 		va_end(va);
+
 		return rv;
 	}
 
@@ -80,6 +86,7 @@ extern "C"
 		va_start(va, s);
 		int rv = vsprintf(b, s, va);
 		va_end(va);
+
 		return rv;
 	}
 
@@ -89,6 +96,7 @@ extern "C"
 		va_start(va, s);
 		int rv = vsscanf(b, s, va);
 		va_end(va);
+
 		return rv;
 	}
 
