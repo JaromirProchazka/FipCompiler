@@ -61,11 +61,11 @@ extern "C"
 		auto res = malloc((std::size_t)size);
 		if (!res)
 		{
-			ckrt_printf("[ckrt_malloc] malloc returned NULL!\n");
+			// ckrt_printf("[ckrt_malloc] malloc returned NULL!\n");
 		}
 		else
 		{
-			ckrt_printf("[ckrt_malloc] malloced '%p'\n", res);
+			// ckrt_printf("[ckrt_malloc] malloced '%p'\n", res);
 		}
 		return res;
 	}

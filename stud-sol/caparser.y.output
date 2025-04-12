@@ -4,7 +4,6 @@ Terminals unused in grammar
     "sizeof"
     "in"
     "let"
-    "fip"
     "fn"
 
 
@@ -27,13 +26,13 @@ Grammar
 
     9 function_definition_head: function_definition_info "="
 
-   10 primary_expression: enumeration_constant
-   11                   | "integer literal"
-   12                   | "string literal"
-   13                   | "(" expression ")"
+   10 primary_expression: "integer literal"
+   11                   | "string literal"
+   12                   | "(" expression ")"
 
-   14 postfix_expression: primary_expression
-   15                   | "identifier" "(" argument_expression_list ")"
+   13 postfix_expression: primary_expression
+   14                   | "identifier" "(" argument_expression_list ")"
+   15                   | "identifier"
 
    16 argument_expression_list: assignment_expression
    17                         | argument_expression_list "," assignment_expression
@@ -101,42 +100,41 @@ Grammar
    57                       | declaration_specifier declaration_specifiers
 
    58 declaration_specifier: type_specifier_qualifier
+   59                      | "fip"
 
-   59 type_specifier: "_Bool, char, or int"
-   60               | declared_type_name
-   61               | typedef_name
+   60 type_specifier: "_Bool, char, or int"
+   61               | declared_type_name
+   62               | typedef_name
 
-   62 declared_type_name: "type" "identifier"
+   63 declared_type_name: "type" "identifier"
 
-   63 enumtype_decl_head: "type" "identifier"
+   64 enumtype_decl_head: "type" "identifier"
 
-   64 block_start: "{"
-   65            | "{" "NEW_LINE"
+   65 block_start: "{"
+   66            | "{" "NEW_LINE"
 
-   66 block_end: "}"
-   67          | "NEW_LINE" "}"
+   67 block_end: "}"
+   68          | "NEW_LINE" "}"
 
-   68 enumtype_decl_specifier: enumtype_decl_head block_start member_types_declaration_list block_end "NEW_LINE"
+   69 enumtype_decl_specifier: enumtype_decl_head block_start member_types_declaration_list block_end "NEW_LINE"
 
-   69 member_types_declaration_list: member_types_declaration
-   70                              | member_types_declaration_list member_types_declaration
+   70 member_types_declaration_list: member_types_declaration
+   71                              | member_types_declaration_list member_types_declaration
 
-   71 member_types_declaration: "identifier" "(" member_declaration_list ")" ";"
-   72                         | "identifier" ";"
+   72 member_types_declaration: "identifier" "(" member_declaration_list ")" ";"
+   73                         | "identifier" ";"
 
-   73 member_declaration_list: member_declaration
-   74                        | member_declaration_list "," member_declaration
+   74 member_declaration_list: member_declaration
+   75                        | member_declaration_list "," member_declaration
 
-   75 member_declaration: specifier_qualifier_list member_declarator
+   76 member_declaration: specifier_qualifier_list member_declarator
 
-   76 specifier_qualifier_list: type_specifier_qualifier
-   77                         | type_specifier_qualifier specifier_qualifier_list
+   77 specifier_qualifier_list: type_specifier_qualifier
+   78                         | type_specifier_qualifier specifier_qualifier_list
 
-   78 type_specifier_qualifier: type_specifier
+   79 type_specifier_qualifier: type_specifier
 
-   79 member_declarator: declarator
-
-   80 enumeration_constant: "identifier"
+   80 member_declarator: declarator
 
    81 declarator: pointer direct_declarator
    82           | direct_declarator
@@ -167,11 +165,11 @@ Terminals, with rules where they appear
     error (256)
     "[" (258) 87
     "]" (259) 87
-    "(" (260) 13 15 50 71
-    ")" (261) 13 15 50 71
-    "NEW_LINE" (262) 5 65 67 68
+    "(" (260) 12 14 50 72
+    ")" (261) 12 14 50 72
+    "NEW_LINE" (262) 5 66 68 69
     "->" (263) 42 49
-    "," (264) 17 53 74 91
+    "," (264) 17 53 75 91
     "&" (265) 21
     "|" (266) 49
     "*" (267) 22 27 83 84
@@ -183,22 +181,22 @@ Terminals, with rules where they appear
     "&&" (273) 36
     "||" (274) 38
     "=" (275) 9 41
-    ";" (276) 71 72
+    ";" (276) 72 73
     ":" (277)
-    "{" (278) 64 65
-    "}" (279) 66 67
-    "type" (280) 62 63
-    "_Bool, char, or int" <cecko::gt_etype> (281) 59
+    "{" (278) 65 66
+    "}" (279) 67 68
+    "type" (280) 63 64
+    "_Bool, char, or int" <cecko::gt_etype> (281) 60
     "sizeof" (282)
     "in" (283)
     "let" (284)
     "match" <cecko::match_type> (285) 42
-    "fip" (286)
+    "fip" (286) 59
     "fn" (287)
-    "identifier" <cecko::CIName> (288) 15 42 50 51 52 53 62 63 71 72 80 85
+    "identifier" <cecko::CIName> (288) 14 15 42 50 51 52 53 63 64 72 73 85
     "type identifier" <cecko::CIName> (289) 94
-    "integer literal" <int> (290) 11
-    "string literal" <cecko::CIName> (291) 12
+    "integer literal" <int> (290) 10
+    "string literal" <cecko::CIName> (291) 11
 
 
 Nonterminals, with rules where they appear
@@ -224,14 +222,14 @@ Nonterminals, with rules where they appear
         on left: 9
         on right: 7
     primary_expression <casem::InstructionWrapper> (44)
-        on left: 10 11 12 13
-        on right: 14
+        on left: 10 11 12
+        on right: 13
     postfix_expression <casem::InstructionWrapper> (45)
-        on left: 14 15
+        on left: 13 14 15
         on right: 19
     argument_expression_list <casem::InstructionArray> (46)
         on left: 16 17 18
-        on right: 15 17
+        on right: 14 17
     unary_expression <casem::InstructionWrapper> (47)
         on left: 19 20
         on right: 25 40
@@ -294,79 +292,76 @@ Nonterminals, with rules where they appear
         on right: 45 46 55
     expression <casem::InstructionWrapper> (67)
         on left: 55
-        on right: 7 13
+        on right: 7 12
     declaration_specifiers <casem::CKTypeRefDefPack> (68)
         on left: 56 57
         on right: 8 42 57 92 93
     declaration_specifier <casem::CKTypeRefDefPack> (69)
-        on left: 58
+        on left: 58 59
         on right: 56 57
     type_specifier <cecko::CKTypeSafeObs> (70)
-        on left: 59 60 61
-        on right: 78
+        on left: 60 61 62
+        on right: 79
     declared_type_name <cecko::CIName> (71)
-        on left: 62
-        on right: 60
-    enumtype_decl_head <casem::TaggedTypeDecl> (72)
         on left: 63
-        on right: 68
+        on right: 61
+    enumtype_decl_head <casem::TaggedTypeDecl> (72)
+        on left: 64
+        on right: 69
     block_start (73)
-        on left: 64 65
-        on right: 47 68
+        on left: 65 66
+        on right: 47 69
     block_end (74)
-        on left: 66 67
-        on right: 44 68
+        on left: 67 68
+        on right: 44 69
     enumtype_decl_specifier <cecko::CKStructTypeSafeObs> (75)
-        on left: 68
+        on left: 69
         on right: 4
     member_types_declaration_list <casem::StructObservers> (76)
-        on left: 69 70
-        on right: 68 70
+        on left: 70 71
+        on right: 69 71
     member_types_declaration <cecko::CKStructTypeSafeObs> (77)
-        on left: 71 72
-        on right: 69 70
+        on left: 72 73
+        on right: 70 71
     member_declaration_list <cecko::CKStructItemArray> (78)
-        on left: 73 74
-        on right: 71 74
+        on left: 74 75
+        on right: 72 75
     member_declaration <cecko::CKStructItemArray> (79)
-        on left: 75
-        on right: 73 74
+        on left: 76
+        on right: 74 75
     specifier_qualifier_list <casem::CKTypeRefDefPack> (80)
-        on left: 76 77
-        on right: 75 77
+        on left: 77 78
+        on right: 76 78
     type_specifier_qualifier <casem::CKTypeRefDefPack> (81)
-        on left: 78
-        on right: 58 76 77
-    member_declarator <casem::TypeRefPack_Action> (82)
         on left: 79
-        on right: 75
-    enumeration_constant <cecko::CIName> (83)
+        on right: 58 77 78
+    member_declarator <casem::TypeRefPack_Action> (82)
         on left: 80
-        on right: 10
-    declarator <casem::TypeRefPack_Action> (84)
+        on right: 76
+    declarator <casem::TypeRefPack_Action> (83)
         on left: 81 82
-        on right: 8 79 92
-    pointer <casem::TypeRefPack_Convertor> (85)
+        on right: 8 80 92
+    pointer <casem::TypeRefPack_Convertor> (84)
         on left: 83 84
         on right: 81 83
-    direct_declarator <casem::TypeRefPack_Action> (86)
+    direct_declarator <casem::TypeRefPack_Action> (85)
         on left: 85 86
         on right: 81 82 87
-    function_declarator <casem::TypeRefPack_Action> (87)
+    function_declarator <casem::TypeRefPack_Action> (86)
         on left: 87
         on right: 86
-    parameter_type_list <casem::TRDArray> (88)
+    parameter_type_list <casem::TRDArray> (87)
         on left: 88 89
         on right: 87
-    parameter_list <casem::TRDArray> (89)
+    parameter_list <casem::TRDArray> (88)
         on left: 90 91
         on right: 88 91
-    parameter_declaration <casem::CKTypeRefDefPack> (90)
+    parameter_declaration <casem::CKTypeRefDefPack> (89)
         on left: 92 93
         on right: 90 91
-    typedef_name <cecko::CIName> (91)
+    typedef_name <cecko::CIName> (90)
         on left: 94
-        on right: 61
+        on right: 62
 
 
 State 0
@@ -375,127 +370,135 @@ State 0
 
     "type"                 shift, and go to state 1
     "_Bool, char, or int"  shift, and go to state 2
-    "type identifier"      shift, and go to state 3
+    "fip"                  shift, and go to state 3
+    "type identifier"      shift, and go to state 4
 
-    translation_unit          go to state 4
-    external_declaration      go to state 5
-    function_definition       go to state 6
-    function_definition_info  go to state 7
-    function_definition_head  go to state 8
-    declaration_specifiers    go to state 9
-    declaration_specifier     go to state 10
-    type_specifier            go to state 11
-    declared_type_name        go to state 12
-    enumtype_decl_head        go to state 13
-    enumtype_decl_specifier   go to state 14
-    type_specifier_qualifier  go to state 15
-    typedef_name              go to state 16
+    translation_unit          go to state 5
+    external_declaration      go to state 6
+    function_definition       go to state 7
+    function_definition_info  go to state 8
+    function_definition_head  go to state 9
+    declaration_specifiers    go to state 10
+    declaration_specifier     go to state 11
+    type_specifier            go to state 12
+    declared_type_name        go to state 13
+    enumtype_decl_head        go to state 14
+    enumtype_decl_specifier   go to state 15
+    type_specifier_qualifier  go to state 16
+    typedef_name              go to state 17
 
 
 State 1
 
-   62 declared_type_name: "type" • "identifier"
-   63 enumtype_decl_head: "type" • "identifier"
+   63 declared_type_name: "type" • "identifier"
+   64 enumtype_decl_head: "type" • "identifier"
 
-    "identifier"  shift, and go to state 17
+    "identifier"  shift, and go to state 18
 
 
 State 2
 
-   59 type_specifier: "_Bool, char, or int" •
+   60 type_specifier: "_Bool, char, or int" •
 
-    $default  reduce using rule 59 (type_specifier)
+    $default  reduce using rule 60 (type_specifier)
 
 
 State 3
+
+   59 declaration_specifier: "fip" •
+
+    $default  reduce using rule 59 (declaration_specifier)
+
+
+State 4
 
    94 typedef_name: "type identifier" •
 
     $default  reduce using rule 94 (typedef_name)
 
 
-State 4
+State 5
 
     0 $accept: translation_unit • "end of file"
     2 translation_unit: translation_unit • external_declaration
 
-    "end of file"          shift, and go to state 18
+    "end of file"          shift, and go to state 19
     "type"                 shift, and go to state 1
     "_Bool, char, or int"  shift, and go to state 2
-    "type identifier"      shift, and go to state 3
+    "fip"                  shift, and go to state 3
+    "type identifier"      shift, and go to state 4
 
-    external_declaration      go to state 19
-    function_definition       go to state 6
-    function_definition_info  go to state 7
-    function_definition_head  go to state 8
-    declaration_specifiers    go to state 9
-    declaration_specifier     go to state 10
-    type_specifier            go to state 11
-    declared_type_name        go to state 12
-    enumtype_decl_head        go to state 13
-    enumtype_decl_specifier   go to state 14
-    type_specifier_qualifier  go to state 15
-    typedef_name              go to state 16
+    external_declaration      go to state 20
+    function_definition       go to state 7
+    function_definition_info  go to state 8
+    function_definition_head  go to state 9
+    declaration_specifiers    go to state 10
+    declaration_specifier     go to state 11
+    type_specifier            go to state 12
+    declared_type_name        go to state 13
+    enumtype_decl_head        go to state 14
+    enumtype_decl_specifier   go to state 15
+    type_specifier_qualifier  go to state 16
+    typedef_name              go to state 17
 
 
-State 5
+State 6
 
     1 translation_unit: external_declaration •
 
     $default  reduce using rule 1 (translation_unit)
 
 
-State 6
+State 7
 
     3 external_declaration: function_definition •
 
     $default  reduce using rule 3 (external_declaration)
 
 
-State 7
+State 8
 
     9 function_definition_head: function_definition_info • "="
 
-    "="  shift, and go to state 20
-
-
-State 8
-
-    7 function_definition: function_definition_head • expression
-
-    "("                shift, and go to state 21
-    "&"                shift, and go to state 22
-    "*"                shift, and go to state 23
-    "+ or -"           shift, and go to state 24
-    "!"                shift, and go to state 25
-    "match"            shift, and go to state 26
-    "identifier"       shift, and go to state 27
-    "integer literal"  shift, and go to state 28
-    "string literal"   shift, and go to state 29
-
-    primary_expression             go to state 30
-    postfix_expression             go to state 31
-    unary_expression               go to state 32
-    unary_operator                 go to state 33
-    cast_expression                go to state 34
-    multiplicative_expression      go to state 35
-    additive_expression            go to state 36
-    relational_expression          go to state 37
-    equality_expression            go to state 38
-    logical_and_expression         go to state 39
-    logical_or_expression          go to state 40
-    assignment_expression          go to state 41
-    match_head                     go to state 42
-    match_expression               go to state 43
-    match_binders_list             go to state 44
-    match_binders_list_head_start  go to state 45
-    match_binders_list_head        go to state 46
-    expression_body                go to state 47
-    expression                     go to state 48
-    enumeration_constant           go to state 49
+    "="  shift, and go to state 21
 
 
 State 9
+
+    7 function_definition: function_definition_head • expression
+
+    "("                shift, and go to state 22
+    "&"                shift, and go to state 23
+    "*"                shift, and go to state 24
+    "+ or -"           shift, and go to state 25
+    "!"                shift, and go to state 26
+    "match"            shift, and go to state 27
+    "identifier"       shift, and go to state 28
+    "integer literal"  shift, and go to state 29
+    "string literal"   shift, and go to state 30
+
+    primary_expression             go to state 31
+    postfix_expression             go to state 32
+    unary_expression               go to state 33
+    unary_operator                 go to state 34
+    cast_expression                go to state 35
+    multiplicative_expression      go to state 36
+    additive_expression            go to state 37
+    relational_expression          go to state 38
+    equality_expression            go to state 39
+    logical_and_expression         go to state 40
+    logical_or_expression          go to state 41
+    assignment_expression          go to state 42
+    match_head                     go to state 43
+    match_expression               go to state 44
+    match_binders_list             go to state 45
+    match_binders_list_head_start  go to state 46
+    match_binders_list_head        go to state 47
+    expression_body                go to state 48
+    expression                     go to state 49
+
+
+State 10
 
     8 function_definition_info: declaration_specifiers • declarator
 
@@ -508,209 +511,209 @@ State 9
     function_declarator  go to state 55
 
 
-State 10
+State 11
 
    56 declaration_specifiers: declaration_specifier •
    57                       | declaration_specifier • declaration_specifiers
 
     "type"                 shift, and go to state 56
     "_Bool, char, or int"  shift, and go to state 2
-    "type identifier"      shift, and go to state 3
+    "fip"                  shift, and go to state 3
+    "type identifier"      shift, and go to state 4
 
     $default  reduce using rule 56 (declaration_specifiers)
 
     declaration_specifiers    go to state 57
-    declaration_specifier     go to state 10
-    type_specifier            go to state 11
-    declared_type_name        go to state 12
-    type_specifier_qualifier  go to state 15
-    typedef_name              go to state 16
-
-
-State 11
-
-   78 type_specifier_qualifier: type_specifier •
-
-    $default  reduce using rule 78 (type_specifier_qualifier)
+    declaration_specifier     go to state 11
+    type_specifier            go to state 12
+    declared_type_name        go to state 13
+    type_specifier_qualifier  go to state 16
+    typedef_name              go to state 17
 
 
 State 12
 
-   60 type_specifier: declared_type_name •
+   79 type_specifier_qualifier: type_specifier •
 
-    $default  reduce using rule 60 (type_specifier)
+    $default  reduce using rule 79 (type_specifier_qualifier)
 
 
 State 13
 
-   68 enumtype_decl_specifier: enumtype_decl_head • block_start member_types_declaration_list block_end "NEW_LINE"
+   61 type_specifier: declared_type_name •
+
+    $default  reduce using rule 61 (type_specifier)
+
+
+State 14
+
+   69 enumtype_decl_specifier: enumtype_decl_head • block_start member_types_declaration_list block_end "NEW_LINE"
 
     "{"  shift, and go to state 58
 
     block_start  go to state 59
 
 
-State 14
+State 15
 
     4 external_declaration: enumtype_decl_specifier •
 
     $default  reduce using rule 4 (external_declaration)
 
 
-State 15
+State 16
 
    58 declaration_specifier: type_specifier_qualifier •
 
     $default  reduce using rule 58 (declaration_specifier)
 
 
-State 16
-
-   61 type_specifier: typedef_name •
-
-    $default  reduce using rule 61 (type_specifier)
-
-
 State 17
 
-   62 declared_type_name: "type" "identifier" •
-   63 enumtype_decl_head: "type" "identifier" •
+   62 type_specifier: typedef_name •
 
-    "{"       reduce using rule 63 (enumtype_decl_head)
-    $default  reduce using rule 62 (declared_type_name)
+    $default  reduce using rule 62 (type_specifier)
 
 
 State 18
+
+   63 declared_type_name: "type" "identifier" •
+   64 enumtype_decl_head: "type" "identifier" •
+
+    "{"       reduce using rule 64 (enumtype_decl_head)
+    $default  reduce using rule 63 (declared_type_name)
+
+
+State 19
 
     0 $accept: translation_unit "end of file" •
 
     $default  accept
 
 
-State 19
+State 20
 
     2 translation_unit: translation_unit external_declaration •
 
     $default  reduce using rule 2 (translation_unit)
 
 
-State 20
+State 21
 
     9 function_definition_head: function_definition_info "=" •
 
     $default  reduce using rule 9 (function_definition_head)
 
 
-State 21
-
-   13 primary_expression: "(" • expression ")"
-
-    "("                shift, and go to state 21
-    "&"                shift, and go to state 22
-    "*"                shift, and go to state 23
-    "+ or -"           shift, and go to state 24
-    "!"                shift, and go to state 25
-    "match"            shift, and go to state 26
-    "identifier"       shift, and go to state 27
-    "integer literal"  shift, and go to state 28
-    "string literal"   shift, and go to state 29
-
-    primary_expression             go to state 30
-    postfix_expression             go to state 31
-    unary_expression               go to state 32
-    unary_operator                 go to state 33
-    cast_expression                go to state 34
-    multiplicative_expression      go to state 35
-    additive_expression            go to state 36
-    relational_expression          go to state 37
-    equality_expression            go to state 38
-    logical_and_expression         go to state 39
-    logical_or_expression          go to state 40
-    assignment_expression          go to state 41
-    match_head                     go to state 42
-    match_expression               go to state 43
-    match_binders_list             go to state 44
-    match_binders_list_head_start  go to state 45
-    match_binders_list_head        go to state 46
-    expression_body                go to state 47
-    expression                     go to state 60
-    enumeration_constant           go to state 49
-
-
 State 22
+
+   12 primary_expression: "(" • expression ")"
+
+    "("                shift, and go to state 22
+    "&"                shift, and go to state 23
+    "*"                shift, and go to state 24
+    "+ or -"           shift, and go to state 25
+    "!"                shift, and go to state 26
+    "match"            shift, and go to state 27
+    "identifier"       shift, and go to state 28
+    "integer literal"  shift, and go to state 29
+    "string literal"   shift, and go to state 30
+
+    primary_expression             go to state 31
+    postfix_expression             go to state 32
+    unary_expression               go to state 33
+    unary_operator                 go to state 34
+    cast_expression                go to state 35
+    multiplicative_expression      go to state 36
+    additive_expression            go to state 37
+    relational_expression          go to state 38
+    equality_expression            go to state 39
+    logical_and_expression         go to state 40
+    logical_or_expression          go to state 41
+    assignment_expression          go to state 42
+    match_head                     go to state 43
+    match_expression               go to state 44
+    match_binders_list             go to state 45
+    match_binders_list_head_start  go to state 46
+    match_binders_list_head        go to state 47
+    expression_body                go to state 48
+    expression                     go to state 60
+
+
+State 23
 
    21 unary_operator: "&" •
 
     $default  reduce using rule 21 (unary_operator)
 
 
-State 23
+State 24
 
    22 unary_operator: "*" •
 
     $default  reduce using rule 22 (unary_operator)
 
 
-State 24
+State 25
 
    23 unary_operator: "+ or -" •
 
     $default  reduce using rule 23 (unary_operator)
 
 
-State 25
+State 26
 
    24 unary_operator: "!" •
 
     $default  reduce using rule 24 (unary_operator)
 
 
-State 26
+State 27
 
    42 match_head: "match" • "identifier" "->" declaration_specifiers
 
     "identifier"  shift, and go to state 61
 
 
-State 27
+State 28
 
-   15 postfix_expression: "identifier" • "(" argument_expression_list ")"
-   80 enumeration_constant: "identifier" •
+   14 postfix_expression: "identifier" • "(" argument_expression_list ")"
+   15                   | "identifier" •
 
     "("  shift, and go to state 62
 
-    $default  reduce using rule 80 (enumeration_constant)
-
-
-State 28
-
-   11 primary_expression: "integer literal" •
-
-    $default  reduce using rule 11 (primary_expression)
+    $default  reduce using rule 15 (postfix_expression)
 
 
 State 29
 
-   12 primary_expression: "string literal" •
+   10 primary_expression: "integer literal" •
 
-    $default  reduce using rule 12 (primary_expression)
+    $default  reduce using rule 10 (primary_expression)
 
 
 State 30
 
-   14 postfix_expression: primary_expression •
+   11 primary_expression: "string literal" •
 
-    $default  reduce using rule 14 (postfix_expression)
+    $default  reduce using rule 11 (primary_expression)
 
 
 State 31
+
+   13 postfix_expression: primary_expression •
+
+    $default  reduce using rule 13 (postfix_expression)
+
+
+State 32
 
    19 unary_expression: postfix_expression •
 
     $default  reduce using rule 19 (unary_expression)
 
 
-State 32
+State 33
 
    25 cast_expression: unary_expression •
    40 assignment_expression: unary_expression • assignment_operator assignment_expression
@@ -722,35 +725,34 @@ State 32
     assignment_operator  go to state 64
 
 
-State 33
+State 34
 
    20 unary_expression: unary_operator • cast_expression
 
-    "("                shift, and go to state 21
-    "&"                shift, and go to state 22
-    "*"                shift, and go to state 23
-    "+ or -"           shift, and go to state 24
-    "!"                shift, and go to state 25
-    "identifier"       shift, and go to state 27
-    "integer literal"  shift, and go to state 28
-    "string literal"   shift, and go to state 29
+    "("                shift, and go to state 22
+    "&"                shift, and go to state 23
+    "*"                shift, and go to state 24
+    "+ or -"           shift, and go to state 25
+    "!"                shift, and go to state 26
+    "identifier"       shift, and go to state 28
+    "integer literal"  shift, and go to state 29
+    "string literal"   shift, and go to state 30
 
-    primary_expression    go to state 30
-    postfix_expression    go to state 31
-    unary_expression      go to state 65
-    unary_operator        go to state 33
-    cast_expression       go to state 66
-    enumeration_constant  go to state 49
+    primary_expression  go to state 31
+    postfix_expression  go to state 32
+    unary_expression    go to state 65
+    unary_operator      go to state 34
+    cast_expression     go to state 66
 
 
-State 34
+State 35
 
    26 multiplicative_expression: cast_expression •
 
     $default  reduce using rule 26 (multiplicative_expression)
 
 
-State 35
+State 36
 
    27 multiplicative_expression: multiplicative_expression • "*" cast_expression
    28                          | multiplicative_expression • "/ or %" cast_expression
@@ -762,7 +764,7 @@ State 35
     $default  reduce using rule 29 (additive_expression)
 
 
-State 36
+State 37
 
    30 additive_expression: additive_expression • "+ or -" multiplicative_expression
    31 relational_expression: additive_expression •
@@ -772,7 +774,7 @@ State 36
     $default  reduce using rule 31 (relational_expression)
 
 
-State 37
+State 38
 
    32 relational_expression: relational_expression • "<, >, <=, or >=" additive_expression
    33 equality_expression: relational_expression •
@@ -782,7 +784,7 @@ State 37
     $default  reduce using rule 33 (equality_expression)
 
 
-State 38
+State 39
 
    34 equality_expression: equality_expression • "== or !=" relational_expression
    35 logical_and_expression: equality_expression •
@@ -792,7 +794,7 @@ State 38
     $default  reduce using rule 35 (logical_and_expression)
 
 
-State 39
+State 40
 
    36 logical_and_expression: logical_and_expression • "&&" equality_expression
    37 logical_or_expression: logical_and_expression •
@@ -802,7 +804,7 @@ State 39
     $default  reduce using rule 37 (logical_or_expression)
 
 
-State 40
+State 41
 
    38 logical_or_expression: logical_or_expression • "||" logical_and_expression
    39 assignment_expression: logical_or_expression •
@@ -812,14 +814,14 @@ State 40
     $default  reduce using rule 39 (assignment_expression)
 
 
-State 41
+State 42
 
    43 match_expression: assignment_expression •
 
     $default  reduce using rule 43 (match_expression)
 
 
-State 42
+State 43
 
    47 match_binders_list_head_start: match_head • block_start match_binder_head
 
@@ -828,14 +830,14 @@ State 42
     block_start  go to state 74
 
 
-State 43
+State 44
 
    54 expression_body: match_expression •
 
     $default  reduce using rule 54 (expression_body)
 
 
-State 44
+State 45
 
    44 match_expression: match_binders_list • block_end
    48 match_binders_list_head: match_binders_list • match_binder_head
@@ -848,77 +850,75 @@ State 44
     block_end          go to state 79
 
 
-State 45
+State 46
 
    45 match_binders_list: match_binders_list_head_start • expression_body
 
-    "("                shift, and go to state 21
-    "&"                shift, and go to state 22
-    "*"                shift, and go to state 23
-    "+ or -"           shift, and go to state 24
-    "!"                shift, and go to state 25
-    "match"            shift, and go to state 26
-    "identifier"       shift, and go to state 27
-    "integer literal"  shift, and go to state 28
-    "string literal"   shift, and go to state 29
+    "("                shift, and go to state 22
+    "&"                shift, and go to state 23
+    "*"                shift, and go to state 24
+    "+ or -"           shift, and go to state 25
+    "!"                shift, and go to state 26
+    "match"            shift, and go to state 27
+    "identifier"       shift, and go to state 28
+    "integer literal"  shift, and go to state 29
+    "string literal"   shift, and go to state 30
 
-    primary_expression             go to state 30
-    postfix_expression             go to state 31
-    unary_expression               go to state 32
-    unary_operator                 go to state 33
-    cast_expression                go to state 34
-    multiplicative_expression      go to state 35
-    additive_expression            go to state 36
-    relational_expression          go to state 37
-    equality_expression            go to state 38
-    logical_and_expression         go to state 39
-    logical_or_expression          go to state 40
-    assignment_expression          go to state 41
-    match_head                     go to state 42
-    match_expression               go to state 43
-    match_binders_list             go to state 44
-    match_binders_list_head_start  go to state 45
-    match_binders_list_head        go to state 46
+    primary_expression             go to state 31
+    postfix_expression             go to state 32
+    unary_expression               go to state 33
+    unary_operator                 go to state 34
+    cast_expression                go to state 35
+    multiplicative_expression      go to state 36
+    additive_expression            go to state 37
+    relational_expression          go to state 38
+    equality_expression            go to state 39
+    logical_and_expression         go to state 40
+    logical_or_expression          go to state 41
+    assignment_expression          go to state 42
+    match_head                     go to state 43
+    match_expression               go to state 44
+    match_binders_list             go to state 45
+    match_binders_list_head_start  go to state 46
+    match_binders_list_head        go to state 47
     expression_body                go to state 80
-    enumeration_constant           go to state 49
-
-
-State 46
-
-   46 match_binders_list: match_binders_list_head • expression_body
-
-    "("                shift, and go to state 21
-    "&"                shift, and go to state 22
-    "*"                shift, and go to state 23
-    "+ or -"           shift, and go to state 24
-    "!"                shift, and go to state 25
-    "match"            shift, and go to state 26
-    "identifier"       shift, and go to state 27
-    "integer literal"  shift, and go to state 28
-    "string literal"   shift, and go to state 29
-
-    primary_expression             go to state 30
-    postfix_expression             go to state 31
-    unary_expression               go to state 32
-    unary_operator                 go to state 33
-    cast_expression                go to state 34
-    multiplicative_expression      go to state 35
-    additive_expression            go to state 36
-    relational_expression          go to state 37
-    equality_expression            go to state 38
-    logical_and_expression         go to state 39
-    logical_or_expression          go to state 40
-    assignment_expression          go to state 41
-    match_head                     go to state 42
-    match_expression               go to state 43
-    match_binders_list             go to state 44
-    match_binders_list_head_start  go to state 45
-    match_binders_list_head        go to state 46
-    expression_body                go to state 81
-    enumeration_constant           go to state 49
 
 
 State 47
+
+   46 match_binders_list: match_binders_list_head • expression_body
+
+    "("                shift, and go to state 22
+    "&"                shift, and go to state 23
+    "*"                shift, and go to state 24
+    "+ or -"           shift, and go to state 25
+    "!"                shift, and go to state 26
+    "match"            shift, and go to state 27
+    "identifier"       shift, and go to state 28
+    "integer literal"  shift, and go to state 29
+    "string literal"   shift, and go to state 30
+
+    primary_expression             go to state 31
+    postfix_expression             go to state 32
+    unary_expression               go to state 33
+    unary_operator                 go to state 34
+    cast_expression                go to state 35
+    multiplicative_expression      go to state 36
+    additive_expression            go to state 37
+    relational_expression          go to state 38
+    equality_expression            go to state 39
+    logical_and_expression         go to state 40
+    logical_or_expression          go to state 41
+    assignment_expression          go to state 42
+    match_head                     go to state 43
+    match_expression               go to state 44
+    match_binders_list             go to state 45
+    match_binders_list_head_start  go to state 46
+    match_binders_list_head        go to state 47
+    expression_body                go to state 81
+
+
+State 48
 
    55 expression: expression_body • expression_end
 
@@ -928,18 +928,11 @@ State 47
     expression_end  go to state 84
 
 
-State 48
+State 49
 
     7 function_definition: function_definition_head expression •
 
     $default  reduce using rule 7 (function_definition)
-
-
-State 49
-
-   10 primary_expression: enumeration_constant •
-
-    $default  reduce using rule 10 (primary_expression)
 
 
 State 50
@@ -997,7 +990,7 @@ State 55
 
 State 56
 
-   62 declared_type_name: "type" • "identifier"
+   63 declared_type_name: "type" • "identifier"
 
     "identifier"  shift, and go to state 88
 
@@ -1011,17 +1004,17 @@ State 57
 
 State 58
 
-   64 block_start: "{" •
-   65            | "{" • "NEW_LINE"
+   65 block_start: "{" •
+   66            | "{" • "NEW_LINE"
 
     "NEW_LINE"  shift, and go to state 89
 
-    $default  reduce using rule 64 (block_start)
+    $default  reduce using rule 65 (block_start)
 
 
 State 59
 
-   68 enumtype_decl_specifier: enumtype_decl_head block_start • member_types_declaration_list block_end "NEW_LINE"
+   69 enumtype_decl_specifier: enumtype_decl_head block_start • member_types_declaration_list block_end "NEW_LINE"
 
     "identifier"  shift, and go to state 90
 
@@ -1031,7 +1024,7 @@ State 59
 
 State 60
 
-   13 primary_expression: "(" expression • ")"
+   12 primary_expression: "(" expression • ")"
 
     ")"  shift, and go to state 93
 
@@ -1045,33 +1038,32 @@ State 61
 
 State 62
 
-   15 postfix_expression: "identifier" "(" • argument_expression_list ")"
+   14 postfix_expression: "identifier" "(" • argument_expression_list ")"
 
-    "("                shift, and go to state 21
-    "&"                shift, and go to state 22
-    "*"                shift, and go to state 23
-    "+ or -"           shift, and go to state 24
-    "!"                shift, and go to state 25
-    "identifier"       shift, and go to state 27
-    "integer literal"  shift, and go to state 28
-    "string literal"   shift, and go to state 29
+    "("                shift, and go to state 22
+    "&"                shift, and go to state 23
+    "*"                shift, and go to state 24
+    "+ or -"           shift, and go to state 25
+    "!"                shift, and go to state 26
+    "identifier"       shift, and go to state 28
+    "integer literal"  shift, and go to state 29
+    "string literal"   shift, and go to state 30
 
     $default  reduce using rule 18 (argument_expression_list)
 
-    primary_expression         go to state 30
-    postfix_expression         go to state 31
+    primary_expression         go to state 31
+    postfix_expression         go to state 32
     argument_expression_list   go to state 95
-    unary_expression           go to state 32
-    unary_operator             go to state 33
-    cast_expression            go to state 34
-    multiplicative_expression  go to state 35
-    additive_expression        go to state 36
-    relational_expression      go to state 37
-    equality_expression        go to state 38
-    logical_and_expression     go to state 39
-    logical_or_expression      go to state 40
+    unary_expression           go to state 33
+    unary_operator             go to state 34
+    cast_expression            go to state 35
+    multiplicative_expression  go to state 36
+    additive_expression        go to state 37
+    relational_expression      go to state 38
+    equality_expression        go to state 39
+    logical_and_expression     go to state 40
+    logical_or_expression      go to state 41
     assignment_expression      go to state 96
-    enumeration_constant       go to state 49
 
 
 State 63
@@ -1085,28 +1077,27 @@ State 64
 
    40 assignment_expression: unary_expression assignment_operator • assignment_expression
 
-    "("                shift, and go to state 21
-    "&"                shift, and go to state 22
-    "*"                shift, and go to state 23
-    "+ or -"           shift, and go to state 24
-    "!"                shift, and go to state 25
-    "identifier"       shift, and go to state 27
-    "integer literal"  shift, and go to state 28
-    "string literal"   shift, and go to state 29
+    "("                shift, and go to state 22
+    "&"                shift, and go to state 23
+    "*"                shift, and go to state 24
+    "+ or -"           shift, and go to state 25
+    "!"                shift, and go to state 26
+    "identifier"       shift, and go to state 28
+    "integer literal"  shift, and go to state 29
+    "string literal"   shift, and go to state 30
 
-    primary_expression         go to state 30
-    postfix_expression         go to state 31
-    unary_expression           go to state 32
-    unary_operator             go to state 33
-    cast_expression            go to state 34
-    multiplicative_expression  go to state 35
-    additive_expression        go to state 36
-    relational_expression      go to state 37
-    equality_expression        go to state 38
-    logical_and_expression     go to state 39
-    logical_or_expression      go to state 40
+    primary_expression         go to state 31
+    postfix_expression         go to state 32
+    unary_expression           go to state 33
+    unary_operator             go to state 34
+    cast_expression            go to state 35
+    multiplicative_expression  go to state 36
+    additive_expression        go to state 37
+    relational_expression      go to state 38
+    equality_expression        go to state 39
+    logical_and_expression     go to state 40
+    logical_or_expression      go to state 41
     assignment_expression      go to state 97
-    enumeration_constant       go to state 49
 
 
 State 65
@@ -1127,162 +1118,155 @@ State 67
 
    27 multiplicative_expression: multiplicative_expression "*" • cast_expression
 
-    "("                shift, and go to state 21
-    "&"                shift, and go to state 22
-    "*"                shift, and go to state 23
-    "+ or -"           shift, and go to state 24
-    "!"                shift, and go to state 25
-    "identifier"       shift, and go to state 27
-    "integer literal"  shift, and go to state 28
-    "string literal"   shift, and go to state 29
+    "("                shift, and go to state 22
+    "&"                shift, and go to state 23
+    "*"                shift, and go to state 24
+    "+ or -"           shift, and go to state 25
+    "!"                shift, and go to state 26
+    "identifier"       shift, and go to state 28
+    "integer literal"  shift, and go to state 29
+    "string literal"   shift, and go to state 30
 
-    primary_expression    go to state 30
-    postfix_expression    go to state 31
-    unary_expression      go to state 65
-    unary_operator        go to state 33
-    cast_expression       go to state 98
-    enumeration_constant  go to state 49
+    primary_expression  go to state 31
+    postfix_expression  go to state 32
+    unary_expression    go to state 65
+    unary_operator      go to state 34
+    cast_expression     go to state 98
 
 
 State 68
 
    28 multiplicative_expression: multiplicative_expression "/ or %" • cast_expression
 
-    "("                shift, and go to state 21
-    "&"                shift, and go to state 22
-    "*"                shift, and go to state 23
-    "+ or -"           shift, and go to state 24
-    "!"                shift, and go to state 25
-    "identifier"       shift, and go to state 27
-    "integer literal"  shift, and go to state 28
-    "string literal"   shift, and go to state 29
+    "("                shift, and go to state 22
+    "&"                shift, and go to state 23
+    "*"                shift, and go to state 24
+    "+ or -"           shift, and go to state 25
+    "!"                shift, and go to state 26
+    "identifier"       shift, and go to state 28
+    "integer literal"  shift, and go to state 29
+    "string literal"   shift, and go to state 30
 
-    primary_expression    go to state 30
-    postfix_expression    go to state 31
-    unary_expression      go to state 65
-    unary_operator        go to state 33
-    cast_expression       go to state 99
-    enumeration_constant  go to state 49
+    primary_expression  go to state 31
+    postfix_expression  go to state 32
+    unary_expression    go to state 65
+    unary_operator      go to state 34
+    cast_expression     go to state 99
 
 
 State 69
 
    30 additive_expression: additive_expression "+ or -" • multiplicative_expression
 
-    "("                shift, and go to state 21
-    "&"                shift, and go to state 22
-    "*"                shift, and go to state 23
-    "+ or -"           shift, and go to state 24
-    "!"                shift, and go to state 25
-    "identifier"       shift, and go to state 27
-    "integer literal"  shift, and go to state 28
-    "string literal"   shift, and go to state 29
+    "("                shift, and go to state 22
+    "&"                shift, and go to state 23
+    "*"                shift, and go to state 24
+    "+ or -"           shift, and go to state 25
+    "!"                shift, and go to state 26
+    "identifier"       shift, and go to state 28
+    "integer literal"  shift, and go to state 29
+    "string literal"   shift, and go to state 30
 
-    primary_expression         go to state 30
-    postfix_expression         go to state 31
+    primary_expression         go to state 31
+    postfix_expression         go to state 32
     unary_expression           go to state 65
-    unary_operator             go to state 33
-    cast_expression            go to state 34
+    unary_operator             go to state 34
+    cast_expression            go to state 35
     multiplicative_expression  go to state 100
-    enumeration_constant       go to state 49
 
 
 State 70
 
    32 relational_expression: relational_expression "<, >, <=, or >=" • additive_expression
 
-    "("                shift, and go to state 21
-    "&"                shift, and go to state 22
-    "*"                shift, and go to state 23
-    "+ or -"           shift, and go to state 24
-    "!"                shift, and go to state 25
-    "identifier"       shift, and go to state 27
-    "integer literal"  shift, and go to state 28
-    "string literal"   shift, and go to state 29
+    "("                shift, and go to state 22
+    "&"                shift, and go to state 23
+    "*"                shift, and go to state 24
+    "+ or -"           shift, and go to state 25
+    "!"                shift, and go to state 26
+    "identifier"       shift, and go to state 28
+    "integer literal"  shift, and go to state 29
+    "string literal"   shift, and go to state 30
 
-    primary_expression         go to state 30
-    postfix_expression         go to state 31
+    primary_expression         go to state 31
+    postfix_expression         go to state 32
     unary_expression           go to state 65
-    unary_operator             go to state 33
-    cast_expression            go to state 34
-    multiplicative_expression  go to state 35
+    unary_operator             go to state 34
+    cast_expression            go to state 35
+    multiplicative_expression  go to state 36
     additive_expression        go to state 101
-    enumeration_constant       go to state 49
 
 
 State 71
 
    34 equality_expression: equality_expression "== or !=" • relational_expression
 
-    "("                shift, and go to state 21
-    "&"                shift, and go to state 22
-    "*"                shift, and go to state 23
-    "+ or -"           shift, and go to state 24
-    "!"                shift, and go to state 25
-    "identifier"       shift, and go to state 27
-    "integer literal"  shift, and go to state 28
-    "string literal"   shift, and go to state 29
+    "("                shift, and go to state 22
+    "&"                shift, and go to state 23
+    "*"                shift, and go to state 24
+    "+ or -"           shift, and go to state 25
+    "!"                shift, and go to state 26
+    "identifier"       shift, and go to state 28
+    "integer literal"  shift, and go to state 29
+    "string literal"   shift, and go to state 30
 
-    primary_expression         go to state 30
-    postfix_expression         go to state 31
+    primary_expression         go to state 31
+    postfix_expression         go to state 32
     unary_expression           go to state 65
-    unary_operator             go to state 33
-    cast_expression            go to state 34
-    multiplicative_expression  go to state 35
-    additive_expression        go to state 36
+    unary_operator             go to state 34
+    cast_expression            go to state 35
+    multiplicative_expression  go to state 36
+    additive_expression        go to state 37
     relational_expression      go to state 102
-    enumeration_constant       go to state 49
 
 
 State 72
 
    36 logical_and_expression: logical_and_expression "&&" • equality_expression
 
-    "("                shift, and go to state 21
-    "&"                shift, and go to state 22
-    "*"                shift, and go to state 23
-    "+ or -"           shift, and go to state 24
-    "!"                shift, and go to state 25
-    "identifier"       shift, and go to state 27
-    "integer literal"  shift, and go to state 28
-    "string literal"   shift, and go to state 29
+    "("                shift, and go to state 22
+    "&"                shift, and go to state 23
+    "*"                shift, and go to state 24
+    "+ or -"           shift, and go to state 25
+    "!"                shift, and go to state 26
+    "identifier"       shift, and go to state 28
+    "integer literal"  shift, and go to state 29
+    "string literal"   shift, and go to state 30
 
-    primary_expression         go to state 30
-    postfix_expression         go to state 31
+    primary_expression         go to state 31
+    postfix_expression         go to state 32
     unary_expression           go to state 65
-    unary_operator             go to state 33
-    cast_expression            go to state 34
-    multiplicative_expression  go to state 35
-    additive_expression        go to state 36
-    relational_expression      go to state 37
+    unary_operator             go to state 34
+    cast_expression            go to state 35
+    multiplicative_expression  go to state 36
+    additive_expression        go to state 37
+    relational_expression      go to state 38
     equality_expression        go to state 103
-    enumeration_constant       go to state 49
 
 
 State 73
 
    38 logical_or_expression: logical_or_expression "||" • logical_and_expression
 
-    "("                shift, and go to state 21
-    "&"                shift, and go to state 22
-    "*"                shift, and go to state 23
-    "+ or -"           shift, and go to state 24
-    "!"                shift, and go to state 25
-    "identifier"       shift, and go to state 27
-    "integer literal"  shift, and go to state 28
-    "string literal"   shift, and go to state 29
+    "("                shift, and go to state 22
+    "&"                shift, and go to state 23
+    "*"                shift, and go to state 24
+    "+ or -"           shift, and go to state 25
+    "!"                shift, and go to state 26
+    "identifier"       shift, and go to state 28
+    "integer literal"  shift, and go to state 29
+    "string literal"   shift, and go to state 30
 
-    primary_expression         go to state 30
-    postfix_expression         go to state 31
+    primary_expression         go to state 31
+    postfix_expression         go to state 32
     unary_expression           go to state 65
-    unary_operator             go to state 33
-    cast_expression            go to state 34
-    multiplicative_expression  go to state 35
-    additive_expression        go to state 36
-    relational_expression      go to state 37
-    equality_expression        go to state 38
+    unary_operator             go to state 34
+    cast_expression            go to state 35
+    multiplicative_expression  go to state 36
+    additive_expression        go to state 37
+    relational_expression      go to state 38
+    equality_expression        go to state 39
     logical_and_expression     go to state 104
-    enumeration_constant       go to state 49
 
 
 State 74
@@ -1296,7 +1280,7 @@ State 74
 
 State 75
 
-   67 block_end: "NEW_LINE" • "}"
+   68 block_end: "NEW_LINE" • "}"
 
     "}"  shift, and go to state 106
 
@@ -1312,9 +1296,9 @@ State 76
 
 State 77
 
-   66 block_end: "}" •
+   67 block_end: "}" •
 
-    $default  reduce using rule 66 (block_end)
+    $default  reduce using rule 67 (block_end)
 
 
 State 78
@@ -1389,39 +1373,40 @@ State 87
 
     "type"                 shift, and go to state 56
     "_Bool, char, or int"  shift, and go to state 2
-    "type identifier"      shift, and go to state 3
+    "fip"                  shift, and go to state 3
+    "type identifier"      shift, and go to state 4
 
     $default  reduce using rule 89 (parameter_type_list)
 
     declaration_specifiers    go to state 109
-    declaration_specifier     go to state 10
-    type_specifier            go to state 11
-    declared_type_name        go to state 12
-    type_specifier_qualifier  go to state 15
+    declaration_specifier     go to state 11
+    type_specifier            go to state 12
+    declared_type_name        go to state 13
+    type_specifier_qualifier  go to state 16
     parameter_type_list       go to state 110
     parameter_list            go to state 111
     parameter_declaration     go to state 112
-    typedef_name              go to state 16
+    typedef_name              go to state 17
 
 
 State 88
 
-   62 declared_type_name: "type" "identifier" •
+   63 declared_type_name: "type" "identifier" •
 
-    $default  reduce using rule 62 (declared_type_name)
+    $default  reduce using rule 63 (declared_type_name)
 
 
 State 89
 
-   65 block_start: "{" "NEW_LINE" •
+   66 block_start: "{" "NEW_LINE" •
 
-    $default  reduce using rule 65 (block_start)
+    $default  reduce using rule 66 (block_start)
 
 
 State 90
 
-   71 member_types_declaration: "identifier" • "(" member_declaration_list ")" ";"
-   72                         | "identifier" • ";"
+   72 member_types_declaration: "identifier" • "(" member_declaration_list ")" ";"
+   73                         | "identifier" • ";"
 
     "("  shift, and go to state 113
     ";"  shift, and go to state 114
@@ -1429,8 +1414,8 @@ State 90
 
 State 91
 
-   68 enumtype_decl_specifier: enumtype_decl_head block_start member_types_declaration_list • block_end "NEW_LINE"
-   70 member_types_declaration_list: member_types_declaration_list • member_types_declaration
+   69 enumtype_decl_specifier: enumtype_decl_head block_start member_types_declaration_list • block_end "NEW_LINE"
+   71 member_types_declaration_list: member_types_declaration_list • member_types_declaration
 
     "NEW_LINE"    shift, and go to state 75
     "}"           shift, and go to state 77
@@ -1442,16 +1427,16 @@ State 91
 
 State 92
 
-   69 member_types_declaration_list: member_types_declaration •
+   70 member_types_declaration_list: member_types_declaration •
 
-    $default  reduce using rule 69 (member_types_declaration_list)
+    $default  reduce using rule 70 (member_types_declaration_list)
 
 
 State 93
 
-   13 primary_expression: "(" expression ")" •
+   12 primary_expression: "(" expression ")" •
 
-    $default  reduce using rule 13 (primary_expression)
+    $default  reduce using rule 12 (primary_expression)
 
 
 State 94
@@ -1460,19 +1445,20 @@ State 94
 
     "type"                 shift, and go to state 56
     "_Bool, char, or int"  shift, and go to state 2
-    "type identifier"      shift, and go to state 3
+    "fip"                  shift, and go to state 3
+    "type identifier"      shift, and go to state 4
 
     declaration_specifiers    go to state 117
-    declaration_specifier     go to state 10
-    type_specifier            go to state 11
-    declared_type_name        go to state 12
-    type_specifier_qualifier  go to state 15
-    typedef_name              go to state 16
+    declaration_specifier     go to state 11
+    type_specifier            go to state 12
+    declared_type_name        go to state 13
+    type_specifier_qualifier  go to state 16
+    typedef_name              go to state 17
 
 
 State 95
 
-   15 postfix_expression: "identifier" "(" argument_expression_list • ")"
+   14 postfix_expression: "identifier" "(" argument_expression_list • ")"
    17 argument_expression_list: argument_expression_list • "," assignment_expression
 
     ")"  shift, and go to state 118
@@ -1568,9 +1554,9 @@ State 105
 
 State 106
 
-   67 block_end: "NEW_LINE" "}" •
+   68 block_end: "NEW_LINE" "}" •
 
-    $default  reduce using rule 67 (block_end)
+    $default  reduce using rule 68 (block_end)
 
 
 State 107
@@ -1632,40 +1618,40 @@ State 112
 
 State 113
 
-   71 member_types_declaration: "identifier" "(" • member_declaration_list ")" ";"
+   72 member_types_declaration: "identifier" "(" • member_declaration_list ")" ";"
 
     "type"                 shift, and go to state 56
     "_Bool, char, or int"  shift, and go to state 2
-    "type identifier"      shift, and go to state 3
+    "type identifier"      shift, and go to state 4
 
-    type_specifier            go to state 11
-    declared_type_name        go to state 12
+    type_specifier            go to state 12
+    declared_type_name        go to state 13
     member_declaration_list   go to state 125
     member_declaration        go to state 126
     specifier_qualifier_list  go to state 127
     type_specifier_qualifier  go to state 128
-    typedef_name              go to state 16
+    typedef_name              go to state 17
 
 
 State 114
 
-   72 member_types_declaration: "identifier" ";" •
+   73 member_types_declaration: "identifier" ";" •
 
-    $default  reduce using rule 72 (member_types_declaration)
+    $default  reduce using rule 73 (member_types_declaration)
 
 
 State 115
 
-   68 enumtype_decl_specifier: enumtype_decl_head block_start member_types_declaration_list block_end • "NEW_LINE"
+   69 enumtype_decl_specifier: enumtype_decl_head block_start member_types_declaration_list block_end • "NEW_LINE"
 
     "NEW_LINE"  shift, and go to state 129
 
 
 State 116
 
-   70 member_types_declaration_list: member_types_declaration_list member_types_declaration •
+   71 member_types_declaration_list: member_types_declaration_list member_types_declaration •
 
-    $default  reduce using rule 70 (member_types_declaration_list)
+    $default  reduce using rule 71 (member_types_declaration_list)
 
 
 State 117
@@ -1677,37 +1663,36 @@ State 117
 
 State 118
 
-   15 postfix_expression: "identifier" "(" argument_expression_list ")" •
+   14 postfix_expression: "identifier" "(" argument_expression_list ")" •
 
-    $default  reduce using rule 15 (postfix_expression)
+    $default  reduce using rule 14 (postfix_expression)
 
 
 State 119
 
    17 argument_expression_list: argument_expression_list "," • assignment_expression
 
-    "("                shift, and go to state 21
-    "&"                shift, and go to state 22
-    "*"                shift, and go to state 23
-    "+ or -"           shift, and go to state 24
-    "!"                shift, and go to state 25
-    "identifier"       shift, and go to state 27
-    "integer literal"  shift, and go to state 28
-    "string literal"   shift, and go to state 29
+    "("                shift, and go to state 22
+    "&"                shift, and go to state 23
+    "*"                shift, and go to state 24
+    "+ or -"           shift, and go to state 25
+    "!"                shift, and go to state 26
+    "identifier"       shift, and go to state 28
+    "integer literal"  shift, and go to state 29
+    "string literal"   shift, and go to state 30
 
-    primary_expression         go to state 30
-    postfix_expression         go to state 31
-    unary_expression           go to state 32
-    unary_operator             go to state 33
-    cast_expression            go to state 34
-    multiplicative_expression  go to state 35
-    additive_expression        go to state 36
-    relational_expression      go to state 37
-    equality_expression        go to state 38
-    logical_and_expression     go to state 39
-    logical_or_expression      go to state 40
+    primary_expression         go to state 31
+    postfix_expression         go to state 32
+    unary_expression           go to state 33
+    unary_operator             go to state 34
+    cast_expression            go to state 35
+    multiplicative_expression  go to state 36
+    additive_expression        go to state 37
+    relational_expression      go to state 38
+    equality_expression        go to state 39
+    logical_and_expression     go to state 40
+    logical_or_expression      go to state 41
     assignment_expression      go to state 130
-    enumeration_constant       go to state 49
 
 
 State 120
@@ -1746,21 +1731,22 @@ State 124
 
     "type"                 shift, and go to state 56
     "_Bool, char, or int"  shift, and go to state 2
-    "type identifier"      shift, and go to state 3
+    "fip"                  shift, and go to state 3
+    "type identifier"      shift, and go to state 4
 
     declaration_specifiers    go to state 109
-    declaration_specifier     go to state 10
-    type_specifier            go to state 11
-    declared_type_name        go to state 12
-    type_specifier_qualifier  go to state 15
+    declaration_specifier     go to state 11
+    type_specifier            go to state 12
+    declared_type_name        go to state 13
+    type_specifier_qualifier  go to state 16
     parameter_declaration     go to state 133
-    typedef_name              go to state 16
+    typedef_name              go to state 17
 
 
 State 125
 
-   71 member_types_declaration: "identifier" "(" member_declaration_list • ")" ";"
-   74 member_declaration_list: member_declaration_list • "," member_declaration
+   72 member_types_declaration: "identifier" "(" member_declaration_list • ")" ";"
+   75 member_declaration_list: member_declaration_list • "," member_declaration
 
     ")"  shift, and go to state 134
     ","  shift, and go to state 135
@@ -1768,14 +1754,14 @@ State 125
 
 State 126
 
-   73 member_declaration_list: member_declaration •
+   74 member_declaration_list: member_declaration •
 
-    $default  reduce using rule 73 (member_declaration_list)
+    $default  reduce using rule 74 (member_declaration_list)
 
 
 State 127
 
-   75 member_declaration: specifier_qualifier_list • member_declarator
+   76 member_declaration: specifier_qualifier_list • member_declarator
 
     "*"           shift, and go to state 50
     "identifier"  shift, and go to state 51
@@ -1789,27 +1775,27 @@ State 127
 
 State 128
 
-   76 specifier_qualifier_list: type_specifier_qualifier •
-   77                         | type_specifier_qualifier • specifier_qualifier_list
+   77 specifier_qualifier_list: type_specifier_qualifier •
+   78                         | type_specifier_qualifier • specifier_qualifier_list
 
     "type"                 shift, and go to state 56
     "_Bool, char, or int"  shift, and go to state 2
-    "type identifier"      shift, and go to state 3
+    "type identifier"      shift, and go to state 4
 
-    $default  reduce using rule 76 (specifier_qualifier_list)
+    $default  reduce using rule 77 (specifier_qualifier_list)
 
-    type_specifier            go to state 11
-    declared_type_name        go to state 12
+    type_specifier            go to state 12
+    declared_type_name        go to state 13
     specifier_qualifier_list  go to state 138
     type_specifier_qualifier  go to state 128
-    typedef_name              go to state 16
+    typedef_name              go to state 17
 
 
 State 129
 
-   68 enumtype_decl_specifier: enumtype_decl_head block_start member_types_declaration_list block_end "NEW_LINE" •
+   69 enumtype_decl_specifier: enumtype_decl_head block_start member_types_declaration_list block_end "NEW_LINE" •
 
-    $default  reduce using rule 68 (enumtype_decl_specifier)
+    $default  reduce using rule 69 (enumtype_decl_specifier)
 
 
 State 130
@@ -1844,46 +1830,46 @@ State 133
 
 State 134
 
-   71 member_types_declaration: "identifier" "(" member_declaration_list ")" • ";"
+   72 member_types_declaration: "identifier" "(" member_declaration_list ")" • ";"
 
     ";"  shift, and go to state 141
 
 
 State 135
 
-   74 member_declaration_list: member_declaration_list "," • member_declaration
+   75 member_declaration_list: member_declaration_list "," • member_declaration
 
     "type"                 shift, and go to state 56
     "_Bool, char, or int"  shift, and go to state 2
-    "type identifier"      shift, and go to state 3
+    "type identifier"      shift, and go to state 4
 
-    type_specifier            go to state 11
-    declared_type_name        go to state 12
+    type_specifier            go to state 12
+    declared_type_name        go to state 13
     member_declaration        go to state 142
     specifier_qualifier_list  go to state 127
     type_specifier_qualifier  go to state 128
-    typedef_name              go to state 16
+    typedef_name              go to state 17
 
 
 State 136
 
-   75 member_declaration: specifier_qualifier_list member_declarator •
+   76 member_declaration: specifier_qualifier_list member_declarator •
 
-    $default  reduce using rule 75 (member_declaration)
+    $default  reduce using rule 76 (member_declaration)
 
 
 State 137
 
-   79 member_declarator: declarator •
+   80 member_declarator: declarator •
 
-    $default  reduce using rule 79 (member_declarator)
+    $default  reduce using rule 80 (member_declarator)
 
 
 State 138
 
-   77 specifier_qualifier_list: type_specifier_qualifier specifier_qualifier_list •
+   78 specifier_qualifier_list: type_specifier_qualifier specifier_qualifier_list •
 
-    $default  reduce using rule 77 (specifier_qualifier_list)
+    $default  reduce using rule 78 (specifier_qualifier_list)
 
 
 State 139
@@ -1902,16 +1888,16 @@ State 140
 
 State 141
 
-   71 member_types_declaration: "identifier" "(" member_declaration_list ")" ";" •
+   72 member_types_declaration: "identifier" "(" member_declaration_list ")" ";" •
 
-    $default  reduce using rule 71 (member_types_declaration)
+    $default  reduce using rule 72 (member_types_declaration)
 
 
 State 142
 
-   74 member_declaration_list: member_declaration_list "," member_declaration •
+   75 member_declaration_list: member_declaration_list "," member_declaration •
 
-    $default  reduce using rule 74 (member_declaration_list)
+    $default  reduce using rule 75 (member_declaration_list)
 
 
 State 143

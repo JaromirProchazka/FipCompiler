@@ -127,62 +127,6 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-stud-main/CMakeFiles/cecko1.dir/rule:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-main/CMakeFiles/cecko1.dir/rule
-.PHONY : stud-main/CMakeFiles/cecko1.dir/rule
-
-# Convenience name for target.
-cecko1: stud-main/CMakeFiles/cecko1.dir/rule
-.PHONY : cecko1
-
-# fast build rule for target.
-cecko1/fast:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko1.dir/build.make stud-main/CMakeFiles/cecko1.dir/build
-.PHONY : cecko1/fast
-
-# Convenience name for target.
-stud-main/CMakeFiles/cecko2.dir/rule:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-main/CMakeFiles/cecko2.dir/rule
-.PHONY : stud-main/CMakeFiles/cecko2.dir/rule
-
-# Convenience name for target.
-cecko2: stud-main/CMakeFiles/cecko2.dir/rule
-.PHONY : cecko2
-
-# fast build rule for target.
-cecko2/fast:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko2.dir/build.make stud-main/CMakeFiles/cecko2.dir/build
-.PHONY : cecko2/fast
-
-# Convenience name for target.
-stud-main/CMakeFiles/cecko3.dir/rule:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-main/CMakeFiles/cecko3.dir/rule
-.PHONY : stud-main/CMakeFiles/cecko3.dir/rule
-
-# Convenience name for target.
-cecko3: stud-main/CMakeFiles/cecko3.dir/rule
-.PHONY : cecko3
-
-# fast build rule for target.
-cecko3/fast:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko3.dir/build.make stud-main/CMakeFiles/cecko3.dir/build
-.PHONY : cecko3/fast
-
-# Convenience name for target.
-stud-main/CMakeFiles/cecko4.dir/rule:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-main/CMakeFiles/cecko4.dir/rule
-.PHONY : stud-main/CMakeFiles/cecko4.dir/rule
-
-# Convenience name for target.
-cecko4: stud-main/CMakeFiles/cecko4.dir/rule
-.PHONY : cecko4
-
-# fast build rule for target.
-cecko4/fast:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko4.dir/build.make stud-main/CMakeFiles/cecko4.dir/build
-.PHONY : cecko4/fast
-
-# Convenience name for target.
 stud-main/CMakeFiles/cecko5.dir/rule:
 	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-main/CMakeFiles/cecko5.dir/rule
 .PHONY : stud-main/CMakeFiles/cecko5.dir/rule
@@ -195,102 +139,6 @@ cecko5: stud-main/CMakeFiles/cecko5.dir/rule
 cecko5/fast:
 	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko5.dir/build.make stud-main/CMakeFiles/cecko5.dir/build
 .PHONY : cecko5/fast
-
-cecko1.o: cecko1.cpp.o
-.PHONY : cecko1.o
-
-# target to build an object file
-cecko1.cpp.o:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko1.dir/build.make stud-main/CMakeFiles/cecko1.dir/cecko1.cpp.o
-.PHONY : cecko1.cpp.o
-
-cecko1.i: cecko1.cpp.i
-.PHONY : cecko1.i
-
-# target to preprocess a source file
-cecko1.cpp.i:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko1.dir/build.make stud-main/CMakeFiles/cecko1.dir/cecko1.cpp.i
-.PHONY : cecko1.cpp.i
-
-cecko1.s: cecko1.cpp.s
-.PHONY : cecko1.s
-
-# target to generate assembly for a file
-cecko1.cpp.s:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko1.dir/build.make stud-main/CMakeFiles/cecko1.dir/cecko1.cpp.s
-.PHONY : cecko1.cpp.s
-
-cecko2.o: cecko2.cpp.o
-.PHONY : cecko2.o
-
-# target to build an object file
-cecko2.cpp.o:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko2.dir/build.make stud-main/CMakeFiles/cecko2.dir/cecko2.cpp.o
-.PHONY : cecko2.cpp.o
-
-cecko2.i: cecko2.cpp.i
-.PHONY : cecko2.i
-
-# target to preprocess a source file
-cecko2.cpp.i:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko2.dir/build.make stud-main/CMakeFiles/cecko2.dir/cecko2.cpp.i
-.PHONY : cecko2.cpp.i
-
-cecko2.s: cecko2.cpp.s
-.PHONY : cecko2.s
-
-# target to generate assembly for a file
-cecko2.cpp.s:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko2.dir/build.make stud-main/CMakeFiles/cecko2.dir/cecko2.cpp.s
-.PHONY : cecko2.cpp.s
-
-cecko3.o: cecko3.cpp.o
-.PHONY : cecko3.o
-
-# target to build an object file
-cecko3.cpp.o:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko3.dir/build.make stud-main/CMakeFiles/cecko3.dir/cecko3.cpp.o
-.PHONY : cecko3.cpp.o
-
-cecko3.i: cecko3.cpp.i
-.PHONY : cecko3.i
-
-# target to preprocess a source file
-cecko3.cpp.i:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko3.dir/build.make stud-main/CMakeFiles/cecko3.dir/cecko3.cpp.i
-.PHONY : cecko3.cpp.i
-
-cecko3.s: cecko3.cpp.s
-.PHONY : cecko3.s
-
-# target to generate assembly for a file
-cecko3.cpp.s:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko3.dir/build.make stud-main/CMakeFiles/cecko3.dir/cecko3.cpp.s
-.PHONY : cecko3.cpp.s
-
-cecko4.o: cecko4.cpp.o
-.PHONY : cecko4.o
-
-# target to build an object file
-cecko4.cpp.o:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko4.dir/build.make stud-main/CMakeFiles/cecko4.dir/cecko4.cpp.o
-.PHONY : cecko4.cpp.o
-
-cecko4.i: cecko4.cpp.i
-.PHONY : cecko4.i
-
-# target to preprocess a source file
-cecko4.cpp.i:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko4.dir/build.make stud-main/CMakeFiles/cecko4.dir/cecko4.cpp.i
-.PHONY : cecko4.cpp.i
-
-cecko4.s: cecko4.cpp.s
-.PHONY : cecko4.s
-
-# target to generate assembly for a file
-cecko4.cpp.s:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko4.dir/build.make stud-main/CMakeFiles/cecko4.dir/cecko4.cpp.s
-.PHONY : cecko4.cpp.s
 
 cecko5.o: cecko5.cpp.o
 .PHONY : cecko5.o
@@ -325,23 +173,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... test"
-	@echo "... cecko1"
-	@echo "... cecko2"
-	@echo "... cecko3"
-	@echo "... cecko4"
 	@echo "... cecko5"
-	@echo "... cecko1.o"
-	@echo "... cecko1.i"
-	@echo "... cecko1.s"
-	@echo "... cecko2.o"
-	@echo "... cecko2.i"
-	@echo "... cecko2.s"
-	@echo "... cecko3.o"
-	@echo "... cecko3.i"
-	@echo "... cecko3.s"
-	@echo "... cecko4.o"
-	@echo "... cecko4.i"
-	@echo "... cecko4.s"
 	@echo "... cecko5.o"
 	@echo "... cecko5.i"
 	@echo "... cecko5.s"

@@ -491,6 +491,7 @@ stud-sol/CMakeFiles/solution.dir/calexer.cpp.o: stud-sol/calexer.cpp \
   /usr/include/c++/11/iostream \
   /usr/include/c++/11/istream \
   /usr/include/c++/11/bits/istream.tcc \
+  /usr/include/c++/11/ranges \
   stud-sol/caparser.hpp
 
 stud-sol/CMakeFiles/solution.dir/caparser.cpp.o: stud-sol/caparser.cpp \
@@ -983,7 +984,8 @@ stud-sol/CMakeFiles/solution.dir/caparser.cpp.o: stud-sol/caparser.cpp \
   fmwk/ckgrptokens.hpp \
   fmwk/ckcontext.hpp \
   solution/casem.hpp \
-  fmwk/cktables.hpp
+  fmwk/cktables.hpp \
+  /usr/include/c++/11/ranges
 
 stud-sol/CMakeFiles/solution.dir/casem.cpp.o: solution/casem.cpp \
   /usr/include/stdc-predef.h \
@@ -1472,6 +1474,7 @@ stud-sol/CMakeFiles/solution.dir/casem.cpp.o: solution/casem.cpp \
   /usr/include/c++/11/iostream \
   /usr/include/c++/11/istream \
   /usr/include/c++/11/bits/istream.tcc \
+  /usr/include/c++/11/ranges \
   fmwk/ckbisonflex.hpp \
   fmwk/ckcontext.hpp
 
@@ -1749,6 +1752,8 @@ fmwk/ckgrptokens.hpp:
 /usr/include/c++/11/ostream:
 
 /usr/lib/llvm-15/include/llvm/ADT/STLFunctionalExtras.h:
+
+/usr/include/c++/11/ranges:
 
 /usr/lib/llvm-15/include/llvm/ADT/STLArrayExtras.h:
 

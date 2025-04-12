@@ -486,7 +486,6 @@ namespace cecko {
       // "type identifier"
       // "string literal"
       // declared_type_name
-      // enumeration_constant
       // typedef_name
       char dummy13[sizeof (cecko::CIName)];
 
@@ -714,15 +713,14 @@ namespace cecko {
         S_specifier_qualifier_list = 80,         // specifier_qualifier_list
         S_type_specifier_qualifier = 81,         // type_specifier_qualifier
         S_member_declarator = 82,                // member_declarator
-        S_enumeration_constant = 83,             // enumeration_constant
-        S_declarator = 84,                       // declarator
-        S_pointer = 85,                          // pointer
-        S_direct_declarator = 86,                // direct_declarator
-        S_function_declarator = 87,              // function_declarator
-        S_parameter_type_list = 88,              // parameter_type_list
-        S_parameter_list = 89,                   // parameter_list
-        S_parameter_declaration = 90,            // parameter_declaration
-        S_typedef_name = 91                      // typedef_name
+        S_declarator = 83,                       // declarator
+        S_pointer = 84,                          // pointer
+        S_direct_declarator = 85,                // direct_declarator
+        S_function_declarator = 86,              // function_declarator
+        S_parameter_type_list = 87,              // parameter_type_list
+        S_parameter_list = 88,                   // parameter_list
+        S_parameter_declaration = 89,            // parameter_declaration
+        S_typedef_name = 90                      // typedef_name
       };
     };
 
@@ -835,7 +833,6 @@ namespace cecko {
       case symbol_kind::S_TYPEIDF: // "type identifier"
       case symbol_kind::S_STRLIT: // "string literal"
       case symbol_kind::S_declared_type_name: // declared_type_name
-      case symbol_kind::S_enumeration_constant: // enumeration_constant
       case symbol_kind::S_typedef_name: // typedef_name
         value.move< cecko::CIName > (std::move (that.value));
         break;
@@ -1363,7 +1360,6 @@ switch (yykind)
       case symbol_kind::S_TYPEIDF: // "type identifier"
       case symbol_kind::S_STRLIT: // "string literal"
       case symbol_kind::S_declared_type_name: // declared_type_name
-      case symbol_kind::S_enumeration_constant: // enumeration_constant
       case symbol_kind::S_typedef_name: // typedef_name
         value.template destroy< cecko::CIName > ();
         break;
@@ -2553,9 +2549,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 120,     ///< Last index in yytable_.
-      yynnts_ = 55,  ///< Number of nonterminal symbols.
-      yyfinal_ = 18 ///< Termination state number.
+      yylast_ = 124,     ///< Last index in yytable_.
+      yynnts_ = 54,  ///< Number of nonterminal symbols.
+      yyfinal_ = 19 ///< Termination state number.
     };
 
 
@@ -2702,7 +2698,6 @@ switch (yykind)
       case symbol_kind::S_TYPEIDF: // "type identifier"
       case symbol_kind::S_STRLIT: // "string literal"
       case symbol_kind::S_declared_type_name: // declared_type_name
-      case symbol_kind::S_enumeration_constant: // enumeration_constant
       case symbol_kind::S_typedef_name: // typedef_name
         value.copy< cecko::CIName > (YY_MOVE (that.value));
         break;
@@ -2864,7 +2859,6 @@ switch (yykind)
       case symbol_kind::S_TYPEIDF: // "type identifier"
       case symbol_kind::S_STRLIT: // "string literal"
       case symbol_kind::S_declared_type_name: // declared_type_name
-      case symbol_kind::S_enumeration_constant: // enumeration_constant
       case symbol_kind::S_typedef_name: // typedef_name
         value.move< cecko::CIName > (YY_MOVE (s.value));
         break;
@@ -2986,7 +2980,7 @@ switch (yykind)
 
 #line 7 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
 } // cecko
-#line 2990 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.hpp"
+#line 2984 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.hpp"
 
 
 

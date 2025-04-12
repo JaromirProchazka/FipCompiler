@@ -81,9 +81,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "fmwk/CMakeFiles/framework_dump.dir/DependInfo.cmake"
   "stud-sol/CMakeFiles/solution.dir/DependInfo.cmake"
   "stud-sol/CMakeFiles/solution_dump.dir/DependInfo.cmake"
-  "stud-main/CMakeFiles/cecko1.dir/DependInfo.cmake"
-  "stud-main/CMakeFiles/cecko2.dir/DependInfo.cmake"
-  "stud-main/CMakeFiles/cecko3.dir/DependInfo.cmake"
-  "stud-main/CMakeFiles/cecko4.dir/DependInfo.cmake"
   "stud-main/CMakeFiles/cecko5.dir/DependInfo.cmake"
   )

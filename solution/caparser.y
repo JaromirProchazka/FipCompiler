@@ -97,7 +97,6 @@ using namespace casem;
 %type<casem::InstructionWrapper>        expression 
 %type<casem::InstructionWrapper>        expression_body
 %type<casem::UnaryOperator>             unary_operator
-%type<cecko::CIName>                    enumeration_constant
 %type<casem::InstructionWrapper>        postfix_expression
 %type<cecko::gt_cass>                   assignment_operator
 %type<casem::InstructionWrapper>        assignment_expression
@@ -147,6 +146,7 @@ using namespace casem;
 // %type<casem::TypeRefPack_Action>        init_declarator_list
 // %type<casem::TypeRefPack_Action>        init_declarator
 // %type<casem::TypeRefPack_Action>        array_declarator
+// %type<cecko::CIName>                    enumeration_constant
 
 
 // %type<casem::TypeRefPack_Action>        abstract_declarator
@@ -233,7 +233,7 @@ function_definition:
             else
                 ret_inst = ret_obs;
             
-            ret_inst.generate_debug_print(ret_inst.name);       
+            // ret_inst.generate_debug_print(ret_inst.name);       
             ctx->builder()->CreateRet(ret_inst.read_ir());
         }
         else {
@@ -247,6 +247,12 @@ function_definition:
             ctx->builder()-> CreateRetVoid();
         }
 
+        // if we are at this point in FIP-mod, it must mean the function is FIP
+        if (fip_state.is_in_fip_mode()) {
+            log("{FipState} function_definition - exiting fip mod\n");
+            fip_state.exit_fip_mode();
+            fip_state.exit_fip_context();
+        }
         ctx->exit_function();
     }
     // | function_definition_head RCUR   {
@@ -276,6 +282,11 @@ function_definition_info:
         log("[function_definition_info:] function declared\n");
 
         ctx->enter_function(f_observer, res_tpack.optinonal_param_names, ctx->line());
+        if (rfpack.is_fip) {
+            log("{FipState} function_definition_info - entering fip function '"+res_tpack.name.value()+"' declaration\n");
+            fip_state.enter_fip_mode();
+            fip_state.enter_fip_context();
+        }
         log("[function_definition_info:] function body entered\n");
     }
 ;
@@ -301,17 +312,11 @@ function_definition_head:
 /////////////////////////////////
 
 primary_expression:
-    enumeration_constant    {
-        log("[primary_expression:] name\n");
-        if (casem::is_struct_label(ctx, $1)) {
-            auto&& constructor_name = get_constructor_label($1);
-            $$ = init_instruction_function_call(ctx, init_instruction_from_name(ctx, constructor_name), {});
-        }
-        else {
-            $$ = init_instruction_from_name(ctx, $1);
-        }
-    }
-    | INTLIT    {
+    // enumeration_constant    {
+    //     log("[primary_expression:] name '"+$1+"'\n");
+    //     $$ = casem::handle_enumeration_constant(ctx, $1);
+    // }
+    /*|*/ INTLIT    {
         //CKIRConstantIntObs
         log("[primary_expression:] Found int lit '%d'\n", (int)$1);
         $$ = init_instruction_const(ctx, $1);
@@ -333,14 +338,19 @@ postfix_expression:
     // | application_rule
     // | unboxing_rule
     | IDF LPAR argument_expression_list RPAR     {
-        log("[postfix_expression:] FUNCTION CALL, postfix_expression ( expression )\n");
-        
-        if (casem::is_struct_label(ctx, $1)) {
-            auto&& constructor_name = get_constructor_label($1);
-            $$ = init_instruction_function_call(ctx, init_instruction_from_name(ctx, constructor_name), $3);
+        // TODO: IMPLEMENT REUSING
+        log("[postfix_expression:] FUNCTION CALL, IDF:'"+$1+"' ( expression )\n");
+        $$ = casem::handle_postfix_expression_fcall(ctx, $1, $3);
+    }
+    | IDF   {
+        auto &&label = $1;
+        log("[postfix_expression:] FUNCTION CALL, IDF:'" + label + "'\n");
+        if (casem::is_struct_label(ctx, label))
+        {
+            $$ = casem::handle_postfix_expression_fcall(ctx, label, {});
         }
         else {
-            $$ = init_instruction_function_call(ctx, init_instruction_from_name(ctx, $1), $3);
+            $$ = casem::init_instruction_from_name(ctx, label);
         }
     }
 ;
@@ -557,19 +567,8 @@ assignment_operator:
 
 match_head:
     MATCH IDF ARROW declaration_specifiers  {
-        if ($1 == cecko::match_type::DMATCH) {
-            FipState::enter_fip_mode();
-        } 
-        log("[match_head:] MATCH IDF ARROW declaration_speci  fiers - define result var\n");
-        casem::TypeRefPack_Action DEFINER_BODY = GET_DEFINER(ctx, casem::match_result_template);
-        casem::CKTypeRefDefPack rfpack = $4;
-        DEFINER_BODY(rfpack, std::function(CHOOSE_AND_DEFINE));
-        auto rfpack_ptr = std::make_shared<casem::CKTypeRefDefPack>(rfpack);
-        auto res_var = init_instruction_from_name(ctx, casem::match_result_template);
-        casem::MatchWrapper mw(ctx, $1 == cecko::match_type::DMATCH, $2, rfpack_ptr, $1, res_var); 
-        init_instruction_from_name(ctx, $2).generate_debug_print("'match_head' matched argument is");
-        log("match head done\n");
-        $$ = mw;
+        log("[match_head:] MATCH IDF ARROW declaration_specifiers\n");
+        $$ = init_match_head(ctx, $1, $2, $4);
     }
 ;
 
@@ -580,7 +579,10 @@ match_expression:
     | match_binders_list block_end    {
         log("[match_expression:] MATCH IDF ARROW declaration_specifiers block_start match_binders_list block_end\n");
         casem::MatchWrapper match_data = $1;
-        FipState::exit_fip_mode();
+        if (match_data.is_destructive) {
+            log("{FipState} match_expression - exiting DMATCH\n");
+            fip_state.exit_fip_mode();
+        }
 
         // auto&& res = init_instruction_from_name(ctx, casem::match_result_template);
         $$ = match_data.result;
@@ -590,74 +592,25 @@ match_expression:
 match_binders_list:
     match_binders_list_head_start expression_body  {
         log("[match_binders_list:] match_binders_list_head_start expression_body\n");
-        auto&& data = $1;
-        auto&& match_dt = data.head_data;
-        auto&& binder_data = data.binder_data;
-        auto& if_data = binder_data.if_data;
-        auto&& conditioned_result_value = $2;
-
-        conditioned_result_value.generate_debug_print("match_binder_if -> result = ");
-        auto res = match_dt.result; // init_instruction_from_name(ctx, match_result_template);
-        res.generate_debug_print("'match binder' match result before store");
-        res.store(conditioned_result_value);
-        res.generate_debug_print("'match binder' match result after store");
-        ctx->exit_block();
-        // set current insertion block as the back of the if.then block
-        binder_data.if_data.if_block_back = ctx->builder()->GetInsertBlock();
-
-        ctx->builder()->SetInsertPoint(if_data.continue_block);
-        create_if_control_flow(ctx, if_data);
-        
-        $$ = match_dt;
+        $$ = init_match_binders_list(ctx, $1, $2);
     }
     | match_binders_list_head expression_body  {
         log("[match_binders_list:] match_binders_list_head expression_body\n");
-        auto&& data = $1;
-        auto&& match_dt = data.head_data;
-        auto&& binder_data = data.binder_data;
-        auto& if_data = binder_data.if_data;
-        auto&& conditioned_result_value = $2;
-
-        conditioned_result_value.generate_debug_print("match_binder_if -> result = ");
-        auto res = match_dt.result; // init_instruction_from_name(ctx, match_result_template);
-        res.generate_debug_print("'match binder' match result before store");
-        res.store(conditioned_result_value);
-        res.generate_debug_print("'match binder' match result after store");
-        ctx->exit_block();
-        // set current insertion block as the back of the if.then block
-        if_data.if_block_back = ctx->builder()->GetInsertBlock();
-
-        ctx->builder()->SetInsertPoint(if_data.continue_block);
-        create_if_control_flow(ctx, if_data);
-        
-        $$ = match_dt;
+        $$ = init_match_binders_list(ctx, $1, $2);
     }
 ;
 
 match_binders_list_head_start:
     match_head block_start match_binder_head {
         log("[match_binders_list_head_start:] match_head block_start match_binder_head\n");
-        auto&& match_dt = $1;
-        auto&& binder_data = $3;
-        binder_data.create_if_statement(ctx, match_dt);
-        ctx->enter_block();
-        binder_data.init_binder_vars(ctx, match_dt);
-        generate_debug_print(ctx, "Entered if block of type '" + binder_data.type_label + "'");
-
-        $$ = casem::MatchBinderListHeadData(match_dt, $3);
+        $$ = MatchBinderListHeadData::init_match_binders_list_head(ctx, $1, $3);
     }
 ;
 
 match_binders_list_head:
     match_binders_list match_binder_head {
         log("[match_binders_list_head:] match_binders_list match_binder_head\n");
-        auto&& match_dt = $1;
-        auto&& binder_data = $2;
-        binder_data.create_if_statement(ctx, match_dt);
-        ctx->enter_block();
-        binder_data.init_binder_vars(ctx, match_dt);
-
-        $$ = casem::MatchBinderListHeadData(match_dt, $2);
+        $$ = MatchBinderListHeadData::init_match_binders_list_head(ctx, $1, $2);
     }
 ;
 
@@ -746,8 +699,11 @@ declaration_specifiers:
                 rfpack.is_const = true;
             }
             else if (rfpack.has_typedef == false && ($1).has_typedef == true) {
-                casem::CKTypeRefDefPack new_rfpack(rfpack.type, rfpack.is_const, true);
+                casem::CKTypeRefDefPack new_rfpack(rfpack.type, rfpack.is_const, true, rfpack.is_fip);
                 rfpack = new_rfpack;
+            }
+            else if ( !rfpack.is_fip && ($1).is_fip) {
+                rfpack.is_fip = ($1).is_fip;
             }
             else {
                 ctx->message(errors::INVALID_SPECIFIERS, ctx->line());
@@ -784,6 +740,12 @@ declaration_specifier:
             log("\n");
             $$ = rpack;
         }
+    | FIP   {
+        log("[declaration_specifier:] Found FIP\n");
+        casem::CKTypeRefDefPack rfpack;
+        rfpack.is_fip = true;
+        $$ = rfpack;
+    }
 ;
 
 // init_declarator_list:
@@ -892,7 +854,7 @@ enumtype_decl_specifier:
         log("[enumtype_decl_specifier:] enumtype_decl_head block_start member_types_declaration_list block_end NEWLINE\n");
         auto&& type_data = $1;
         int enumtype_tag_end = max_type_tag;
-        casem::insert_ttype(type_data.name() , type_data.first_tag, enumtype_tag_end);
+        casem::insert_ttypes(type_data.name(), type_data.first_tag, enumtype_tag_end);
         log("Inserted father type tag range\n");
         $$ = type_data.struct_decl;
     }
@@ -921,7 +883,7 @@ member_types_declaration:
 
         ctx->define_struct_type_open($1, ctx->line());
         ctx->define_struct_type_close(struct_obs, struct_items);
-        casem::insert_ttype($1, max_type_tag);
+        casem::insert_ttype($1, max_type_tag, struct_items.size());
         ++casem::max_type_tag;
 
         casem::declare_type_constructor(ctx, $1, struct_obs, struct_items);
@@ -936,10 +898,11 @@ member_types_declaration:
         cecko::CKStructItemArray struct_items = { casem::get_tag_strauct_item(ctx) };
 
         ctx->define_struct_type_close(struct_obs, struct_items);
-        casem::insert_ttype($1, max_type_tag);
+        casem::insert_ttype($1, max_type_tag, 0);
         ++casem::max_type_tag;
 
         casem::declare_type_constructor(ctx, $1, struct_obs, struct_items);
+        casem::declare_type_reuser(ctx, $1, struct_obs, struct_items);
 
         $$ = struct_obs;
     }
@@ -998,10 +961,9 @@ specifier_qualifier_list:
 type_specifier_qualifier:
     type_specifier  { 
             log("[type_specifier_qualifier:] ^ Found type_specifier\n"); 
-            casem::CKTypeRefDefPack t($1, false, false);
+            casem::CKTypeRefDefPack t($1, false, false, false);
             $$ = t;
         }
-    
 ;
 
 // member_declarator_list:
@@ -1036,12 +998,12 @@ member_declarator:
 //     }
 // ;
 
-enumeration_constant:
-    IDF     {
-        log_name("[enumeration_constant:]", $1);
-        $$ = $1;
-    }
-;
+// enumeration_constant:
+//     IDF     {
+//         log_name("[enumeration_constant:]", $1);
+//         $$ = $1;
+//     }
+// ;
 
 declarator:
     pointer direct_declarator {
@@ -1063,7 +1025,7 @@ pointer:
         std::function<casem::CKTypeRefDefPack(casem::CKTypeRefDefPack&)> 
             POINTER_TO_DEFINER = [LOWER_POINTER, this](casem::CKTypeRefDefPack rfpack) {
                 auto pt = ctx->get_pointer_type(rfpack);
-                casem::CKTypeRefDefPack pointer_pack(pt, false, rfpack.has_typedef);
+                casem::CKTypeRefDefPack pointer_pack(pt, false, rfpack.has_typedef, rfpack.is_fip);
                 return LOWER_POINTER(pointer_pack);
             };
 
@@ -1073,7 +1035,7 @@ pointer:
         std::function<casem::CKTypeRefDefPack(casem::CKTypeRefDefPack&)> 
             POINTER_TO_DEFINER = [this](casem::CKTypeRefDefPack rfpack) {
                 auto pt = ctx->get_pointer_type(rfpack);
-                casem::CKTypeRefDefPack pointer_pack(pt, false, rfpack.has_typedef);
+                casem::CKTypeRefDefPack pointer_pack(pt, false, rfpack.has_typedef, rfpack.is_fip);
                 return pointer_pack;
             };
 
@@ -1118,7 +1080,7 @@ direct_declarator:
 
 function_declarator: 
     direct_declarator LBRA parameter_type_list RBRA  {
-        log("[function_declarator:] v< wrap current lambdas rfpack in function\n");
+        log("[function_declarator:] direct_declarator LBRA parameter_type_list RBRA -- v< wrap current lambdas rfpack in function\n");
         //ctx->get_function_type(CKTypeObs ret_type, CKTypeObsArray arg_types, bool variadic=false)
         // GET_FUNCTION_ADDER(cecko::context *ctx, TypeRefPack_Action old_action, CKTypeObsArray arg_types);
         bool is_variadic = (($3).empty()) ? false : ($3).back().is_variadic;
@@ -1281,11 +1243,11 @@ parameter_declaration:
 // function_abstract_declarator:
 //     direct_abstract_declarator LPAR parameter_type_list RPAR    {
 //         log("[function_abstract_declarator:] direct_abstract_declarator LPAR parameter_type_list RPAR\n");
-//         $$ = GET_FUNCTION_ADDER(ctx, $1, casem::get_types_from_tpacks($3), false);
+//         $$ = GET_FUNCTION_ADDER(ctx, $1, casem::get_types_from_tpacks($3), false, false);
 //     }
 //     | LPAR parameter_type_list RPAR {
 //         log("[function_abstract_declarator:] LPAR parameter_type_list RPAR\n");
-//         $$ = GET_FUNCTION_ADDER(ctx, GET_DEFINER(ctx, ""), casem::get_types_from_tpacks($2), false);
+//         $$ = GET_FUNCTION_ADDER(ctx, GET_DEFINER(ctx, ""), casem::get_types_from_tpacks($2), false, false);
 //     }
 // ;
 
@@ -1311,7 +1273,7 @@ typedef_name:
 // compound_statement_head:
 //     LCUR        {
 //         log("ENTER BLOCK\n");
-//         ctx->enter_block();
+//         casem::enter_block(ctx);
 //     }
 // ;
 
@@ -1326,11 +1288,11 @@ typedef_name:
 //     block_item_list RCUR        {
 //         $$ = $1;
 
-//         ctx->exit_block();
+//         exit_block(ctx);
 //         log("EXITING BLOCK\n");
 //     }
 //     | RCUR      {
-//         ctx->exit_block();
+//         exit_block(ctx);
 //         log("EXITING BLOCK\n");
 
 //         $$ = ctx->builder()->GetInsertBlock();

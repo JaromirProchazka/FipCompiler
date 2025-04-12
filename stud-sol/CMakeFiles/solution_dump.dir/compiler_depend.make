@@ -491,6 +491,7 @@ stud-sol/CMakeFiles/solution_dump.dir/calexer_dump.cpp.o: stud-sol/calexer_dump.
   /usr/include/c++/11/iostream \
   /usr/include/c++/11/istream \
   /usr/include/c++/11/bits/istream.tcc \
+  /usr/include/c++/11/ranges \
   fmwk/ckdumper.hpp \
   fmwk/ckbisonflex.hpp \
   fmwk/ckgrptokens.hpp
@@ -982,6 +983,7 @@ stud-sol/CMakeFiles/solution_dump.dir/casem.cpp.o: solution/casem.cpp \
   /usr/include/c++/11/iostream \
   /usr/include/c++/11/istream \
   /usr/include/c++/11/bits/istream.tcc \
+  /usr/include/c++/11/ranges \
   fmwk/ckbisonflex.hpp \
   fmwk/ckcontext.hpp
 
@@ -1255,6 +1257,8 @@ fmwk/ckgrptokens.hpp:
 /usr/include/c++/11/ostream:
 
 /usr/lib/llvm-15/include/llvm/ADT/STLFunctionalExtras.h:
+
+/usr/include/c++/11/ranges:
 
 /usr/lib/llvm-15/include/llvm/ADT/STLArrayExtras.h:
 

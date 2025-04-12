@@ -427,6 +427,6 @@ stud-sol/CMakeFiles/solution.dir/casem.cpp.o: \
  /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/./cktables.hpp \
  /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/./ckgrptokens.hpp \
  /usr/include/c++/11/iostream /usr/include/c++/11/istream \
- /usr/include/c++/11/bits/istream.tcc \
+ /usr/include/c++/11/bits/istream.tcc /usr/include/c++/11/ranges \
  /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/./ckbisonflex.hpp \
  /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/./ckcontext.hpp

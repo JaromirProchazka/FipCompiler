@@ -218,58 +218,6 @@ solution_dump/fast:
 .PHONY : solution_dump/fast
 
 #=============================================================================
-# Target rules for targets named cecko1
-
-# Build rule for target.
-cecko1: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cecko1
-.PHONY : cecko1
-
-# fast build rule for target.
-cecko1/fast:
-	$(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko1.dir/build.make stud-main/CMakeFiles/cecko1.dir/build
-.PHONY : cecko1/fast
-
-#=============================================================================
-# Target rules for targets named cecko2
-
-# Build rule for target.
-cecko2: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cecko2
-.PHONY : cecko2
-
-# fast build rule for target.
-cecko2/fast:
-	$(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko2.dir/build.make stud-main/CMakeFiles/cecko2.dir/build
-.PHONY : cecko2/fast
-
-#=============================================================================
-# Target rules for targets named cecko3
-
-# Build rule for target.
-cecko3: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cecko3
-.PHONY : cecko3
-
-# fast build rule for target.
-cecko3/fast:
-	$(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko3.dir/build.make stud-main/CMakeFiles/cecko3.dir/build
-.PHONY : cecko3/fast
-
-#=============================================================================
-# Target rules for targets named cecko4
-
-# Build rule for target.
-cecko4: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cecko4
-.PHONY : cecko4
-
-# fast build rule for target.
-cecko4/fast:
-	$(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko4.dir/build.make stud-main/CMakeFiles/cecko4.dir/build
-.PHONY : cecko4/fast
-
-#=============================================================================
 # Target rules for targets named cecko5
 
 # Build rule for target.
@@ -294,10 +242,6 @@ help:
 	@echo "... acc_gen"
 	@echo "... intrinsics_gen"
 	@echo "... omp_gen"
-	@echo "... cecko1"
-	@echo "... cecko2"
-	@echo "... cecko3"
-	@echo "... cecko4"
 	@echo "... cecko5"
 	@echo "... framework"
 	@echo "... framework_dump"

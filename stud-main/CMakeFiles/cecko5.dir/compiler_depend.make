@@ -500,7 +500,8 @@ stud-main/CMakeFiles/cecko5.dir/cecko5.cpp.o: main/cecko5.cpp \
   fmwk/ckgrptokens.hpp \
   fmwk/ckcontext.hpp \
   solution/casem.hpp \
-  fmwk/cktables.hpp
+  fmwk/cktables.hpp \
+  /usr/include/c++/11/ranges
 
 
 solution/casem.hpp:
@@ -790,6 +791,8 @@ fmwk/ckbisonflex.hpp:
 /usr/include/c++/11/ostream:
 
 /usr/lib/llvm-15/include/llvm/ADT/STLFunctionalExtras.h:
+
+/usr/include/c++/11/ranges:
 
 /usr/lib/llvm-15/include/llvm/ADT/STLArrayExtras.h:
 

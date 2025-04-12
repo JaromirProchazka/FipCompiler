@@ -14,10 +14,6 @@
 /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/CMakeFiles/test.dir
 /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/CMakeFiles/edit_cache.dir
 /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/CMakeFiles/rebuild_cache.dir
-/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-main/CMakeFiles/cecko1.dir
-/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-main/CMakeFiles/cecko2.dir
-/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-main/CMakeFiles/cecko3.dir
-/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-main/CMakeFiles/cecko4.dir
 /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-main/CMakeFiles/cecko5.dir
 /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-main/CMakeFiles/test.dir
 /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-main/CMakeFiles/edit_cache.dir
