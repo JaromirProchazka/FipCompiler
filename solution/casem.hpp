@@ -285,35 +285,36 @@ namespace casem
             if (mode == RValue)
             {
                 ctx->message(cecko::errors::SYNTAX, ctx->line(), "Assigning to RValue");
-                log("|store| DONE\n");
+                // log("|store| DONE\n");
                 return InstructionWrapper();
+                // return other;
             }
 
             InstructionWrapper stored;
             if (type->is_pointer())
             {
                 stored = other.to_ptr();
-                log("|store| storing to pointer\n");
+                // log("|store| storing to pointer\n");
                 if (other.mode == RValue)
                 {
-                    log("|store| storing RValue\n");
+                    // log("|store| storing RValue\n");
                     ctx->builder()->CreateStore(stored.get_ir(), address);
-                    log("|store| stored RValue\n");
+                    // log("|store| stored RValue\n");
                 }
                 else
                 {
-                    log("|store| storing LValue\n");
+                    // log("|store| storing LValue\n");
                     ctx->builder()->CreateStore(stored.read_ir(), address);
                 }
             }
             else
             {
-                log("|store| storing to NON pointer\n");
+                // log("|store| storing to NON pointer\n");
                 stored = other.to_type(type);
                 ctx->builder()->CreateStore(stored.read_ir(), address);
             }
 
-            log("|store| DONE\n");
+            // log("|store| DONE\n");
             return stored;
         }
         cecko::CKIRValueObs get_ir() const
@@ -522,6 +523,97 @@ namespace casem
                 true,
                 vname);
         }
+        InstructionWrapper operator<(const InstructionWrapper &other) const
+        {
+            auto conv = to_num();
+            auto t0 = conv.read_ir();
+            auto t1 = other.to_type(conv.type).read_ir();
+            auto vname = name + "<" + other.name;
+            assert(t0->getType() == t1->getType());
+            return InstructionWrapper(
+                ctx,
+                RValue,
+                ctx->builder()->CreateICmpSLT(t0, t1, vname),
+                ctx->get_bool_type(),
+                true,
+                vname);
+        }
+        InstructionWrapper operator>(const InstructionWrapper &other) const
+        {
+            auto conv = to_num();
+            auto t0 = conv.read_ir();
+            auto t1 = other.to_int().read_ir();
+            auto vname = name + ">" + other.name;
+            log("|InstructionWrapper::operator>| made casts\n");
+            assert(t0->getType() == t1->getType());
+            InstructionWrapper res(
+                ctx,
+                RValue,
+                ctx->builder()->CreateICmpSGT(t0, t1, vname),
+                ctx->get_bool_type(),
+                true,
+                vname);
+            log("|InstructionWrapper::operator>| made instruction\n");
+            return res;
+        }
+        InstructionWrapper operator>=(const InstructionWrapper &other) const
+        {
+            auto conv = to_num();
+            auto t0 = conv.read_ir();
+            auto t1 = other.to_type(conv.type).read_ir();
+            auto vname = name + ">=" + other.name;
+            assert(t0->getType() == t1->getType());
+            return InstructionWrapper(
+                ctx,
+                RValue,
+                ctx->builder()->CreateICmpSGE(t0, t1, vname),
+                ctx->get_bool_type(),
+                true,
+                vname);
+        }
+        InstructionWrapper operator<=(const InstructionWrapper &other) const
+        {
+            auto conv = to_num();
+            auto t0 = conv.read_ir();
+            auto t1 = other.to_type(conv.type).read_ir();
+            auto vname = name + "<=" + other.name;
+            assert(t0->getType() == t1->getType());
+            return InstructionWrapper(
+                ctx,
+                RValue,
+                ctx->builder()->CreateICmpSLE(t0, t1, vname),
+                ctx->get_bool_type(),
+                true,
+                vname);
+        }
+        InstructionWrapper operator==(const InstructionWrapper &other) const
+        {
+            auto conv = to_num();
+            auto t0 = conv.read_ir();
+            auto t1 = other.to_type(conv.type).read_ir();
+            auto vname = name + "==" + other.name;
+            return InstructionWrapper(
+                ctx,
+                RValue,
+                ctx->builder()->CreateICmpEQ(t0, t1, vname),
+                ctx->get_bool_type(),
+                true,
+                vname);
+        }
+        InstructionWrapper operator!=(const InstructionWrapper &other) const
+        {
+            auto conv = to_num();
+            auto t0 = conv.read_ir();
+            auto t1 = other.to_type(conv.type).read_ir();
+            auto vname = name + "!=" + other.name;
+            return InstructionWrapper(
+                ctx,
+                RValue,
+                ctx->builder()->CreateICmpNE(t0, t1, vname),
+                ctx->get_bool_type(),
+                true,
+                vname);
+        }
         InstructionWrapper operator++()
         {
             auto res = InstructionWrapper(
@@ -662,6 +754,7 @@ namespace casem
             {
                 // ctx->message(cecko::errors::NOT_NUMBER, ctx->line());
                 return InstructionWrapper();
+                // return *this;
             }
 
             auto instruction = read_ir();
@@ -683,6 +776,7 @@ namespace casem
             {
                 // ctx->message(cecko::errors::NOT_NUMBER, ctx->line());
                 return InstructionWrapper();
+                // return *this;
             }
 
             auto instruction = to_int().read_ir();
@@ -704,6 +798,7 @@ namespace casem
             {
                 // ctx->message(cecko::errors::NOT_POINTER, ctx->line());
                 return InstructionWrapper();
+                // return *this;
             }
 
             auto instruction = read_ir();
@@ -736,20 +831,24 @@ namespace casem
             cecko::CKIRValueObs instruction;
             if (type->is_char())
             {
+                // log("|.to_bool| comparing char to i8\n");
                 instruction = ctx->builder()->CreateICmpNE(read_ir(), ctx->get_int8_constant(0), vname);
             }
             else if (type->is_int())
             {
+                // log("|.to_bool| comparing int to i32\n");
                 instruction = ctx->builder()->CreateICmpNE(read_ir(), ctx->get_int32_constant(0), vname);
             }
             else if (type->is_pointer())
             {
+                // log("|.to_bool| checking ptr for null\n");
                 instruction = ctx->builder()->CreateIsNotNull(read_ir(), vname);
             }
             else
             {
                 // ctx->message(cecko::errors::NOT_NUMBER, ctx->line());
                 return InstructionWrapper();
+                // return *this;
             }
 
             return InstructionWrapper(
@@ -931,7 +1030,9 @@ namespace casem
                 if (from_tag_min <= to_tag && to_tag < from_tag_max)
                     return EOK; // to_tag is in bounds (necessary to check tag field)
                 else
-                    return FROM_NOT_TO_ITS_SUBTYPE; // to is not subtype of from type
+                    return EOK;
+                // FIXME: aloving to cast from different perent to subtype
+                // return FROM_NOT_TO_ITS_SUBTYPE; // to is not subtype of from type
             }
             else if (from_is_subtype)
             {                                 // from subtype -> to parent (to must be parrent type)
@@ -981,6 +1082,13 @@ namespace casem
         }
     };
 
+    /// @brief Calls ctx->enter_block() and also manages the fip state
+    /// @param ctx curretn llvm context
+    void enter_block(cecko::context *ctx);
+    /// @brief Calls ctx->exit_block() and also manages the fip state
+    /// @param ctx curretn llvm context
+    void exit_block(cecko::context *ctx);
+
     class BasicBlockWrap
     {
     public:
@@ -1026,6 +1134,72 @@ namespace casem
     };
     IfControllFlowData init_if_data(cecko::context *ctx, InstructionWrapper &cond);
     cecko::CKIRBasicBlockObs create_if_control_flow(cecko::context *ctx, IfControllFlowData &data);
+
+    class IfExpressionData
+    {
+    public:
+        IfControllFlowData if_data;
+        InstructionWrapper result;
+        cecko::CKIRBasicBlockObs block;
+
+        IfExpressionData(IfControllFlowData _if_data, InstructionWrapper _result)
+            : if_data(_if_data), result(_result), block()
+        {
+        }
+        IfExpressionData(IfControllFlowData _if_data)
+            : if_data(_if_data), result(), block()
+        {
+        }
+        IfExpressionData()
+            : if_data(), result(), block()
+        {
+        }
+
+        static IfExpressionData init_if_head(cecko::context *ctx, InstructionWrapper &cond)
+        {
+            IfExpressionData new_data(init_if_data(ctx, cond));
+
+            auto res_label = "@result";
+            new_data.block = ctx->builder()->GetInsertBlock();
+            auto &&ret_type =
+                ctx->get_pointer_type(
+                    cecko::CKTypeRefPack(ctx->declare_struct_type("object", ctx->line()),
+                                         false));
+            ctx->define_var(res_label, cecko::CKTypeRefPack(ret_type, false), ctx->line());
+            auto &&res = init_instruction_from_name(ctx, res_label);
+            new_data.result = res;
+
+            enter_block(ctx);
+            return new_data;
+        }
+        static IfExpressionData init_if_else_head(cecko::context *ctx, IfExpressionData &_data)
+        {
+            auto &&expression_data = _data;
+            auto &data = expression_data.if_data;
+            data.else_block = ctx->create_basic_block("if.else");
+            data.else_block_back = data.else_block;
+            log("SWITCHING to else_block_back\n");
+            ctx->builder()->SetInsertPoint(data.else_block_back);
+
+            enter_block(ctx);
+            return expression_data;
+        }
+
+        InstructionWrapper store_to_result(cecko::context *ctx, InstructionWrapper &stored)
+        {
+            if (!is_tagged_type(stored.type))
+            {
+                ctx->message(cecko::errors::SYNTAX, ctx->line(), "If/if-else expression can only have tagged type!");
+                return stored;
+            }
+            return result.store(stored);
+        }
+
+        InstructionWrapper store_to_result(cecko::context *ctx, IfExpressionData &child_expression)
+        {
+            return store_to_result(ctx, child_expression.result);
+        }
+    };
 
     class FipState
     {
@@ -1108,13 +1282,6 @@ namespace casem
             reuseables.pop_back();
         }
     };
-
-    /// @brief Calls ctx->enter_block() and also manages the fip state
-    /// @param ctx curretn llvm context
-    void enter_block(cecko::context *ctx);
-    /// @brief Calls ctx->exit_block() and also manages the fip state
-    /// @param ctx curretn llvm context
-    void exit_block(cecko::context *ctx);
 
     const std::string match_result_template = "@result";
     class MatchWrapper

@@ -275,17 +275,17 @@ namespace casem
 
         // log("{create_if_control_flow} if_false_block decided\n");
         ctx->builder()->CreateCondBr(cond, data.if_block, if_false_block);
-        log("SWITCHING to if_block\n");
+        // log("SWITCHING to if_block\n");
         ctx->builder()->SetInsertPoint(data.if_block_back);
         ctx->builder()->CreateBr(data.end_block);
         if (data.else_block != NULL)
         {
-            log("SWITCHING to else_block\n");
+            // log("SWITCHING to else_block\n");
             ctx->builder()->SetInsertPoint(data.else_block_back);
             ctx->builder()->CreateBr(data.end_block);
         }
 
-        log("SWITCHING to end_block\n");
+        // log("SWITCHING to end_block\n");
         ctx->builder()->SetInsertPoint(data.end_block);
         return data.end_block;
     }

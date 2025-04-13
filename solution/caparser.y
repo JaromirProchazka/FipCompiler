@@ -79,6 +79,8 @@ using namespace casem;
 %token<cecko::match_type>   MATCH       "match"
 %token                      FIP         "fip"
 %token                      FN          "fn"
+%token						IF			"if"
+%token						ELSE		"else"
 
 %token<cecko::CIName>		IDF			"identifier"
 %token<cecko::CIName>		TYPEIDF		"type identifier"
@@ -133,6 +135,13 @@ using namespace casem;
 %type<casem::MatchBinderListHeadData>   match_binders_list_head_start
 %type<casem::MatchBinderListHeadData>   match_binders_list_head
 
+%type<casem::IfExpressionData>          flow_expression
+%type<casem::IfExpressionData>          non_split_expression
+%type<casem::IfExpressionData>          split_expression
+%type<casem::IfExpressionData>          if_expression_head
+%type<casem::IfExpressionData>          if_non_split_expression
+%type<casem::IfExpressionData>          if_non_split_expression_else
+%type<casem::IfExpressionData>          expression_statement
 
 /////////////////////////////////
 
@@ -157,18 +166,12 @@ using namespace casem;
 
 // %type<casem::InstructionWrapper>        expression_opt
 
-// %type<cecko::CKIRBasicBlockObs>         expression_statement
 // %type<cecko::CKIRBasicBlockObs>         compound_statement
 // %type<cecko::CKIRBasicBlockObs>         compound_statement_body
 // %type<cecko::CKIRBasicBlockObs>         block_item_list
 // %type<cecko::CKIRBasicBlockObs>         block_item
 // %type<cecko::CKIRBasicBlockObs>         statement
-// %type<cecko::CKIRBasicBlockObs>         non_split_statement
-// %type<cecko::CKIRBasicBlockObs>         split_statement
 // %type<cecko::CKIRBasicBlockObs>         jump_statement
-// %type<casem::IfControllFlowData>        if_statement_head
-// %type<casem::IfControllFlowData>        if_non_split_statement
-// %type<casem::IfControllFlowData>        if_non_split_statement_else
 
 // %type<casem::WhileControllFlowData>     while_statement_head
 // %type<casem::WhileControllFlowData>     do_statement_head
@@ -490,7 +493,22 @@ relational_expression:
     }
     | relational_expression CMPO additive_expression     {
         log("[relational_expression:] relational_expression <,>,<=,>= additive_expression\n");
-        // $$ = $1;
+        switch ($2) {
+        case cecko::gt_cmpo::LT:
+            $$ = ($1) < ($3);
+            break;
+        case cecko::gt_cmpo::LE:
+            $$ = ($1) <= ($3);
+            break;
+        case cecko::gt_cmpo::GT:
+            log("[relational_expression:] GT -- found t0 > t1\n");
+            $$ = ($1) > ($3);
+            log("[relational_expression:] GT -- returnsed instruction\n");
+            break;
+        case cecko::gt_cmpo::GE:
+            $$ = ($1) >= ($3);
+            break;
+        }
     }
 ;
 
@@ -501,7 +519,14 @@ equality_expression:
     }
     | equality_expression CMPE relational_expression    {
         log("[equality_expression:] equality_expression ==,!= relational_expression\n");
-        // $$ = $1;
+        switch ($2) {
+        case cecko::gt_cmpe::EQ:
+            $$ = ($1) == ($3);
+            break;
+        case cecko::gt_cmpe::NE:
+            $$ = ($1) != ($3);
+            break;
+        }
     }
 ;
 
@@ -647,6 +672,9 @@ match_binder_arguments_list:
 expression_body:
     match_expression  {
         $$ = $1;
+    }
+    | flow_expression {
+        $$ = ($1).result;
     }
 	// | logical_or_expression   {
     //     // log("[assignment_expression:]>");
@@ -1321,12 +1349,16 @@ typedef_name:
 //     // }
 // ;
 
-// expression_statement:
-//     expression_opt SEMIC    {
-//         log("[expression_statement:] expression_opt SEMIC\n");
-//         $$ = ctx->builder()->GetInsertBlock();
-//     }
-// ;
+expression_statement:
+    match_expression SEMIC    {
+        log("[expression_statement:] expression_opt SEMIC\n");
+        IfExpressionData res;
+        res.result = $1;
+        res.block = ctx->builder()->GetInsertBlock();
+
+        $$ = res;
+    }
+;
 
 // expression_opt:
 //     expression  {
@@ -1338,34 +1370,31 @@ typedef_name:
 // ;
 
 ///////////////////////////////////////////////////////
-// if_statement_head:
-//     IF LPAR expression RPAR     {
-//         log("[if_statement_head:] IF LPAR expression RPAR\n");
-//         $$ = init_if_data(ctx, $3);
-//     }
-// ;
+if_expression_head:
+    IF LPAR expression_body RPAR     {
+        log("[if_expression_head:] IF LPAR expression RPAR\n");
+        $$ = IfExpressionData::init_if_head(ctx, $3);
+    }
+;
 
-// if_non_split_statement:
-//     if_statement_head non_split_statement   {
-//         log("[if_non_split_statement:] if_statement_head non_split_statement\n");
-//         auto data = $1;
-//         if ($2 != NULL) data.if_block_back = $2;
-//         $$ = data;
-//     }
-// ;
+if_non_split_expression:
+    if_expression_head non_split_expression   {
+        log("[if_non_split_expression:] if_expression_head non_split_statement\n");
+        auto &&expression_data = $1;
+        auto &data = expression_data.if_data;
+        data.if_block_back = ctx->builder()->GetInsertBlock();
+        expression_data.store_to_result(ctx, $2);
+        casem::exit_block(ctx);
+        $$ = expression_data;
+    }
+;
 
-// if_non_split_statement_else:
-//     if_non_split_statement ELSE   {
-//         log("[if_non_split_statement_else:] if_non_split_statement ELSE: ");
-//         auto data = $1;
-//         data.else_block = ctx->create_basic_block("if.else");
-//         data.else_block_back = data.else_block;
-//         log("SWITCHING to else_block_back\n");
-//         ctx->builder()->SetInsertPoint(data.else_block_back);
-
-//         $$ = data;
-//     }
-// ;
+if_non_split_expression_else:
+    if_non_split_expression ELSE   {
+        log("[if_non_split_expression_else:] if_non_split_expression ELSE: \n");
+        $$ = IfExpressionData::init_if_else_head(ctx, $1);
+    }
+;
 
 ///////////////////////////////////////////////////////
 // while_statement_head:
@@ -1381,20 +1410,28 @@ typedef_name:
 // ;
 ///////////////////////////////////////////////////////
 
-// non_split_statement:
-//     if_non_split_statement_else non_split_statement    {
-//         log("non_split_statement: if_non_split_statement_else non_split_statement: ");
-//         auto data = $1;
-//         if ($2 != NULL) data.else_block_back = $2;
-//         log("SWITCHING to continue_block\n");
-//         ctx->builder()->SetInsertPoint(data.continue_block);
-//         $$ = create_if_control_flow(ctx, data);
-//     }
+flow_expression:
+    non_split_expression
+    | split_expression
+;
+
+non_split_expression:
+     if_non_split_expression_else non_split_expression    {
+        log("non_split_expression: if_non_split_expression_else non_split_expression: \n");
+        auto &&expression_data = $1;
+        auto &data = expression_data.if_data;
+        expression_data.store_to_result(ctx, $2);
+        exit_block(ctx);
+        log("SWITCHING to continue_block\n");
+        ctx->builder()->SetInsertPoint(data.continue_block);
+        expression_data.block = create_if_control_flow(ctx, data);
+
+        $$ = expression_data;
+     }
 //     | while_statement_head non_split_statement    {
 //         $$ = create_while_control_flow(ctx, $1);
 //     }
 //     | FOR LPAR expression_opt SEMIC expression_opt SEMIC expression_opt RPAR non_split_statement    {
-//         // FIXME: Implement
 //         $$ = ctx->builder()->GetInsertBlock();
 //     }
 //     | do_statement_head non_split_statement WHILE LPAR expression RPAR SEMIC    {
@@ -1406,31 +1443,40 @@ typedef_name:
 //         log("[non_split_statement:] jump_statement\n");
 //         $$ = $1;
 //     }
-//     | expression_statement    {
-//         log("[non_split_statement:] jump_statement\n");
-//         $$ = $1;
-//     }
+    | expression_statement    {
+        log("[non_split_statement:] expression_statement\n");
+        $$ = $1;
+    }
 //     | compound_statement    {
 //         log("[non_split_statement:] jump_statement\n");
 //         $$ = $1;
 //     }
-// ;
+;
 
-// split_statement:
-//     if_statement_head statement    {
-//         log("[split_statement:] if_statement_head statement\n");
-//         auto data = $1;
-//         if ($2 != NULL) data.if_block_back = $2;
-//         ctx->builder()->SetInsertPoint(data.continue_block);
-//         $$ = create_if_control_flow(ctx, data);
-//     }
-//     | if_non_split_statement_else split_statement    {
-//         log("[split_statement:] if_non_split_statement_else split_statement\n");
-//         auto data = $1;
-//         if ($2 != NULL) data.else_block_back = $2;
-//         ctx->builder()->SetInsertPoint(data.continue_block);
-//         $$ = create_if_control_flow(ctx, data);
-//     }
+split_expression:
+     if_expression_head expression_body    {
+        log("[split_statement:] if_statement_head statement\n");
+        auto &&expression_data = $1;
+        auto &data = expression_data.if_data;
+        data.if_block_back = ctx->builder()->GetInsertBlock();
+        expression_data.store_to_result(ctx, $2);
+        exit_block(ctx);
+        ctx->builder()->SetInsertPoint(data.continue_block);
+        
+        expression_data.block = create_if_control_flow(ctx, data);
+        $$ = expression_data;
+     }
+     | if_non_split_expression_else split_expression    {
+        log("[split_statement:] if_non_split_statement_else split_statement\n");
+        auto &&expression_data = $1;
+        auto &data = expression_data.if_data;
+        expression_data.store_to_result(ctx, $2);
+        exit_block(ctx);
+        ctx->builder()->SetInsertPoint(data.continue_block);
+         
+        expression_data.block = create_if_control_flow(ctx, data);
+        $$ = expression_data;
+     }
 //     | while_statement_head split_statement    {
 //         $$ = create_while_control_flow(ctx, $1);
 //     }
@@ -1443,7 +1489,7 @@ typedef_name:
 //         data.code_block_back = $2;
 //         $$ = create_do_control_flow(ctx, $1, $5);
 //     }
-// ;
+;
 
 // jump_statement:
 //     RETURN expression_opt SEMIC {

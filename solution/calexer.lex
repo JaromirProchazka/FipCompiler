@@ -59,6 +59,8 @@ std::string msg = "";
 "fip"				return cecko::parser::make_FIP(ctx->line());
 "fn"				return cecko::parser::make_FN(ctx->line());
 "|"					return cecko::parser::make_VERT(ctx->line());
+"if"				return cecko::parser::make_IF(ctx->line());
+"else"				return cecko::parser::make_ELSE(ctx->line());
 
 "type"			return cecko::parser::make_TYPEDEF(ctx->line());
 "sizeof"			return cecko::parser::make_SIZEOF(ctx->line());

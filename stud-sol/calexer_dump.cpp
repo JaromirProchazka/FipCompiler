@@ -339,8 +339,8 @@ static void yynoreturn yy_fatal_error ( const char* msg , yyscan_t yyscanner );
 	yyg->yy_hold_char = *yy_cp; \
 	*yy_cp = '\0'; \
 	yyg->yy_c_buf_p = yy_cp;
-#define YY_NUM_RULES 72
-#define YY_END_OF_BUFFER 73
+#define YY_NUM_RULES 74
+#define YY_END_OF_BUFFER 75
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -348,23 +348,23 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static const flex_int16_t yy_accept[134] =
+static const flex_int16_t yy_accept[139] =
     {   0,
         0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-        0,    0,    0,    0,    0,    0,   73,   71,   70,   69,
-       24,   45,   26,   71,   53,   15,   16,   21,   22,   20,
-       23,   25,   66,   66,   37,   36,   27,   35,   29,   67,
-       13,   14,   67,   67,   67,   67,   67,   67,   67,   67,
-       17,    7,   18,   44,   43,   44,   44,   72,   52,   51,
-       50,   46,   49,   48,   47,   47,   60,   59,   58,   54,
-       57,   56,   55,   55,   62,   61,   68,   69,   32,   33,
-       40,   19,   39,    0,    0,   64,   64,   66,   28,   31,
-       30,   67,   67,   67,   67,    6,    1,   67,   67,   67,
+        0,    0,    0,    0,    0,    0,   75,   73,   72,   71,
+       26,   47,   28,   73,   55,   17,   18,   23,   24,   22,
+       25,   27,   68,   68,   39,   38,   29,   37,   31,   69,
+       15,   16,   69,   69,   69,   69,   69,   69,   69,   69,
+       69,   19,    7,   20,   46,   45,   46,   46,   74,   54,
+       53,   52,   48,   51,   50,   49,   49,   62,   61,   60,
+       56,   59,   58,   57,   57,   64,   63,   70,   71,   34,
+       35,   42,   21,   41,    0,    0,   66,   66,   68,   30,
+       33,   32,   69,   69,   69,   69,   69,    6,    8,    1,
 
-       67,   34,   42,   41,   47,   55,    0,   38,   65,   64,
-       64,   67,   67,    5,   12,    2,   67,   67,   67,    0,
-       63,   63,   67,   11,   67,   67,    8,   10,    3,   67,
-        4,    9,    0
+       69,   69,   69,   69,   36,   44,   43,   49,   57,    0,
+       40,   67,   66,   66,   69,   69,   69,    5,   14,    2,
+       69,   69,   69,    0,   65,   65,   69,   13,    9,   69,
+       69,   10,   12,    3,   69,    4,   11,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -408,44 +408,46 @@ static const YY_CHAR yy_meta[51] =
         3,    3,    3,    3,    3,    3,    3,    1,    1,    1
     } ;
 
-static const flex_int16_t yy_base[150] =
+static const flex_int16_t yy_base[155] =
     {   0,
         0,    0,   48,   49,    0,    0,   50,   51,   62,   66,
-       54,   58,   80,   84,  173,  172,  177,  226,  226,   70,
-      155,  226,  226,  168,  226,  226,  226,  159,  226,  226,
-      151,   65,   87,   79,  226,  226,  145,  144,  143,    0,
-      226,  226,  139,  127,   45,  122,  125,  126,  120,  109,
-      226,  105,  226,  226,  226,  132,  135,  226,  226,  226,
-      226,  226,  226,  226,  226,    0,  226,  226,  226,  226,
-      226,  226,  226,    0,  226,  226,  226,  142,  226,  226,
-      226,  226,  226,  141,   81,   83,  117,   98,  226,  226,
-      226,    0,  103,  111,   98,    0,   94,   93,   92,   88,
+       54,   58,   80,   84,  177,  176,  183,  226,  226,   70,
+      161,  226,  226,  174,  226,  226,  226,  165,  226,  226,
+      155,   65,   87,   79,  226,  226,  155,  154,  153,    0,
+      226,  226,  149,  131,  128,   45,   59,  131,  132,  126,
+      115,  226,  109,  226,  226,  226,  142,  145,  226,  226,
+      226,  226,  226,  226,  226,  226,    0,  226,  226,  226,
+      226,  226,  226,  226,    0,  226,  226,  226,  152,  226,
+      226,  226,  226,  226,  151,   83,   98,  117,  100,  226,
+      226,  226,    0,  107,  115,  102,  103,    0,    0,   99,
 
-       90,  226,  226,  226,    0,    0,  127,  226,  136,  155,
-      100,   87,   84,    0,    0,    0,   90,   85,   76,    0,
-        0,  104,   65,    0,   58,   51,    0,    0,   73,   41,
-      226,    0,  226,  189,  192,  195,  198,  201,  204,  207,
-      209,  211,   66,   56,  214,  216,  218,  220,  222
+       98,   95,   91,   96,  226,  226,  226,    0,    0,  133,
+      226,  136,  155,  104,   95,   89,   97,    0,    0,    0,
+       90,   85,   76,    0,    0,  110,   65,    0,    0,   62,
+       51,    0,    0,   73,   41,  226,    0,  226,  189,  192,
+      195,  198,  201,  204,  207,  209,  211,   66,   56,  214,
+      216,  218,  220,  222
     } ;
 
-static const flex_int16_t yy_def[150] =
+static const flex_int16_t yy_def[155] =
     {   0,
-      133,    1,  134,  134,  135,  135,  136,  136,  137,  137,
-      138,  138,  139,  139,  140,  140,  133,  133,  133,  133,
-      133,  133,  133,  133,  133,  133,  133,  133,  133,  133,
-      133,  133,  141,  141,  133,  133,  133,  133,  133,  142,
-      133,  133,  142,  142,  142,  142,  142,  142,  142,  142,
-      133,  133,  133,  133,  133,  133,  133,  133,  133,  133,
-      133,  133,  133,  133,  133,  143,  133,  133,  133,  133,
-      133,  133,  133,  144,  133,  133,  133,  133,  133,  133,
-      133,  133,  133,  145,  141,  141,  146,  141,  133,  133,
-      133,  142,  142,  142,  142,  142,  142,  142,  142,  142,
+      138,    1,  139,  139,  140,  140,  141,  141,  142,  142,
+      143,  143,  144,  144,  145,  145,  138,  138,  138,  138,
+      138,  138,  138,  138,  138,  138,  138,  138,  138,  138,
+      138,  138,  146,  146,  138,  138,  138,  138,  138,  147,
+      138,  138,  147,  147,  147,  147,  147,  147,  147,  147,
+      147,  138,  138,  138,  138,  138,  138,  138,  138,  138,
+      138,  138,  138,  138,  138,  138,  148,  138,  138,  138,
+      138,  138,  138,  138,  149,  138,  138,  138,  138,  138,
+      138,  138,  138,  138,  150,  146,  146,  151,  146,  138,
+      138,  138,  147,  147,  147,  147,  147,  147,  147,  147,
 
-      142,  133,  133,  133,  143,  144,  145,  133,  147,  146,
-      148,  142,  142,  142,  142,  142,  142,  142,  142,  149,
-      149,  148,  142,  142,  142,  142,  142,  142,  142,  142,
-      133,  142,    0,  133,  133,  133,  133,  133,  133,  133,
-      133,  133,  133,  133,  133,  133,  133,  133,  133
+      147,  147,  147,  147,  138,  138,  138,  148,  149,  150,
+      138,  152,  151,  153,  147,  147,  147,  147,  147,  147,
+      147,  147,  147,  154,  154,  153,  147,  147,  147,  147,
+      147,  147,  147,  147,  147,  138,  147,    0,  138,  138,
+      138,  138,  138,  138,  138,  138,  138,  138,  138,  138,
+      138,  138,  138,  138
     } ;
 
 static const flex_int16_t yy_nxt[277] =
@@ -453,33 +455,33 @@ static const flex_int16_t yy_nxt[277] =
        18,   19,   20,   21,   22,   23,   24,   25,   26,   27,
        28,   29,   30,   31,   32,   33,   34,   35,   36,   37,
        38,   39,   40,   40,   40,   40,   41,   18,   42,   43,
-       40,   44,   40,   45,   40,   46,   47,   48,   40,   40,
-       40,   40,   49,   50,   40,   40,   40,   51,   52,   53,
-       55,   55,   60,   60,   61,   61,   68,  106,   56,   56,
-       68,   69,   57,   57,   64,   69,   65,  105,   64,   65,
-       65,   77,   78,   65,  132,   83,  131,   62,   62,   84,
-       95,   70,   72,   96,   73,   70,   72,   73,   73,   65,
-      130,   73,  129,   65,   88,   88,   85,   85,  133,  133,
+       40,   44,   45,   46,   40,   47,   48,   49,   40,   40,
+       40,   40,   50,   51,   40,   40,   40,   52,   53,   54,
+       56,   56,   61,   61,   62,   62,   69,  109,   57,   57,
+       69,   70,   58,   58,   65,   70,   66,  108,   65,   66,
+       66,   78,   79,   66,  137,   84,  136,   63,   63,   85,
+       97,   71,   73,   98,   74,   71,   73,   74,   74,   66,
+      135,   74,   99,   66,   89,   89,  134,  100,   86,   86,
 
-       65,  128,   85,   85,   65,   65,   66,   73,  127,   65,
-       66,   73,   87,   88,   88,  121,  121,  126,   73,  121,
-      121,  125,   73,   73,   74,  124,  123,   73,   74,  108,
-      119,   87,  109,  109,  118,  117,  116,  115,  114,  110,
-      110,  113,  112,  108,   78,  104,  103,  110,  110,  110,
-      110,  109,  109,  102,  101,  100,   99,   98,  109,  109,
-       97,   94,   93,   91,   90,   89,  109,  109,  109,  109,
-      109,  109,   82,   81,   80,   79,  133,  110,  110,   76,
-       76,  133,  133,  133,  133,  110,  110,  110,  110,   54,
-       54,   54,   58,   58,   58,   59,   59,   59,   63,   63,
+       66,  133,   86,   86,   66,   66,   67,   74,  132,   66,
+       67,   74,   88,  138,  138,   89,   89,  131,   74,  125,
+      125,  130,   74,   74,   75,  125,  125,   74,   75,  129,
+      128,   88,  112,  112,  127,  111,  123,  122,  121,  113,
+      113,  120,  119,  118,  117,  116,  115,  113,  113,  113,
+      113,  112,  112,  111,   79,  107,  106,  105,  112,  112,
+      104,  103,  102,  101,   96,   95,  112,  112,  112,  112,
+      112,  112,   94,   92,   91,   90,   83,  113,  113,   82,
+       81,   80,  138,   77,   77,  113,  113,  113,  113,   55,
+       55,   55,   59,   59,   59,   60,   60,   60,   64,   64,
 
-       63,   67,   67,   67,   71,   71,   71,   75,   75,   75,
-       86,   86,   92,   92,  107,  107,  107,  111,  111,  120,
-      120,  122,  122,  121,  121,   17,  133,  133,  133,  133,
-      133,  133,  133,  133,  133,  133,  133,  133,  133,  133,
-      133,  133,  133,  133,  133,  133,  133,  133,  133,  133,
-      133,  133,  133,  133,  133,  133,  133,  133,  133,  133,
-      133,  133,  133,  133,  133,  133,  133,  133,  133,  133,
-      133,  133,  133,  133,  133,  133
+       64,   68,   68,   68,   72,   72,   72,   76,   76,   76,
+       87,   87,   93,   93,  110,  110,  110,  114,  114,  124,
+      124,  126,  126,  125,  125,   17,  138,  138,  138,  138,
+      138,  138,  138,  138,  138,  138,  138,  138,  138,  138,
+      138,  138,  138,  138,  138,  138,  138,  138,  138,  138,
+      138,  138,  138,  138,  138,  138,  138,  138,  138,  138,
+      138,  138,  138,  138,  138,  138,  138,  138,  138,  138,
+      138,  138,  138,  138,  138,  138
     } ;
 
 static const flex_int16_t yy_chk[277] =
@@ -489,31 +491,31 @@ static const flex_int16_t yy_chk[277] =
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        3,    4,    7,    8,    7,    8,   11,  144,    3,    4,
-       12,   11,    3,    4,    9,   12,    9,  143,   10,    9,
-       10,   20,   20,   10,  130,   32,  129,    7,    8,   32,
-       45,   11,   13,   45,   13,   12,   14,   13,   14,    9,
-      126,   14,  125,   10,   34,   34,   85,   85,   86,   86,
+        3,    4,    7,    8,    7,    8,   11,  149,    3,    4,
+       12,   11,    3,    4,    9,   12,    9,  148,   10,    9,
+       10,   20,   20,   10,  135,   32,  134,    7,    8,   32,
+       46,   11,   13,   46,   13,   12,   14,   13,   14,    9,
+      131,   14,   47,   10,   34,   34,  130,   47,   86,   86,
 
-        9,  123,   33,   33,   10,    9,    9,   13,  119,   10,
-       10,   14,   33,   88,   88,  111,  111,  118,   13,  122,
-      122,  117,   14,   13,   13,  113,  112,   14,   14,  107,
-      101,   33,   87,   87,  100,   99,   98,   97,   95,   87,
-       87,   94,   93,   84,   78,   57,   56,   87,   87,   87,
-       87,  109,  109,   52,   50,   49,   48,   47,  109,  109,
-       46,   44,   43,   39,   38,   37,  109,  109,  109,  109,
-      110,  110,   31,   28,   24,   21,   17,  110,  110,   16,
-       15,    0,    0,    0,    0,  110,  110,  110,  110,  134,
-      134,  134,  135,  135,  135,  136,  136,  136,  137,  137,
+        9,  127,   33,   33,   10,    9,    9,   13,  123,   10,
+       10,   14,   33,   87,   87,   89,   89,  122,   13,  114,
+      114,  121,   14,   13,   13,  126,  126,   14,   14,  117,
+      116,   33,   88,   88,  115,  110,  104,  103,  102,   88,
+       88,  101,  100,   97,   96,   95,   94,   88,   88,   88,
+       88,  112,  112,   85,   79,   58,   57,   53,  112,  112,
+       51,   50,   49,   48,   45,   44,  112,  112,  112,  112,
+      113,  113,   43,   39,   38,   37,   31,  113,  113,   28,
+       24,   21,   17,   16,   15,  113,  113,  113,  113,  139,
+      139,  139,  140,  140,  140,  141,  141,  141,  142,  142,
 
-      137,  138,  138,  138,  139,  139,  139,  140,  140,  140,
-      141,  141,  142,  142,  145,  145,  145,  146,  146,  147,
-      147,  148,  148,  149,  149,  133,  133,  133,  133,  133,
-      133,  133,  133,  133,  133,  133,  133,  133,  133,  133,
-      133,  133,  133,  133,  133,  133,  133,  133,  133,  133,
-      133,  133,  133,  133,  133,  133,  133,  133,  133,  133,
-      133,  133,  133,  133,  133,  133,  133,  133,  133,  133,
-      133,  133,  133,  133,  133,  133
+      142,  143,  143,  143,  144,  144,  144,  145,  145,  145,
+      146,  146,  147,  147,  150,  150,  150,  151,  151,  152,
+      152,  153,  153,  154,  154,  138,  138,  138,  138,  138,
+      138,  138,  138,  138,  138,  138,  138,  138,  138,  138,
+      138,  138,  138,  138,  138,  138,  138,  138,  138,  138,
+      138,  138,  138,  138,  138,  138,  138,  138,  138,  138,
+      138,  138,  138,  138,  138,  138,  138,  138,  138,  138,
+      138,  138,  138,  138,  138,  138
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -533,13 +535,13 @@ static const flex_int16_t yy_chk[277] =
 
 #include INCLUDE_WRAP(BISON_HEADER)
 
-#line 537 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/calexer_dump.cpp"
+#line 539 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/calexer_dump.cpp"
 /* NEVER SET %option outfile INTERNALLY - SHALL BE SET BY CMAKE */
 #define YY_NO_INPUT 1
 #define YY_NO_UNISTD_H 1
 /* AVOID backup perf-report - DO NOT CREATE UNMANAGEABLE BYPRODUCT FILES */
 
-#line 543 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/calexer_dump.cpp"
+#line 545 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/calexer_dump.cpp"
 
 #define INITIAL 0
 #define COMMENT 1
@@ -821,7 +823,7 @@ std::string msg = "";
 
 
 
-#line 825 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/calexer_dump.cpp"
+#line 827 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/calexer_dump.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -848,13 +850,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 134 )
+				if ( yy_current_state >= 139 )
 					yy_c = yy_meta[yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
 			++yy_cp;
 			}
-		while ( yy_current_state != 133 );
+		while ( yy_current_state != 138 );
 		yy_cp = yyg->yy_last_accepting_cpos;
 		yy_current_state = yyg->yy_last_accepting_state;
 
@@ -911,181 +913,191 @@ return cecko::parser::make_VERT(ctx->line());
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 64 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_TYPEDEF(ctx->line());
+#line 63 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+return cecko::parser::make_IF(ctx->line());
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 65 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_SIZEOF(ctx->line());
+#line 64 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+return cecko::parser::make_ELSE(ctx->line());
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 66 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_ETYPE(cecko::gt_etype::BOOL, ctx->line());
+return cecko::parser::make_TYPEDEF(ctx->line());
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 67 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_ETYPE(cecko::gt_etype::CHAR, ctx->line());
+return cecko::parser::make_SIZEOF(ctx->line());
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 68 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_ETYPE(cecko::gt_etype::INT, ctx->line());
+return cecko::parser::make_ETYPE(cecko::gt_etype::BOOL, ctx->line());
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 70 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_LBRA(ctx->line());
+#line 69 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+return cecko::parser::make_ETYPE(cecko::gt_etype::CHAR, ctx->line());
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 71 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_RBRA(ctx->line());
+#line 70 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+return cecko::parser::make_ETYPE(cecko::gt_etype::INT, ctx->line());
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 72 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_LPAR(ctx->line());
+return cecko::parser::make_LBRA(ctx->line());
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 73 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_RPAR(ctx->line());
+return cecko::parser::make_RBRA(ctx->line());
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 74 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_LCUR(ctx->line());
+return cecko::parser::make_LPAR(ctx->line());
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 75 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_RCUR(ctx->line());
+return cecko::parser::make_RPAR(ctx->line());
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 77 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_ARROW(ctx->line());
+#line 76 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+return cecko::parser::make_LCUR(ctx->line());
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 78 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_COMMA(ctx->line());
+#line 77 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+return cecko::parser::make_RCUR(ctx->line());
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 #line 79 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_STAR(ctx->line());
+return cecko::parser::make_ARROW(ctx->line());
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
 #line 80 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_ADDOP(cecko::gt_addop::ADD, ctx->line());
+return cecko::parser::make_COMMA(ctx->line());
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
 #line 81 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_ADDOP(cecko::gt_addop::SUB, ctx->line());
+return cecko::parser::make_STAR(ctx->line());
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 #line 82 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_EMPH(ctx->line());
+return cecko::parser::make_ADDOP(cecko::gt_addop::ADD, ctx->line());
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
 #line 83 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_DIVOP(cecko::gt_divop::DIV, ctx->line());
+return cecko::parser::make_ADDOP(cecko::gt_addop::SUB, ctx->line());
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
 #line 84 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_DIVOP(cecko::gt_divop::MOD, ctx->line());
+return cecko::parser::make_EMPH(ctx->line());
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 85 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_CMPO(cecko::gt_cmpo::LT, ctx->line()); 
+return cecko::parser::make_DIVOP(cecko::gt_divop::DIV, ctx->line());
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 86 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_CMPO(cecko::gt_cmpo::LE, ctx->line()); 
+return cecko::parser::make_DIVOP(cecko::gt_divop::MOD, ctx->line());
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 87 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_CMPO(cecko::gt_cmpo::GT, ctx->line()); 
+return cecko::parser::make_CMPO(cecko::gt_cmpo::LT, ctx->line()); 
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 #line 88 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_CMPO(cecko::gt_cmpo::GE, ctx->line()); 
+return cecko::parser::make_CMPO(cecko::gt_cmpo::LE, ctx->line()); 
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
 #line 89 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_CMPE(cecko::gt_cmpe::EQ, ctx->line());  
+return cecko::parser::make_CMPO(cecko::gt_cmpo::GT, ctx->line()); 
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
 #line 90 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_CMPE(cecko::gt_cmpe::NE, ctx->line()); 
+return cecko::parser::make_CMPO(cecko::gt_cmpo::GE, ctx->line()); 
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
 #line 91 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_DAMP(ctx->line());
+return cecko::parser::make_CMPE(cecko::gt_cmpe::EQ, ctx->line());  
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
 #line 92 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_DVERT(ctx->line());
+return cecko::parser::make_CMPE(cecko::gt_cmpe::NE, ctx->line()); 
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
 #line 93 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_ASGN(ctx->line());
+return cecko::parser::make_DAMP(ctx->line());
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
 #line 94 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_SEMIC(ctx->line());
+return cecko::parser::make_DVERT(ctx->line());
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
 #line 95 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-return cecko::parser::make_COLON(ctx->line());
+return cecko::parser::make_ASGN(ctx->line());
 	YY_BREAK
 case 38:
-/* rule 38 can match eol */
 YY_RULE_SETUP
-#line 97 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-ctx->incline(); 
+#line 96 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+return cecko::parser::make_SEMIC(ctx->line());
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 98 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 97 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+return cecko::parser::make_COLON(ctx->line());
+	YY_BREAK
+case 40:
+/* rule 40 can match eol */
+YY_RULE_SETUP
+#line 99 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+ctx->incline(); 
+	YY_BREAK
+case 41:
+YY_RULE_SETUP
+#line 100 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 { 
 	BEGIN(COMMENT); 
 	commentnest = 1; 
 }
 	YY_BREAK
-case 40:
-YY_RULE_SETUP
-#line 102 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-ctx->message(cecko::errors::UNEXPENDCMT, ctx->line());
-	YY_BREAK
-case 41:
-YY_RULE_SETUP
-#line 103 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-{ commentnest++; }
-	YY_BREAK
 case 42:
 YY_RULE_SETUP
 #line 104 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+ctx->message(cecko::errors::UNEXPENDCMT, ctx->line());
+	YY_BREAK
+case 43:
+YY_RULE_SETUP
+#line 105 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+{ commentnest++; }
+	YY_BREAK
+case 44:
+YY_RULE_SETUP
+#line 106 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	commentnest--;
 	if (commentnest == 0) {
@@ -1093,42 +1105,42 @@ YY_RULE_SETUP
 	}
 }
 	YY_BREAK
-case 43:
-/* rule 43 can match eol */
+case 45:
+/* rule 45 can match eol */
 YY_RULE_SETUP
-#line 110 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 112 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 ctx->incline();
 	YY_BREAK
 case YY_STATE_EOF(COMMENT):
-#line 111 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 113 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	ctx->message(cecko::errors::EOFINCMT, ctx->line());
 	BEGIN(INITIAL);
 }
 	YY_BREAK
-case 44:
-YY_RULE_SETUP
-#line 115 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
-;
-	YY_BREAK
-case 45:
+case 46:
 YY_RULE_SETUP
 #line 117 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+;
+	YY_BREAK
+case 47:
+YY_RULE_SETUP
+#line 119 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 { 
 	BEGIN(STR); 
 	strval = ""; 
 }
 	YY_BREAK
-case 46:
+case 48:
 YY_RULE_SETUP
-#line 121 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 123 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	BEGIN(STR_SPECIALCHAR);
 }
 	YY_BREAK
-case 47:
+case 49:
 YY_RULE_SETUP
-#line 124 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 126 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 { 
 	bool stat = casem::escape_interp(yytext, strval);
 	if (!stat) {
@@ -1138,10 +1150,10 @@ YY_RULE_SETUP
 	BEGIN(STR);
 }
 	YY_BREAK
-case 48:
-/* rule 48 can match eol */
+case 50:
+/* rule 50 can match eol */
 YY_RULE_SETUP
-#line 132 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 134 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	msg = std::string("\\");
 	ctx->message(cecko::errors::BADESCAPE, ctx->line(), msg);
@@ -1152,9 +1164,9 @@ YY_RULE_SETUP
 	return cecko::parser::make_STRLIT(strval, l);
 }		
 	YY_BREAK
-case 49:
+case 51:
 YY_RULE_SETUP
-#line 141 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 143 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	msg = std::string("\\") + std::string(yytext);
 	ctx->message(cecko::errors::BADESCAPE, ctx->line(), msg);
@@ -1162,18 +1174,18 @@ YY_RULE_SETUP
 	BEGIN(STR);
 }
 	YY_BREAK
-case 50:
+case 52:
 YY_RULE_SETUP
-#line 147 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 149 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	BEGIN(INITIAL);
 	return cecko::parser::make_STRLIT(strval, ctx->line());
 }
 	YY_BREAK
-case 51:
-/* rule 51 can match eol */
+case 53:
+/* rule 53 can match eol */
 YY_RULE_SETUP
-#line 151 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 153 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	ctx->message(cecko::errors::EOLINSTRCHR, ctx->line());
 	int l = ctx->line();
@@ -1183,38 +1195,38 @@ YY_RULE_SETUP
 }
 	YY_BREAK
 case YY_STATE_EOF(STR):
-#line 158 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 160 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 { 
 	ctx->message(cecko::errors::EOFINSTRCHR, ctx->line());
 	BEGIN(INITIAL);
 	return cecko::parser::make_STRLIT(strval, ctx->line());
 }
 	YY_BREAK
-case 52:
+case 54:
 YY_RULE_SETUP
-#line 163 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 165 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	strval.append(std::string(yytext));
 }
 	YY_BREAK
-case 53:
+case 55:
 YY_RULE_SETUP
-#line 167 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 169 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	strval = "";
 	BEGIN(LETTER);
 }
 	YY_BREAK
-case 54:
+case 56:
 YY_RULE_SETUP
-#line 171 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 173 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	BEGIN(LETTER_SPECIALCHAR);
 }
 	YY_BREAK
-case 55:
+case 57:
 YY_RULE_SETUP
-#line 174 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 176 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	bool stat = casem::escape_interp(yytext, strval);
 	if (!stat) {
@@ -1224,10 +1236,10 @@ YY_RULE_SETUP
 	BEGIN(LETTER_FOUND);
 }
 	YY_BREAK
-case 56:
-/* rule 56 can match eol */
+case 58:
+/* rule 58 can match eol */
 YY_RULE_SETUP
-#line 182 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 184 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	msg = std::string("\\");
 	ctx->message(cecko::errors::BADESCAPE, ctx->line(), msg);
@@ -1238,9 +1250,9 @@ YY_RULE_SETUP
 	return cecko::parser::make_INTLIT(0, l);
 }		
 	YY_BREAK
-case 57:
+case 59:
 YY_RULE_SETUP
-#line 191 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 193 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	msg = std::string("\\") + std::string(yytext);
 	ctx->message(cecko::errors::BADESCAPE, ctx->line(), msg);
@@ -1248,19 +1260,19 @@ YY_RULE_SETUP
 	BEGIN(LETTER_FOUND);
 }
 	YY_BREAK
-case 58:
+case 60:
 YY_RULE_SETUP
-#line 197 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 199 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	ctx->message(cecko::errors::EMPTYCHAR, ctx->line());
 	BEGIN(INITIAL);
 	return cecko::parser::make_INTLIT(0, ctx->line());
 }
 	YY_BREAK
-case 59:
-/* rule 59 can match eol */
+case 61:
+/* rule 61 can match eol */
 YY_RULE_SETUP
-#line 202 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 204 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 { 
 	ctx->message(cecko::errors::EOLINSTRCHR, ctx->line()); 
 	ctx->incline(); 
@@ -1269,24 +1281,24 @@ YY_RULE_SETUP
 }
 	YY_BREAK
 case YY_STATE_EOF(LETTER):
-#line 208 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 210 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 { 
 	ctx->message(cecko::errors::EOFINSTRCHR, ctx->line()); 
 	BEGIN(INITIAL);
 }
 	YY_BREAK
-case 60:
+case 62:
 YY_RULE_SETUP
-#line 212 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 214 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	std::string schar = std::string(yytext);
 	strval += schar;
 	BEGIN(LETTER_FOUND);
 }
 	YY_BREAK
-case 61:
+case 63:
 YY_RULE_SETUP
-#line 218 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 220 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	int c = static_cast<unsigned char>(strval[0]);
 	strval = "";
@@ -1295,7 +1307,7 @@ YY_RULE_SETUP
 }
 	YY_BREAK
 case YY_STATE_EOF(LETTER_FOUND):
-#line 224 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 226 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	ctx->message(cecko::errors::EOFINSTRCHR, ctx->line()); 
 	BEGIN(INITIAL); 
@@ -1304,19 +1316,19 @@ case YY_STATE_EOF(LETTER_FOUND):
 	return cecko::parser::make_INTLIT(c, ctx->line());
 }
 	YY_BREAK
-case 62:
-/* rule 62 can match eol */
+case 64:
+/* rule 64 can match eol */
 YY_RULE_SETUP
-#line 231 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 233 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	ctx->message(cecko::errors::UNTERMCHAR, ctx->line());
 	BEGIN(INITIAL);
 	return cecko::parser::make_INTLIT(strval[0], ctx->line());
 }
 	YY_BREAK
-case 63:
+case 65:
 YY_RULE_SETUP
-#line 237 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 239 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	ctx->message(cecko::errors::BADINT, ctx->line(), yytext);
 
@@ -1327,9 +1339,9 @@ YY_RULE_SETUP
 	return cecko::parser::make_INTLIT(i, ctx->line()); 
 }
 	YY_BREAK
-case 64:
+case 66:
 YY_RULE_SETUP
-#line 246 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 248 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	ctx->message(cecko::errors::BADINT, ctx->line(), yytext);
 
@@ -1340,9 +1352,9 @@ YY_RULE_SETUP
 	return cecko::parser::make_INTLIT(i, ctx->line());
 }
 	YY_BREAK
-case 65:
+case 67:
 YY_RULE_SETUP
-#line 256 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 258 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	int i = 0;
 	if (!casem::safe_str_to_int(yytext, false, i)) {
@@ -1351,9 +1363,9 @@ YY_RULE_SETUP
 	return cecko::parser::make_INTLIT(i, ctx->line()); 
 }
 	YY_BREAK
-case 66:
+case 68:
 YY_RULE_SETUP
-#line 263 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 265 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	int i = 0;
 	if (!casem::safe_str_to_int(yytext, true, i)) {
@@ -1362,9 +1374,9 @@ YY_RULE_SETUP
 	return cecko::parser::make_INTLIT(i, ctx->line());
 }
 	YY_BREAK
-case 67:
+case 69:
 YY_RULE_SETUP
-#line 270 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 272 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 {
 	if (ctx->is_typedef(yytext)) {
 		return cecko::parser::make_TYPEIDF(std::string(yytext), ctx->line());
@@ -1372,16 +1384,16 @@ YY_RULE_SETUP
 	return cecko::parser::make_IDF(std::string(yytext), ctx->line());
 }
 	YY_BREAK
-case 68:
-/* rule 68 can match eol */
+case 70:
+/* rule 70 can match eol */
 YY_RULE_SETUP
-#line 277 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 279 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 ctx->incline(); 
 	YY_BREAK
-case 69:
-/* rule 69 can match eol */
+case 71:
+/* rule 71 can match eol */
 YY_RULE_SETUP
-#line 278 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 280 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 { 
 	int n_count = std::string(yytext).size();
 	for (int i = 0; i < n_count; i++) {
@@ -1390,29 +1402,29 @@ YY_RULE_SETUP
 	return cecko::parser::make_NEWLINE(ctx->line());
 }												
 	YY_BREAK
-case 70:
+case 72:
 YY_RULE_SETUP
-#line 285 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 287 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 ;
 	YY_BREAK
-case 71:
+case 73:
 YY_RULE_SETUP
-#line 286 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 288 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 ctx->message(cecko::errors::UNCHAR, ctx->line(), yytext);
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(STRUCT_DEF):
 case YY_STATE_EOF(STR_SPECIALCHAR):
 case YY_STATE_EOF(LETTER_SPECIALCHAR):
-#line 288 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 290 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 return cecko::parser::make_EOF(ctx->line());
 	YY_BREAK
-case 72:
+case 74:
 YY_RULE_SETUP
-#line 290 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 292 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 ECHO;
 	YY_BREAK
-#line 1416 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/calexer_dump.cpp"
+#line 1428 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/calexer_dump.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1710,7 +1722,7 @@ static int yy_get_next_buffer (yyscan_t yyscanner)
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 134 )
+			if ( yy_current_state >= 139 )
 				yy_c = yy_meta[yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
@@ -1739,11 +1751,11 @@ static int yy_get_next_buffer (yyscan_t yyscanner)
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 134 )
+		if ( yy_current_state >= 139 )
 			yy_c = yy_meta[yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
-	yy_is_jam = (yy_current_state == 133);
+	yy_is_jam = (yy_current_state == 138);
 
 	(void)yyg;
 	return yy_is_jam ? 0 : yy_current_state;
@@ -2542,7 +2554,7 @@ void yyfree (void * ptr , yyscan_t yyscanner)
 
 #define YYTABLES_NAME "yytables"
 
-#line 290 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
+#line 292 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/calexer.lex"
 
 
 namespace cecko {

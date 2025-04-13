@@ -429,8 +429,17 @@ namespace cecko {
       // parameter_declaration
       char dummy1[sizeof (casem::CKTypeRefDefPack)];
 
+      // expression_statement
+      // if_expression_head
+      // if_non_split_expression
+      // if_non_split_expression_else
+      // flow_expression
+      // non_split_expression
+      // split_expression
+      char dummy2[sizeof (casem::IfExpressionData)];
+
       // argument_expression_list
-      char dummy2[sizeof (casem::InstructionArray)];
+      char dummy3[sizeof (casem::InstructionArray)];
 
       // primary_expression
       // postfix_expression
@@ -446,86 +455,86 @@ namespace cecko {
       // match_expression
       // expression_body
       // expression
-      char dummy3[sizeof (casem::InstructionWrapper)];
+      char dummy4[sizeof (casem::InstructionWrapper)];
 
       // match_binder_head
       // match_binder_definer
-      char dummy4[sizeof (casem::MatchBinderChackerData)];
+      char dummy5[sizeof (casem::MatchBinderChackerData)];
 
       // match_binders_list_head_start
       // match_binders_list_head
-      char dummy5[sizeof (casem::MatchBinderListHeadData)];
+      char dummy6[sizeof (casem::MatchBinderListHeadData)];
 
       // match_head
       // match_binders_list
-      char dummy6[sizeof (casem::MatchWrapper)];
+      char dummy7[sizeof (casem::MatchWrapper)];
 
       // member_types_declaration_list
-      char dummy7[sizeof (casem::StructObservers)];
+      char dummy8[sizeof (casem::StructObservers)];
 
       // parameter_type_list
       // parameter_list
-      char dummy8[sizeof (casem::TRDArray)];
+      char dummy9[sizeof (casem::TRDArray)];
 
       // enumtype_decl_head
-      char dummy9[sizeof (casem::TaggedTypeDecl)];
+      char dummy10[sizeof (casem::TaggedTypeDecl)];
 
       // member_declarator
       // declarator
       // direct_declarator
       // function_declarator
-      char dummy10[sizeof (casem::TypeRefPack_Action)];
+      char dummy11[sizeof (casem::TypeRefPack_Action)];
 
       // pointer
-      char dummy11[sizeof (casem::TypeRefPack_Convertor)];
+      char dummy12[sizeof (casem::TypeRefPack_Convertor)];
 
       // unary_operator
-      char dummy12[sizeof (casem::UnaryOperator)];
+      char dummy13[sizeof (casem::UnaryOperator)];
 
       // "identifier"
       // "type identifier"
       // "string literal"
       // declared_type_name
       // typedef_name
-      char dummy13[sizeof (cecko::CIName)];
+      char dummy14[sizeof (cecko::CIName)];
 
       // member_declaration_list
       // member_declaration
-      char dummy14[sizeof (cecko::CKStructItemArray)];
+      char dummy15[sizeof (cecko::CKStructItemArray)];
 
       // enumtype_decl_specifier
       // member_types_declaration
-      char dummy15[sizeof (cecko::CKStructTypeSafeObs)];
+      char dummy16[sizeof (cecko::CKStructTypeSafeObs)];
 
       // type_specifier
-      char dummy16[sizeof (cecko::CKTypeSafeObs)];
+      char dummy17[sizeof (cecko::CKTypeSafeObs)];
 
       // "+ or -"
-      char dummy17[sizeof (cecko::gt_addop)];
+      char dummy18[sizeof (cecko::gt_addop)];
 
       // assignment_operator
-      char dummy18[sizeof (cecko::gt_cass)];
+      char dummy19[sizeof (cecko::gt_cass)];
 
       // "== or !="
-      char dummy19[sizeof (cecko::gt_cmpe)];
+      char dummy20[sizeof (cecko::gt_cmpe)];
 
       // "<, >, <=, or >="
-      char dummy20[sizeof (cecko::gt_cmpo)];
+      char dummy21[sizeof (cecko::gt_cmpo)];
 
       // "/ or %"
-      char dummy21[sizeof (cecko::gt_divop)];
+      char dummy22[sizeof (cecko::gt_divop)];
 
       // "_Bool, char, or int"
-      char dummy22[sizeof (cecko::gt_etype)];
+      char dummy23[sizeof (cecko::gt_etype)];
 
       // "match"
-      char dummy23[sizeof (cecko::match_type)];
+      char dummy24[sizeof (cecko::match_type)];
 
       // "integer literal"
-      char dummy24[sizeof (int)];
+      char dummy25[sizeof (int)];
 
       // match_binder_arguments_list
-      char dummy25[sizeof (std::vector<cecko::CIName>)];
+      char dummy26[sizeof (std::vector<cecko::CIName>)];
     };
 
     /// The size of the largest semantic type.
@@ -608,10 +617,12 @@ namespace cecko {
     TOK_MATCH = 285,               // "match"
     TOK_FIP = 286,                 // "fip"
     TOK_FN = 287,                  // "fn"
-    TOK_IDF = 288,                 // "identifier"
-    TOK_TYPEIDF = 289,             // "type identifier"
-    TOK_INTLIT = 290,              // "integer literal"
-    TOK_STRLIT = 291               // "string literal"
+    TOK_IF = 288,                  // "if"
+    TOK_ELSE = 289,                // "else"
+    TOK_IDF = 290,                 // "identifier"
+    TOK_TYPEIDF = 291,             // "type identifier"
+    TOK_INTLIT = 292,              // "integer literal"
+    TOK_STRLIT = 293               // "string literal"
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -628,7 +639,7 @@ namespace cecko {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 37, ///< Number of tokens.
+        YYNTOKENS = 39, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
@@ -663,64 +674,73 @@ namespace cecko {
         S_MATCH = 30,                            // "match"
         S_FIP = 31,                              // "fip"
         S_FN = 32,                               // "fn"
-        S_IDF = 33,                              // "identifier"
-        S_TYPEIDF = 34,                          // "type identifier"
-        S_INTLIT = 35,                           // "integer literal"
-        S_STRLIT = 36,                           // "string literal"
-        S_YYACCEPT = 37,                         // $accept
-        S_translation_unit = 38,                 // translation_unit
-        S_external_declaration = 39,             // external_declaration
-        S_expression_end = 40,                   // expression_end
-        S_function_definition = 41,              // function_definition
-        S_function_definition_info = 42,         // function_definition_info
-        S_function_definition_head = 43,         // function_definition_head
-        S_primary_expression = 44,               // primary_expression
-        S_postfix_expression = 45,               // postfix_expression
-        S_argument_expression_list = 46,         // argument_expression_list
-        S_unary_expression = 47,                 // unary_expression
-        S_unary_operator = 48,                   // unary_operator
-        S_cast_expression = 49,                  // cast_expression
-        S_multiplicative_expression = 50,        // multiplicative_expression
-        S_additive_expression = 51,              // additive_expression
-        S_relational_expression = 52,            // relational_expression
-        S_equality_expression = 53,              // equality_expression
-        S_logical_and_expression = 54,           // logical_and_expression
-        S_logical_or_expression = 55,            // logical_or_expression
-        S_assignment_expression = 56,            // assignment_expression
-        S_assignment_operator = 57,              // assignment_operator
-        S_match_head = 58,                       // match_head
-        S_match_expression = 59,                 // match_expression
-        S_match_binders_list = 60,               // match_binders_list
-        S_match_binders_list_head_start = 61,    // match_binders_list_head_start
-        S_match_binders_list_head = 62,          // match_binders_list_head
-        S_match_binder_head = 63,                // match_binder_head
-        S_match_binder_definer = 64,             // match_binder_definer
-        S_match_binder_arguments_list = 65,      // match_binder_arguments_list
-        S_expression_body = 66,                  // expression_body
-        S_expression = 67,                       // expression
-        S_declaration_specifiers = 68,           // declaration_specifiers
-        S_declaration_specifier = 69,            // declaration_specifier
-        S_type_specifier = 70,                   // type_specifier
-        S_declared_type_name = 71,               // declared_type_name
-        S_enumtype_decl_head = 72,               // enumtype_decl_head
-        S_block_start = 73,                      // block_start
-        S_block_end = 74,                        // block_end
-        S_enumtype_decl_specifier = 75,          // enumtype_decl_specifier
-        S_member_types_declaration_list = 76,    // member_types_declaration_list
-        S_member_types_declaration = 77,         // member_types_declaration
-        S_member_declaration_list = 78,          // member_declaration_list
-        S_member_declaration = 79,               // member_declaration
-        S_specifier_qualifier_list = 80,         // specifier_qualifier_list
-        S_type_specifier_qualifier = 81,         // type_specifier_qualifier
-        S_member_declarator = 82,                // member_declarator
-        S_declarator = 83,                       // declarator
-        S_pointer = 84,                          // pointer
-        S_direct_declarator = 85,                // direct_declarator
-        S_function_declarator = 86,              // function_declarator
-        S_parameter_type_list = 87,              // parameter_type_list
-        S_parameter_list = 88,                   // parameter_list
-        S_parameter_declaration = 89,            // parameter_declaration
-        S_typedef_name = 90                      // typedef_name
+        S_IF = 33,                               // "if"
+        S_ELSE = 34,                             // "else"
+        S_IDF = 35,                              // "identifier"
+        S_TYPEIDF = 36,                          // "type identifier"
+        S_INTLIT = 37,                           // "integer literal"
+        S_STRLIT = 38,                           // "string literal"
+        S_YYACCEPT = 39,                         // $accept
+        S_translation_unit = 40,                 // translation_unit
+        S_external_declaration = 41,             // external_declaration
+        S_expression_end = 42,                   // expression_end
+        S_function_definition = 43,              // function_definition
+        S_function_definition_info = 44,         // function_definition_info
+        S_function_definition_head = 45,         // function_definition_head
+        S_primary_expression = 46,               // primary_expression
+        S_postfix_expression = 47,               // postfix_expression
+        S_argument_expression_list = 48,         // argument_expression_list
+        S_unary_expression = 49,                 // unary_expression
+        S_unary_operator = 50,                   // unary_operator
+        S_cast_expression = 51,                  // cast_expression
+        S_multiplicative_expression = 52,        // multiplicative_expression
+        S_additive_expression = 53,              // additive_expression
+        S_relational_expression = 54,            // relational_expression
+        S_equality_expression = 55,              // equality_expression
+        S_logical_and_expression = 56,           // logical_and_expression
+        S_logical_or_expression = 57,            // logical_or_expression
+        S_assignment_expression = 58,            // assignment_expression
+        S_assignment_operator = 59,              // assignment_operator
+        S_match_head = 60,                       // match_head
+        S_match_expression = 61,                 // match_expression
+        S_match_binders_list = 62,               // match_binders_list
+        S_match_binders_list_head_start = 63,    // match_binders_list_head_start
+        S_match_binders_list_head = 64,          // match_binders_list_head
+        S_match_binder_head = 65,                // match_binder_head
+        S_match_binder_definer = 66,             // match_binder_definer
+        S_match_binder_arguments_list = 67,      // match_binder_arguments_list
+        S_expression_body = 68,                  // expression_body
+        S_expression = 69,                       // expression
+        S_declaration_specifiers = 70,           // declaration_specifiers
+        S_declaration_specifier = 71,            // declaration_specifier
+        S_type_specifier = 72,                   // type_specifier
+        S_declared_type_name = 73,               // declared_type_name
+        S_enumtype_decl_head = 74,               // enumtype_decl_head
+        S_block_start = 75,                      // block_start
+        S_block_end = 76,                        // block_end
+        S_enumtype_decl_specifier = 77,          // enumtype_decl_specifier
+        S_member_types_declaration_list = 78,    // member_types_declaration_list
+        S_member_types_declaration = 79,         // member_types_declaration
+        S_member_declaration_list = 80,          // member_declaration_list
+        S_member_declaration = 81,               // member_declaration
+        S_specifier_qualifier_list = 82,         // specifier_qualifier_list
+        S_type_specifier_qualifier = 83,         // type_specifier_qualifier
+        S_member_declarator = 84,                // member_declarator
+        S_declarator = 85,                       // declarator
+        S_pointer = 86,                          // pointer
+        S_direct_declarator = 87,                // direct_declarator
+        S_function_declarator = 88,              // function_declarator
+        S_parameter_type_list = 89,              // parameter_type_list
+        S_parameter_list = 90,                   // parameter_list
+        S_parameter_declaration = 91,            // parameter_declaration
+        S_typedef_name = 92,                     // typedef_name
+        S_expression_statement = 93,             // expression_statement
+        S_if_expression_head = 94,               // if_expression_head
+        S_if_non_split_expression = 95,          // if_non_split_expression
+        S_if_non_split_expression_else = 96,     // if_non_split_expression_else
+        S_flow_expression = 97,                  // flow_expression
+        S_non_split_expression = 98,             // non_split_expression
+        S_split_expression = 99                  // split_expression
       };
     };
 
@@ -763,6 +783,16 @@ namespace cecko {
       case symbol_kind::S_type_specifier_qualifier: // type_specifier_qualifier
       case symbol_kind::S_parameter_declaration: // parameter_declaration
         value.move< casem::CKTypeRefDefPack > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_expression_statement: // expression_statement
+      case symbol_kind::S_if_expression_head: // if_expression_head
+      case symbol_kind::S_if_non_split_expression: // if_non_split_expression
+      case symbol_kind::S_if_non_split_expression_else: // if_non_split_expression_else
+      case symbol_kind::S_flow_expression: // flow_expression
+      case symbol_kind::S_non_split_expression: // non_split_expression
+      case symbol_kind::S_split_expression: // split_expression
+        value.move< casem::IfExpressionData > (std::move (that.value));
         break;
 
       case symbol_kind::S_argument_expression_list: // argument_expression_list
@@ -918,6 +948,20 @@ namespace cecko {
       {}
 #else
       basic_symbol (typename Base::kind_type t, const casem::CKTypeRefDefPack& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, casem::IfExpressionData&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const casem::IfExpressionData& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
@@ -1292,6 +1336,16 @@ switch (yykind)
         value.template destroy< casem::CKTypeRefDefPack > ();
         break;
 
+      case symbol_kind::S_expression_statement: // expression_statement
+      case symbol_kind::S_if_expression_head: // if_expression_head
+      case symbol_kind::S_if_non_split_expression: // if_non_split_expression
+      case symbol_kind::S_if_non_split_expression_else: // if_non_split_expression_else
+      case symbol_kind::S_flow_expression: // flow_expression
+      case symbol_kind::S_non_split_expression: // non_split_expression
+      case symbol_kind::S_split_expression: // split_expression
+        value.template destroy< casem::IfExpressionData > ();
+        break;
+
       case symbol_kind::S_argument_expression_list: // argument_expression_list
         value.template destroy< casem::InstructionArray > ();
         break;
@@ -1516,7 +1570,7 @@ switch (yykind)
                    || tok == token::TOK_EMPH
                    || (token::TOK_DAMP <= tok && tok <= token::TOK_TYPEDEF)
                    || (token::TOK_SIZEOF <= tok && tok <= token::TOK_LET)
-                   || (token::TOK_FIP <= tok && tok <= token::TOK_FN));
+                   || (token::TOK_FIP <= tok && tok <= token::TOK_ELSE));
 #endif
       }
 #if 201103L <= YY_CPLUSPLUS
@@ -2162,6 +2216,36 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
+      make_IF (location_type l)
+      {
+        return symbol_type (token::TOK_IF, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_IF (const location_type& l)
+      {
+        return symbol_type (token::TOK_IF, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_ELSE (location_type l)
+      {
+        return symbol_type (token::TOK_ELSE, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_ELSE (const location_type& l)
+      {
+        return symbol_type (token::TOK_ELSE, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
       make_IDF (cecko::CIName v, location_type l)
       {
         return symbol_type (token::TOK_IDF, std::move (v), std::move (l));
@@ -2549,8 +2633,8 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 124,     ///< Last index in yytable_.
-      yynnts_ = 54,  ///< Number of nonterminal symbols.
+      yylast_ = 148,     ///< Last index in yytable_.
+      yynnts_ = 61,  ///< Number of nonterminal symbols.
       yyfinal_ = 19 ///< Termination state number.
     };
 
@@ -2600,10 +2684,10 @@ switch (yykind)
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
       25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
-      35,    36
+      35,    36,    37,    38
     };
     // Last valid token kind.
-    const int code_max = 291;
+    const int code_max = 293;
 
     if (t <= 0)
       return symbol_kind::S_YYEOF;
@@ -2628,6 +2712,16 @@ switch (yykind)
       case symbol_kind::S_type_specifier_qualifier: // type_specifier_qualifier
       case symbol_kind::S_parameter_declaration: // parameter_declaration
         value.copy< casem::CKTypeRefDefPack > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_expression_statement: // expression_statement
+      case symbol_kind::S_if_expression_head: // if_expression_head
+      case symbol_kind::S_if_non_split_expression: // if_non_split_expression
+      case symbol_kind::S_if_non_split_expression_else: // if_non_split_expression_else
+      case symbol_kind::S_flow_expression: // flow_expression
+      case symbol_kind::S_non_split_expression: // non_split_expression
+      case symbol_kind::S_split_expression: // split_expression
+        value.copy< casem::IfExpressionData > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_argument_expression_list: // argument_expression_list
@@ -2789,6 +2883,16 @@ switch (yykind)
       case symbol_kind::S_type_specifier_qualifier: // type_specifier_qualifier
       case symbol_kind::S_parameter_declaration: // parameter_declaration
         value.move< casem::CKTypeRefDefPack > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_expression_statement: // expression_statement
+      case symbol_kind::S_if_expression_head: // if_expression_head
+      case symbol_kind::S_if_non_split_expression: // if_non_split_expression
+      case symbol_kind::S_if_non_split_expression_else: // if_non_split_expression_else
+      case symbol_kind::S_flow_expression: // flow_expression
+      case symbol_kind::S_non_split_expression: // non_split_expression
+      case symbol_kind::S_split_expression: // split_expression
+        value.move< casem::IfExpressionData > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_argument_expression_list: // argument_expression_list
@@ -2980,7 +3084,7 @@ switch (yykind)
 
 #line 7 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
 } // cecko
-#line 2984 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.hpp"
+#line 3088 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.hpp"
 
 
 
