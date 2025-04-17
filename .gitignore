@@ -19,6 +19,10 @@
 /out
 /CMakeSettings.json
 /.vscode
-/compiled_programs_data
+
+compiled_programs_data/*
+!compiled_programs_data/lib/
+!compiled_programs_data/lib/*
+compiled_programs_data/lib/*.o
 
 /test/*
