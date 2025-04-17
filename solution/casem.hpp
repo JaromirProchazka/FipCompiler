@@ -43,6 +43,7 @@ namespace casem
 
     extern int max_type_tag;
     extern const std::string ttype_tag_label;
+    extern const std::string res_label;
     extern FipState fip_state;
 
     using InstructionArray = std::vector<InstructionWrapper>;
@@ -1159,7 +1160,6 @@ namespace casem
         {
             IfExpressionData new_data(init_if_data(ctx, cond));
 
-            auto res_label = "@result";
             new_data.block = ctx->builder()->GetInsertBlock();
             auto &&ret_type =
                 ctx->get_pointer_type(
@@ -1283,7 +1283,7 @@ namespace casem
         }
     };
 
-    const std::string match_result_template = "@result";
+    const std::string match_result_template = res_label;
     class MatchWrapper
     {
     public:

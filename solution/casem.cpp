@@ -13,10 +13,10 @@ namespace casem
     int max_type_tag = 0;
     std::unordered_map<std::string, std::pair<int, int>> type_to_id;
     std::unordered_map<std::string, std::size_t> type_to_reuse_size;
-    const std::string ttype_tag_label = "@tag";
-    const std::string reuse_function_template = "@reuse_";
-    const std::string constructor_name_template = "@const_";
-    const std::string res_label = "@result";
+    const std::string ttype_tag_label = "_tag";
+    const std::string reuse_function_template = "_reuse_";
+    const std::string constructor_name_template = "_const_";
+    const std::string res_label = "_result";
     const std::string print_label = "log";
     bool support_functions_defined = false;
     FipState fip_state;
@@ -40,6 +40,7 @@ namespace casem
     }
 #else
     void log(const char *msg, ...) {}
+    void log(const std::string &msgs) {}
     void log_name(const char *msg, const std::string &name) {}
 #endif
 
@@ -876,7 +877,7 @@ namespace casem
         {
         case 1:
             arg = *params.begin();
-            arg.generate_print("");
+            arg.generate_print("\n");
             return arg;
         case 2:
             arg = *params.begin();

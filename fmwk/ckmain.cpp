@@ -3,14 +3,15 @@
 #include <iomanip>
 #include <iostream>
 
-namespace cecko {
-
-	template< typename AR>
-	inline bool read_args(int argc, char** argv, AR&& arg_reader, std::string& input_fname, int& app_argc, char**& app_argv)
+namespace cecko
+{
+	template <typename AR>
+	inline bool read_args(int argc, char **argv, AR &&arg_reader, std::string &input_fname, int &app_argc, char **&app_argv)
 	{
 		std::size_t aix = 1, apos = 0;
 
-		auto getter = [argv, argc, &aix, &apos]() -> std::string {
+		auto getter = [argv, argc, &aix, &apos]() -> std::string
+		{
 			if (argv[aix][apos])
 			{
 				auto val = std::string(argv[aix] + apos);
@@ -69,17 +70,17 @@ namespace cecko {
 
 		if (!covname.empty())
 		{
-			std::ofstream covf(covname, std::ios_base::binary);	// enforce LF delimiters
-			cd_.for_each([&covf](auto&& name, auto&& cc) {
-				covf << std::setw(5) << cc.get() << "\t" << name << std::endl;
-				});
+			std::ofstream covf(covname, std::ios_base::binary); // enforce LF delimiters
+			cd_.for_each([&covf](auto &&name, auto &&cc)
+						 { covf << std::setw(5) << cc.get() << "\t" << name << std::endl; });
 		}
 		if (!covlinename.empty())
 		{
-			std::ofstream covf(covlinename, std::ios_base::binary);	// enforce LF delimiters
+			std::ofstream covf(covlinename, std::ios_base::binary); // enforce LF delimiters
 			std::ifstream inf(input_fname);
 			loc_t infline = 0;
-			cd_.for_each_line([&covf, &inf, &infline](auto&& line, auto&& lcd) {
+			cd_.for_each_line([&covf, &inf, &infline](auto &&line, auto &&lcd)
+							  {
 				for (;;)
 				{
 					std::string ins;
@@ -98,8 +99,7 @@ namespace cecko {
 						break;
 					}
 					covf << std::endl;
-				}
-				});
+				} });
 			for (;;)
 			{
 				std::string ins;
@@ -107,7 +107,7 @@ namespace cecko {
 				if (inf.fail())
 					break;
 				++infline;
-				//covf << std::setw(5) << infline << "\t";
+				// covf << std::setw(5) << infline << "\t";
 				covf << ins;
 				covf << std::endl;
 			}
@@ -118,15 +118,15 @@ namespace cecko {
 	bool main_state_parser::dump_coverage() const
 	{
 		out() << "========== coverage ==========" << std::endl;
-		cd_.for_each([this](auto&& name, auto&& cc) {
-			out() << "#" << std::setw(5) << cc.get() << " " << name << std::endl;
-			});
+		cd_.for_each([this](auto &&name, auto &&cc)
+					 { out() << "#" << std::setw(5) << cc.get() << " " << name << std::endl; });
 		return true;
 	}
 
-	bool main_state_code::setup(int argc, char** argv)
+	bool main_state_code::setup(int argc, char **argv)
 	{
-		auto arg_reader = [this](char opt, auto&& get_val) -> bool {
+		auto arg_reader = [this](char opt, auto &&get_val) -> bool
+		{
 			switch (opt)
 			{
 			case 'a':
@@ -158,7 +158,7 @@ namespace cecko {
 					return false;
 				{
 					auto outname = get_val();
-					outp_owner_ = std::make_unique<std::ofstream>(outname, std::ios_base::binary);	// enforce LF delimiters
+					outp_owner_ = std::make_unique<std::ofstream>(outname, std::ios_base::binary); // enforce LF delimiters
 					if (!outp_owner_->good())
 					{
 						outp_owner_.reset();
@@ -195,7 +195,7 @@ namespace cecko {
 
 		if (!aname.empty())
 		{
-			std::ofstream af(aname, std::ios_base::binary);	// enforce LF delimiters
+			std::ofstream af(aname, std::ios_base::binary); // enforce LF delimiters
 			if (!af.good())
 			{
 				std::cout << "Cannot open output file \"" << aname << "\"" << std::endl;
