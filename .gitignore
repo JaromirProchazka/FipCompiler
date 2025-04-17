@@ -19,5 +19,6 @@
 /out
 /CMakeSettings.json
 /.vscode
+/compiled_programs_data
 
 /test/*
