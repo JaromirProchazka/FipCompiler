@@ -66,14 +66,12 @@ CMAKE_BINARY_DIR = /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompile
 all: fmwk/all
 all: stud-sol/all
 all: stud-main/all
-all: stud-test/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
 preinstall: fmwk/preinstall
 preinstall: stud-sol/preinstall
 preinstall: stud-main/preinstall
-preinstall: stud-test/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
@@ -83,7 +81,6 @@ clean: CMakeFiles/acc_gen.dir/clean
 clean: fmwk/clean
 clean: stud-sol/clean
 clean: stud-main/clean
-clean: stud-test/clean
 .PHONY : clean
 
 #=============================================================================
@@ -134,21 +131,6 @@ stud-sol/preinstall:
 stud-sol/clean: stud-sol/CMakeFiles/solution.dir/clean
 stud-sol/clean: stud-sol/CMakeFiles/solution_dump.dir/clean
 .PHONY : stud-sol/clean
-
-#=============================================================================
-# Directory level rules for directory stud-test
-
-# Recursive "all" directory target.
-stud-test/all:
-.PHONY : stud-test/all
-
-# Recursive "preinstall" directory target.
-stud-test/preinstall:
-.PHONY : stud-test/preinstall
-
-# Recursive "clean" directory target.
-stud-test/clean:
-.PHONY : stud-test/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/intrinsics_gen.dir

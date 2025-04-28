@@ -1,5 +1,9 @@
 # Commands
 
+# Lookups
+
+`(0x7fd191ca0bf7)|(Enterign Match binder branch)|(Entering ')|(quicksort\(\.\.\.\)' call)|(Retruning from fucntion a non void result)`
+
 # Generate compilation files
 
 for test file basic_if.ffip:
@@ -38,7 +42,7 @@ in file main\CMakeLists.txt comment or uncomment wanted cecko targets
 
 ```
 
-cmake -DCMAKE_BUILD_TYPE=Debug . && cmake --build . && ./stud-main/cecko3 ../test/testdecl-elementary.c
+cmake -DCMAKE_BUILD_TYPE=Debug . && cmake --build . && ./stud-main/cecko5 ./test/quick_sort.ffip
 
 # change tests
 

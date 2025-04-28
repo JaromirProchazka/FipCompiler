@@ -11,17 +11,24 @@
 namespace casem
 {
     int max_type_tag = 0;
+
     std::unordered_map<std::string, std::pair<int, int>> type_to_id;
-    std::unordered_map<std::string, std::size_t> type_to_reuse_size;
+    std::unordered_map<std::string, long> type_to_reuse_size;
+    std::unordered_map<long, long> id_to_reuse_size;
+
     const std::string ttype_tag_label = "_tag";
     const std::string reuse_function_template = "_reuse_";
     const std::string constructor_name_template = "_const_";
     const std::string res_label = "_result";
     const std::string print_label = "log";
+    const std::string pair_type = "Pair";
+    const std::string tagged_parent_type = "object";
+    const std::string tagged_child_type = "Tagged";
     bool support_functions_defined = false;
     FipState fip_state;
+    const int POINTER_BYTES_COUNT = 8;
 
-#if LOG_DEBBUG
+#if GENERATE_STATIC_DEBUG_LOG
     void log(const char *msg, ...)
     {
         va_list args;
@@ -44,15 +51,16 @@ namespace casem
     void log_name(const char *msg, const std::string &name) {}
 #endif
 
-    void insert_ttypes(const std::string &tlabel, int first_tag, int end_tag, std::size_t reuse_size)
+    void insert_ttypes(const std::string &tlabel, int first_tag, int end_tag, long reuse_size)
     {
         type_to_id.emplace(tlabel, std::make_pair(first_tag, end_tag));
         type_to_reuse_size.emplace(tlabel, reuse_size);
     }
-    void insert_ttype(const std::string &tlabel, int tag, std::size_t reuse_size)
+    void insert_ttype(const std::string &tlabel, int tag, long reuse_size)
     {
         type_to_id.emplace(tlabel, std::make_pair(tag, tag));
-        type_to_reuse_size.emplace(tlabel, reuse_size);
+        type_to_reuse_size.emplace(tlabel, (long)reuse_size);
+        id_to_reuse_size.emplace(tag, (long)reuse_size);
     }
     const std::pair<int, int> &find_ttype(const std::string &tlabel)
     {
@@ -69,21 +77,54 @@ namespace casem
             return it->second;
         return -1;
     }
+    long find_ttype_size(long tag)
+    {
+        auto it = id_to_reuse_size.find(tag);
+        if (it != id_to_reuse_size.end())
+            return it->second;
+        return -1;
+    }
+    long check_subtypes_has_same_size(long first_tag, long end_tag)
+    {
+        if (first_tag == end_tag)
+            return -1;
 
-    // void declare_support_functions(cecko::context *ctx)
-    // {
-    //     log("|declare_support_functions| start\n");
-    //     if (support_functions_defined)
-    //         return;
-    //     auto malloc_ret_t = ctx->get_pointer_type(cecko::CKTypeRefPack(ctx->get_void_type(), false));
-    //     cecko::CKTypeObsArray malloc_args_ts = {ctx->get_int_type()};
-    //     auto malloc_t = ctx->get_function_type(malloc_ret_t, malloc_args_ts, false);
+        bool same = true;
+        long found_size = find_ttype_size(first_tag);
+        for (long i = first_tag; i < end_tag; i++)
+        {
+            auto cur_found = find_ttype_size(i);
+            if (cur_found != found_size)
+            {
+                found_size = -1;
+                same = false;
+            }
+        }
 
-    //     ctx->declare_function("malloc", malloc_t, 0);
-    //     // ctx->module()->getOrInsertFunction("malloc", malloc_t->get_ir());
-    //     log("|declare_support_functions| declare malloc\n");
-    //     support_functions_defined = true;
-    // }
+        return (same) ? found_size : -1;
+    }
+
+    bool ttype_is_parent_of_subtype(const std::string &expected_parent_label, const std::string &expected_child_label)
+    {
+        auto p = find_ttype(expected_parent_label);
+        auto c = find_ttype(expected_child_label);
+
+        return p.first <= c.first && c.first < p.second;
+    }
+
+    long fetch_ttype_size(cecko::context *ctx, cecko::CIName &label)
+    {
+        auto found_size = find_ttype_size(label);
+        if (found_size < 0)
+        {
+#if ENFORCE_FIP
+            ctx->message(cecko::errors::SYNTAX, ctx->line(), std::string("Type '") + label + "' has no found size!");
+#endif
+            found_size = -1;
+        }
+        return found_size;
+    }
+
     InstructionWrapper init_instruction_from_name(cecko::context *ctx, const cecko::CIName &name)
     {
         // log("Started init_instruction_from_name init\n");
@@ -132,7 +173,7 @@ namespace casem
     {
         // log("Started function call\n");
 
-        assertm(inst.type->is_function(), "given type to call is not a funcion");
+        assertm(inst.type->is_function(), std::string("") + "given type of instruction " + inst.name + " to call is not a funcion");
         cecko::CKFunctionTypeSafeObs ftype((cecko::CKFunctionTypeObs)((cecko::CKTypeObs)(inst.type)));
         for (std::size_t i = 0; i < ftype->get_function_arg_count(); i++)
         {
@@ -168,7 +209,7 @@ namespace casem
     }
     InstructionWrapper init_instruction_const(cecko::context *ctx, const cecko::CIName &strlit)
     {
-        log("making string started\n");
+        // log("|.init_instruction_const| Making string \""+strlit+"\"\n");
         llvm::StringRef str_ref(strlit);
         auto global_string = ctx->builder()->CreateGlobalString(str_ref);
         return InstructionWrapper(
@@ -179,10 +220,10 @@ namespace casem
             true,
             strlit);
     }
-    InstructionWrapper init_instruction_malloca(cecko::context *ctx, cecko::CKTypeSafeObs type, const cecko::CIName &name)
+    InstructionWrapper init_instruction_malloca(cecko::context *ctx, cecko::CKTypeSafeObs type, const cecko::CIName &name, std::size_t ru_count)
     {
-        // declare_support_functions(ctx);
-        auto &&type_size_num = (cecko::CKIRValueObs)ctx->get_type_size(type);
+        // auto &&type_size_num = (cecko::CKIRValueObs)ctx->get_type_size(type);
+        auto &&type_size_num = (cecko::CKIRValueObs)ctx->get_int32_constant((int)ru_count * POINTER_BYTES_COUNT);
         auto &&type_size_num_wrapper = InstructionWrapper(ctx, RValue, type_size_num, ctx->get_int_type(), true, "sizeof(" + name + ")");
         // auto &&malloc_call = llvm::CallInst::CreateMalloc(
         //     ctx->builder()->GetInsertBlock(),
@@ -235,7 +276,7 @@ namespace casem
      * @param data containes the relevant blocks for the if control flow assembly
      * @return the resulting current basic block that is the same as at the start of the function
      */
-    cecko::CKIRBasicBlockObs create_if_control_flow(cecko::context *ctx, IfControllFlowData &data)
+    cecko::CKIRBasicBlockObs create_if_control_flow(cecko::context *ctx, IfControllFlowData &data, bool make_if_unreachable)
     {
         log("Entered create_if_control_flow\n");
         // cecko::CKIRBasicBlockObs continue_block = ctx->builder()->GetInsertBlock();
@@ -278,7 +319,16 @@ namespace casem
         ctx->builder()->CreateCondBr(cond, data.if_block, if_false_block);
         // log("SWITCHING to if_block\n");
         ctx->builder()->SetInsertPoint(data.if_block_back);
-        ctx->builder()->CreateBr(data.end_block);
+
+        if (make_if_unreachable)
+        {
+            ctx->builder()->CreateUnreachable();
+        }
+        else
+        {
+            ctx->builder()->CreateBr(data.end_block);
+        }
+
         if (data.else_block != NULL)
         {
             // log("SWITCHING to else_block\n");
@@ -306,22 +356,31 @@ namespace casem
 
     MatchWrapper init_match_binders_list(cecko::context *ctx, MatchBinderListHeadData &data, InstructionWrapper &conditioned_result_value)
     {
+        log("|init_match_binders_list| init vars\n");
         auto &&match_dt = data.head_data;
         auto &&binder_data = data.binder_data;
         auto &if_data = binder_data.if_data;
 
         // conditioned_result_value.generate_debug_print("match_binder_if -> result = ");
+        // log("|init_match_binders_list| finding res\n");
         auto res = match_dt.result; // init_instruction_from_name(ctx, match_result_template);
         // res.generate_debug_print("'match binder' match result before store");
+        // log("|init_match_binders_list| storing to result\n");
         res.store(conditioned_result_value);
-        // res.generate_debug_print("'match binder' match result after store");
+        // log("|init_match_binders_list| debug printing\n");
+        res.generate_debug_print("'match binder' match result after store");
+        // log("|init_match_binders_list| exiting block\n");
         exit_block(ctx);
         // set current insertion block as the back of the if.then block
+        // log("|init_match_binders_list| setting if_block_end\n");
         if_data.if_block_back = ctx->builder()->GetInsertBlock();
 
+        // log("|init_match_binders_list| setting continue block\n");
         ctx->builder()->SetInsertPoint(if_data.continue_block);
+        // log("|init_match_binders_list| setting if controll flow\n");
         create_if_control_flow(ctx, if_data);
 
+        log("|init_match_binders_list| done\n");
         return match_dt;
     }
 
@@ -414,8 +473,7 @@ namespace casem
         res.name = other.name;
         return res;
     }
-
-    void declare_type_constructor(cecko::context *ctx, const std::string &tname, const cecko::CKStructTypeSafeObs &type, const cecko::CKStructItemArray &params)
+    void declare_type_constructor(cecko::context *ctx, const std::string &tname, const cecko::CKStructTypeSafeObs &type, const cecko::CKStructItemArray &params, bool heap_type)
     {
         auto &&type_tag_range = find_ttype(tname);
         log("|declare_type_constructor| found type tag value\n");
@@ -449,10 +507,23 @@ namespace casem
         auto &&ftype = ctx->get_function_type(ret_type, param_types);
         cecko::CKFunctionObs fobs = ctx->declare_function(constructor_name, ftype, ctx->line());
 
+        InstructionWrapper global_store_locarion;
+        if (!heap_type)
+        {
+            cecko::CIName reuse_var_label = tname + "_global_stored";
+            ctx->define_var(
+                reuse_var_label,
+                ret_type->get_pointer_points_to(),
+                ctx->line());
+            global_store_locarion = &init_instruction_from_name(ctx, reuse_var_label);
+        }
+
         // log("|declare_type_constructor| declare done, declaring function body\n");
         ctx->enter_function(fobs, param_names_pack, ctx->line());
 
-        auto &&allocated = init_instruction_malloca(ctx, type, res_label);
+        auto &&allocated = (heap_type) ? init_instruction_malloca(ctx, type, res_label, params.size())
+                                       : global_store_locarion;
+        log(std::string("") + "|declare_type_constructor| Constructing tname with " + std::to_string(params.size()) + " reuse tokens\n");
         // log("|declare_type_constructor| alloc result temporary variable\n");
         ctx->define_var(res_label, cecko::CKTypeRefPack(ret_type, false), ctx->line());
         auto &&res = init_instruction_from_name(ctx, res_label);
@@ -460,7 +531,7 @@ namespace casem
 
         // log("|declare_type_constructor| storing allocated to temporary variable\n");
         res.store(allocated);
-        // res.generate_debug_print("'declare_type_constructor' result after storing allocated is");
+        res.generate_debug_print("'declare_type_constructor' result after storing allocated is");
 
         // log("|declare_type_constructor| set tag field\n");
         auto tag_field = res.field(ttype_tag_label, ctx->get_int_type());
@@ -489,7 +560,7 @@ namespace casem
 
         log("|declare_type_constructor| function body done, DONE\n");
     }
-    void declare_type_reuser(cecko::context *ctx, const std::string &tname, const cecko::CKStructTypeSafeObs &type, const cecko::CKStructItemArray &params)
+    void declare_type_reuser(cecko::context *ctx, const std::string &tname, const cecko::CKStructTypeSafeObs &type, const cecko::CKStructItemArray &params, bool heap_type)
     {
         auto &&type_tag_range = find_ttype(tname);
         auto ret_type = ctx->get_pointer_type(cecko::CKTypeRefPack(type, false));
@@ -535,7 +606,7 @@ namespace casem
 
         // log("|declare_type_reuser| set tag field\n");
         auto tag_field = res.field(ttype_tag_label, ctx->get_int_type());
-        // tag_field.generate_debug_print("tag field before set in constructor");
+        // tag_field.generate_debug_print("tag field before set in reuser");
         // log("|declare_type_reuser| found tag field\n");
         auto &&tag_val_inst = init_instruction_const(ctx, type_tag_range.first);
         // log("|declare_type_reuser| inited tag value '" + std::to_string(type_tag_range.first) + "' constant instruction\n");
@@ -564,6 +635,66 @@ namespace casem
         log("|declare_type_reuser| function body done, DONE\n");
     }
 
+    TaggedTypeDecl declare_parent_ttype(cecko::context *ctx, cecko::CIName label)
+    {
+        // FIXME: Handle tag range
+        log_name("[enumtype_decl_head:]", label);
+        cecko::CKStructItemArray struct_items;
+        struct_items.push_back(casem::get_tag_strauct_item(ctx));
+
+        log("Define struct type\n");
+        auto struct_obs = ctx->declare_struct_type(label, ctx->line());
+        ctx->define_struct_type_open(label, ctx->line());
+        ctx->define_struct_type_close(struct_obs, struct_items);
+
+        int first_enumtype_tag = max_type_tag;
+        casem::TaggedTypeDecl res(struct_obs, first_enumtype_tag);
+
+        return res;
+    }
+    cecko::CKStructTypeSafeObs declare_child_ttype(cecko::context *ctx, cecko::CIName label, cecko::CKStructItemArray struct_items, bool heap_type)
+    {
+        struct_items.insert(struct_items.begin(), casem::get_tag_strauct_item(ctx));
+        auto &&struct_obs = ctx->declare_struct_type(label, ctx->line());
+
+        ctx->define_struct_type_open(label, ctx->line());
+        ctx->define_struct_type_close(struct_obs, struct_items);
+
+        long type_reuse_size = (heap_type) ? ((long)struct_items.size() - 1) : (-1);
+        casem::insert_ttype(label, max_type_tag, type_reuse_size);
+        ++casem::max_type_tag;
+
+        casem::declare_type_constructor(ctx, label, struct_obs, struct_items, heap_type);
+        if (heap_type)
+        {
+            casem::declare_type_reuser(ctx, label, struct_obs, struct_items);
+        }
+
+        return struct_obs;
+    }
+    void declare_support_functions(cecko::context *ctx)
+    {
+        log("|declare_support_functions| start\n");
+        if (support_functions_defined)
+            return;
+
+        auto ttype_declaration = declare_parent_ttype(ctx, tagged_parent_type);
+        declare_child_ttype(ctx, tagged_child_type);
+        TaggedTypeDecl::finish_parent_ttype(ctx, ttype_declaration);
+        auto ttype_pack = cecko::CKTypeRefPack(
+            ctx->get_pointer_type(
+                cecko::CKTypeRefPack(
+                    ttype_declaration.struct_decl,
+                    false)),
+            false);
+
+        cecko::CKStructItem pair_first(ttype_pack, "first", ctx->line());
+        cecko::CKStructItem pair_second(ttype_pack, "second", ctx->line());
+        declare_child_ttype(ctx, pair_type, {pair_first, pair_second}, false);
+
+        support_functions_defined = true;
+    }
+
     CKTypeRefDefPack get_variadic_type()
     {
         CKTypeRefDefPack trdp;
@@ -586,23 +717,64 @@ namespace casem
         auto &&type = ctx->declare_struct_type(label, ctx->line());
         return type && type->is_defined();
     }
+    bool is_constructable_type_label(cecko::context *ctx, const cecko::CIName &label)
+    {
+        if (!is_struct_label(ctx, label))
+            return false;
+        auto &tags = find_ttype(label);
+        return tags.first == tags.second;
+    }
     bool is_tagged_type(cecko::CKTypeSafeObs type)
     {
-        log("|.is_tagged_type|\n");
+        // log("|.is_tagged_type|\n");
         return type->is_struct() || (type->is_pointer() && type->get_pointer_points_to().type->is_struct());
     }
 
     void generate_debug_print(cecko::context *ctx, const cecko::CIName &label)
     {
-        if (!LOG_DEBBUG)
+        if (!GENERATE_DYNAMIC_DEBUG_LOG)
             return;
-        std::string text = "|" + label + "| '";
+        std::string text = "[DEBUG] -- line: " + std::to_string(ctx->line()) + " -- " + label;
         InstructionWrapper print_text;
         InstructionArray print_args;
 
-        text += "'\n";
+        text += "\n";
         print_text = init_instruction_const(ctx, text);
         print_args = {print_text};
+        init_instruction_function_call(ctx, init_instruction_from_name(ctx, "printf"), print_args);
+    }
+    void generate_debug_print(cecko::context *ctx, const cecko::CIName &label, InstructionArray &params)
+    {
+        if (!GENERATE_DYNAMIC_DEBUG_LOG)
+            return;
+        std::string text = "[DEBUG] -- line: " + std::to_string(ctx->line()) + " -- " + label + " (";
+        InstructionWrapper print_text;
+        InstructionArray print_args;
+
+        for (auto &&param : params)
+        {
+            if (param.type->is_int())
+            {
+                text += "%s: %i, ";
+                print_args.push_back(init_instruction_const(ctx, param.name));
+                print_args.push_back(param);
+            }
+            else if (param.type->is_pointer())
+            {
+                text += "%s: %p, ";
+                print_args.push_back(init_instruction_const(ctx, param.name));
+                print_args.push_back(param);
+            }
+            else
+            {
+                text += "%s, ";
+                print_args.push_back(init_instruction_const(ctx, param.name));
+            }
+        }
+
+        text += ")\n";
+        print_text = init_instruction_const(ctx, text);
+        print_args.insert(print_args.begin(), print_text);
         init_instruction_function_call(ctx, init_instruction_from_name(ctx, "printf"), print_args);
     }
 
@@ -718,14 +890,15 @@ namespace casem
         return wrap_in_array;
     }
 
-    MatchWrapper init_match_head(cecko::context *ctx, cecko::match_type match_ty, cecko::CIName &matched, casem::CKTypeRefDefPack &rfpack)
+    MatchWrapper init_match_head(cecko::context *ctx, cecko::match_type match_ty, InstructionWrapper &matched, casem::CKTypeRefDefPack &rfpack)
     {
-        if (match_ty == cecko::match_type::MATCH && fip_state.is_in_fip_mode())
-        {
-            ctx->message(cecko::errors::SYNTAX, ctx->line(), "Can't use regular match in fip expression!");
-            fip_state.enter_fip_mode();
-        }
-        else if (match_ty == cecko::match_type::DMATCH)
+        // if (match_ty == cecko::match_type::MATCH && fip_state.is_in_fip_mode())
+        // {
+        //     ctx->message(cecko::errors::SYNTAX, ctx->line(), "Can't use regular match in fip expression!");
+        //     fip_state.enter_fip_mode();
+        // }
+        // else
+        if (match_ty == cecko::match_type::DMATCH)
         {
             log("{FipState} match_head - entering DMATCH\n");
             fip_state.enter_fip_mode();
@@ -736,8 +909,8 @@ namespace casem
         DEFINER_BODY(rfpack, std::function(CHOOSE_AND_DEFINE));
         auto rfpack_ptr = std::make_shared<casem::CKTypeRefDefPack>(rfpack);
         auto res_var = init_instruction_from_name(ctx, casem::match_result_template);
-        casem::MatchWrapper mw(ctx, match_ty == cecko::match_type::DMATCH, matched, rfpack_ptr, match_ty, res_var);
-        // init_instruction_from_name(ctx, matched).generate_debug_print("'match_head' matched argument is");
+        casem::MatchWrapper mw(ctx, matched, rfpack_ptr, match_ty, res_var);
+        matched.generate_debug_print("'match_head' matched argument is");
         log("match head done\n");
         return mw;
     }
@@ -897,28 +1070,39 @@ namespace casem
         {
             return handle_log_call(ctx, params);
         }
-        if (!casem::is_struct_label(ctx, label))
+        if (!casem::is_constructable_type_label(ctx, label))
         {
+            generate_debug_print(ctx, std::string("") + "Entering '" + label + "(...)' call", params);
             return init_instruction_function_call(ctx, init_instruction_from_name(ctx, label), params);
         }
 
         cecko::CIName constructor_name;
-        if (fip_state.is_in_fip_mode())
+        auto type_rtoken_count = find_ttype_size(label);
+        // FIXME: implement better the conditions for reusing
+        if (fip_state.is_in_fip_mode() && type_rtoken_count > 0 && label != pair_type) // Types with no reuse tokens are not reused
         {
-            auto type_rtoken_count = find_ttype_size(label);
             auto &&to_be_reused = fip_state.reuse(type_rtoken_count);
             if (!to_be_reused.valid)
             {
-                ctx->message(cecko::errors::SYNTAX, ctx->line(), "Couldn't find any reuseable variable with '" + std::to_string(type_rtoken_count) + "' reuse tokens!");
+#if ENFORCE_FIP
+                ctx->message(cecko::errors::SYNTAX, ctx->line(), "Couldn't find any reuseable variable with '" + std::to_string(type_rtoken_count) + "' reuse tokens for type '" + label + "'!");
+#else
+                log("{FipState} REUSE FAILED! created malloc\n");
+                constructor_name = get_constructor_label(label);
+#endif
             }
-            params.insert(params.begin(), to_be_reused.reuseable);
-            constructor_name = get_reuser_label(label);
+            else // to_be_reused is valid
+            {
+                params.insert(params.begin(), to_be_reused.reuseable);
+                constructor_name = get_reuser_label(label);
+            }
         }
         else
         {
             constructor_name = get_constructor_label(label);
         }
 
+        generate_debug_print(ctx, std::string("") + "Entering '" + constructor_name + "(...)' call");
         return init_instruction_function_call(ctx, init_instruction_from_name(ctx, constructor_name), params);
     }
 }

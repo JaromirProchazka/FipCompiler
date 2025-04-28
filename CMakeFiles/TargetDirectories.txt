@@ -18,6 +18,3 @@
 /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-main/CMakeFiles/test.dir
 /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-main/CMakeFiles/edit_cache.dir
 /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-main/CMakeFiles/rebuild_cache.dir
-/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-test/CMakeFiles/test.dir
-/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-test/CMakeFiles/edit_cache.dir
-/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-test/CMakeFiles/rebuild_cache.dir

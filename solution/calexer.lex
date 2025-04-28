@@ -62,7 +62,7 @@ std::string msg = "";
 "if"				return cecko::parser::make_IF(ctx->line());
 "else"				return cecko::parser::make_ELSE(ctx->line());
 
-"type"			return cecko::parser::make_TYPEDEF(ctx->line());
+"type"				return cecko::parser::make_TYPEDEF(ctx->line());
 "sizeof"			return cecko::parser::make_SIZEOF(ctx->line());
 "_Bool"				return cecko::parser::make_ETYPE(cecko::gt_etype::BOOL, ctx->line());
 "char"				return cecko::parser::make_ETYPE(cecko::gt_etype::CHAR, ctx->line());

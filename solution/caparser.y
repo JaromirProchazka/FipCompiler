@@ -113,6 +113,8 @@ using namespace casem;
 %type<casem::TypeRefPack_Action>        declarator
 %type<casem::TypeRefPack_Action>        direct_declarator
 %type<casem::TypeRefPack_Action>        function_declarator
+%type<casem::FunctionDeclarationData>   function_definition_info
+%type<casem::FunctionDeclarationData>   function_definition_head
 %type<casem::TRDArray>                  parameter_type_list
 %type<casem::TRDArray>                  parameter_list
 %type<casem::TypeRefPack_Convertor>     pointer
@@ -179,14 +181,6 @@ using namespace casem;
 /*
 %type<T> a // nonterminal with type T
 
-add_expr:
-    mul_expr { $$ = $1; }
-    | add_expr ADD mul_expr { $$ = $1 + $3; } 
-        // the $n denotes attribute of nth element in the rule ($$ <=> $0 <=> add_expr<T>) 
-    | add_expr SUB mul_expr { $$ = $1 - $3; }
-        // if none rule given, default is { $$ = $1; } 
-    ;
-
 doxymentation: https://www.ksi.mff.cuni.cz/teaching/nswi098-web/doxy/html/structcecko_1_1CKContext.html
 */
 
@@ -195,12 +189,6 @@ doxymentation: https://www.ksi.mff.cuni.cz/teaching/nswi098-web/doxy/html/struct
 /////////////////////////////////
 // Create rules for external definitions
 /////////////////////////////////
-
-// FIXME: DEBUG translation_unit, delete me later
-// translation_unit:
-// 	LET IDF IDF ASGN IDF
-// 	| 
-// 	;
 
 
 translation_unit:
@@ -236,17 +224,21 @@ function_definition:
             else
                 ret_inst = ret_obs;
             
-            // ret_inst.generate_debug_print(ret_inst.name);       
+            // FunctionDeclarationData fdata = $1;
+            // cecko::CIName funtion_name = fdata.get_function_name();
+            ret_inst.generate_debug_print(std::string("") + "Retruning from fucntion a non void result '" + ret_inst.name + "': ");       
             ctx->builder()->CreateRet(ret_inst.read_ir());
         }
         else {
             log("return void\n");
+            // generate_debug_print(ctx, std::string("") + "Retruning from fucntion a void result");
             ctx->builder()->CreateRetVoid();
         }
         ctx->builder()->ClearInsertionPoint();
         // $$ = ctx->builder()->GetInsertBlock();
 
         if (! ctx->builder()->GetInsertBlock() || ctx->current_function_return_type()->is_void()) {
+            // generate_debug_print(ctx, std::string("") + "Retruning from fucntion a void result");
             ctx->builder()-> CreateRetVoid();
         }
 
@@ -258,16 +250,15 @@ function_definition:
         }
         ctx->exit_function();
     }
-    // | function_definition_head RCUR   {
-    //     log("[function_definition:] with EMPTY BODY, implicite void return\n");
-    //     ctx->builder()-> CreateRetVoid();
-    //     ctx->exit_function();
-    // }
+    | function_definition_info SEMIC expression_end   {
+        log("[function_definition:] function_definition_info SEMIC\n");
+    }
 ;
 
 function_definition_info: 
     declaration_specifiers declarator   {
         log("[function_definition_info:]\n");
+        casem::declare_support_functions(ctx);
         auto cur_l = ctx->line();
         casem::TypeRefPack_Action DEFINER_BODY = $2;
         casem::CKTypeRefDefPack rfpack = $1;
@@ -281,22 +272,30 @@ function_definition_info:
         }
         log("[function_definition_info:] handled main current line\n");
 
-        cecko::CKFunctionSafeObs f_observer = ctx->declare_function(res_tpack.name.value(), res_tpack.type, cur_l);
+        auto f_observer = ctx->declare_function(res_tpack.name.value(), res_tpack.type, cur_l);
         log("[function_definition_info:] function declared\n");
 
-        ctx->enter_function(f_observer, res_tpack.optinonal_param_names, ctx->line());
-        if (rfpack.is_fip) {
-            log("{FipState} function_definition_info - entering fip function '"+res_tpack.name.value()+"' declaration\n");
-            fip_state.enter_fip_mode();
-            fip_state.enter_fip_context();
-        }
-        log("[function_definition_info:] function body entered\n");
+        casem::FunctionDeclarationData res(f_observer, res_tpack, rfpack);
+        $$ = res;
     }
 ;
 
 function_definition_head:
     function_definition_info ASGN {
-        log("[function_definition_head:]");
+        log("[function_definition_head:] function_definition_info ASGN\n");
+        casem::CKTypeRefDefPack res_tpack = ($1).fun_type;
+        auto f_observer = ($1).fun_obs;
+        auto rfpack = ($1).fun_rfpack;
+        ctx->enter_function(f_observer, res_tpack.optinonal_param_names, ctx->line());
+        if (rfpack.is_fip) {
+            log("{FipState} function_definition_info - entering fip function '"+res_tpack.name.value()+"' declaration\n");
+            fip_state.enter_fip_mode();
+            fip_state.enter_fip_context();
+            // fip_state.insert_reusables_function_args(ctx, res_tpack.optinonal_param_names);
+        }
+        log("[function_definition_head:] function body entered\n");
+
+        $$ = $1;
     }
 ;
 
@@ -315,11 +314,7 @@ function_definition_head:
 /////////////////////////////////
 
 primary_expression:
-    // enumeration_constant    {
-    //     log("[primary_expression:] name '"+$1+"'\n");
-    //     $$ = casem::handle_enumeration_constant(ctx, $1);
-    // }
-    /*|*/ INTLIT    {
+    INTLIT    {
         //CKIRConstantIntObs
         log("[primary_expression:] Found int lit '%d'\n", (int)$1);
         $$ = init_instruction_const(ctx, $1);
@@ -329,7 +324,7 @@ primary_expression:
         // (StringRef Str, const Twine &Name = "", unsigned AddressSpace = 0, Module *M = nullptr, bool AddNull = true)	
         $$ = init_instruction_const(ctx, $1);
     }
-    | LPAR expression RPAR  {
+    | LPAR expression_body RPAR  {
         $$ = $2;
     }
 ;
@@ -338,8 +333,6 @@ postfix_expression:
     primary_expression     {
         $$ = $1;
     }
-    // | application_rule
-    // | unboxing_rule
     | IDF LPAR argument_expression_list RPAR     {
         // TODO: IMPLEMENT REUSING
         log("[postfix_expression:] FUNCTION CALL, IDF:'"+$1+"' ( expression )\n");
@@ -411,16 +404,6 @@ unary_expression:
             break;
         }
     } 
-    // | SIZEOF LPAR type_name RPAR        {
-    //     log("[unary_expression:] SIZEOF LPAR type_name RPAR\n");
-    //     $$ = InstructionWrapper(
-    //         ctx,
-    //         RValue,
-    //         ctx->get_type_size($3),
-    //         ctx->get_int_type(),
-    //         true,
-    //         "size_of");
-    // }
 ;
 
 unary_operator:
@@ -591,7 +574,7 @@ assignment_operator:
 ;
 
 match_head:
-    MATCH IDF ARROW declaration_specifiers  {
+    MATCH assignment_expression ARROW declaration_specifiers  {
         log("[match_head:] MATCH IDF ARROW declaration_specifiers\n");
         $$ = init_match_head(ctx, $1, $2, $4);
     }
@@ -604,9 +587,11 @@ match_expression:
     | match_binders_list block_end    {
         log("[match_expression:] MATCH IDF ARROW declaration_specifiers block_start match_binders_list block_end\n");
         casem::MatchWrapper match_data = $1;
+        match_data.generate_final_match_result_check(ctx); // generates final if that check if result isn't tagged type set to null
         if (match_data.is_destructive) {
             log("{FipState} match_expression - exiting DMATCH\n");
             fip_state.exit_fip_mode();
+            fip_state.exit_fip_context();
         }
 
         // auto&& res = init_instruction_from_name(ctx, casem::match_result_template);
@@ -676,10 +661,6 @@ expression_body:
     | flow_expression {
         $$ = ($1).result;
     }
-	// | logical_or_expression   {
-    //     // log("[assignment_expression:]>");
-    //     $$ = $1;
-    // }
 ;
 
 expression:
@@ -688,28 +669,9 @@ expression:
     }
 ;
 
-// constant_expression:
-//     logical_or_expression
-// ;
-
 /////////////////////////////////
 // Create rules for declarations
 /////////////////////////////////
-
-// declaration:
-//     no_leading_attribute_declaration
-// ;
-
-// no_leading_attribute_declaration:
-//     declaration_specifiers init_declarator_list SEMIC   {
-//         log("[no_leading_attribute_declaration:] > call lambda\n");
-//         casem::TypeRefPack_Action DEFINER_BODY = $2;
-//         casem::CKTypeRefDefPack rfpack = $1;
-
-//         DEFINER_BODY(rfpack, std::function(CHOOSE_AND_DEFINE)); // returns the final type of the defined
-//         log("\n\n");
-//     }
-// ;
 
 declaration_specifiers:
     declaration_specifier   { 
@@ -742,11 +704,6 @@ declaration_specifiers:
 ;
 
 declaration_specifier:
-    // storage_class_specifier { 
-    //         casem::CKTypeRefDefPack rfpack;
-    //         rfpack.has_typedef = true;
-    //         $$ = rfpack;
-    //     }
     type_specifier_qualifier {
             log("[declaration_specifier:] ^ Found type_specifier_qualifier ");
             casem::CKTypeRefDefPack rpack;
@@ -775,29 +732,6 @@ declaration_specifier:
         $$ = rfpack;
     }
 ;
-
-// init_declarator_list:
-//     init_declarator     { 
-//         log("[init_declarator_list:] v \n");
-//         $$ = $1;
-//     }
-//     | init_declarator_list COMMA init_declarator    {
-//         log("[init_declarator_list:] v give refpack to init_declarator and the list\n");
-//         $$ = GET_CALL_SEQUENCE_LINK($1, $3);
-//     }
-//     // | %empty    {}
-// ;
-
-// init_declarator:
-//     declarator  {
-//         log("[init_declarator:] v found declarator and gave it refpack\n");
-//         $$ = $1;
-//     }
-// ;
-
-// storage_class_specifier:
-//     TYPEDEF
-// ;
 
 type_specifier:
     ETYPE { 
@@ -849,20 +783,8 @@ declared_type_name:
 
 enumtype_decl_head:
     TYPEDEF IDF     {
-        // FIXME: Handle tag range
-        log_name("[enumtype_decl_head:]", $2);
-        cecko::CKStructItemArray struct_items;
-        struct_items.push_back(casem::get_tag_strauct_item(ctx)); 
-
-        log("Define struct type\n");
-        auto struct_obs = ctx->declare_struct_type($2, ctx->line());
-        ctx->define_struct_type_open($2, ctx->line());
-        ctx->define_struct_type_close(struct_obs, struct_items);
-
-        int first_enumtype_tag = max_type_tag;
-        casem::TaggedTypeDecl res(struct_obs, first_enumtype_tag);
-
-        $$ = res;
+        casem::declare_support_functions(ctx);
+        $$ = declare_parent_ttype(ctx, $2);
     }
 ;
 
@@ -880,11 +802,7 @@ enumtype_decl_specifier:
     enumtype_decl_head block_start member_types_declaration_list block_end NEWLINE  {
         // FIXME: Handle tag range
         log("[enumtype_decl_specifier:] enumtype_decl_head block_start member_types_declaration_list block_end NEWLINE\n");
-        auto&& type_data = $1;
-        int enumtype_tag_end = max_type_tag;
-        casem::insert_ttypes(type_data.name(), type_data.first_tag, enumtype_tag_end);
-        log("Inserted father type tag range\n");
-        $$ = type_data.struct_decl;
+        $$ = TaggedTypeDecl::finish_parent_ttype(ctx, $1);
     }
 ;
 
@@ -905,34 +823,11 @@ member_types_declaration_list:
 member_types_declaration:
     IDF LPAR member_declaration_list RPAR SEMIC     {
         log_name("[member_types_declaration:] includes member_declaration_list", $1);
-        auto&& struct_items = $3;
-        struct_items.insert(struct_items.begin(), casem::get_tag_strauct_item(ctx));
-        auto&& struct_obs = ctx->declare_struct_type($1, ctx->line());
-
-        ctx->define_struct_type_open($1, ctx->line());
-        ctx->define_struct_type_close(struct_obs, struct_items);
-        casem::insert_ttype($1, max_type_tag, struct_items.size());
-        ++casem::max_type_tag;
-
-        casem::declare_type_constructor(ctx, $1, struct_obs, struct_items);
-        casem::declare_type_reuser(ctx, $1, struct_obs, struct_items);
-
-        $$ = struct_obs;
+        $$ = casem::declare_child_ttype(ctx, $1, $3);
     }
     | IDF SEMIC    {
         log_name("[member_types_declaration:] found IDF SEMIC", $1);
-        auto struct_obs = ctx->declare_struct_type($1, ctx->line()); 
-        ctx->define_struct_type_open($1, ctx->line());
-        cecko::CKStructItemArray struct_items = { casem::get_tag_strauct_item(ctx) };
-
-        ctx->define_struct_type_close(struct_obs, struct_items);
-        casem::insert_ttype($1, max_type_tag, 0);
-        ++casem::max_type_tag;
-
-        casem::declare_type_constructor(ctx, $1, struct_obs, struct_items);
-        casem::declare_type_reuser(ctx, $1, struct_obs, struct_items);
-
-        $$ = struct_obs;
+        $$ = casem::declare_child_ttype(ctx, $1);
     }
 ;
 
@@ -994,44 +889,11 @@ type_specifier_qualifier:
         }
 ;
 
-// member_declarator_list:
-//     member_declarator   {
-//         $$ = $1;
-//     }
-//     | member_declarator_list COMMA member_declarator    {
-//         $$ = GET_CALL_SEQUENCE_LINK($1, $3);
-//     }
-//     // | %empty    {
-//     //     $$ = {};
-//     // }
-// ;
-
 member_declarator:
     declarator      {
         $$ = $1;
     }
 ;
-
-// enumerator_list:
-//     enumerator
-//     | enumerator_list COMMA enumerator
-// ;
-
-// enumerator:
-//     enumeration_constant {
-//         log("[enumerator:] constant\n");
-//     }
-//     | enumeration_constant ASGN constant_expression {
-//         log("[enumerator:] ASGN\n");
-//     }
-// ;
-
-// enumeration_constant:
-//     IDF     {
-//         log_name("[enumeration_constant:]", $1);
-//         $$ = $1;
-//     }
-// ;
 
 declarator:
     pointer direct_declarator {
@@ -1078,33 +940,11 @@ direct_declarator:
 
         $$ = GET_DEFINER(ctx, name);
     }
-    // | LPAR declarator RPAR  {
-    //     log("[direct_declarator:] ^ found (declarator) and gave it refpack\n");
-    //     $$ = $2;
-    // }
-    // | array_declarator      {
-    //     log("[direct_declarator:] v found array_declarator\n");
-    //     $$ = $1;
-    // }
-    // TODO: ADD "| "
     | function_declarator   {
         log("[direct_declarator:] v found function_declarator\n");
         $$ = $1;
     }
 ;
-
-// array_declarator:
-//     direct_declarator LBRA assignment_expression RBRA   {
-//         log("[array_declarator:] direct_declarator [ assignment_expression ]\n");
-//         if (($3).mode != casem::VarMode::LValue) {
-//             auto value = static_cast<cecko::CKIRConstantIntObs>(($3).value);
-//             $$ = GET_ARRAY_ADDER(ctx, $1, value);
-//         }
-//         else {
-//             // FIXME: Handle LVal
-//         }
-//     }
-// ;
 
 function_declarator: 
     direct_declarator LBRA parameter_type_list RBRA  {
@@ -1123,9 +963,6 @@ function_declarator:
             if (pt.is_variadic) break; 
             param_types.push_back(pt.type);
         }
-
-        // TypeRefPack_Convertor UNPACK_PARAMETERS([](casem::CKTypeRefDefPack &rfpack) {
-        // }); 
 
 
         $$ = GET_FUNCTION_ADDER(ctx, $1, param_types, is_variadic, param_names);
@@ -1202,82 +1039,12 @@ parameter_declaration:
 
         $$ = param_typepack;
     }
-    // | declaration_specifiers abstract_declarator    {
-    //     log("[parameter_declaration:] ^ found declaration_specifiers abstract_declarator\n");
-    //     casem::TypeRefPack_Action DEFINER_BODY = $2;
-    //     casem::CKTypeRefDefPack rfpack = $1;
-
-    //     auto param_typepack = DEFINER_BODY(rfpack, std::function(FETCH_FINAL_TYPEPACK));
-
-    //     $$ = param_typepack;
-    // }
     | declaration_specifiers                        {
         log("[parameter_declaration:] ^ found declaration_specifiers\n");
         casem::CKTypeRefDefPack rfpack = $1;
         $$ = rfpack;
     }
 ;
-
-// type_name:
-//     specifier_qualifier_list abstract_declarator    {
-//         log("[member_declaration:] give refpack to member_declarator_list\n");
-//         casem::TypeRefPack_Action DEFINER_BODY = $2;
-//         casem::CKTypeRefDefPack rfpack = $1;
-
-//         casem::CKTypeRefDefPack final_type = DEFINER_BODY(rfpack, std::function(FETCH_FINAL_TYPEPACK));
-
-//         $$ = final_type.type;
-//     }
-//     | specifier_qualifier_list  {
-//         $$ = ($1).type;
-//     }
-// ;
-
-// abstract_declarator:
-//     direct_abstract_declarator     {
-//         log("[abstract_declarator:] found direct_abstract_declarator\n");
-//         $$ = $1;
-//     }
-// ;
-
-// direct_abstract_declarator:
-//     LPAR abstract_declarator RPAR   {
-//         log("[direct_abstract_declarator:] ( abstract_declarator )\n");
-//         $$ = $2;
-//     }
-//     | array_abstract_declarator     {
-//         log("[direct_abstract_declarator:] array_abstract_declarator\n");
-//         $$ = $1;
-//     }
-//     | function_abstract_declarator  {
-//         log("[direct_abstract_declarator:] function_abstract_declarator\n");
-//         $$ = $1;
-//     }
-// ;
-
-// array_abstract_declarator:
-//     direct_abstract_declarator LBRA assignment_expression RBRA  {
-//         log("[array_abstract_declarator:] direct_abstract_declarator [ assignment_expression ]\n");
-//         auto value = static_cast<cecko::CKIRConstantIntObs>(($3).value);
-//         $$ = GET_ARRAY_ADDER(ctx, $1, value);
-//     }
-//     | LBRA assignment_expression RBRA   {
-//         log("[array_abstract_declarator:] [ assignment_expression ]\n");
-//         auto value = static_cast<cecko::CKIRConstantIntObs>(($2).value);
-//         $$ = GET_ARRAY_ADDER(ctx, GET_DEFINER(ctx, ""), value);
-//     }
-// ;
-
-// function_abstract_declarator:
-//     direct_abstract_declarator LPAR parameter_type_list RPAR    {
-//         log("[function_abstract_declarator:] direct_abstract_declarator LPAR parameter_type_list RPAR\n");
-//         $$ = GET_FUNCTION_ADDER(ctx, $1, casem::get_types_from_tpacks($3), false, false);
-//     }
-//     | LPAR parameter_type_list RPAR {
-//         log("[function_abstract_declarator:] LPAR parameter_type_list RPAR\n");
-//         $$ = GET_FUNCTION_ADDER(ctx, GET_DEFINER(ctx, ""), casem::get_types_from_tpacks($2), false, false);
-//     }
-// ;
 
 typedef_name:
     TYPEIDF     { $$ = $1; }
@@ -1287,67 +1054,6 @@ typedef_name:
 // Create rules for statements
 /////////////////////////////////
 
-// // statement:
-// //     non_split_statement     {
-// //         log("[statement:] non_split_statement\n");
-// //         $$ = $1;
-// //     }
-// //     | split_statement       {
-// //         log("[statement:] split_statement\n");
-// //         $$ = $1;
-// //     }
-// // ;
-
-// compound_statement_head:
-//     LCUR        {
-//         log("ENTER BLOCK\n");
-//         casem::enter_block(ctx);
-//     }
-// ;
-
-// compound_statement:
-//     compound_statement_head compound_statement_body   {
-//         log("[compound_statement:] found { block_item_list }\n");
-//         $$ = $2;
-//     }
-// ;
-
-// compound_statement_body:
-//     block_item_list RCUR        {
-//         $$ = $1;
-
-//         exit_block(ctx);
-//         log("EXITING BLOCK\n");
-//     }
-//     | RCUR      {
-//         exit_block(ctx);
-//         log("EXITING BLOCK\n");
-
-//         $$ = ctx->builder()->GetInsertBlock();
-//     }
-// ;
-
-// block_item_list:
-//     block_item      {
-//         log("[block_item_list:] block_item\n");
-//         $$ = $1;
-//     }
-//     | block_item_list block_item    {
-//         log("[block_item_list:] block_item_list block_item\n");
-//         $$ = $2;
-//     }
-// ;
-
-// block_item:
-//     declaration {
-//         log("[block_item:] declaration\n");
-//         $$ = ctx->builder()->GetInsertBlock();
-//     }
-//     // | statement {
-//     //     log("[block_item:] statement\n");
-//     //     $$ = $1;
-//     // }
-// ;
 
 expression_statement:
     match_expression SEMIC    {
@@ -1360,14 +1066,6 @@ expression_statement:
     }
 ;
 
-// expression_opt:
-//     expression  {
-//         $$ = $1;
-//     }
-//     | %empty    {
-        
-//     }
-// ;
 
 ///////////////////////////////////////////////////////
 if_expression_head:
@@ -1396,61 +1094,29 @@ if_non_split_expression_else:
     }
 ;
 
-///////////////////////////////////////////////////////
-// while_statement_head:
-//     WHILE LPAR expression RPAR  {
-//         $$ = init_while_data(ctx, $3);
-//     }
-// ;
-///////////////////////////////////////////////////////
-// do_statement_head:
-//     DO  {
-//         $$ = init_do_data(ctx);
-//     }
-// ;
-///////////////////////////////////////////////////////
-
 flow_expression:
     non_split_expression
     | split_expression
 ;
 
 non_split_expression:
-     if_non_split_expression_else non_split_expression    {
-        log("non_split_expression: if_non_split_expression_else non_split_expression: \n");
+    if_non_split_expression_else non_split_expression    {
+        log("[non_split_expression:] if_non_split_expression_else non_split_expression: \n");
         auto &&expression_data = $1;
         auto &data = expression_data.if_data;
         expression_data.store_to_result(ctx, $2);
+        data.else_block_back = ctx->builder()->GetInsertBlock();
         exit_block(ctx);
         log("SWITCHING to continue_block\n");
         ctx->builder()->SetInsertPoint(data.continue_block);
         expression_data.block = create_if_control_flow(ctx, data);
 
         $$ = expression_data;
-     }
-//     | while_statement_head non_split_statement    {
-//         $$ = create_while_control_flow(ctx, $1);
-//     }
-//     | FOR LPAR expression_opt SEMIC expression_opt SEMIC expression_opt RPAR non_split_statement    {
-//         $$ = ctx->builder()->GetInsertBlock();
-//     }
-//     | do_statement_head non_split_statement WHILE LPAR expression RPAR SEMIC    {
-//         auto data = $1;
-//         data.code_block_back = $2;
-//         $$ = create_do_control_flow(ctx, $1, $5);
-//     }
-//     | jump_statement    {
-//         log("[non_split_statement:] jump_statement\n");
-//         $$ = $1;
-//     }
+    }
     | expression_statement    {
         log("[non_split_statement:] expression_statement\n");
         $$ = $1;
     }
-//     | compound_statement    {
-//         log("[non_split_statement:] jump_statement\n");
-//         $$ = $1;
-//     }
 ;
 
 split_expression:
@@ -1458,8 +1124,8 @@ split_expression:
         log("[split_statement:] if_statement_head statement\n");
         auto &&expression_data = $1;
         auto &data = expression_data.if_data;
-        data.if_block_back = ctx->builder()->GetInsertBlock();
         expression_data.store_to_result(ctx, $2);
+        data.if_block_back = ctx->builder()->GetInsertBlock();
         exit_block(ctx);
         ctx->builder()->SetInsertPoint(data.continue_block);
         
@@ -1471,47 +1137,15 @@ split_expression:
         auto &&expression_data = $1;
         auto &data = expression_data.if_data;
         expression_data.store_to_result(ctx, $2);
+        data.else_block_back = ctx->builder()->GetInsertBlock();
         exit_block(ctx);
         ctx->builder()->SetInsertPoint(data.continue_block);
          
         expression_data.block = create_if_control_flow(ctx, data);
         $$ = expression_data;
      }
-//     | while_statement_head split_statement    {
-//         $$ = create_while_control_flow(ctx, $1);
-//     }
-//     | FOR LPAR expression_opt SEMIC expression_opt SEMIC expression_opt RPAR split_statement    {
-//         // FIXME: Implement
-//         $$ = ctx->builder()->GetInsertBlock();
-//     }
-//     | do_statement_head split_statement WHILE LPAR expression RPAR SEMIC    {
-//         auto data = $1;
-//         data.code_block_back = $2;
-//         $$ = create_do_control_flow(ctx, $1, $5);
-//     }
 ;
 
-// jump_statement:
-//     RETURN expression_opt SEMIC {
-//         log("[jump_statement:] ");
-//         // auto ret_obs = static_cast<cecko::CKIRConstantIntObs>($2);
-//         auto ret_obs = $2;
-//         if (ret_obs.is_valid()) {
-//             log("return val\n");
-//             if (ret_obs.type != ctx->current_function_return_type())
-//                 ctx->builder()->CreateRet(ret_obs.to_type(ctx->current_function_return_type()->get_ir()).read_ir());
-//             else
-//                 ctx->builder()->CreateRet(ret_obs.read_ir());
-//         }
-//         else {
-//             log("return void\n");
-//             ctx->builder()->CreateRetVoid();
-//         }
-
-//         ctx->builder()->ClearInsertionPoint();
-//         $$ = ctx->builder()->GetInsertBlock();
-//     }
-// ;
 
 /////////////////////////////////
 

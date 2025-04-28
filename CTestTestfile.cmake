@@ -7,4 +7,3 @@
 subdirs("fmwk")
 subdirs("stud-sol")
 subdirs("stud-main")
-subdirs("stud-test")

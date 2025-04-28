@@ -17,7 +17,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "fmwk/CMakeLists.txt"
   "main/CMakeLists.txt"
   "solution/CMakeLists.txt"
-  "test/CMakeLists.txt"
   "/usr/lib/llvm-14/cmake/LLVMConfigVersion.cmake"
   "/usr/lib/llvm-15/cmake/FindFFI.cmake"
   "/usr/lib/llvm-15/cmake/FindTerminfo.cmake"
@@ -71,7 +70,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "fmwk/CMakeFiles/CMakeDirectoryInformation.cmake"
   "stud-sol/CMakeFiles/CMakeDirectoryInformation.cmake"
   "stud-main/CMakeFiles/CMakeDirectoryInformation.cmake"
-  "stud-test/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
