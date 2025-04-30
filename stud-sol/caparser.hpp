@@ -687,64 +687,65 @@ namespace cecko {
         S_YYACCEPT = 39,                         // $accept
         S_translation_unit = 40,                 // translation_unit
         S_external_declaration = 41,             // external_declaration
-        S_expression_end = 42,                   // expression_end
-        S_function_definition = 43,              // function_definition
-        S_function_definition_info = 44,         // function_definition_info
-        S_function_definition_head = 45,         // function_definition_head
-        S_primary_expression = 46,               // primary_expression
-        S_postfix_expression = 47,               // postfix_expression
-        S_argument_expression_list = 48,         // argument_expression_list
-        S_unary_expression = 49,                 // unary_expression
-        S_unary_operator = 50,                   // unary_operator
-        S_cast_expression = 51,                  // cast_expression
-        S_multiplicative_expression = 52,        // multiplicative_expression
-        S_additive_expression = 53,              // additive_expression
-        S_relational_expression = 54,            // relational_expression
-        S_equality_expression = 55,              // equality_expression
-        S_logical_and_expression = 56,           // logical_and_expression
-        S_logical_or_expression = 57,            // logical_or_expression
-        S_assignment_expression = 58,            // assignment_expression
-        S_assignment_operator = 59,              // assignment_operator
-        S_match_head = 60,                       // match_head
-        S_match_expression = 61,                 // match_expression
-        S_match_binders_list = 62,               // match_binders_list
-        S_match_binders_list_head_start = 63,    // match_binders_list_head_start
-        S_match_binders_list_head = 64,          // match_binders_list_head
-        S_match_binder_head = 65,                // match_binder_head
-        S_match_binder_definer = 66,             // match_binder_definer
-        S_match_binder_arguments_list = 67,      // match_binder_arguments_list
-        S_expression_body = 68,                  // expression_body
-        S_expression = 69,                       // expression
-        S_declaration_specifiers = 70,           // declaration_specifiers
-        S_declaration_specifier = 71,            // declaration_specifier
-        S_type_specifier = 72,                   // type_specifier
-        S_declared_type_name = 73,               // declared_type_name
-        S_enumtype_decl_head = 74,               // enumtype_decl_head
-        S_block_start = 75,                      // block_start
-        S_block_end = 76,                        // block_end
-        S_enumtype_decl_specifier = 77,          // enumtype_decl_specifier
-        S_member_types_declaration_list = 78,    // member_types_declaration_list
-        S_member_types_declaration = 79,         // member_types_declaration
-        S_member_declaration_list = 80,          // member_declaration_list
-        S_member_declaration = 81,               // member_declaration
-        S_specifier_qualifier_list = 82,         // specifier_qualifier_list
-        S_type_specifier_qualifier = 83,         // type_specifier_qualifier
-        S_member_declarator = 84,                // member_declarator
-        S_declarator = 85,                       // declarator
-        S_pointer = 86,                          // pointer
-        S_direct_declarator = 87,                // direct_declarator
-        S_function_declarator = 88,              // function_declarator
-        S_parameter_type_list = 89,              // parameter_type_list
-        S_parameter_list = 90,                   // parameter_list
-        S_parameter_declaration = 91,            // parameter_declaration
-        S_typedef_name = 92,                     // typedef_name
-        S_expression_statement = 93,             // expression_statement
-        S_if_expression_head = 94,               // if_expression_head
-        S_if_non_split_expression = 95,          // if_non_split_expression
-        S_if_non_split_expression_else = 96,     // if_non_split_expression_else
-        S_flow_expression = 97,                  // flow_expression
-        S_non_split_expression = 98,             // non_split_expression
-        S_split_expression = 99                  // split_expression
+        S_new_lines = 42,                        // new_lines
+        S_expression_end = 43,                   // expression_end
+        S_function_definition = 44,              // function_definition
+        S_function_definition_info = 45,         // function_definition_info
+        S_function_definition_head = 46,         // function_definition_head
+        S_primary_expression = 47,               // primary_expression
+        S_postfix_expression = 48,               // postfix_expression
+        S_argument_expression_list = 49,         // argument_expression_list
+        S_unary_expression = 50,                 // unary_expression
+        S_unary_operator = 51,                   // unary_operator
+        S_cast_expression = 52,                  // cast_expression
+        S_multiplicative_expression = 53,        // multiplicative_expression
+        S_additive_expression = 54,              // additive_expression
+        S_relational_expression = 55,            // relational_expression
+        S_equality_expression = 56,              // equality_expression
+        S_logical_and_expression = 57,           // logical_and_expression
+        S_logical_or_expression = 58,            // logical_or_expression
+        S_assignment_expression = 59,            // assignment_expression
+        S_assignment_operator = 60,              // assignment_operator
+        S_match_head = 61,                       // match_head
+        S_match_expression = 62,                 // match_expression
+        S_match_binders_list = 63,               // match_binders_list
+        S_match_binders_list_head_start = 64,    // match_binders_list_head_start
+        S_match_binders_list_head = 65,          // match_binders_list_head
+        S_match_binder_head = 66,                // match_binder_head
+        S_match_binder_definer = 67,             // match_binder_definer
+        S_match_binder_arguments_list = 68,      // match_binder_arguments_list
+        S_expression_body = 69,                  // expression_body
+        S_expression = 70,                       // expression
+        S_declaration_specifiers = 71,           // declaration_specifiers
+        S_declaration_specifier = 72,            // declaration_specifier
+        S_type_specifier = 73,                   // type_specifier
+        S_declared_type_name = 74,               // declared_type_name
+        S_enumtype_decl_head = 75,               // enumtype_decl_head
+        S_block_start = 76,                      // block_start
+        S_block_end = 77,                        // block_end
+        S_enumtype_decl_specifier = 78,          // enumtype_decl_specifier
+        S_member_types_declaration_list = 79,    // member_types_declaration_list
+        S_member_types_declaration = 80,         // member_types_declaration
+        S_member_declaration_list = 81,          // member_declaration_list
+        S_member_declaration = 82,               // member_declaration
+        S_specifier_qualifier_list = 83,         // specifier_qualifier_list
+        S_type_specifier_qualifier = 84,         // type_specifier_qualifier
+        S_member_declarator = 85,                // member_declarator
+        S_declarator = 86,                       // declarator
+        S_pointer = 87,                          // pointer
+        S_direct_declarator = 88,                // direct_declarator
+        S_function_declarator = 89,              // function_declarator
+        S_parameter_type_list = 90,              // parameter_type_list
+        S_parameter_list = 91,                   // parameter_list
+        S_parameter_declaration = 92,            // parameter_declaration
+        S_typedef_name = 93,                     // typedef_name
+        S_expression_statement = 94,             // expression_statement
+        S_if_expression_head = 95,               // if_expression_head
+        S_if_non_split_expression = 96,          // if_non_split_expression
+        S_if_non_split_expression_else = 97,     // if_non_split_expression_else
+        S_flow_expression = 98,                  // flow_expression
+        S_non_split_expression = 99,             // non_split_expression
+        S_split_expression = 100                 // split_expression
       };
     };
 
@@ -2661,8 +2662,8 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 147,     ///< Last index in yytable_.
-      yynnts_ = 61,  ///< Number of nonterminal symbols.
+      yylast_ = 152,     ///< Last index in yytable_.
+      yynnts_ = 62,  ///< Number of nonterminal symbols.
       yyfinal_ = 19 ///< Termination state number.
     };
 
@@ -3122,7 +3123,7 @@ switch (yykind)
 
 #line 7 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
 } // cecko
-#line 3126 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.hpp"
+#line 3127 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.hpp"
 
 
 

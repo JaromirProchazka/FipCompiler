@@ -22,6 +22,8 @@ namespace casem
     const std::string res_label = "_result";
     const std::string print_label = "log";
     const std::string pair_type = "Pair";
+    const std::string tupple3_type = "Tuple3";
+    const std::string tupple4_type = "Tuple4";
     const std::string tagged_parent_type = "object";
     const std::string tagged_child_type = "Tagged";
     bool support_functions_defined = false;
@@ -109,7 +111,7 @@ namespace casem
         auto p = find_ttype(expected_parent_label);
         auto c = find_ttype(expected_child_label);
 
-        return p.first <= c.first && c.first < p.second;
+        return (p.first <= c.first && c.first < p.second) || (p.first == c.first && p.second == c.second);
     }
 
     long fetch_ttype_size(cecko::context *ctx, cecko::CIName &label)
@@ -690,7 +692,11 @@ namespace casem
 
         cecko::CKStructItem pair_first(ttype_pack, "first", ctx->line());
         cecko::CKStructItem pair_second(ttype_pack, "second", ctx->line());
+        cecko::CKStructItem pair_third(ttype_pack, "third", ctx->line());
+        cecko::CKStructItem pair_forth(ttype_pack, "forth", ctx->line());
         declare_child_ttype(ctx, pair_type, {pair_first, pair_second}, false);
+        declare_child_ttype(ctx, tupple3_type, {pair_first, pair_second, pair_third}, false);
+        declare_child_ttype(ctx, tupple4_type, {pair_first, pair_second, pair_third, pair_forth}, false);
 
         support_functions_defined = true;
     }
@@ -1043,6 +1049,11 @@ namespace casem
         // return init_instruction_function_call(ctx, init_instruction_from_name(ctx, constructor_name), {});
     }
 
+    bool is_non_heap_type(cecko::CIName &label)
+    {
+        return label == pair_type || label == tupple3_type || label == tupple4_type;
+    }
+
     InstructionWrapper handle_log_call(cecko::context *ctx, casem::InstructionArray params)
     {
         InstructionWrapper arg;
@@ -1079,7 +1090,7 @@ namespace casem
         cecko::CIName constructor_name;
         auto type_rtoken_count = find_ttype_size(label);
         // FIXME: implement better the conditions for reusing
-        if (fip_state.is_in_fip_mode() && type_rtoken_count > 0 && label != pair_type) // Types with no reuse tokens are not reused
+        if (fip_state.is_in_fip_mode() && type_rtoken_count > 0 && !is_non_heap_type(label)) // Types with no reuse tokens are not reused
         {
             auto &&to_be_reused = fip_state.reuse(type_rtoken_count);
             if (!to_be_reused.valid)

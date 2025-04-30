@@ -42,7 +42,7 @@ if [ $replace_flag -eq 1 ]; then
 fi
 
 # Build the compiler
-cmake -DCMAKE_BUILD_TYPE=Debug . && cmake --build .
+cmake . && cmake --build .
 
 # Compile utils library
 clang++ -c -fPIE compiled_programs_data/.lib/ck_utils.cpp -o compiled_programs_data/.lib/ck_utils.o
@@ -50,7 +50,6 @@ clang++ -c -fPIE compiled_programs_data/.lib/ck_utils.cpp -o compiled_programs_d
 # Disable immediate exit for the loop processing
 set +e
 
-# Determine file pattern based on --basics flag
 if [ $basics_flag -eq 1 ]; then
     file_pattern="./test/basic_*.ffip"
     echo "Processing only basic test files..."
@@ -61,15 +60,12 @@ fi
 
 # Process each .ffip file in the test directory
 for ffip_file in $file_pattern; do
-    # Get filename without path and extension
     base=$(basename "$ffip_file" .ffip)
     
     echo "[generate_fip_tests_data] Processing $base.ffip..."
 
-    # Initialize error flag for this file
     error_occurred=0
 
-    # Make dir for the generation results
     mkdir -p ./compiled_programs_data/${base}/
 
     echo "[generate_fip_tests_data] Folder ./compiled_programs_data/$base/ for results made"

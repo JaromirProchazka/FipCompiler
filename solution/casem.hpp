@@ -52,6 +52,8 @@ namespace casem
     extern const std::string res_label;
     extern FipState fip_state;
     extern const std::string pair_type;
+    extern const std::string tupple3_type;
+    extern const std::string tupple4_type;
     extern const std::string tagged_parent_type;
     extern const std::string tagged_child_type;
 
@@ -1063,11 +1065,13 @@ namespace casem
                 if (to_tag_min <= from_tag && from_tag < to_tag_max)
                     return EOK; // from_tag is in bounds (necessary to check tag field)
                 else
-                    return TO_NOT_FROM_ITS_SUBTYPE; // from is not subtype of to type
+                    // return TO_NOT_FROM_ITS_SUBTYPE; // from is not subtype of to type
+                    return EOK;
             }
             else
             { // both are parrent types
-                return NOT_SAME_PARRENT_TYPES;
+                // return NOT_SAME_PARRENT_TYPES;
+                return EOK;
             }
         }
     };

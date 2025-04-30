@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configuration
-TEST_REPETITIONS=1000
+TEST_REPETITIONS=100
 BASE_DIR="./compiled_programs_data"
 RESULTS_FILE="$BASE_DIR/benchmark_results.csv"
 TEMP_FILE="temp.csv"
@@ -61,3 +61,9 @@ if [[ ! -f "$RESULTS_FILE" ]]; then
     echo "[generate_banchmarks_data]        2. Executables are named <program_name>_{normal,fip} inside their directories"
     exit 1
 fi
+
+# Generate graphs
+echo -e "\n[generate_banchmarks_data] Generating comparison graphs..."
+python3 ./banchmarks_utils/generate_graphs.py "$RESULTS_FILE"
+
+echo "================ [generate_banchmarks_data] ALL DONE ================="

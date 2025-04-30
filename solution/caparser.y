@@ -204,8 +204,13 @@ external_declaration:
     }
 ;
 
-expression_end:
+new_lines:
     NEWLINE
+    | new_lines NEWLINE
+;
+
+expression_end:
+    new_lines
     | EOF
 ;
 
@@ -790,18 +795,18 @@ enumtype_decl_head:
 
 block_start:
     LCUR
-    | LCUR NEWLINE 
+    | LCUR new_lines 
 ;
 
 block_end:
     RCUR
-    | NEWLINE RCUR
+    | new_lines RCUR
 ;
 
 enumtype_decl_specifier:
-    enumtype_decl_head block_start member_types_declaration_list block_end NEWLINE  {
+    enumtype_decl_head block_start member_types_declaration_list block_end new_lines  {
         // FIXME: Handle tag range
-        log("[enumtype_decl_specifier:] enumtype_decl_head block_start member_types_declaration_list block_end NEWLINE\n");
+        log("[enumtype_decl_specifier:] enumtype_decl_head block_start member_types_declaration_list block_end new_lines\n");
         $$ = TaggedTypeDecl::finish_parent_ttype(ctx, $1);
     }
 ;
