@@ -1342,6 +1342,12 @@ namespace cecko
 		{
 			return CKGetInt32Constant(builder_.getContext(), v);
 		}
+
+		CKIRNull get_null_constant(CKPtrTypeObs type)
+		{
+			return CKGetNull(type->get_ir());
+		}
+
 		/// @}
 
 		/// @name Basic blocks

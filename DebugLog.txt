@@ -4,27 +4,25 @@ source_filename = "test"
 %Pair = type { i32, ptr, ptr }
 %Tuple3 = type { i32, ptr, ptr, ptr }
 %Tuple4 = type { i32, ptr, ptr, ptr, ptr }
-%Tagged = type { i32 }
+%Boolean = type { i32, i32 }
 %Elem = type { i32, i32 }
 %elem = type { i32 }
 %Unit2 = type { i32, i32, i32 }
-%Nothing2 = type { i32 }
 %Just2 = type { i32, ptr, i32 }
 %SCons = type { i32, ptr, ptr }
 %STuple = type { i32, ptr, ptr }
 %Sublist = type { i32, ptr, ptr }
 %Singleton = type { i32, ptr, ptr }
-%End = type { i32 }
-%Nil_elem = type { i32 }
 %Cons_elem = type { i32, ptr, ptr }
-%list_elem = type { i32 }
 %unit2 = type { i32 }
-%sublist = type { i32 }
+%list_elem = type { i32 }
 %partition = type { i32 }
+%sublist = type { i32 }
 
 @Pair_global_stored = global %Pair zeroinitializer
 @Tuple3_global_stored = global %Tuple3 zeroinitializer
 @Tuple4_global_stored = global %Tuple4 zeroinitializer
+@Boolean_global_stored = global %Boolean zeroinitializer
 @0 = private unnamed_addr constant [4 x i8] c"->\0A\00", align 1
 @1 = private unnamed_addr constant [6 x i8] c"%i %s\00", align 1
 @2 = private unnamed_addr constant [5 x i8] c"Nil\0A\00", align 1
@@ -45,38 +43,10 @@ declare ptr @ckrt_memset(ptr, i32, i32)
 
 define ptr @_const_Tagged() {
 prolog:
-  %_result = alloca ptr, align 8
   br label %start
 
 start:                                            ; preds = %prolog
-  %0 = call ptr @ckrt_malloc(i32 8)
-  store ptr %0, ptr %_result, align 8
-  %"$_result" = load ptr, ptr %_result, align 8
-  %_result._tag = getelementptr inbounds %Tagged, ptr %"$_result", i32 0, i32 0
-  store i32 0, ptr %_result._tag, align 4
-  %"$_result1" = load ptr, ptr %_result, align 8
-  %_result._tag2 = getelementptr inbounds %Tagged, ptr %"$_result1", i32 0, i32 0
-  %"$_result3" = load ptr, ptr %_result, align 8
-  ret ptr %"$_result3"
-}
-
-define ptr @_reuse_Tagged(ptr %0) {
-prolog:
-  %"@ru" = alloca ptr, align 8
-  store ptr %0, ptr %"@ru", align 8
-  %_result = alloca ptr, align 8
-  br label %start
-
-start:                                            ; preds = %prolog
-  %"$@ru" = load ptr, ptr %"@ru", align 8
-  store ptr %"$@ru", ptr %_result, align 8
-  %"$_result" = load ptr, ptr %_result, align 8
-  %_result._tag = getelementptr inbounds %Tagged, ptr %"$_result", i32 0, i32 0
-  store i32 0, ptr %_result._tag, align 4
-  %"$_result1" = load ptr, ptr %_result, align 8
-  %_result._tag2 = getelementptr inbounds %Tagged, ptr %"$_result1", i32 0, i32 0
-  %"$_result3" = load ptr, ptr %_result, align 8
-  ret ptr %"$_result3"
+  ret ptr null
 }
 
 define ptr @_const_Pair(ptr %0, ptr %1) {
@@ -181,6 +151,28 @@ start:                                            ; preds = %prolog
   ret ptr %"$_result7"
 }
 
+define ptr @_const_Boolean(i32 %0) {
+prolog:
+  %value = alloca i32, align 4
+  store i32 %0, ptr %value, align 4
+  %_result = alloca ptr, align 8
+  br label %start
+
+start:                                            ; preds = %prolog
+  store ptr @Boolean_global_stored, ptr %_result, align 8
+  %"$_result" = load ptr, ptr %_result, align 8
+  %_result._tag = getelementptr inbounds %Boolean, ptr %"$_result", i32 0, i32 0
+  store i32 4, ptr %_result._tag, align 4
+  %"$_result1" = load ptr, ptr %_result, align 8
+  %_result._tag2 = getelementptr inbounds %Boolean, ptr %"$_result1", i32 0, i32 0
+  %"$_result3" = load ptr, ptr %_result, align 8
+  %_result.value = getelementptr inbounds %Boolean, ptr %"$_result3", i32 0, i32 1
+  %"$value" = load i32, ptr %value, align 4
+  store i32 %"$value", ptr %_result.value, align 4
+  %"$_result4" = load ptr, ptr %_result, align 8
+  ret ptr %"$_result4"
+}
+
 define ptr @_const_Elem(i32 %0) {
 prolog:
   %val = alloca i32, align 4
@@ -193,7 +185,7 @@ start:                                            ; preds = %prolog
   store ptr %1, ptr %_result, align 8
   %"$_result" = load ptr, ptr %_result, align 8
   %_result._tag = getelementptr inbounds %Elem, ptr %"$_result", i32 0, i32 0
-  store i32 4, ptr %_result._tag, align 4
+  store i32 5, ptr %_result._tag, align 4
   %"$_result1" = load ptr, ptr %_result, align 8
   %_result._tag2 = getelementptr inbounds %Elem, ptr %"$_result1", i32 0, i32 0
   %"$_result3" = load ptr, ptr %_result, align 8
@@ -218,7 +210,7 @@ start:                                            ; preds = %prolog
   store ptr %"$@ru", ptr %_result, align 8
   %"$_result" = load ptr, ptr %_result, align 8
   %_result._tag = getelementptr inbounds %Elem, ptr %"$_result", i32 0, i32 0
-  store i32 4, ptr %_result._tag, align 4
+  store i32 5, ptr %_result._tag, align 4
   %"$_result1" = load ptr, ptr %_result, align 8
   %_result._tag2 = getelementptr inbounds %Elem, ptr %"$_result1", i32 0, i32 0
   %"$_result3" = load ptr, ptr %_result, align 8
@@ -241,8 +233,8 @@ start:                                            ; preds = %prolog
   %"$e" = load ptr, ptr %e, align 8
   %e.tag = getelementptr inbounds %elem, ptr %"$e", i32 0, i32 0
   %"$e.tag" = load i32, ptr %e.tag, align 4
-  %"e==4" = icmp eq i32 %"$e.tag", 4
-  br i1 %"e==4", label %if.then, label %if.end
+  %"e==5" = icmp eq i32 %"$e.tag", 5
+  br i1 %"e==5", label %if.then, label %if.end
 
 if.then:                                          ; preds = %start
   %"$e1" = load ptr, ptr %e, align 8
@@ -272,7 +264,7 @@ start:                                            ; preds = %prolog
   store ptr %2, ptr %_result, align 8
   %"$_result" = load ptr, ptr %_result, align 8
   %_result._tag = getelementptr inbounds %Unit2, ptr %"$_result", i32 0, i32 0
-  store i32 5, ptr %_result._tag, align 4
+  store i32 6, ptr %_result._tag, align 4
   %"$_result1" = load ptr, ptr %_result, align 8
   %_result._tag2 = getelementptr inbounds %Unit2, ptr %"$_result1", i32 0, i32 0
   %"$_result3" = load ptr, ptr %_result, align 8
@@ -303,7 +295,7 @@ start:                                            ; preds = %prolog
   store ptr %"$@ru", ptr %_result, align 8
   %"$_result" = load ptr, ptr %_result, align 8
   %_result._tag = getelementptr inbounds %Unit2, ptr %"$_result", i32 0, i32 0
-  store i32 5, ptr %_result._tag, align 4
+  store i32 6, ptr %_result._tag, align 4
   %"$_result1" = load ptr, ptr %_result, align 8
   %_result._tag2 = getelementptr inbounds %Unit2, ptr %"$_result1", i32 0, i32 0
   %"$_result3" = load ptr, ptr %_result, align 8
@@ -320,38 +312,10 @@ start:                                            ; preds = %prolog
 
 define ptr @_const_Nothing2() {
 prolog:
-  %_result = alloca ptr, align 8
   br label %start
 
 start:                                            ; preds = %prolog
-  %0 = call ptr @ckrt_malloc(i32 8)
-  store ptr %0, ptr %_result, align 8
-  %"$_result" = load ptr, ptr %_result, align 8
-  %_result._tag = getelementptr inbounds %Nothing2, ptr %"$_result", i32 0, i32 0
-  store i32 6, ptr %_result._tag, align 4
-  %"$_result1" = load ptr, ptr %_result, align 8
-  %_result._tag2 = getelementptr inbounds %Nothing2, ptr %"$_result1", i32 0, i32 0
-  %"$_result3" = load ptr, ptr %_result, align 8
-  ret ptr %"$_result3"
-}
-
-define ptr @_reuse_Nothing2(ptr %0) {
-prolog:
-  %"@ru" = alloca ptr, align 8
-  store ptr %0, ptr %"@ru", align 8
-  %_result = alloca ptr, align 8
-  br label %start
-
-start:                                            ; preds = %prolog
-  %"$@ru" = load ptr, ptr %"@ru", align 8
-  store ptr %"$@ru", ptr %_result, align 8
-  %"$_result" = load ptr, ptr %_result, align 8
-  %_result._tag = getelementptr inbounds %Nothing2, ptr %"$_result", i32 0, i32 0
-  store i32 6, ptr %_result._tag, align 4
-  %"$_result1" = load ptr, ptr %_result, align 8
-  %_result._tag2 = getelementptr inbounds %Nothing2, ptr %"$_result1", i32 0, i32 0
-  %"$_result3" = load ptr, ptr %_result, align 8
-  ret ptr %"$_result3"
+  ret ptr null
 }
 
 define ptr @_const_Just2(ptr %0, i32 %1) {
@@ -368,7 +332,7 @@ start:                                            ; preds = %prolog
   store ptr %2, ptr %_result, align 8
   %"$_result" = load ptr, ptr %_result, align 8
   %_result._tag = getelementptr inbounds %Just2, ptr %"$_result", i32 0, i32 0
-  store i32 7, ptr %_result._tag, align 4
+  store i32 8, ptr %_result._tag, align 4
   %"$_result1" = load ptr, ptr %_result, align 8
   %_result._tag2 = getelementptr inbounds %Just2, ptr %"$_result1", i32 0, i32 0
   %"$_result3" = load ptr, ptr %_result, align 8
@@ -399,7 +363,7 @@ start:                                            ; preds = %prolog
   store ptr %"$@ru", ptr %_result, align 8
   %"$_result" = load ptr, ptr %_result, align 8
   %_result._tag = getelementptr inbounds %Just2, ptr %"$_result", i32 0, i32 0
-  store i32 7, ptr %_result._tag, align 4
+  store i32 8, ptr %_result._tag, align 4
   %"$_result1" = load ptr, ptr %_result, align 8
   %_result._tag2 = getelementptr inbounds %Just2, ptr %"$_result1", i32 0, i32 0
   %"$_result3" = load ptr, ptr %_result, align 8
@@ -428,7 +392,7 @@ start:                                            ; preds = %prolog
   store ptr %2, ptr %_result, align 8
   %"$_result" = load ptr, ptr %_result, align 8
   %_result._tag = getelementptr inbounds %SCons, ptr %"$_result", i32 0, i32 0
-  store i32 8, ptr %_result._tag, align 4
+  store i32 9, ptr %_result._tag, align 4
   %"$_result1" = load ptr, ptr %_result, align 8
   %_result._tag2 = getelementptr inbounds %SCons, ptr %"$_result1", i32 0, i32 0
   %"$_result3" = load ptr, ptr %_result, align 8
@@ -459,7 +423,7 @@ start:                                            ; preds = %prolog
   store ptr %"$@ru", ptr %_result, align 8
   %"$_result" = load ptr, ptr %_result, align 8
   %_result._tag = getelementptr inbounds %SCons, ptr %"$_result", i32 0, i32 0
-  store i32 8, ptr %_result._tag, align 4
+  store i32 9, ptr %_result._tag, align 4
   %"$_result1" = load ptr, ptr %_result, align 8
   %_result._tag2 = getelementptr inbounds %SCons, ptr %"$_result1", i32 0, i32 0
   %"$_result3" = load ptr, ptr %_result, align 8
@@ -488,7 +452,7 @@ start:                                            ; preds = %prolog
   store ptr %2, ptr %_result, align 8
   %"$_result" = load ptr, ptr %_result, align 8
   %_result._tag = getelementptr inbounds %STuple, ptr %"$_result", i32 0, i32 0
-  store i32 9, ptr %_result._tag, align 4
+  store i32 10, ptr %_result._tag, align 4
   %"$_result1" = load ptr, ptr %_result, align 8
   %_result._tag2 = getelementptr inbounds %STuple, ptr %"$_result1", i32 0, i32 0
   %"$_result3" = load ptr, ptr %_result, align 8
@@ -519,7 +483,7 @@ start:                                            ; preds = %prolog
   store ptr %"$@ru", ptr %_result, align 8
   %"$_result" = load ptr, ptr %_result, align 8
   %_result._tag = getelementptr inbounds %STuple, ptr %"$_result", i32 0, i32 0
-  store i32 9, ptr %_result._tag, align 4
+  store i32 10, ptr %_result._tag, align 4
   %"$_result1" = load ptr, ptr %_result, align 8
   %_result._tag2 = getelementptr inbounds %STuple, ptr %"$_result1", i32 0, i32 0
   %"$_result3" = load ptr, ptr %_result, align 8
@@ -548,7 +512,7 @@ start:                                            ; preds = %prolog
   store ptr %2, ptr %_result, align 8
   %"$_result" = load ptr, ptr %_result, align 8
   %_result._tag = getelementptr inbounds %Sublist, ptr %"$_result", i32 0, i32 0
-  store i32 10, ptr %_result._tag, align 4
+  store i32 11, ptr %_result._tag, align 4
   %"$_result1" = load ptr, ptr %_result, align 8
   %_result._tag2 = getelementptr inbounds %Sublist, ptr %"$_result1", i32 0, i32 0
   %"$_result3" = load ptr, ptr %_result, align 8
@@ -579,7 +543,7 @@ start:                                            ; preds = %prolog
   store ptr %"$@ru", ptr %_result, align 8
   %"$_result" = load ptr, ptr %_result, align 8
   %_result._tag = getelementptr inbounds %Sublist, ptr %"$_result", i32 0, i32 0
-  store i32 10, ptr %_result._tag, align 4
+  store i32 11, ptr %_result._tag, align 4
   %"$_result1" = load ptr, ptr %_result, align 8
   %_result._tag2 = getelementptr inbounds %Sublist, ptr %"$_result1", i32 0, i32 0
   %"$_result3" = load ptr, ptr %_result, align 8
@@ -608,7 +572,7 @@ start:                                            ; preds = %prolog
   store ptr %2, ptr %_result, align 8
   %"$_result" = load ptr, ptr %_result, align 8
   %_result._tag = getelementptr inbounds %Singleton, ptr %"$_result", i32 0, i32 0
-  store i32 11, ptr %_result._tag, align 4
+  store i32 12, ptr %_result._tag, align 4
   %"$_result1" = load ptr, ptr %_result, align 8
   %_result._tag2 = getelementptr inbounds %Singleton, ptr %"$_result1", i32 0, i32 0
   %"$_result3" = load ptr, ptr %_result, align 8
@@ -639,7 +603,7 @@ start:                                            ; preds = %prolog
   store ptr %"$@ru", ptr %_result, align 8
   %"$_result" = load ptr, ptr %_result, align 8
   %_result._tag = getelementptr inbounds %Singleton, ptr %"$_result", i32 0, i32 0
-  store i32 11, ptr %_result._tag, align 4
+  store i32 12, ptr %_result._tag, align 4
   %"$_result1" = load ptr, ptr %_result, align 8
   %_result._tag2 = getelementptr inbounds %Singleton, ptr %"$_result1", i32 0, i32 0
   %"$_result3" = load ptr, ptr %_result, align 8
@@ -656,74 +620,18 @@ start:                                            ; preds = %prolog
 
 define ptr @_const_End() {
 prolog:
-  %_result = alloca ptr, align 8
   br label %start
 
 start:                                            ; preds = %prolog
-  %0 = call ptr @ckrt_malloc(i32 8)
-  store ptr %0, ptr %_result, align 8
-  %"$_result" = load ptr, ptr %_result, align 8
-  %_result._tag = getelementptr inbounds %End, ptr %"$_result", i32 0, i32 0
-  store i32 12, ptr %_result._tag, align 4
-  %"$_result1" = load ptr, ptr %_result, align 8
-  %_result._tag2 = getelementptr inbounds %End, ptr %"$_result1", i32 0, i32 0
-  %"$_result3" = load ptr, ptr %_result, align 8
-  ret ptr %"$_result3"
-}
-
-define ptr @_reuse_End(ptr %0) {
-prolog:
-  %"@ru" = alloca ptr, align 8
-  store ptr %0, ptr %"@ru", align 8
-  %_result = alloca ptr, align 8
-  br label %start
-
-start:                                            ; preds = %prolog
-  %"$@ru" = load ptr, ptr %"@ru", align 8
-  store ptr %"$@ru", ptr %_result, align 8
-  %"$_result" = load ptr, ptr %_result, align 8
-  %_result._tag = getelementptr inbounds %End, ptr %"$_result", i32 0, i32 0
-  store i32 12, ptr %_result._tag, align 4
-  %"$_result1" = load ptr, ptr %_result, align 8
-  %_result._tag2 = getelementptr inbounds %End, ptr %"$_result1", i32 0, i32 0
-  %"$_result3" = load ptr, ptr %_result, align 8
-  ret ptr %"$_result3"
+  ret ptr null
 }
 
 define ptr @_const_Nil_elem() {
 prolog:
-  %_result = alloca ptr, align 8
   br label %start
 
 start:                                            ; preds = %prolog
-  %0 = call ptr @ckrt_malloc(i32 8)
-  store ptr %0, ptr %_result, align 8
-  %"$_result" = load ptr, ptr %_result, align 8
-  %_result._tag = getelementptr inbounds %Nil_elem, ptr %"$_result", i32 0, i32 0
-  store i32 13, ptr %_result._tag, align 4
-  %"$_result1" = load ptr, ptr %_result, align 8
-  %_result._tag2 = getelementptr inbounds %Nil_elem, ptr %"$_result1", i32 0, i32 0
-  %"$_result3" = load ptr, ptr %_result, align 8
-  ret ptr %"$_result3"
-}
-
-define ptr @_reuse_Nil_elem(ptr %0) {
-prolog:
-  %"@ru" = alloca ptr, align 8
-  store ptr %0, ptr %"@ru", align 8
-  %_result = alloca ptr, align 8
-  br label %start
-
-start:                                            ; preds = %prolog
-  %"$@ru" = load ptr, ptr %"@ru", align 8
-  store ptr %"$@ru", ptr %_result, align 8
-  %"$_result" = load ptr, ptr %_result, align 8
-  %_result._tag = getelementptr inbounds %Nil_elem, ptr %"$_result", i32 0, i32 0
-  store i32 13, ptr %_result._tag, align 4
-  %"$_result1" = load ptr, ptr %_result, align 8
-  %_result._tag2 = getelementptr inbounds %Nil_elem, ptr %"$_result1", i32 0, i32 0
-  %"$_result3" = load ptr, ptr %_result, align 8
-  ret ptr %"$_result3"
+  ret ptr null
 }
 
 define ptr @_const_Cons_elem(ptr %0, ptr %1) {
@@ -740,7 +648,7 @@ start:                                            ; preds = %prolog
   store ptr %2, ptr %_result, align 8
   %"$_result" = load ptr, ptr %_result, align 8
   %_result._tag = getelementptr inbounds %Cons_elem, ptr %"$_result", i32 0, i32 0
-  store i32 14, ptr %_result._tag, align 4
+  store i32 15, ptr %_result._tag, align 4
   %"$_result1" = load ptr, ptr %_result, align 8
   %_result._tag2 = getelementptr inbounds %Cons_elem, ptr %"$_result1", i32 0, i32 0
   %"$_result3" = load ptr, ptr %_result, align 8
@@ -771,7 +679,7 @@ start:                                            ; preds = %prolog
   store ptr %"$@ru", ptr %_result, align 8
   %"$_result" = load ptr, ptr %_result, align 8
   %_result._tag = getelementptr inbounds %Cons_elem, ptr %"$_result", i32 0, i32 0
-  store i32 14, ptr %_result._tag, align 4
+  store i32 15, ptr %_result._tag, align 4
   %"$_result1" = load ptr, ptr %_result, align 8
   %_result._tag2 = getelementptr inbounds %Cons_elem, ptr %"$_result1", i32 0, i32 0
   %"$_result3" = load ptr, ptr %_result, align 8
@@ -797,100 +705,80 @@ prolog:
   %xs = alloca ptr, align 8
   store ptr %3, ptr %xs, align 8
   %4 = alloca ptr, align 8
-  %z = alloca ptr, align 8
-  %zs = alloca ptr, align 8
   %5 = alloca ptr, align 8
   %_1 = alloca i32, align 4
   %_2 = alloca i32, align 4
+  %z = alloca ptr, align 8
+  %zs = alloca ptr, align 8
   br label %start
 
 start:                                            ; preds = %prolog
   %"$xs" = load ptr, ptr %xs, align 8
-  %xs.tag = getelementptr inbounds %list_elem, ptr %"$xs", i32 0, i32 0
-  %"$xs.tag" = load i32, ptr %xs.tag, align 4
-  %"xs==14" = icmp eq i32 %"$xs.tag", 14
-  br i1 %"xs==14", label %if.then, label %if.end
+  %"(bool)xs" = icmp ne ptr %"$xs", null
+  %"!(bool)xs" = xor i1 %"(bool)xs", true
+  br i1 %"!(bool)xs", label %if.then, label %if.else
 
 if.then:                                          ; preds = %start
-  %"$xs1" = load ptr, ptr %xs, align 8
-  %"xs.[1]" = getelementptr inbounds %Cons_elem, ptr %"$xs1", i32 0, i32 1
-  %"$xs.[1]" = load ptr, ptr %"xs.[1]", align 8
-  store ptr %"$xs.[1]", ptr %z, align 8
-  %"$xs2" = load ptr, ptr %xs, align 8
-  %"xs.[2]" = getelementptr inbounds %Cons_elem, ptr %"$xs2", i32 0, i32 2
-  %"$xs.[2]" = load ptr, ptr %"xs.[2]", align 8
-  store ptr %"$xs.[2]", ptr %zs, align 8
-  %"$y" = load ptr, ptr %y, align 8
-  %"$z" = load ptr, ptr %z, align 8
   %"$u" = load ptr, ptr %u, align 8
-  %"$zs" = load ptr, ptr %zs, align 8
-  %6 = call ptr @from_list(ptr %"$y", ptr %"$z", ptr %"$u", ptr %"$zs")
-  %"$xs3" = load ptr, ptr %xs, align 8
-  %"$x" = load ptr, ptr %x, align 8
-  %7 = call ptr @_reuse_SCons(ptr %"$xs3", ptr %"$x", ptr %6)
-  store ptr %7, ptr %4, align 8
-  br label %if.end
-
-if.end:                                           ; preds = %if.then, %start
-  %"$xs4" = load ptr, ptr %xs, align 8
-  %xs.tag5 = getelementptr inbounds %list_elem, ptr %"$xs4", i32 0, i32 0
-  %"$xs.tag6" = load i32, ptr %xs.tag5, align 4
-  %"xs==13" = icmp eq i32 %"$xs.tag6", 13
-  br i1 %"xs==13", label %if.then7, label %if.end8
-
-if.then7:                                         ; preds = %if.end
-  %"$u9" = load ptr, ptr %u, align 8
-  %u.tag = getelementptr inbounds %unit2, ptr %"$u9", i32 0, i32 0
+  %u.tag = getelementptr inbounds %unit2, ptr %"$u", i32 0, i32 0
   %"$u.tag" = load i32, ptr %u.tag, align 4
-  %"u==5" = icmp eq i32 %"$u.tag", 5
-  br i1 %"u==5", label %if.then10, label %if.end11
+  %"u==6" = icmp eq i32 %"$u.tag", 6
+  br i1 %"u==6", label %if.then1, label %if.end2
 
-if.end8:                                          ; preds = %if.end18, %if.end
-  %"$21" = load ptr, ptr %4, align 8
-  %"(bool)22" = icmp ne ptr %"$21", null
-  %"!23" = xor i1 %"(bool)22", true
-  br i1 %"!23", label %if.then24, label %if.end25
+if.end:                                           ; preds = %if.end8, %if.end2
+  %"$15" = load ptr, ptr %4, align 8
+  ret ptr %"$15"
 
-if.then10:                                        ; preds = %if.then7
-  %"$u12" = load ptr, ptr %u, align 8
-  %"u.[1]" = getelementptr inbounds %Unit2, ptr %"$u12", i32 0, i32 1
+if.then1:                                         ; preds = %if.then
+  %"$u3" = load ptr, ptr %u, align 8
+  %"u.[1]" = getelementptr inbounds %Unit2, ptr %"$u3", i32 0, i32 1
   %"$u.[1]" = load i32, ptr %"u.[1]", align 4
   store i32 %"$u.[1]", ptr %_1, align 4
-  %"$u13" = load ptr, ptr %u, align 8
-  %"u.[2]" = getelementptr inbounds %Unit2, ptr %"$u13", i32 0, i32 2
+  %"$u4" = load ptr, ptr %u, align 8
+  %"u.[2]" = getelementptr inbounds %Unit2, ptr %"$u4", i32 0, i32 2
   %"$u.[2]" = load i32, ptr %"u.[2]", align 4
   store i32 %"$u.[2]", ptr %_2, align 4
-  %"$u14" = load ptr, ptr %u, align 8
-  %"$x15" = load ptr, ptr %x, align 8
-  %"$y16" = load ptr, ptr %y, align 8
-  %8 = call ptr @_reuse_STuple(ptr %"$u14", ptr %"$x15", ptr %"$y16")
-  store ptr %8, ptr %5, align 8
-  br label %if.end11
+  %"$u5" = load ptr, ptr %u, align 8
+  %"$x" = load ptr, ptr %x, align 8
+  %"$y" = load ptr, ptr %y, align 8
+  %6 = call ptr @_reuse_STuple(ptr %"$u5", ptr %"$x", ptr %"$y")
+  store ptr %6, ptr %5, align 8
+  br label %if.end2
 
-if.end11:                                         ; preds = %if.then10, %if.then7
+if.end2:                                          ; preds = %if.then1, %if.then
   %"$" = load ptr, ptr %5, align 8
-  %"(bool)" = icmp ne ptr %"$", null
-  %"!" = xor i1 %"(bool)", true
-  br i1 %"!", label %if.then17, label %if.end18
+  store ptr %"$", ptr %4, align 8
+  br label %if.end
 
-if.then17:                                        ; preds = %if.end11
-  %"$19" = load ptr, ptr %5, align 8
-  %.tag = getelementptr inbounds %sublist, ptr %"$19", i32 0, i32 0
-  unreachable
+if.else:                                          ; preds = %start
+  %"$xs6" = load ptr, ptr %xs, align 8
+  %xs.tag = getelementptr inbounds %list_elem, ptr %"$xs6", i32 0, i32 0
+  %"$xs.tag" = load i32, ptr %xs.tag, align 4
+  %"xs==15" = icmp eq i32 %"$xs.tag", 15
+  br i1 %"xs==15", label %if.then7, label %if.end8
 
-if.end18:                                         ; preds = %if.end11
-  %"$20" = load ptr, ptr %5, align 8
-  store ptr %"$20", ptr %4, align 8
+if.then7:                                         ; preds = %if.else
+  %"$xs9" = load ptr, ptr %xs, align 8
+  %"xs.[1]" = getelementptr inbounds %Cons_elem, ptr %"$xs9", i32 0, i32 1
+  %"$xs.[1]" = load ptr, ptr %"xs.[1]", align 8
+  store ptr %"$xs.[1]", ptr %z, align 8
+  %"$xs10" = load ptr, ptr %xs, align 8
+  %"xs.[2]" = getelementptr inbounds %Cons_elem, ptr %"$xs10", i32 0, i32 2
+  %"$xs.[2]" = load ptr, ptr %"xs.[2]", align 8
+  store ptr %"$xs.[2]", ptr %zs, align 8
+  %"$y11" = load ptr, ptr %y, align 8
+  %"$z" = load ptr, ptr %z, align 8
+  %"$u12" = load ptr, ptr %u, align 8
+  %"$zs" = load ptr, ptr %zs, align 8
+  %7 = call ptr @from_list(ptr %"$y11", ptr %"$z", ptr %"$u12", ptr %"$zs")
+  %"$xs13" = load ptr, ptr %xs, align 8
+  %"$x14" = load ptr, ptr %x, align 8
+  %8 = call ptr @_reuse_SCons(ptr %"$xs13", ptr %"$x14", ptr %7)
+  store ptr %8, ptr %4, align 8
   br label %if.end8
 
-if.then24:                                        ; preds = %if.end8
-  %"$26" = load ptr, ptr %4, align 8
-  %.tag27 = getelementptr inbounds %sublist, ptr %"$26", i32 0, i32 0
-  unreachable
-
-if.end25:                                         ; preds = %if.end8
-  %"$28" = load ptr, ptr %4, align 8
-  ret ptr %"$28"
+if.end8:                                          ; preds = %if.then7, %if.else
+  br label %if.end
 }
 
 define ptr @to_bundle(ptr %0, ptr %1) {
@@ -909,104 +797,86 @@ prolog:
 
 start:                                            ; preds = %prolog
   %"$xs" = load ptr, ptr %xs, align 8
-  %xs.tag = getelementptr inbounds %list_elem, ptr %"$xs", i32 0, i32 0
-  %"$xs.tag" = load i32, ptr %xs.tag, align 4
-  %"xs==14" = icmp eq i32 %"$xs.tag", 14
-  br i1 %"xs==14", label %if.then, label %if.end
+  %"(bool)xs" = icmp ne ptr %"$xs", null
+  %"!(bool)xs" = xor i1 %"(bool)xs", true
+  br i1 %"!(bool)xs", label %if.then, label %if.else
 
 if.then:                                          ; preds = %start
+  %"$bdl_" = load ptr, ptr %bdl_, align 8
+  store ptr %"$bdl_", ptr %2, align 8
+  br label %if.end
+
+if.end:                                           ; preds = %if.end3, %if.then
+  %"$20" = load ptr, ptr %2, align 8
+  ret ptr %"$20"
+
+if.else:                                          ; preds = %start
   %"$xs1" = load ptr, ptr %xs, align 8
-  %"xs.[1]" = getelementptr inbounds %Cons_elem, ptr %"$xs1", i32 0, i32 1
+  %xs.tag = getelementptr inbounds %list_elem, ptr %"$xs1", i32 0, i32 0
+  %"$xs.tag" = load i32, ptr %xs.tag, align 4
+  %"xs==15" = icmp eq i32 %"$xs.tag", 15
+  br i1 %"xs==15", label %if.then2, label %if.end3
+
+if.then2:                                         ; preds = %if.else
+  %"$xs4" = load ptr, ptr %xs, align 8
+  %"xs.[1]" = getelementptr inbounds %Cons_elem, ptr %"$xs4", i32 0, i32 1
   %"$xs.[1]" = load ptr, ptr %"xs.[1]", align 8
   store ptr %"$xs.[1]", ptr %x, align 8
-  %"$xs2" = load ptr, ptr %xs, align 8
-  %"xs.[2]" = getelementptr inbounds %Cons_elem, ptr %"$xs2", i32 0, i32 2
+  %"$xs5" = load ptr, ptr %xs, align 8
+  %"xs.[2]" = getelementptr inbounds %Cons_elem, ptr %"$xs5", i32 0, i32 2
   %"$xs.[2]" = load ptr, ptr %"xs.[2]", align 8
   store ptr %"$xs.[2]", ptr %next, align 8
   %"$next" = load ptr, ptr %next, align 8
-  %next.tag = getelementptr inbounds %list_elem, ptr %"$next", i32 0, i32 0
+  %"(bool)next" = icmp ne ptr %"$next", null
+  %"!(bool)next" = xor i1 %"(bool)next", true
+  br i1 %"!(bool)next", label %if.then6, label %if.else10
+
+if.end3:                                          ; preds = %if.end7, %if.else
+  br label %if.end
+
+if.then6:                                         ; preds = %if.then2
+  %"$xs8" = load ptr, ptr %xs, align 8
+  %"$x" = load ptr, ptr %x, align 8
+  %"$bdl_9" = load ptr, ptr %bdl_, align 8
+  %4 = call ptr @_reuse_Singleton(ptr %"$xs8", ptr %"$x", ptr %"$bdl_9")
+  store ptr %4, ptr %3, align 8
+  br label %if.end7
+
+if.end7:                                          ; preds = %if.end13, %if.then6
+  %"$" = load ptr, ptr %3, align 8
+  store ptr %"$", ptr %2, align 8
+  br label %if.end3
+
+if.else10:                                        ; preds = %if.then2
+  %"$next11" = load ptr, ptr %next, align 8
+  %next.tag = getelementptr inbounds %list_elem, ptr %"$next11", i32 0, i32 0
   %"$next.tag" = load i32, ptr %next.tag, align 4
-  %"next==14" = icmp eq i32 %"$next.tag", 14
-  br i1 %"next==14", label %if.then3, label %if.end4
+  %"next==15" = icmp eq i32 %"$next.tag", 15
+  br i1 %"next==15", label %if.then12, label %if.end13
 
-if.end:                                           ; preds = %if.end18, %start
-  %"$xs21" = load ptr, ptr %xs, align 8
-  %xs.tag22 = getelementptr inbounds %list_elem, ptr %"$xs21", i32 0, i32 0
-  %"$xs.tag23" = load i32, ptr %xs.tag22, align 4
-  %"xs==13" = icmp eq i32 %"$xs.tag23", 13
-  br i1 %"xs==13", label %if.then24, label %if.end25
-
-if.then3:                                         ; preds = %if.then
-  %"$next5" = load ptr, ptr %next, align 8
-  %"next.[1]" = getelementptr inbounds %Cons_elem, ptr %"$next5", i32 0, i32 1
+if.then12:                                        ; preds = %if.else10
+  %"$next14" = load ptr, ptr %next, align 8
+  %"next.[1]" = getelementptr inbounds %Cons_elem, ptr %"$next14", i32 0, i32 1
   %"$next.[1]" = load ptr, ptr %"next.[1]", align 8
   store ptr %"$next.[1]", ptr %y, align 8
-  %"$next6" = load ptr, ptr %next, align 8
-  %"next.[2]" = getelementptr inbounds %Cons_elem, ptr %"$next6", i32 0, i32 2
+  %"$next15" = load ptr, ptr %next, align 8
+  %"next.[2]" = getelementptr inbounds %Cons_elem, ptr %"$next15", i32 0, i32 2
   %"$next.[2]" = load ptr, ptr %"next.[2]", align 8
   store ptr %"$next.[2]", ptr %yy, align 8
-  %"$next7" = load ptr, ptr %next, align 8
-  %4 = call ptr @_reuse_Unit2(ptr %"$next7", i32 0, i32 0)
-  %"$x" = load ptr, ptr %x, align 8
+  %"$next16" = load ptr, ptr %next, align 8
+  %5 = call ptr @_reuse_Unit2(ptr %"$next16", i32 0, i32 0)
+  %"$x17" = load ptr, ptr %x, align 8
   %"$y" = load ptr, ptr %y, align 8
   %"$yy" = load ptr, ptr %yy, align 8
-  %5 = call ptr @from_list(ptr %"$x", ptr %"$y", ptr %4, ptr %"$yy")
-  %"$xs8" = load ptr, ptr %xs, align 8
-  %"$bdl_" = load ptr, ptr %bdl_, align 8
-  %6 = call ptr @_reuse_Sublist(ptr %"$xs8", ptr %5, ptr %"$bdl_")
-  store ptr %6, ptr %3, align 8
-  br label %if.end4
-
-if.end4:                                          ; preds = %if.then3, %if.then
-  %"$next9" = load ptr, ptr %next, align 8
-  %next.tag10 = getelementptr inbounds %list_elem, ptr %"$next9", i32 0, i32 0
-  %"$next.tag11" = load i32, ptr %next.tag10, align 4
-  %"next==13" = icmp eq i32 %"$next.tag11", 13
-  br i1 %"next==13", label %if.then12, label %if.end13
-
-if.then12:                                        ; preds = %if.end4
-  %"$xs14" = load ptr, ptr %xs, align 8
-  %"$x15" = load ptr, ptr %x, align 8
-  %"$bdl_16" = load ptr, ptr %bdl_, align 8
-  %7 = call ptr @_reuse_Singleton(ptr %"$xs14", ptr %"$x15", ptr %"$bdl_16")
+  %6 = call ptr @from_list(ptr %"$x17", ptr %"$y", ptr %5, ptr %"$yy")
+  %"$xs18" = load ptr, ptr %xs, align 8
+  %"$bdl_19" = load ptr, ptr %bdl_, align 8
+  %7 = call ptr @_reuse_Sublist(ptr %"$xs18", ptr %6, ptr %"$bdl_19")
   store ptr %7, ptr %3, align 8
   br label %if.end13
 
-if.end13:                                         ; preds = %if.then12, %if.end4
-  %"$" = load ptr, ptr %3, align 8
-  %"(bool)" = icmp ne ptr %"$", null
-  %"!" = xor i1 %"(bool)", true
-  br i1 %"!", label %if.then17, label %if.end18
-
-if.then17:                                        ; preds = %if.end13
-  %"$19" = load ptr, ptr %3, align 8
-  %.tag = getelementptr inbounds %partition, ptr %"$19", i32 0, i32 0
-  unreachable
-
-if.end18:                                         ; preds = %if.end13
-  %"$20" = load ptr, ptr %3, align 8
-  store ptr %"$20", ptr %2, align 8
-  br label %if.end
-
-if.then24:                                        ; preds = %if.end
-  %"$bdl_26" = load ptr, ptr %bdl_, align 8
-  store ptr %"$bdl_26", ptr %2, align 8
-  br label %if.end25
-
-if.end25:                                         ; preds = %if.then24, %if.end
-  %"$27" = load ptr, ptr %2, align 8
-  %"(bool)28" = icmp ne ptr %"$27", null
-  %"!29" = xor i1 %"(bool)28", true
-  br i1 %"!29", label %if.then30, label %if.end31
-
-if.then30:                                        ; preds = %if.end25
-  %"$32" = load ptr, ptr %2, align 8
-  %.tag33 = getelementptr inbounds %partition, ptr %"$32", i32 0, i32 0
-  unreachable
-
-if.end31:                                         ; preds = %if.end25
-  %"$34" = load ptr, ptr %2, align 8
-  ret ptr %"$34"
+if.end13:                                         ; preds = %if.then12, %if.else10
+  br label %if.end7
 }
 
 define ptr @quicksort_go(ptr %0) {
@@ -1025,204 +895,173 @@ prolog:
   %x = alloca ptr, align 8
   %y = alloca ptr, align 8
   %_result = alloca ptr, align 8
-  %p52 = alloca ptr, align 8
+  %p45 = alloca ptr, align 8
   %b = alloca ptr, align 8
   br label %start
 
 start:                                            ; preds = %prolog
   %"$bdl" = load ptr, ptr %bdl, align 8
-  %bdl.tag = getelementptr inbounds %partition, ptr %"$bdl", i32 0, i32 0
-  %"$bdl.tag" = load i32, ptr %bdl.tag, align 4
-  %"bdl==10" = icmp eq i32 %"$bdl.tag", 10
-  br i1 %"bdl==10", label %if.then, label %if.end
+  %"(bool)bdl" = icmp ne ptr %"$bdl", null
+  %"!(bool)bdl" = xor i1 %"(bool)bdl", true
+  br i1 %"!(bool)bdl", label %if.then, label %if.else
 
 if.then:                                          ; preds = %start
+  %4 = call ptr @_const_Nil_elem()
+  store ptr %4, ptr %1, align 8
+  br label %if.end
+
+if.end:                                           ; preds = %if.end44, %if.then
+  %"$54" = load ptr, ptr %1, align 8
+  ret ptr %"$54"
+
+if.else:                                          ; preds = %start
   %"$bdl1" = load ptr, ptr %bdl, align 8
-  %"bdl.[1]" = getelementptr inbounds %Sublist, ptr %"$bdl1", i32 0, i32 1
+  %bdl.tag = getelementptr inbounds %partition, ptr %"$bdl1", i32 0, i32 0
+  %"$bdl.tag" = load i32, ptr %bdl.tag, align 4
+  %"bdl==11" = icmp eq i32 %"$bdl.tag", 11
+  br i1 %"bdl==11", label %if.then2, label %if.end3
+
+if.then2:                                         ; preds = %if.else
+  %"$bdl4" = load ptr, ptr %bdl, align 8
+  %"bdl.[1]" = getelementptr inbounds %Sublist, ptr %"$bdl4", i32 0, i32 1
   %"$bdl.[1]" = load ptr, ptr %"bdl.[1]", align 8
   store ptr %"$bdl.[1]", ptr %xs, align 8
-  %"$bdl2" = load ptr, ptr %bdl, align 8
-  %"bdl.[2]" = getelementptr inbounds %Sublist, ptr %"$bdl2", i32 0, i32 2
+  %"$bdl5" = load ptr, ptr %bdl, align 8
+  %"bdl.[2]" = getelementptr inbounds %Sublist, ptr %"$bdl5", i32 0, i32 2
   %"$bdl.[2]" = load ptr, ptr %"bdl.[2]", align 8
   store ptr %"$bdl.[2]", ptr %bdl_, align 8
   %"$xs" = load ptr, ptr %xs, align 8
   %xs.tag = getelementptr inbounds %sublist, ptr %"$xs", i32 0, i32 0
   %"$xs.tag" = load i32, ptr %xs.tag, align 4
-  %"xs==8" = icmp eq i32 %"$xs.tag", 8
-  br i1 %"xs==8", label %if.then3, label %if.end4
+  %"xs==9" = icmp eq i32 %"$xs.tag", 9
+  br i1 %"xs==9", label %if.then6, label %if.end7
 
-if.end:                                           ; preds = %if.end43, %start
-  %"$bdl47" = load ptr, ptr %bdl, align 8
-  %bdl.tag48 = getelementptr inbounds %partition, ptr %"$bdl47", i32 0, i32 0
-  %"$bdl.tag49" = load i32, ptr %bdl.tag48, align 4
-  %"bdl==11" = icmp eq i32 %"$bdl.tag49", 11
-  br i1 %"bdl==11", label %if.then50, label %if.end51
+if.end3:                                          ; preds = %if.end19, %if.else
+  %"$bdl40" = load ptr, ptr %bdl, align 8
+  %bdl.tag41 = getelementptr inbounds %partition, ptr %"$bdl40", i32 0, i32 0
+  %"$bdl.tag42" = load i32, ptr %bdl.tag41, align 4
+  %"bdl==12" = icmp eq i32 %"$bdl.tag42", 12
+  br i1 %"bdl==12", label %if.then43, label %if.end44
 
-if.then3:                                         ; preds = %if.then
-  %"$xs5" = load ptr, ptr %xs, align 8
-  %"xs.[1]" = getelementptr inbounds %SCons, ptr %"$xs5", i32 0, i32 1
+if.then6:                                         ; preds = %if.then2
+  %"$xs8" = load ptr, ptr %xs, align 8
+  %"xs.[1]" = getelementptr inbounds %SCons, ptr %"$xs8", i32 0, i32 1
   %"$xs.[1]" = load ptr, ptr %"xs.[1]", align 8
   store ptr %"$xs.[1]", ptr %p, align 8
-  %"$xs6" = load ptr, ptr %xs, align 8
-  %"xs.[2]" = getelementptr inbounds %SCons, ptr %"$xs6", i32 0, i32 2
+  %"$xs9" = load ptr, ptr %xs, align 8
+  %"xs.[2]" = getelementptr inbounds %SCons, ptr %"$xs9", i32 0, i32 2
   %"$xs.[2]" = load ptr, ptr %"xs.[2]", align 8
   store ptr %"$xs.[2]", ptr %xx, align 8
-  %"$bdl7" = load ptr, ptr %bdl, align 8
-  %4 = call ptr @_reuse_Unit2(ptr %"$bdl7", i32 0, i32 0)
+  %"$bdl10" = load ptr, ptr %bdl, align 8
+  %5 = call ptr @_reuse_Unit2(ptr %"$bdl10", i32 0, i32 0)
   %"$p" = load ptr, ptr %p, align 8
   %"$xx" = load ptr, ptr %xx, align 8
-  %5 = call ptr @partition(ptr %"$p", ptr %"$xx", ptr %4)
-  %partition_call.tag = getelementptr inbounds %Pair, ptr %5, i32 0, i32 0
+  %6 = call ptr @partition(ptr %"$p", ptr %"$xx", ptr %5)
+  %partition_call.tag = getelementptr inbounds %Pair, ptr %6, i32 0, i32 0
   %"$partition_call.tag" = load i32, ptr %partition_call.tag, align 4
   %"partition_call==1" = icmp eq i32 %"$partition_call.tag", 1
-  br i1 %"partition_call==1", label %if.then8, label %if.end9
+  br i1 %"partition_call==1", label %if.then11, label %if.end12
 
-if.end4:                                          ; preds = %if.end13, %if.then
-  %"$xs16" = load ptr, ptr %xs, align 8
-  %xs.tag17 = getelementptr inbounds %sublist, ptr %"$xs16", i32 0, i32 0
-  %"$xs.tag18" = load i32, ptr %xs.tag17, align 4
-  %"xs==9" = icmp eq i32 %"$xs.tag18", 9
-  br i1 %"xs==9", label %if.then19, label %if.end20
+if.end7:                                          ; preds = %if.end12, %if.then2
+  %"$xs15" = load ptr, ptr %xs, align 8
+  %xs.tag16 = getelementptr inbounds %sublist, ptr %"$xs15", i32 0, i32 0
+  %"$xs.tag17" = load i32, ptr %xs.tag16, align 4
+  %"xs==10" = icmp eq i32 %"$xs.tag17", 10
+  br i1 %"xs==10", label %if.then18, label %if.end19
 
-if.then8:                                         ; preds = %if.then3
-  %"partition_call.[1]" = getelementptr inbounds %Pair, ptr %5, i32 0, i32 1
+if.then11:                                        ; preds = %if.then6
+  %"partition_call.[1]" = getelementptr inbounds %Pair, ptr %6, i32 0, i32 1
   %"$partition_call.[1]" = load ptr, ptr %"partition_call.[1]", align 8
   store ptr %"$partition_call.[1]", ptr %lo, align 8
-  %"partition_call.[2]" = getelementptr inbounds %Pair, ptr %5, i32 0, i32 2
+  %"partition_call.[2]" = getelementptr inbounds %Pair, ptr %6, i32 0, i32 2
   %"$partition_call.[2]" = load ptr, ptr %"partition_call.[2]", align 8
   store ptr %"$partition_call.[2]", ptr %hi, align 8
   %"$hi" = load ptr, ptr %hi, align 8
   %"$bdl_" = load ptr, ptr %bdl_, align 8
-  %6 = call ptr @to_bundle(ptr %"$hi", ptr %"$bdl_")
-  %"$xs10" = load ptr, ptr %xs, align 8
-  %"$p11" = load ptr, ptr %p, align 8
-  %7 = call ptr @_reuse_Singleton(ptr %"$xs10", ptr %"$p11", ptr %6)
+  %7 = call ptr @to_bundle(ptr %"$hi", ptr %"$bdl_")
+  %"$xs13" = load ptr, ptr %xs, align 8
+  %"$p14" = load ptr, ptr %p, align 8
+  %8 = call ptr @_reuse_Singleton(ptr %"$xs13", ptr %"$p14", ptr %7)
   %"$lo" = load ptr, ptr %lo, align 8
-  %8 = call ptr @to_bundle(ptr %"$lo", ptr %7)
-  %9 = call ptr @quicksort_go(ptr %8)
-  store ptr %9, ptr %3, align 8
-  br label %if.end9
+  %9 = call ptr @to_bundle(ptr %"$lo", ptr %8)
+  %10 = call ptr @quicksort_go(ptr %9)
+  store ptr %10, ptr %3, align 8
+  br label %if.end12
 
-if.end9:                                          ; preds = %if.then8, %if.then3
+if.end12:                                         ; preds = %if.then11, %if.then6
   %"$" = load ptr, ptr %3, align 8
-  %"(bool)" = icmp ne ptr %"$", null
-  %"!" = xor i1 %"(bool)", true
-  br i1 %"!", label %if.then12, label %if.end13
+  store ptr %"$", ptr %2, align 8
+  br label %if.end7
 
-if.then12:                                        ; preds = %if.end9
-  %"$14" = load ptr, ptr %3, align 8
-  %.tag = getelementptr inbounds %Pair, ptr %"$14", i32 0, i32 0
-  unreachable
-
-if.end13:                                         ; preds = %if.end9
-  %"$15" = load ptr, ptr %3, align 8
-  store ptr %"$15", ptr %2, align 8
-  br label %if.end4
-
-if.then19:                                        ; preds = %if.end4
-  %"$xs21" = load ptr, ptr %xs, align 8
-  %"xs.[1]22" = getelementptr inbounds %STuple, ptr %"$xs21", i32 0, i32 1
-  %"$xs.[1]23" = load ptr, ptr %"xs.[1]22", align 8
-  store ptr %"$xs.[1]23", ptr %x, align 8
-  %"$xs24" = load ptr, ptr %xs, align 8
-  %"xs.[2]25" = getelementptr inbounds %STuple, ptr %"$xs24", i32 0, i32 2
-  %"$xs.[2]26" = load ptr, ptr %"xs.[2]25", align 8
-  store ptr %"$xs.[2]26", ptr %y, align 8
+if.then18:                                        ; preds = %if.end7
+  %"$xs20" = load ptr, ptr %xs, align 8
+  %"xs.[1]21" = getelementptr inbounds %STuple, ptr %"$xs20", i32 0, i32 1
+  %"$xs.[1]22" = load ptr, ptr %"xs.[1]21", align 8
+  store ptr %"$xs.[1]22", ptr %x, align 8
+  %"$xs23" = load ptr, ptr %xs, align 8
+  %"xs.[2]24" = getelementptr inbounds %STuple, ptr %"$xs23", i32 0, i32 2
+  %"$xs.[2]25" = load ptr, ptr %"xs.[2]24", align 8
+  store ptr %"$xs.[2]25", ptr %y, align 8
   %"$x" = load ptr, ptr %x, align 8
-  %10 = call i32 @_elem(ptr %"$x")
+  %11 = call i32 @_elem(ptr %"$x")
   %"$y" = load ptr, ptr %y, align 8
-  %11 = call i32 @_elem(ptr %"$y")
-  %"_elem_call<=_elem_call" = icmp sle i32 %10, %11
-  br i1 %"_elem_call<=_elem_call", label %if.then27, label %if.else
+  %12 = call i32 @_elem(ptr %"$y")
+  %"_elem_call<=_elem_call" = icmp sle i32 %11, %12
+  br i1 %"_elem_call<=_elem_call", label %if.then26, label %if.else33
 
-if.end20:                                         ; preds = %if.end28, %if.end4
+if.end19:                                         ; preds = %if.end27, %if.end7
   %"$39" = load ptr, ptr %2, align 8
-  %"(bool)40" = icmp ne ptr %"$39", null
-  %"!41" = xor i1 %"(bool)40", true
-  br i1 %"!41", label %if.then42, label %if.end43
+  store ptr %"$39", ptr %1, align 8
+  br label %if.end3
 
-if.then27:                                        ; preds = %if.then19
-  %"$bdl_29" = load ptr, ptr %bdl_, align 8
-  %12 = call ptr @quicksort_go(ptr %"$bdl_29")
-  %"$bdl30" = load ptr, ptr %bdl, align 8
-  %"$y31" = load ptr, ptr %y, align 8
-  %13 = call ptr @_reuse_Cons_elem(ptr %"$bdl30", ptr %"$y31", ptr %12)
-  %"$xs32" = load ptr, ptr %xs, align 8
-  %"$x33" = load ptr, ptr %x, align 8
-  %14 = call ptr @_reuse_Cons_elem(ptr %"$xs32", ptr %"$x33", ptr %13)
-  store ptr %14, ptr %_result, align 8
-  br label %if.end28
+if.then26:                                        ; preds = %if.then18
+  %"$bdl_28" = load ptr, ptr %bdl_, align 8
+  %13 = call ptr @quicksort_go(ptr %"$bdl_28")
+  %"$bdl29" = load ptr, ptr %bdl, align 8
+  %"$y30" = load ptr, ptr %y, align 8
+  %14 = call ptr @_reuse_Cons_elem(ptr %"$bdl29", ptr %"$y30", ptr %13)
+  %"$xs31" = load ptr, ptr %xs, align 8
+  %"$x32" = load ptr, ptr %x, align 8
+  %15 = call ptr @_reuse_Cons_elem(ptr %"$xs31", ptr %"$x32", ptr %14)
+  store ptr %15, ptr %_result, align 8
+  br label %if.end27
 
-if.end28:                                         ; preds = %if.else, %if.then27
+if.end27:                                         ; preds = %if.else33, %if.then26
   %"$_result" = load ptr, ptr %_result, align 8
   store ptr %"$_result", ptr %2, align 8
-  br label %if.end20
+  br label %if.end19
 
-if.else:                                          ; preds = %if.then19
+if.else33:                                        ; preds = %if.then18
   %"$bdl_34" = load ptr, ptr %bdl_, align 8
-  %15 = call ptr @quicksort_go(ptr %"$bdl_34")
+  %16 = call ptr @quicksort_go(ptr %"$bdl_34")
   %"$bdl35" = load ptr, ptr %bdl, align 8
   %"$x36" = load ptr, ptr %x, align 8
-  %16 = call ptr @_reuse_Cons_elem(ptr %"$bdl35", ptr %"$x36", ptr %15)
+  %17 = call ptr @_reuse_Cons_elem(ptr %"$bdl35", ptr %"$x36", ptr %16)
   %"$xs37" = load ptr, ptr %xs, align 8
   %"$y38" = load ptr, ptr %y, align 8
-  %17 = call ptr @_reuse_Cons_elem(ptr %"$xs37", ptr %"$y38", ptr %16)
-  store ptr %17, ptr %_result, align 8
-  br label %if.end28
+  %18 = call ptr @_reuse_Cons_elem(ptr %"$xs37", ptr %"$y38", ptr %17)
+  store ptr %18, ptr %_result, align 8
+  br label %if.end27
 
-if.then42:                                        ; preds = %if.end20
-  %"$44" = load ptr, ptr %2, align 8
-  %.tag45 = getelementptr inbounds %list_elem, ptr %"$44", i32 0, i32 0
-  unreachable
-
-if.end43:                                         ; preds = %if.end20
-  %"$46" = load ptr, ptr %2, align 8
-  store ptr %"$46", ptr %1, align 8
-  br label %if.end
-
-if.then50:                                        ; preds = %if.end
-  %"$bdl53" = load ptr, ptr %bdl, align 8
-  %"bdl.[1]54" = getelementptr inbounds %Singleton, ptr %"$bdl53", i32 0, i32 1
-  %"$bdl.[1]55" = load ptr, ptr %"bdl.[1]54", align 8
-  store ptr %"$bdl.[1]55", ptr %p52, align 8
-  %"$bdl56" = load ptr, ptr %bdl, align 8
-  %"bdl.[2]57" = getelementptr inbounds %Singleton, ptr %"$bdl56", i32 0, i32 2
-  %"$bdl.[2]58" = load ptr, ptr %"bdl.[2]57", align 8
-  store ptr %"$bdl.[2]58", ptr %b, align 8
+if.then43:                                        ; preds = %if.end3
+  %"$bdl46" = load ptr, ptr %bdl, align 8
+  %"bdl.[1]47" = getelementptr inbounds %Singleton, ptr %"$bdl46", i32 0, i32 1
+  %"$bdl.[1]48" = load ptr, ptr %"bdl.[1]47", align 8
+  store ptr %"$bdl.[1]48", ptr %p45, align 8
+  %"$bdl49" = load ptr, ptr %bdl, align 8
+  %"bdl.[2]50" = getelementptr inbounds %Singleton, ptr %"$bdl49", i32 0, i32 2
+  %"$bdl.[2]51" = load ptr, ptr %"bdl.[2]50", align 8
+  store ptr %"$bdl.[2]51", ptr %b, align 8
   %"$b" = load ptr, ptr %b, align 8
-  %18 = call ptr @quicksort_go(ptr %"$b")
-  %"$bdl59" = load ptr, ptr %bdl, align 8
-  %"$p60" = load ptr, ptr %p52, align 8
-  %19 = call ptr @_reuse_Cons_elem(ptr %"$bdl59", ptr %"$p60", ptr %18)
-  store ptr %19, ptr %1, align 8
-  br label %if.end51
-
-if.end51:                                         ; preds = %if.then50, %if.end
-  %"$bdl61" = load ptr, ptr %bdl, align 8
-  %bdl.tag62 = getelementptr inbounds %partition, ptr %"$bdl61", i32 0, i32 0
-  %"$bdl.tag63" = load i32, ptr %bdl.tag62, align 4
-  %"bdl==12" = icmp eq i32 %"$bdl.tag63", 12
-  br i1 %"bdl==12", label %if.then64, label %if.end65
-
-if.then64:                                        ; preds = %if.end51
-  %20 = call ptr @_const_Nil_elem()
+  %19 = call ptr @quicksort_go(ptr %"$b")
+  %"$bdl52" = load ptr, ptr %bdl, align 8
+  %"$p53" = load ptr, ptr %p45, align 8
+  %20 = call ptr @_reuse_Cons_elem(ptr %"$bdl52", ptr %"$p53", ptr %19)
   store ptr %20, ptr %1, align 8
-  br label %if.end65
+  br label %if.end44
 
-if.end65:                                         ; preds = %if.then64, %if.end51
-  %"$66" = load ptr, ptr %1, align 8
-  %"(bool)67" = icmp ne ptr %"$66", null
-  %"!68" = xor i1 %"(bool)67", true
-  br i1 %"!68", label %if.then69, label %if.end70
-
-if.then69:                                        ; preds = %if.end65
-  %"$71" = load ptr, ptr %1, align 8
-  %.tag72 = getelementptr inbounds %list_elem, ptr %"$71", i32 0, i32 0
-  unreachable
-
-if.end70:                                         ; preds = %if.end65
-  %"$73" = load ptr, ptr %1, align 8
-  ret ptr %"$73"
+if.end44:                                         ; preds = %if.then43, %if.end3
+  br label %if.end
 }
 
 define ptr @partition(ptr %0, ptr %1, ptr %2) {
@@ -1241,24 +1080,24 @@ prolog:
   %lo = alloca ptr, align 8
   %hi = alloca ptr, align 8
   %5 = alloca ptr, align 8
-  %lo22 = alloca ptr, align 8
-  %hi25 = alloca ptr, align 8
-  %x45 = alloca ptr, align 8
+  %lo18 = alloca ptr, align 8
+  %hi21 = alloca ptr, align 8
+  %x34 = alloca ptr, align 8
   %y = alloca ptr, align 8
   %6 = alloca ptr, align 8
   %_1 = alloca i32, align 4
   %_2 = alloca i32, align 4
-  %_result62 = alloca ptr, align 8
-  %_result67 = alloca ptr, align 8
-  %_result84 = alloca ptr, align 8
+  %_result51 = alloca ptr, align 8
+  %_result56 = alloca ptr, align 8
+  %_result73 = alloca ptr, align 8
   br label %start
 
 start:                                            ; preds = %prolog
   %"$xs" = load ptr, ptr %xs, align 8
   %xs.tag = getelementptr inbounds %sublist, ptr %"$xs", i32 0, i32 0
   %"$xs.tag" = load i32, ptr %xs.tag, align 4
-  %"xs==8" = icmp eq i32 %"$xs.tag", 8
-  br i1 %"xs==8", label %if.then, label %if.end
+  %"xs==9" = icmp eq i32 %"$xs.tag", 9
+  br i1 %"xs==9", label %if.then, label %if.end
 
 if.then:                                          ; preds = %start
   %"$xs1" = load ptr, ptr %xs, align 8
@@ -1277,11 +1116,11 @@ if.then:                                          ; preds = %start
   br i1 %"_elem_call<=_elem_call", label %if.then3, label %if.else
 
 if.end:                                           ; preds = %if.end4, %start
-  %"$xs40" = load ptr, ptr %xs, align 8
-  %xs.tag41 = getelementptr inbounds %sublist, ptr %"$xs40", i32 0, i32 0
-  %"$xs.tag42" = load i32, ptr %xs.tag41, align 4
-  %"xs==9" = icmp eq i32 %"$xs.tag42", 9
-  br i1 %"xs==9", label %if.then43, label %if.end44
+  %"$xs29" = load ptr, ptr %xs, align 8
+  %xs.tag30 = getelementptr inbounds %sublist, ptr %"$xs29", i32 0, i32 0
+  %"$xs.tag31" = load i32, ptr %xs.tag30, align 4
+  %"xs==10" = icmp eq i32 %"$xs.tag31", 10
+  br i1 %"xs==10", label %if.then32, label %if.end33
 
 if.then3:                                         ; preds = %if.then
   %"$p5" = load ptr, ptr %p, align 8
@@ -1293,7 +1132,7 @@ if.then3:                                         ; preds = %if.then
   %"partition_call==1" = icmp eq i32 %"$partition_call.tag", 1
   br i1 %"partition_call==1", label %if.then6, label %if.end7
 
-if.end4:                                          ; preds = %if.end36, %if.end11
+if.end4:                                          ; preds = %if.end17, %if.end7
   %"$_result" = load ptr, ptr %_result, align 8
   store ptr %"$_result", ptr %3, align 8
   br label %if.end
@@ -1316,206 +1155,162 @@ if.then6:                                         ; preds = %if.then3
 
 if.end7:                                          ; preds = %if.then6, %if.then3
   %"$" = load ptr, ptr %4, align 8
-  %"(bool)" = icmp ne ptr %"$", null
-  %"!" = xor i1 %"(bool)", true
-  br i1 %"!", label %if.then10, label %if.end11
-
-if.then10:                                        ; preds = %if.end7
-  %"$12" = load ptr, ptr %4, align 8
-  %.tag = getelementptr inbounds %Pair, ptr %"$12", i32 0, i32 0
-  unreachable
-
-if.end11:                                         ; preds = %if.end7
-  %"$13" = load ptr, ptr %4, align 8
-  store ptr %"$13", ptr %_result, align 8
+  store ptr %"$", ptr %_result, align 8
   br label %if.end4
 
 if.else:                                          ; preds = %if.then
-  %"$p14" = load ptr, ptr %p, align 8
-  %"$xx15" = load ptr, ptr %xx, align 8
-  %"$u16" = load ptr, ptr %u, align 8
-  %12 = call ptr @partition(ptr %"$p14", ptr %"$xx15", ptr %"$u16")
-  %partition_call.tag17 = getelementptr inbounds %Pair, ptr %12, i32 0, i32 0
-  %"$partition_call.tag18" = load i32, ptr %partition_call.tag17, align 4
-  %"partition_call==119" = icmp eq i32 %"$partition_call.tag18", 1
-  br i1 %"partition_call==119", label %if.then20, label %if.end21
+  %"$p10" = load ptr, ptr %p, align 8
+  %"$xx11" = load ptr, ptr %xx, align 8
+  %"$u12" = load ptr, ptr %u, align 8
+  %12 = call ptr @partition(ptr %"$p10", ptr %"$xx11", ptr %"$u12")
+  %partition_call.tag13 = getelementptr inbounds %Pair, ptr %12, i32 0, i32 0
+  %"$partition_call.tag14" = load i32, ptr %partition_call.tag13, align 4
+  %"partition_call==115" = icmp eq i32 %"$partition_call.tag14", 1
+  br i1 %"partition_call==115", label %if.then16, label %if.end17
 
-if.then20:                                        ; preds = %if.else
-  %"partition_call.[1]23" = getelementptr inbounds %Pair, ptr %12, i32 0, i32 1
-  %"$partition_call.[1]24" = load ptr, ptr %"partition_call.[1]23", align 8
-  store ptr %"$partition_call.[1]24", ptr %lo22, align 8
-  %"partition_call.[2]26" = getelementptr inbounds %Pair, ptr %12, i32 0, i32 2
-  %"$partition_call.[2]27" = load ptr, ptr %"partition_call.[2]26", align 8
-  store ptr %"$partition_call.[2]27", ptr %hi25, align 8
-  %"$xs28" = load ptr, ptr %xs, align 8
-  %"$x29" = load ptr, ptr %x, align 8
-  %"$lo30" = load ptr, ptr %lo22, align 8
-  %13 = call ptr @_reuse_Cons_elem(ptr %"$xs28", ptr %"$x29", ptr %"$lo30")
-  %"$hi31" = load ptr, ptr %hi25, align 8
-  %14 = call ptr @_const_Pair(ptr %13, ptr %"$hi31")
+if.then16:                                        ; preds = %if.else
+  %"partition_call.[1]19" = getelementptr inbounds %Pair, ptr %12, i32 0, i32 1
+  %"$partition_call.[1]20" = load ptr, ptr %"partition_call.[1]19", align 8
+  store ptr %"$partition_call.[1]20", ptr %lo18, align 8
+  %"partition_call.[2]22" = getelementptr inbounds %Pair, ptr %12, i32 0, i32 2
+  %"$partition_call.[2]23" = load ptr, ptr %"partition_call.[2]22", align 8
+  store ptr %"$partition_call.[2]23", ptr %hi21, align 8
+  %"$xs24" = load ptr, ptr %xs, align 8
+  %"$x25" = load ptr, ptr %x, align 8
+  %"$lo26" = load ptr, ptr %lo18, align 8
+  %13 = call ptr @_reuse_Cons_elem(ptr %"$xs24", ptr %"$x25", ptr %"$lo26")
+  %"$hi27" = load ptr, ptr %hi21, align 8
+  %14 = call ptr @_const_Pair(ptr %13, ptr %"$hi27")
   store ptr %14, ptr %5, align 8
-  br label %if.end21
+  br label %if.end17
 
-if.end21:                                         ; preds = %if.then20, %if.else
-  %"$32" = load ptr, ptr %5, align 8
-  %"(bool)33" = icmp ne ptr %"$32", null
-  %"!34" = xor i1 %"(bool)33", true
-  br i1 %"!34", label %if.then35, label %if.end36
-
-if.then35:                                        ; preds = %if.end21
-  %"$37" = load ptr, ptr %5, align 8
-  %.tag38 = getelementptr inbounds %Pair, ptr %"$37", i32 0, i32 0
-  unreachable
-
-if.end36:                                         ; preds = %if.end21
-  %"$39" = load ptr, ptr %5, align 8
-  store ptr %"$39", ptr %_result, align 8
+if.end17:                                         ; preds = %if.then16, %if.else
+  %"$28" = load ptr, ptr %5, align 8
+  store ptr %"$28", ptr %_result, align 8
   br label %if.end4
 
-if.then43:                                        ; preds = %if.end
-  %"$xs46" = load ptr, ptr %xs, align 8
-  %"xs.[1]47" = getelementptr inbounds %STuple, ptr %"$xs46", i32 0, i32 1
-  %"$xs.[1]48" = load ptr, ptr %"xs.[1]47", align 8
-  store ptr %"$xs.[1]48", ptr %x45, align 8
-  %"$xs49" = load ptr, ptr %xs, align 8
-  %"xs.[2]50" = getelementptr inbounds %STuple, ptr %"$xs49", i32 0, i32 2
-  %"$xs.[2]51" = load ptr, ptr %"xs.[2]50", align 8
-  store ptr %"$xs.[2]51", ptr %y, align 8
-  %"$u52" = load ptr, ptr %u, align 8
-  %u.tag = getelementptr inbounds %unit2, ptr %"$u52", i32 0, i32 0
+if.then32:                                        ; preds = %if.end
+  %"$xs35" = load ptr, ptr %xs, align 8
+  %"xs.[1]36" = getelementptr inbounds %STuple, ptr %"$xs35", i32 0, i32 1
+  %"$xs.[1]37" = load ptr, ptr %"xs.[1]36", align 8
+  store ptr %"$xs.[1]37", ptr %x34, align 8
+  %"$xs38" = load ptr, ptr %xs, align 8
+  %"xs.[2]39" = getelementptr inbounds %STuple, ptr %"$xs38", i32 0, i32 2
+  %"$xs.[2]40" = load ptr, ptr %"xs.[2]39", align 8
+  store ptr %"$xs.[2]40", ptr %y, align 8
+  %"$u41" = load ptr, ptr %u, align 8
+  %u.tag = getelementptr inbounds %unit2, ptr %"$u41", i32 0, i32 0
   %"$u.tag" = load i32, ptr %u.tag, align 4
-  %"u==5" = icmp eq i32 %"$u.tag", 5
-  br i1 %"u==5", label %if.then53, label %if.end54
+  %"u==6" = icmp eq i32 %"$u.tag", 6
+  br i1 %"u==6", label %if.then42, label %if.end43
 
-if.end44:                                         ; preds = %if.end100, %if.end
-  %"$104" = load ptr, ptr %3, align 8
-  %"(bool)105" = icmp ne ptr %"$104", null
-  %"!106" = xor i1 %"(bool)105", true
-  br i1 %"!106", label %if.then107, label %if.end108
+if.end33:                                         ; preds = %if.end43, %if.end
+  %"$86" = load ptr, ptr %3, align 8
+  ret ptr %"$86"
 
-if.then53:                                        ; preds = %if.then43
-  %"$u55" = load ptr, ptr %u, align 8
-  %"u.[1]" = getelementptr inbounds %Unit2, ptr %"$u55", i32 0, i32 1
+if.then42:                                        ; preds = %if.then32
+  %"$u44" = load ptr, ptr %u, align 8
+  %"u.[1]" = getelementptr inbounds %Unit2, ptr %"$u44", i32 0, i32 1
   %"$u.[1]" = load i32, ptr %"u.[1]", align 4
   store i32 %"$u.[1]", ptr %_1, align 4
-  %"$u56" = load ptr, ptr %u, align 8
-  %"u.[2]" = getelementptr inbounds %Unit2, ptr %"$u56", i32 0, i32 2
+  %"$u45" = load ptr, ptr %u, align 8
+  %"u.[2]" = getelementptr inbounds %Unit2, ptr %"$u45", i32 0, i32 2
   %"$u.[2]" = load i32, ptr %"u.[2]", align 4
   store i32 %"$u.[2]", ptr %_2, align 4
-  %"$p57" = load ptr, ptr %p, align 8
-  %15 = call i32 @_elem(ptr %"$p57")
-  %"$x58" = load ptr, ptr %x45, align 8
-  %16 = call i32 @_elem(ptr %"$x58")
-  %"_elem_call<=_elem_call59" = icmp sle i32 %15, %16
-  br i1 %"_elem_call<=_elem_call59", label %if.then60, label %if.else78
+  %"$p46" = load ptr, ptr %p, align 8
+  %15 = call i32 @_elem(ptr %"$p46")
+  %"$x47" = load ptr, ptr %x34, align 8
+  %16 = call i32 @_elem(ptr %"$x47")
+  %"_elem_call<=_elem_call48" = icmp sle i32 %15, %16
+  br i1 %"_elem_call<=_elem_call48", label %if.then49, label %if.else67
 
-if.end54:                                         ; preds = %if.end61, %if.then43
-  %"$96" = load ptr, ptr %6, align 8
-  %"(bool)97" = icmp ne ptr %"$96", null
-  %"!98" = xor i1 %"(bool)97", true
-  br i1 %"!98", label %if.then99, label %if.end100
+if.end43:                                         ; preds = %if.end50, %if.then32
+  %"$85" = load ptr, ptr %6, align 8
+  store ptr %"$85", ptr %3, align 8
+  br label %if.end33
 
-if.then60:                                        ; preds = %if.then53
-  %"$p63" = load ptr, ptr %p, align 8
-  %17 = call i32 @_elem(ptr %"$p63")
+if.then49:                                        ; preds = %if.then42
+  %"$p52" = load ptr, ptr %p, align 8
+  %17 = call i32 @_elem(ptr %"$p52")
   %"$y" = load ptr, ptr %y, align 8
   %18 = call i32 @_elem(ptr %"$y")
-  %"_elem_call<=_elem_call64" = icmp sle i32 %17, %18
-  br i1 %"_elem_call<=_elem_call64", label %if.then65, label %if.else72
+  %"_elem_call<=_elem_call53" = icmp sle i32 %17, %18
+  br i1 %"_elem_call<=_elem_call53", label %if.then54, label %if.else61
 
-if.end61:                                         ; preds = %if.end83, %if.end66
-  %"$_result95" = load ptr, ptr %_result62, align 8
-  store ptr %"$_result95", ptr %6, align 8
-  br label %if.end54
+if.end50:                                         ; preds = %if.end72, %if.end55
+  %"$_result84" = load ptr, ptr %_result51, align 8
+  store ptr %"$_result84", ptr %6, align 8
+  br label %if.end43
 
-if.then65:                                        ; preds = %if.then60
+if.then54:                                        ; preds = %if.then49
   %19 = call ptr @_const_Nil_elem()
   %20 = call ptr @_const_Nil_elem()
-  %"$u68" = load ptr, ptr %u, align 8
-  %"$y69" = load ptr, ptr %y, align 8
-  %21 = call ptr @_reuse_Cons_elem(ptr %"$u68", ptr %"$y69", ptr %20)
-  %"$xs70" = load ptr, ptr %xs, align 8
-  %"$x71" = load ptr, ptr %x45, align 8
-  %22 = call ptr @_reuse_Cons_elem(ptr %"$xs70", ptr %"$x71", ptr %21)
+  %"$u57" = load ptr, ptr %u, align 8
+  %"$y58" = load ptr, ptr %y, align 8
+  %21 = call ptr @_reuse_Cons_elem(ptr %"$u57", ptr %"$y58", ptr %20)
+  %"$xs59" = load ptr, ptr %xs, align 8
+  %"$x60" = load ptr, ptr %x34, align 8
+  %22 = call ptr @_reuse_Cons_elem(ptr %"$xs59", ptr %"$x60", ptr %21)
   %23 = call ptr @_const_Pair(ptr %19, ptr %22)
-  store ptr %23, ptr %_result67, align 8
-  br label %if.end66
+  store ptr %23, ptr %_result56, align 8
+  br label %if.end55
 
-if.end66:                                         ; preds = %if.else72, %if.then65
-  %"$_result77" = load ptr, ptr %_result67, align 8
-  store ptr %"$_result77", ptr %_result62, align 8
-  br label %if.end61
+if.end55:                                         ; preds = %if.else61, %if.then54
+  %"$_result66" = load ptr, ptr %_result56, align 8
+  store ptr %"$_result66", ptr %_result51, align 8
+  br label %if.end50
 
-if.else72:                                        ; preds = %if.then60
+if.else61:                                        ; preds = %if.then49
   %24 = call ptr @_const_Nil_elem()
-  %"$u73" = load ptr, ptr %u, align 8
-  %"$y74" = load ptr, ptr %y, align 8
-  %25 = call ptr @_reuse_Cons_elem(ptr %"$u73", ptr %"$y74", ptr %24)
+  %"$u62" = load ptr, ptr %u, align 8
+  %"$y63" = load ptr, ptr %y, align 8
+  %25 = call ptr @_reuse_Cons_elem(ptr %"$u62", ptr %"$y63", ptr %24)
   %26 = call ptr @_const_Nil_elem()
-  %"$xs75" = load ptr, ptr %xs, align 8
-  %"$x76" = load ptr, ptr %x45, align 8
-  %27 = call ptr @_reuse_Cons_elem(ptr %"$xs75", ptr %"$x76", ptr %26)
+  %"$xs64" = load ptr, ptr %xs, align 8
+  %"$x65" = load ptr, ptr %x34, align 8
+  %27 = call ptr @_reuse_Cons_elem(ptr %"$xs64", ptr %"$x65", ptr %26)
   %28 = call ptr @_const_Pair(ptr %25, ptr %27)
-  store ptr %28, ptr %_result67, align 8
-  br label %if.end66
+  store ptr %28, ptr %_result56, align 8
+  br label %if.end55
 
-if.else78:                                        ; preds = %if.then53
-  %"$p79" = load ptr, ptr %p, align 8
-  %29 = call i32 @_elem(ptr %"$p79")
-  %"$y80" = load ptr, ptr %y, align 8
-  %30 = call i32 @_elem(ptr %"$y80")
-  %"_elem_call<=_elem_call81" = icmp sle i32 %29, %30
-  br i1 %"_elem_call<=_elem_call81", label %if.then82, label %if.else89
+if.else67:                                        ; preds = %if.then42
+  %"$p68" = load ptr, ptr %p, align 8
+  %29 = call i32 @_elem(ptr %"$p68")
+  %"$y69" = load ptr, ptr %y, align 8
+  %30 = call i32 @_elem(ptr %"$y69")
+  %"_elem_call<=_elem_call70" = icmp sle i32 %29, %30
+  br i1 %"_elem_call<=_elem_call70", label %if.then71, label %if.else78
 
-if.then82:                                        ; preds = %if.else78
+if.then71:                                        ; preds = %if.else67
   %31 = call ptr @_const_Nil_elem()
-  %"$u85" = load ptr, ptr %u, align 8
-  %"$x86" = load ptr, ptr %x45, align 8
-  %32 = call ptr @_reuse_Cons_elem(ptr %"$u85", ptr %"$x86", ptr %31)
+  %"$u74" = load ptr, ptr %u, align 8
+  %"$x75" = load ptr, ptr %x34, align 8
+  %32 = call ptr @_reuse_Cons_elem(ptr %"$u74", ptr %"$x75", ptr %31)
   %33 = call ptr @_const_Nil_elem()
-  %"$xs87" = load ptr, ptr %xs, align 8
-  %"$y88" = load ptr, ptr %y, align 8
-  %34 = call ptr @_reuse_Cons_elem(ptr %"$xs87", ptr %"$y88", ptr %33)
+  %"$xs76" = load ptr, ptr %xs, align 8
+  %"$y77" = load ptr, ptr %y, align 8
+  %34 = call ptr @_reuse_Cons_elem(ptr %"$xs76", ptr %"$y77", ptr %33)
   %35 = call ptr @_const_Pair(ptr %32, ptr %34)
-  store ptr %35, ptr %_result84, align 8
-  br label %if.end83
+  store ptr %35, ptr %_result73, align 8
+  br label %if.end72
 
-if.end83:                                         ; preds = %if.else89, %if.then82
-  %"$_result94" = load ptr, ptr %_result84, align 8
-  store ptr %"$_result94", ptr %_result62, align 8
-  br label %if.end61
+if.end72:                                         ; preds = %if.else78, %if.then71
+  %"$_result83" = load ptr, ptr %_result73, align 8
+  store ptr %"$_result83", ptr %_result51, align 8
+  br label %if.end50
 
-if.else89:                                        ; preds = %if.else78
+if.else78:                                        ; preds = %if.else67
   %36 = call ptr @_const_Nil_elem()
-  %"$u90" = load ptr, ptr %u, align 8
-  %"$y91" = load ptr, ptr %y, align 8
-  %37 = call ptr @_reuse_Cons_elem(ptr %"$u90", ptr %"$y91", ptr %36)
-  %"$xs92" = load ptr, ptr %xs, align 8
-  %"$x93" = load ptr, ptr %x45, align 8
-  %38 = call ptr @_reuse_Cons_elem(ptr %"$xs92", ptr %"$x93", ptr %37)
+  %"$u79" = load ptr, ptr %u, align 8
+  %"$y80" = load ptr, ptr %y, align 8
+  %37 = call ptr @_reuse_Cons_elem(ptr %"$u79", ptr %"$y80", ptr %36)
+  %"$xs81" = load ptr, ptr %xs, align 8
+  %"$x82" = load ptr, ptr %x34, align 8
+  %38 = call ptr @_reuse_Cons_elem(ptr %"$xs81", ptr %"$x82", ptr %37)
   %39 = call ptr @_const_Nil_elem()
   %40 = call ptr @_const_Pair(ptr %38, ptr %39)
-  store ptr %40, ptr %_result84, align 8
-  br label %if.end83
-
-if.then99:                                        ; preds = %if.end54
-  %"$101" = load ptr, ptr %6, align 8
-  %.tag102 = getelementptr inbounds %Pair, ptr %"$101", i32 0, i32 0
-  unreachable
-
-if.end100:                                        ; preds = %if.end54
-  %"$103" = load ptr, ptr %6, align 8
-  store ptr %"$103", ptr %3, align 8
-  br label %if.end44
-
-if.then107:                                       ; preds = %if.end44
-  %"$109" = load ptr, ptr %3, align 8
-  %.tag110 = getelementptr inbounds %Pair, ptr %"$109", i32 0, i32 0
-  unreachable
-
-if.end108:                                        ; preds = %if.end44
-  %"$111" = load ptr, ptr %3, align 8
-  ret ptr %"$111"
+  store ptr %40, ptr %_result73, align 8
+  br label %if.end72
 }
 
 define ptr @quicksort(ptr %0) {
@@ -1580,8 +1375,8 @@ start:                                            ; preds = %prolog
   %"$e" = load ptr, ptr %e, align 8
   %e.tag = getelementptr inbounds %elem, ptr %"$e", i32 0, i32 0
   %"$e.tag" = load i32, ptr %e.tag, align 4
-  %"e==4" = icmp eq i32 %"$e.tag", 4
-  br i1 %"e==4", label %if.then, label %if.end
+  %"e==5" = icmp eq i32 %"$e.tag", 5
+  br i1 %"e==5", label %if.then, label %if.end
 
 if.then:                                          ; preds = %start
   %"$e1" = load ptr, ptr %e, align 8
@@ -1598,18 +1393,7 @@ if.then:                                          ; preds = %start
 
 if.end:                                           ; preds = %if.then, %start
   %"$" = load ptr, ptr %1, align 8
-  %"(bool)" = icmp ne ptr %"$", null
-  %"!" = xor i1 %"(bool)", true
-  br i1 %"!", label %if.then4, label %if.end5
-
-if.then4:                                         ; preds = %if.end
-  %"$6" = load ptr, ptr %1, align 8
-  %.tag = getelementptr inbounds %Elem, ptr %"$6", i32 0, i32 0
-  unreachable
-
-if.end5:                                          ; preds = %if.end
-  %"$7" = load ptr, ptr %1, align 8
-  ret ptr %"$7"
+  ret ptr %"$"
 }
 
 define i32 @_travers_list(ptr %0) {
@@ -1623,43 +1407,45 @@ prolog:
 
 start:                                            ; preds = %prolog
   %"$xs" = load ptr, ptr %xs, align 8
-  %xs.tag = getelementptr inbounds %list_elem, ptr %"$xs", i32 0, i32 0
-  %"$xs.tag" = load i32, ptr %xs.tag, align 4
-  %"xs==14" = icmp eq i32 %"$xs.tag", 14
-  br i1 %"xs==14", label %if.then, label %if.end
+  %"(bool)xs" = icmp ne ptr %"$xs", null
+  %"!(bool)xs" = xor i1 %"(bool)xs", true
+  br i1 %"!(bool)xs", label %if.then, label %if.else
 
 if.then:                                          ; preds = %start
+  %2 = call i32 (ptr, ...) @ckrt_printf(ptr @2)
+  store i32 %2, ptr %1, align 4
+  br label %if.end
+
+if.end:                                           ; preds = %if.end3, %if.then
+  %"$" = load i32, ptr %1, align 4
+  ret i32 %"$"
+
+if.else:                                          ; preds = %start
   %"$xs1" = load ptr, ptr %xs, align 8
-  %"xs.[1]" = getelementptr inbounds %Cons_elem, ptr %"$xs1", i32 0, i32 1
+  %xs.tag = getelementptr inbounds %list_elem, ptr %"$xs1", i32 0, i32 0
+  %"$xs.tag" = load i32, ptr %xs.tag, align 4
+  %"xs==15" = icmp eq i32 %"$xs.tag", 15
+  br i1 %"xs==15", label %if.then2, label %if.end3
+
+if.then2:                                         ; preds = %if.else
+  %"$xs4" = load ptr, ptr %xs, align 8
+  %"xs.[1]" = getelementptr inbounds %Cons_elem, ptr %"$xs4", i32 0, i32 1
   %"$xs.[1]" = load ptr, ptr %"xs.[1]", align 8
   store ptr %"$xs.[1]", ptr %x, align 8
-  %"$xs2" = load ptr, ptr %xs, align 8
-  %"xs.[2]" = getelementptr inbounds %Cons_elem, ptr %"$xs2", i32 0, i32 2
+  %"$xs5" = load ptr, ptr %xs, align 8
+  %"xs.[2]" = getelementptr inbounds %Cons_elem, ptr %"$xs5", i32 0, i32 2
   %"$xs.[2]" = load ptr, ptr %"xs.[2]", align 8
   store ptr %"$xs.[2]", ptr %xx, align 8
   %"$x" = load ptr, ptr %x, align 8
-  %2 = call ptr @log_elem(ptr %"$x")
+  %3 = call ptr @log_elem(ptr %"$x")
   %"$xx" = load ptr, ptr %xx, align 8
-  %3 = call ptr @second(ptr %2, ptr %"$xx")
-  %4 = call i32 @_travers_list(ptr %3)
-  store i32 %4, ptr %1, align 4
-  br label %if.end
-
-if.end:                                           ; preds = %if.then, %start
-  %"$xs3" = load ptr, ptr %xs, align 8
-  %xs.tag4 = getelementptr inbounds %list_elem, ptr %"$xs3", i32 0, i32 0
-  %"$xs.tag5" = load i32, ptr %xs.tag4, align 4
-  %"xs==13" = icmp eq i32 %"$xs.tag5", 13
-  br i1 %"xs==13", label %if.then6, label %if.end7
-
-if.then6:                                         ; preds = %if.end
-  %5 = call i32 (ptr, ...) @ckrt_printf(ptr @2)
+  %4 = call ptr @second(ptr %3, ptr %"$xx")
+  %5 = call i32 @_travers_list(ptr %4)
   store i32 %5, ptr %1, align 4
-  br label %if.end7
+  br label %if.end3
 
-if.end7:                                          ; preds = %if.then6, %if.end
-  %"$" = load i32, ptr %1, align 4
-  ret i32 %"$"
+if.end3:                                          ; preds = %if.then2, %if.else
+  br label %if.end
 }
 
 define i32 @travers_list(ptr %0) {

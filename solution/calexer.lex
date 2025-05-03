@@ -108,6 +108,7 @@ std::string msg = "";
 		BEGIN(INITIAL);
 	}
 }
+<COMMENT>\n\n		{ ctx->incline(); ctx->incline(); }
 <COMMENT>\n			ctx->incline();
 <COMMENT><<EOF>>	{
 	ctx->message(cecko::errors::EOFINCMT, ctx->line());

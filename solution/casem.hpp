@@ -2,6 +2,7 @@
 #define casem_hpp_
 
 #include "cktables.hpp"
+// #include "llvm/IR/Constants.h"
 #include "ckcontext.hpp"
 #include "ckgrptokens.hpp"
 #include <stdio.h>
@@ -20,10 +21,11 @@
 #define GENERATE_STATIC_DEBUG_LOG true
 // A swith that says if we should generate dynamic runtime messages printf's
 #define GENERATE_DYNAMIC_DEBUG_LOG false
+
 // if false, on unsuccessful reuse (not enough reuse tokens) malloc is made
 #define ENFORCE_FIP false
 // if matched variable doesn't enter any binder, create message and crash
-#define MANDATORY_BINDER_ENTRY_ON_MATCH true
+#define MANDATORY_BINDER_ENTRY_ON_MATCH false
 
 namespace casem
 {
@@ -34,6 +36,7 @@ namespace casem
     class MatchBinderDeclarationData;
     class InstructionWrapper;
     class MatchBinderListHeadData;
+    class MatchBinderChackerData;
     class FipState;
 
     using DefinerFunction = std::function<CKTypeRefDefPack(cecko::context *, const cecko::CIName &, CKTypeRefDefPack &)>;
@@ -69,6 +72,10 @@ namespace casem
     std::string get_constructor_label(const std::string &tname);
     std::string get_reuser_label(const cecko::CIName &tname);
 
+    /// @brief checks is given type (sub-type) holds zero field and thus is just a label represented on heap as null
+    /// @param tlabel name of the child type
+    /// @return is a type with no data
+    bool is_null_ttype(const std::string &tlabel);
     /// @brief for functional types defined in code, inserts the type name and its tags into lookup table
     ///
     /// The first tag is tag of the first variant of the type, the second is the next tag right after the tag of the last variant. If the subtype is inserted, the forst tag is the valid one and second must be first + 1.
@@ -82,7 +89,7 @@ namespace casem
     /// @param tlabel types name
     /// @param first_tag tag of first subtype or the subtype
     /// @param end_tag tag one greater than the last subtype or the subtype
-    void insert_ttype(const std::string &tlabel, int tag, long reuse_size);
+    void insert_ttype(const std::string &tlabel, int tag, long reuse_size, bool is_empty_label_type);
     /// @brief Look up of the already noted types tags range
     /// @param tlabel types name
     /// @return the range of tags (the secod number is one greater than the last tag)
@@ -999,6 +1006,17 @@ namespace casem
             // log("|.get_struct_type_name| return res, done...\n");
             return res;
         }
+        static InstructionWrapper null_inst(cecko::context *ctx, cecko::CKPtrTypeSafeObs expected_type)
+        {
+            // return llvm::ConstantPointerNull::get(expected_type->get_ir());
+            return InstructionWrapper(
+                ctx,
+                RValue,
+                ctx->get_null_constant(expected_type),
+                expected_type,
+                true,
+                "null");
+        }
 
     private:
         cecko::context *ctx;
@@ -1239,6 +1257,17 @@ namespace casem
             enter_block(ctx);
             return expression_data;
         }
+        static IfExpressionData init_if_else_head(cecko::context *ctx, IfControllFlowData &_data)
+        {
+            auto &data = _data;
+            data.else_block = ctx->create_basic_block("if.else");
+            data.else_block_back = data.else_block;
+            log("SWITCHING to else_block_back\n");
+            ctx->builder()->SetInsertPoint(data.else_block_back);
+
+            enter_block(ctx);
+            return IfExpressionData(data);
+        }
 
         InstructionWrapper store_to_result(cecko::context *ctx, InstructionWrapper &stored)
         {
@@ -1410,6 +1439,10 @@ namespace casem
         cecko::match_type fip_mod;
         casem::InstructionWrapper result;
 
+        bool is_first_pattern_null_check = false;
+        /// @brief Binder data of the first if pattern, which checks if matched var is null. It's validity is conditioned by MatchWrapper::is_first_pattern_null_check being true.
+        std::shared_ptr<MatchBinderChackerData> first_pattern_null_check_data = nullptr;
+
         MatchWrapper(cecko::context *ctx, InstructionWrapper &_matched_var, std::shared_ptr<casem::CKTypeRefDefPack> _return_type, cecko::match_type mode, casem::InstructionWrapper &result_var)
             : is_destructive(mode == cecko::match_type::DMATCH),
               matched_var(_matched_var),
@@ -1428,7 +1461,7 @@ namespace casem
         }
         void generate_final_match_result_check(cecko::context *ctx)
         {
-#ifdef MANDATORY_BINDER_ENTRY_ON_MATCH
+#if MANDATORY_BINDER_ENTRY_ON_MATCH
             if (!is_tagged_type(result.type))
             {
                 return;
@@ -1444,6 +1477,9 @@ namespace casem
 
             ctx->builder()->SetInsertPoint(data.continue_block);
             create_if_control_flow(ctx, data, true);
+#else
+            log("|generate_final_match_result_check| Not generated\n");
+            return;
 #endif
         }
     };
@@ -1507,7 +1543,22 @@ namespace casem
             log("|MatchBinderChackerData::create_if_statement| started creating if statement");
             auto matched = match_data.matched_var;
             matched.generate_debug_print("'match binder' matched var pointer is");
-            auto &&cond = matched.has_tag(find_ttype(type_label).first);
+            auto &type_tag_range = find_ttype(type_label);
+
+            if (type_tag_range.first != type_tag_range.second)
+            {
+                ctx->message(cecko::errors::SYNTAX, ctx->line(), "Can't pattern match to a parent type '" + type_label + "'!");
+            }
+
+            casem::InstructionWrapper cond;
+            if (!is_null_ttype(type_label))
+            {
+                cond = matched.has_tag(type_tag_range.first);
+            }
+            else
+            {
+                cond = !matched.to_bool();
+            }
             log("|MatchBinderChackerData::create_if_statement| initalizing if block\n");
             // cond.generate_debug_print("cond in match");
             if_data = init_if_data(ctx, cond);
@@ -1542,12 +1593,13 @@ namespace casem
     public:
         MatchWrapper head_data;
         MatchBinderChackerData binder_data;
+        bool is_first_pattern_null_check = false;
 
         MatchBinderListHeadData() : head_data(), binder_data() {}
         MatchBinderListHeadData(MatchWrapper &head, MatchBinderChackerData &binder)
             : head_data(head), binder_data(binder) {}
 
-        static inline MatchBinderListHeadData init_match_binders_list_head(cecko::context *ctx, MatchWrapper &match_dt, MatchBinderChackerData &binder_data)
+        static inline MatchBinderListHeadData init_match_binders_list_head(cecko::context *ctx, MatchWrapper &match_dt, MatchBinderChackerData &binder_data, bool is_first_pattern_null_check = false)
         {
             binder_data.create_if_statement(ctx, match_dt);
 
@@ -1574,7 +1626,17 @@ namespace casem
             binder_data.init_binder_vars(ctx, match_dt);
             generate_debug_print(ctx, std::string("") + "Enterign Match binder branch: Matched is '" + match_dt.matched_var.name + "', Binder type is '" + binder_data.type_label + "'.");
 
-            return casem::MatchBinderListHeadData(match_dt, binder_data);
+            bool res_is_null_check = false;
+            if (is_first_pattern_null_check)
+            {
+                match_dt.is_first_pattern_null_check = true;
+                res_is_null_check = true;
+                match_dt.first_pattern_null_check_data = std::make_shared<MatchBinderChackerData>(binder_data);
+            }
+            casem::MatchBinderListHeadData res(match_dt, binder_data);
+            res.is_first_pattern_null_check = res_is_null_check;
+
+            return res;
         }
     };
 
@@ -1641,7 +1703,7 @@ namespace casem
         }
     };
 
-    void declare_type_constructor(cecko::context *ctx, const std::string &tname, const cecko::CKStructTypeSafeObs &type, const cecko::CKStructItemArray &params, bool heap_type = true);
+    void declare_type_constructor(cecko::context *ctx, const std::string &tname, const cecko::CKStructTypeSafeObs &type, const cecko::CKStructItemArray &params, bool heap_type = true, bool null_type = false);
     void declare_type_reuser(cecko::context *ctx, const std::string &tname, const cecko::CKStructTypeSafeObs &type, const cecko::CKStructItemArray &params, bool heap_type = true);
     void declare_support_functions(cecko::context *ctx);
 

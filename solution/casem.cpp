@@ -15,6 +15,7 @@ namespace casem
     std::unordered_map<std::string, std::pair<int, int>> type_to_id;
     std::unordered_map<std::string, long> type_to_reuse_size;
     std::unordered_map<long, long> id_to_reuse_size;
+    std::unordered_map<std::string, bool> parents_null_type;
 
     const std::string ttype_tag_label = "_tag";
     const std::string reuse_function_template = "_reuse_";
@@ -26,6 +27,7 @@ namespace casem
     const std::string tupple4_type = "Tuple4";
     const std::string tagged_parent_type = "object";
     const std::string tagged_child_type = "Tagged";
+    const std::string boolean_non_heap_type = "Boolean";
     bool support_functions_defined = false;
     FipState fip_state;
     const int POINTER_BYTES_COUNT = 8;
@@ -53,16 +55,26 @@ namespace casem
     void log_name(const char *msg, const std::string &name) {}
 #endif
 
+    void insert_null_ttype(const std::string &tlabel, bool is_null = true)
+    {
+        parents_null_type.emplace(tlabel, is_null);
+    }
+    bool is_null_ttype(const std::string &tlabel)
+    {
+        return parents_null_type.find(tlabel)->second;
+    }
     void insert_ttypes(const std::string &tlabel, int first_tag, int end_tag, long reuse_size)
     {
         type_to_id.emplace(tlabel, std::make_pair(first_tag, end_tag));
         type_to_reuse_size.emplace(tlabel, reuse_size);
+        insert_null_ttype(tlabel, false);
     }
-    void insert_ttype(const std::string &tlabel, int tag, long reuse_size)
+    void insert_ttype(const std::string &tlabel, int tag, long reuse_size, bool is_empty_label_type)
     {
         type_to_id.emplace(tlabel, std::make_pair(tag, tag));
         type_to_reuse_size.emplace(tlabel, (long)reuse_size);
         id_to_reuse_size.emplace(tag, (long)reuse_size);
+        insert_null_ttype(tlabel, is_empty_label_type);
     }
     const std::pair<int, int> &find_ttype(const std::string &tlabel)
     {
@@ -359,8 +371,8 @@ namespace casem
     MatchWrapper init_match_binders_list(cecko::context *ctx, MatchBinderListHeadData &data, InstructionWrapper &conditioned_result_value)
     {
         log("|init_match_binders_list| init vars\n");
-        auto &&match_dt = data.head_data;
-        auto &&binder_data = data.binder_data;
+        auto &match_dt = data.head_data;
+        auto &binder_data = data.binder_data;
         auto &if_data = binder_data.if_data;
 
         // conditioned_result_value.generate_debug_print("match_binder_if -> result = ");
@@ -380,7 +392,19 @@ namespace casem
         // log("|init_match_binders_list| setting continue block\n");
         ctx->builder()->SetInsertPoint(if_data.continue_block);
         // log("|init_match_binders_list| setting if controll flow\n");
-        create_if_control_flow(ctx, if_data);
+
+        log("|init_match_binders_list| checking if this pattern check is null check\n");
+        if (data.is_first_pattern_null_check)
+        {
+            log("|init_match_binders_list| pattern check IS null check\n");
+            binder_data.if_data = IfExpressionData::init_if_else_head(ctx, if_data).if_data;
+            if_data = binder_data.if_data;
+            match_dt.first_pattern_null_check_data = std::make_shared<MatchBinderChackerData>(binder_data);
+        }
+        else
+        {
+            create_if_control_flow(ctx, if_data);
+        }
 
         log("|init_match_binders_list| done\n");
         return match_dt;
@@ -475,7 +499,7 @@ namespace casem
         res.name = other.name;
         return res;
     }
-    void declare_type_constructor(cecko::context *ctx, const std::string &tname, const cecko::CKStructTypeSafeObs &type, const cecko::CKStructItemArray &params, bool heap_type)
+    void declare_type_constructor(cecko::context *ctx, const std::string &tname, const cecko::CKStructTypeSafeObs &type, const cecko::CKStructItemArray &params, bool heap_type, bool null_type)
     {
         auto &&type_tag_range = find_ttype(tname);
         log("|declare_type_constructor| found type tag value\n");
@@ -523,8 +547,23 @@ namespace casem
         // log("|declare_type_constructor| declare done, declaring function body\n");
         ctx->enter_function(fobs, param_names_pack, ctx->line());
 
-        auto &&allocated = (heap_type) ? init_instruction_malloca(ctx, type, res_label, params.size())
-                                       : global_store_locarion;
+        casem::InstructionWrapper allocated;
+        if (!heap_type)
+        {
+            allocated = global_store_locarion;
+        }
+        else if (null_type)
+        {
+            log(std::string("") + "|declare_type_constructor| declaring null constructor\n");
+            ctx->builder()->CreateRet(ctx->get_null_constant(ret_type));
+            ctx->exit_function();
+            return;
+        }
+        else
+        {
+            allocated = init_instruction_malloca(ctx, type, res_label, params.size());
+        }
+
         log(std::string("") + "|declare_type_constructor| Constructing tname with " + std::to_string(params.size()) + " reuse tokens\n");
         // log("|declare_type_constructor| alloc result temporary variable\n");
         ctx->define_var(res_label, cecko::CKTypeRefPack(ret_type, false), ctx->line());
@@ -663,11 +702,11 @@ namespace casem
         ctx->define_struct_type_close(struct_obs, struct_items);
 
         long type_reuse_size = (heap_type) ? ((long)struct_items.size() - 1) : (-1);
-        casem::insert_ttype(label, max_type_tag, type_reuse_size);
+        casem::insert_ttype(label, max_type_tag, type_reuse_size, type_reuse_size == 0 && heap_type);
         ++casem::max_type_tag;
 
-        casem::declare_type_constructor(ctx, label, struct_obs, struct_items, heap_type);
-        if (heap_type)
+        casem::declare_type_constructor(ctx, label, struct_obs, struct_items, heap_type, is_null_ttype(label));
+        if (heap_type && !is_null_ttype(label))
         {
             casem::declare_type_reuser(ctx, label, struct_obs, struct_items);
         }
@@ -683,20 +722,26 @@ namespace casem
         auto ttype_declaration = declare_parent_ttype(ctx, tagged_parent_type);
         declare_child_ttype(ctx, tagged_child_type);
         TaggedTypeDecl::finish_parent_ttype(ctx, ttype_declaration);
-        auto ttype_pack = cecko::CKTypeRefPack(
+        auto pointer_ttype_pack = cecko::CKTypeRefPack(
             ctx->get_pointer_type(
                 cecko::CKTypeRefPack(
                     ttype_declaration.struct_decl,
                     false)),
             false);
+        auto int_ttype_pack = cecko::CKTypeRefPack(
+            ctx->get_int_type(),
+            false);
 
-        cecko::CKStructItem pair_first(ttype_pack, "first", ctx->line());
-        cecko::CKStructItem pair_second(ttype_pack, "second", ctx->line());
-        cecko::CKStructItem pair_third(ttype_pack, "third", ctx->line());
-        cecko::CKStructItem pair_forth(ttype_pack, "forth", ctx->line());
+        cecko::CKStructItem pair_first(pointer_ttype_pack, "first", ctx->line());
+        cecko::CKStructItem pair_second(pointer_ttype_pack, "second", ctx->line());
+        cecko::CKStructItem pair_third(pointer_ttype_pack, "third", ctx->line());
+        cecko::CKStructItem pair_forth(pointer_ttype_pack, "forth", ctx->line());
+        cecko::CKStructItem num_val(int_ttype_pack, "value", ctx->line());
+
         declare_child_ttype(ctx, pair_type, {pair_first, pair_second}, false);
         declare_child_ttype(ctx, tupple3_type, {pair_first, pair_second, pair_third}, false);
         declare_child_ttype(ctx, tupple4_type, {pair_first, pair_second, pair_third, pair_forth}, false);
+        declare_child_ttype(ctx, boolean_non_heap_type, {num_val}, false);
 
         support_functions_defined = true;
     }

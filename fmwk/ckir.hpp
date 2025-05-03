@@ -34,10 +34,11 @@ A wrapper over LLVM IR.
 #include <ostream>
 #include <cstdio>
 
-namespace cecko {
+namespace cecko
+{
 
 	/// @cond INTERNAL
-	template< typename E>
+	template <typename E>
 	struct safe_default
 	{
 		E operator()() const { return E(); }
@@ -45,69 +46,75 @@ namespace cecko {
 	/// @endcond
 
 	/// @brief Safe pointer to E
-	/// 
+	///
 	/// No crashes: When the value is nullptr, * and -> returns a dummy object responding to all member functions.
 	/// No random values: Initialized to nullptr.
 	/// Automatic conversion to E*.
 	/// Explicit conversion from E*.
-	template< typename E, typename DF = safe_default<E>>
+	template <typename E, typename DF = safe_default<E>>
 	class safe_ptr
 	{
 	public:
 		safe_ptr() : p_(nullptr) {}
 		safe_ptr(std::nullptr_t) : p_(nullptr) {}
-		template<typename E2, typename DF2, std::enable_if_t<std::is_convertible_v<E2*,E*>,bool> = true>
-		safe_ptr(const safe_ptr<E2, DF2>& b) : p_(b.p_) {}
-		explicit safe_ptr(E* p) : p_(p) {}
-		operator E* () const { return p_; }
+		template <typename E2, typename DF2, std::enable_if_t<std::is_convertible_v<E2 *, E *>, bool> = true>
+		safe_ptr(const safe_ptr<E2, DF2> &b) : p_(b.p_) {}
+		explicit safe_ptr(E *p) : p_(p) {}
+		operator E *() const { return p_; }
 		operator bool() const { return !!p_; }
-		E& operator*() const { return p_ ? *p_ : dummy(); }
-		E* operator->() const { return p_ ? p_ : &dummy(); }
-		friend bool operator==(const safe_ptr& a, const safe_ptr& b) { return a.p_ == b.p_; }
-		friend bool operator!=(const safe_ptr& a, const safe_ptr& b) { return a.p_ != b.p_; }
+		E &operator*() const { return p_ ? *p_ : dummy(); }
+		E *operator->() const { return p_ ? p_ : &dummy(); }
+		friend bool operator==(const safe_ptr &a, const safe_ptr &b) { return a.p_ == b.p_; }
+		friend bool operator!=(const safe_ptr &a, const safe_ptr &b) { return a.p_ != b.p_; }
+
 	private:
-		E* p_;
-		static E& dummy() { static decltype(DF()()) d = DF()(); return d; }
-		template<typename E2, typename DF2>
+		E *p_;
+		static E &dummy()
+		{
+			static decltype(DF()()) d = DF()();
+			return d;
+		}
+		template <typename E2, typename DF2>
 		friend class safe_ptr;
 	};
 
 	// numbers
-	using CKIRAPInt = llvm::APInt;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1APInt.html">llvm::APInt</a>
+	using CKIRAPInt = llvm::APInt; ///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1APInt.html">llvm::APInt</a>
 	// context
-	using CKIRContextRef = llvm::LLVMContext&;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1LLVMContext.html">llvm::LLVMContext</a>
+	using CKIRContextRef = llvm::LLVMContext &; ///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1LLVMContext.html">llvm::LLVMContext</a>
 	// types
-	using CKIRTypeObs = llvm::Type*;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1Type.html">llvm::Type</a>
-	using CKIRStructTypeObs = llvm::StructType*;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1StructType.html">llvm::StructType</a>
-	using CKIRFunctionTypeObs = llvm::FunctionType*;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1FunctionType.html">llvm::FunctionType</a>
-	using CKIRTypeObsArray = std::vector<llvm::Type*>;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1Type.html">llvm::Type</a>
-	using CKIRTypeObsArrayRef = llvm::ArrayRef<llvm::Type*>;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1ArrayRef.html">llvm::ArrayRef</a> @sa <a href="http://llvm.org/doxygen/classllvm_1_1Type.html">llvm::Type</a>
+	using CKIRTypeObs = llvm::Type *;						  ///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1Type.html">llvm::Type</a>
+	using CKIRStructTypeObs = llvm::StructType *;			  ///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1StructType.html">llvm::StructType</a>
+	using CKIRFunctionTypeObs = llvm::FunctionType *;		  ///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1FunctionType.html">llvm::FunctionType</a>
+	using CKIRTypeObsArray = std::vector<llvm::Type *>;		  ///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1Type.html">llvm::Type</a>
+	using CKIRTypeObsArrayRef = llvm::ArrayRef<llvm::Type *>; ///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1ArrayRef.html">llvm::ArrayRef</a> @sa <a href="http://llvm.org/doxygen/classllvm_1_1Type.html">llvm::Type</a>
 	// values
-	using CKIRValueObs = llvm::Value*;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1Value.html">llvm::Value</a>
-	using CKIRValueObsArray = std::vector<llvm::Value*>;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1Value.html">llvm::Value</a>
-	using CKIRValueObsArrayRef = llvm::ArrayRef<llvm::Value*>;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1ArrayRef.html">llvm::ArrayRef</a> @sa <a href="http://llvm.org/doxygen/classllvm_1_1Value.html">llvm::Value</a>
+	using CKIRValueObs = llvm::Value *;							///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1Value.html">llvm::Value</a>
+	using CKIRValueObsArray = std::vector<llvm::Value *>;		///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1Value.html">llvm::Value</a>
+	using CKIRValueObsArrayRef = llvm::ArrayRef<llvm::Value *>; ///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1ArrayRef.html">llvm::ArrayRef</a> @sa <a href="http://llvm.org/doxygen/classllvm_1_1Value.html">llvm::Value</a>
 	// constant values
-	using CKIRConstantObs = llvm::Constant*;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1Constant.html">llvm::Constant</a>
-	using CKIRConstantIntObs = llvm::ConstantInt*;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1ConstantInt.html">llvm::ConstantInt</a>
+	using CKIRConstantObs = llvm::Constant *;		///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1Constant.html">llvm::Constant</a>
+	using CKIRConstantIntObs = llvm::ConstantInt *; ///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1ConstantInt.html">llvm::ConstantInt</a>
+	using CKIRNull = llvm::ConstantPointerNull *;
 	// module
-	using CKIRModuleObs = llvm::Module*;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1Module.html">llvm::Module</a>
+	using CKIRModuleObs = llvm::Module *; ///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1Module.html">llvm::Module</a>
 	// function
-	using CKIRFunctionObs = llvm::Function*;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1Function.html">llvm::Function</a>
+	using CKIRFunctionObs = llvm::Function *; ///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1Function.html">llvm::Function</a>
 	// basic block
-	using CKIRBasicBlockObs = llvm::BasicBlock*;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1BasicBlock.html">llvm::BasicBlock</a>
+	using CKIRBasicBlockObs = llvm::BasicBlock *; ///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1BasicBlock.html">llvm::BasicBlock</a>
 	// instructions
-	using CKIRAllocaInstObs = llvm::AllocaInst*;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1AllocaInst.html">llvm::AllocaInst</a>
+	using CKIRAllocaInstObs = llvm::AllocaInst *; ///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1AllocaInst.html">llvm::AllocaInst</a>
 	// builder
-	using CKIRBuilder = llvm::IRBuilder<>;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1IRBuilder.html">llvm::IRBuilder</a>
-	using CKIRBuilderRef = CKIRBuilder&;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1IRBuilder.html">llvm::IRBuilder</a>
-	using CKIRBuilderObs = CKIRBuilder*;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1IRBuilder.html">llvm::IRBuilder</a>
+	using CKIRBuilder = llvm::IRBuilder<>; ///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1IRBuilder.html">llvm::IRBuilder</a>
+	using CKIRBuilderRef = CKIRBuilder &;  ///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1IRBuilder.html">llvm::IRBuilder</a>
+	using CKIRBuilderObs = CKIRBuilder *;  ///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1IRBuilder.html">llvm::IRBuilder</a>
 
 	// string
-	using CKIRName = llvm::Twine;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1Twine.html">llvm::Twine</a>
+	using CKIRName = llvm::Twine; ///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1Twine.html">llvm::Twine</a>
 
 	/// @cond INTERNAL
 
-	inline std::size_t CKHashValue(const CKIRAPInt& Arg)
+	inline std::size_t CKHashValue(const CKIRAPInt &Arg)
 	{
 		return llvm::hash_value(Arg);
 	}
@@ -141,7 +148,7 @@ namespace cecko {
 
 	CKIRTypeObs CKGetArrayType(CKIRTypeObs element, CKIRConstantIntObs size);
 
-	inline CKIRStructTypeObs CKCreateStructType(CKIRContextRef Context, const std::string& name)
+	inline CKIRStructTypeObs CKCreateStructType(CKIRContextRef Context, const std::string &name)
 	{
 		return llvm::StructType::create(Context, name);
 	}
@@ -155,7 +162,7 @@ namespace cecko {
 	{
 		return llvm::ConstantInt::get(llvm::Type::getInt1Ty(Context), V);
 	}
-		
+
 	inline CKIRConstantIntObs CKGetInt8Constant(CKIRContextRef Context, std::int_fast8_t V)
 	{
 		return llvm::ConstantInt::get(llvm::Type::getInt8Ty(Context), V);
@@ -166,13 +173,18 @@ namespace cecko {
 		return llvm::ConstantInt::get(llvm::Type::getInt32Ty(Context), V);
 	}
 
-	inline CKIRFunctionObs CKCreateFunction(CKIRFunctionTypeObs FT, const std::string& name, CKIRModuleObs M)
+	inline CKIRNull CKGetNull(CKIRTypeObs type)
+	{
+		return llvm::ConstantPointerNull::get((llvm::PointerType *)type);
+	}
+
+	inline CKIRFunctionObs CKCreateFunction(CKIRFunctionTypeObs FT, const std::string &name, CKIRModuleObs M)
 	{
 		return llvm::Function::Create(FT, llvm::Function::ExternalLinkage, name, M);
 	}
 
 	/// Create a new basic block
-	inline CKIRBasicBlockObs CKCreateBasicBlock(const std::string& name, CKIRFunctionObs F)
+	inline CKIRBasicBlockObs CKCreateBasicBlock(const std::string &name, CKIRFunctionObs F)
 	{
 		if (!F)
 			return nullptr;
@@ -185,7 +197,7 @@ namespace cecko {
 	{
 		if (!v)
 			return nullptr;
-		if (!llvm::isa< llvm::ConstantInt>(v))
+		if (!llvm::isa<llvm::ConstantInt>(v))
 			return nullptr;
 		return llvm::cast<llvm::ConstantInt>(v);
 	}
@@ -197,11 +209,11 @@ namespace cecko {
 	}
 
 	/// @cond INTERNAL
-	CKIRConstantObs CKCreateGlobalVariable(CKIRTypeObs irtp, const std::string& name, CKIRModuleObs M);
+	CKIRConstantObs CKCreateGlobalVariable(CKIRTypeObs irtp, const std::string &name, CKIRModuleObs M);
 
-	CKIRConstantObs CKCreateExternVariable(CKIRTypeObs irtp, const std::string& name, CKIRModuleObs M);
+	CKIRConstantObs CKCreateExternVariable(CKIRTypeObs irtp, const std::string &name, CKIRModuleObs M);
 
-	using CKIRDataLayoutObs = const llvm::DataLayout*;
+	using CKIRDataLayoutObs = const llvm::DataLayout *;
 
 	inline std::int_fast64_t CKGetTypeSize(CKIRDataLayoutObs DataLayout, CKIRTypeObs Ty)
 	{
@@ -209,16 +221,17 @@ namespace cecko {
 		return ts;
 	}
 
-	class CKIREnvironment {
+	class CKIREnvironment
+	{
 	public:
 		CKIREnvironment();
 
-		void dump_module(std::ostream& os, CKIRModuleObs module) const;
+		void dump_module(std::ostream &os, CKIRModuleObs module) const;
 
-		std::error_code write_bitcode_module(const std::string& fname, CKIRModuleObs module) const;
+		std::error_code write_bitcode_module(const std::string &fname, CKIRModuleObs module) const;
 
-		int run_main(CKIRFunctionObs fnc, int argc, char** argv, std::ostream& os);
-		
+		int run_main(CKIRFunctionObs fnc, int argc, char **argv, std::ostream &os);
+
 		CKIRContextRef context()
 		{
 			return *ckircontextptr_;
@@ -235,14 +248,14 @@ namespace cecko {
 		}
 
 	private:
-		std::unique_ptr< llvm::LLVMContext> ckircontextptr_;
-		std::unique_ptr< llvm::Module> ckirmoduleptr_;
+		std::unique_ptr<llvm::LLVMContext> ckircontextptr_;
+		std::unique_ptr<llvm::Module> ckirmoduleptr_;
 		CKIRModuleObs ckirmoduleobs_;
-		std::unique_ptr< llvm::DataLayout> ckirdatalayoutptr_;
+		std::unique_ptr<llvm::DataLayout> ckirdatalayoutptr_;
 	};
 
-	using CKIREnvironmentObs = CKIREnvironment*;
+	using CKIREnvironmentObs = CKIREnvironment *;
 	/// @endcond
 };
 
-#endif 
+#endif

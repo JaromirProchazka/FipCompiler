@@ -339,7 +339,6 @@ postfix_expression:
         $$ = $1;
     }
     | IDF LPAR argument_expression_list RPAR     {
-        // TODO: IMPLEMENT REUSING
         log("[postfix_expression:] FUNCTION CALL, IDF:'"+$1+"' ( expression )\n");
         $$ = casem::handle_postfix_expression_fcall(ctx, $1, $3);
     }
@@ -356,12 +355,12 @@ postfix_expression:
     }
 ;
 
-// FIXME: APPLICATION RULE
+// TODO: APPLICATION RULE
 // application_rule:
 //     postfix_expression argument_expression_list
 // ;
 
-// FIXME: BOXING RULE
+// TODO: BOXING RULE
 // unboxing_rule:
 //     LPAR argument_expression_list RPAR {
 //         $$ = $2;
@@ -592,6 +591,19 @@ match_expression:
     | match_binders_list block_end    {
         log("[match_expression:] MATCH IDF ARROW declaration_specifiers block_start match_binders_list block_end\n");
         casem::MatchWrapper match_data = $1;
+        log("[match_expression:] if (match_data.is_first_pattern_null_check)\n");
+        if (match_data.is_first_pattern_null_check) {
+            // FIXME: implement first pattern null check if-else block
+            log("[match_expression:] first pattern is null check. Finishing if-else block\n");
+            auto &null_pattern_if_data = (*match_data.first_pattern_null_check_data).if_data; 
+            null_pattern_if_data.else_block_back = ctx->builder()->GetInsertBlock();
+            exit_block(ctx);
+            log("SWITCHING to null pattern continue_block\n");
+            ctx->builder()->SetInsertPoint(null_pattern_if_data.continue_block);
+            log("[match_expression:] making null check pattern controll flow\n");
+            create_if_control_flow(ctx, null_pattern_if_data);
+        }
+        log("[match_expression:] if (match_data.is_first_pattern_null_check) Done\n");
         match_data.generate_final_match_result_check(ctx); // generates final if that check if result isn't tagged type set to null
         if (match_data.is_destructive) {
             log("{FipState} match_expression - exiting DMATCH\n");
@@ -618,7 +630,8 @@ match_binders_list:
 match_binders_list_head_start:
     match_head block_start match_binder_head {
         log("[match_binders_list_head_start:] match_head block_start match_binder_head\n");
-        $$ = MatchBinderListHeadData::init_match_binders_list_head(ctx, $1, $3);
+        log(std::string("")+"[match_binders_list_head_start:] the checked label is "+($3).type_label+" which null ttype is "+std::to_string(casem::is_null_ttype(($3).type_label))+"\n");
+        $$ = MatchBinderListHeadData::init_match_binders_list_head(ctx, $1, $3, casem::is_null_ttype(($3).type_label));
     }
 ;
 
@@ -805,7 +818,6 @@ block_end:
 
 enumtype_decl_specifier:
     enumtype_decl_head block_start member_types_declaration_list block_end new_lines  {
-        // FIXME: Handle tag range
         log("[enumtype_decl_specifier:] enumtype_decl_head block_start member_types_declaration_list block_end new_lines\n");
         $$ = TaggedTypeDecl::finish_parent_ttype(ctx, $1);
     }
