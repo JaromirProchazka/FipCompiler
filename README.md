@@ -1,14 +1,57 @@
-# Cecko Skeleton
+# StaFip Compiler
 
-The skeleton of Cecko. 
+A small testing compiler of a functional language stafip. It
+implement the Fully In Place calculus (FIP) and is meant to test 
+this calculus in space with no garbage collection.
 
-## Getting Started
+## Build
 
-* [Prerequisities](https://www.ksi.mff.cuni.cz/teaching/nswi098-web/index.html#@tab_prerequisites)
-* [Creating your Cecko repository](https://www.ksi.mff.cuni.cz/teaching/nswi098-web/index.html#@tab_repository)
-* [Building and running Cecko](https://www.ksi.mff.cuni.cz/teaching/nswi098-web/index.html#@tab_building_and_running)
+For the build and testing alown, use this command:
 
-## [The assignments](https://www.ksi.mff.cuni.cz/teaching/nswi098-web/index.html#@tab_assignments)
+```sh
+cmake -DCMAKE_BUILD_TYPE=Debug . && cmake --build .
+```
 
-* [The Cecko grammar](doc/selected-grammar.md)
+You can then run any script with `.ffip` file extension with this command:
 
+```sh
+# runs script and print its compiled IR and run result on the stdout
+./stud-main/cecko5 <script>  
+
+# also runs the script but puts the IR to ./DebugLog.txt
+./stud-main/cecko5 -a ./DebugLog.txt <script>
+```
+
+### Run Benchmark
+
+To run benchmarks, use this default command:
+
+```sh
+./generate_fip_tests_data.sh --replace
+```
+
+For generating Benchmarks, we have generate_fip_tests_data.sh script. 
+It takes all files from the `./test/` folder and generates result in the
+`./compiled_programs_data/` folder. 
+
+In the `./test/` folder, files which names strart with "basic_" substring 
+are meant as test files and are not included in the benchmarks results. For
+other files, it is expeceted that they have a fip and non-fip version. The 
+Fip version should should fit patern "<name>_fip.ffip" and the non-fip
+version fits pattern "<name>_normal.ffip".
+
+After Benchmarks are generated, for each script there is folder of its name 
+with compiled executable and the generated IR instructions. Than 
+`./compiled_programs_data/benchmark_results.csv` with benchmark results in 
+CSV file. This data is then visualized in the 
+`./compiled_programs_data/benchmark_results_comparison.png` file. The FIP 
+and non-FIP versions of the scripts are compared in the generated graphs and 
+a speedup ratio is calculated.
+
+The script `generate_fip_tests_data.sh` can be configured with these flags:
+
+- `--replace`:  first cleans up the `./compiled_programs_data/` folder
+- `--basics`:   only compiles the test files fiting pattern "basic_*" and doesn't run benchmarks
+- `--no-test`:  doesn't generate benchmark results 
+
+## Thesis

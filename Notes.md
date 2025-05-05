@@ -1,9 +1,5 @@
 # Commands
 
-# Lookups
-
-`(0x7fd191ca0bf7)|(Enterign Match binder branch)|(Entering ')|(quicksort\(\.\.\.\)' call)|(Retruning from fucntion a non void result)`
-
 # Generate compilation files
 
 for test file basic_if.ffip:

@@ -1,0 +1,34 @@
+type list {
+    Nil;
+    Cons(int val, type list next);
+}
+
+type number {
+    Integer(int x);
+}
+
+
+
+
+
+type list second [int x, type list xx] = xx
+
+int finish [type Tagged x] = 0
+
+int to_int [type number x] = match x -> int {
+        | Integer(x) -> x
+    } 
+
+type Integer elem [type list xs, int i] = match xs -> type Integer {
+        | Cons(x, xx)   -> if (i == 0) Integer(x);
+                           else elem(xx, i-1);
+        | Nil           -> Integer(-1)
+    }
+
+
+
+
+type list make_list [] = Cons( 1, Cons(2, Cons(3, Cons(4, Cons(5, Cons(6, Nil ))))))
+
+int main [int argc, char** argv] = 
+    log( to_int( elem( make_list(), 2)), "is the found elem\n")

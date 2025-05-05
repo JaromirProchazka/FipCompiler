@@ -1,0 +1,205 @@
+type elem {
+    Elem(int val);
+}
+
+type reuse3 {
+    Reuse3(int _a, int _b, int _c);
+}
+
+type afew_elem {
+    One(type object a, int _b, int _c);
+    Two(type object a, type object b, int _c);
+    Three(type object a, type object b, type object c);
+}
+
+type tuple_elem {
+    PairElem(type object a, type object b, int c);
+    TripleElem(type object a, type object b, type object c);
+}
+
+type seq_elem {
+    Empty;
+    Unit(type object a, int _b, int _c);
+    More0(type object l, type seq_elem s, type afew_elem r);
+    More(type tuple_elem l, type seq_elem s, type afew_elem r);
+}
+
+type buffer {
+    BNil;
+    BCons(type buffer next, int _b, int _c);
+}
+
+type bseq {
+    BSeq(type seq_elem s, type buffer q);
+}
+
+type elem head [type seq_elem s];
+
+type elem bhead [type bseq bs] 
+    = match bs -> type elem {
+        | BSeq(s, _1) -> head(s)
+    }
+
+type elem head [type seq_elem s]
+    = match s -> type elem {
+        | Unit(x, _1, _2)            -> x
+        | More0(x, _1, _2)           -> x
+        | More(p, _1, _2) -> 
+            match p -> type elem {
+                | PairElem(x, _3, _4)   ->  x
+            }
+        | More(t, _1, _2) -> 
+            match t -> type elem {
+                | TripleElem(x, _3, _4)   ->  x
+            }
+    }
+
+type BSeq cons [type elem x, type reuse3 u3, type seq_elem s, type buffer b];
+
+type bseq bcons [type elem x, type reuse3 u3, type bseq bs]
+    = match bs -> type bseq {
+        | BSeq(s, b) -> 
+            match cons(x, u3, s, b) -> type BSeq {
+                | Pair(s_, b_) -> BSeq(s_, b_)
+            }
+    }
+
+type BSeq cons [type elem x, type reuse3 u3, type seq_elem s, type buffer b]
+    = match s -> type BSeq {
+        | Empty                 -> BSeq(Unit(x, 0, 0), b)
+        | Unit(y, _1, _2)       -> BSeq(More0(x, Empty, One(y, 0, 0)), b)
+        | More0(y, q, u)        -> BSeq(More(PairElem(x, y, 0), q, u), b)
+        | More(p, q, u)         -> 
+            match p -> type BSeq {
+                | PairElem(y, z, _1)    ->  BSeq(More(TripleElem(x, y, z), q, u), BCons(b, 0, 0))
+            }
+        | More(t, q, u) -> 
+            match t -> type BSeq {
+                | TripleElem(y, z, w)   -> 
+                    match b -> type BSeq {
+                        | BCons(b_, _1, _2)   ->       
+                            match cons(PairElem(z, w, 0), u3, q, b_) -> type BSeq {
+                                | Pair(q_, b__) -> BSeq(More(PairElem(x, y, 0), q_, u), b__)
+                            }
+                    }
+            }
+    }
+
+/*type Tuple3 buncons [type bseq bs]
+    = match bs -> type Tuple3 {
+        | BSeq(s, b) -> 
+            match uncons(s, b) -> type Tuple3 {
+                | Tuple4(x, u3, s_, b_) -> Tuple3(x, u3, BSeq(s_, b_))
+            }
+    }*/
+
+type Pair more0 [type seq_elem q, type afew_elem u, type buffer b];
+
+type Tuple4 uncons [type seq_elem s, type buffer b]
+    = match s -> type Tuple4 {
+        | Unit(x, _1, _2)   ->  Tuple4(x, Reuse3(0,0,0), Empty, b)
+        | More(t, q, u)     -> 
+            match t -> type Tuple4 {
+                | TripleElem(x, y, z)   ->  match b -> type buffer {
+                    | BCons(b_, _1, _2) -> Tuple4(x, Reuse3(0,0,0), More(PairElem(y, z, 0), q, u), b_)
+                }
+            }
+        | More(p, q, u)     -> 
+            match p -> type Tuple4 {
+                | PairElem(x, y, _1)    ->    Tuple4(x, Reuse3(0,0,0), More0(y, q, u), b)
+            }
+        | More0(x, q, u)    -> 
+            match more0(q, u, b) -> type Tuple4 {
+                | Pair(q_, b_) -> Tuple4(x, Reuse3(0,0,0), q_, b_)
+            }
+    }
+
+type Pair more0 [type seq_elem q, type afew_elem u, type buffer b]
+    = match q -> type Pair {
+        | Empty -> match u -> type Pair {
+            | One(x, y, z) -> Pair(Unit(x, y, z), b)
+            | Two(y, z, _1) -> 
+                match b -> type Pair {
+                    | BCons(b_, _2, _3) -> Pair(More0(y, Empty, One(z, 0, 0)), b_)
+                }
+            | Three(y, z, w) -> 
+                match b -> type Pair {
+                    | BCons(b_, _1, _2) -> Pair(More0(y, Empty, Two(z, w, 0)), b_)
+                }
+        }
+        | Unit(p, _1, _2) -> match p -> type Pair {
+            | PairElem(x, y, _3) -> Pair(More(PairElem(x, y, 0), Empty, u), b)
+            | TripleElem(x, y, z) -> 
+                match b -> type Pair {
+                    | BCons(b_, _3, _4) -> Pair(More0(x, Unit(PairElem(y,z,0),0,0), u), b_)
+                }
+        }
+        | More0(p, q1, u1) -> match p -> type Pair {
+            | PairElem(x, y) -> 
+                match more0(q1, u1, b) -> type Pair {
+                    | Pair(q1_, b_) -> Pair(More(PairElem(x, y, 0), q1_, u), b_)
+                }
+            | TripleElem(x, y, z) -> 
+                match b -> type Pair {
+                    | BCons(b_, _1, _2) -> Pair(More0(x, More0(PairElem(y,z,0), q1, u1), u), b_)
+                }
+        }
+        | More(pt, q1, u1) -> match pt -> type Pair {
+            | PairElem(p, y1) -> 
+                match p -> type Pair {
+                    | PairElem(x, y) -> Pair(More(PairElem(x, y, 0), More0(y1, q1, u1), u), b)
+                    | TripleElem(x, y, z) -> 
+                        match b -> type Pair {
+                            | BCons(b_, _1, _2) -> Pair(More0(x, More(PairElem(PairElem(y,z,0), y1, 0), q1, u1), u), b_)
+                        }
+                }
+            | TripleElem(p, y1, z1) -> 
+                match b -> type Pair {
+                    | BCons(b_, _1, _2) -> match p -> type Pair {
+                        | PairElem(x, y) -> Pair(More(PairElem(x, y, 0), More(PairElem(y1, z1, 0), q1, u1), u), b_)
+                        | TripleElem(x, y, z) -> Pair(More0(x, More(TripleElem(PairElem(y,z,0), y1, z1), q1, u1), u), b_)
+                    }
+                }
+        }
+    }
+
+type bseq bsnoc [type bseq bs, type reuse3 u3, type elem x]
+    = match bs -> type bseq {
+        | BSeq(s, b) -> 
+            match snoc(s, b, u3, x) -> type bseq {
+                | Pair(s_, b_) -> BSeq(s_, b_)
+            }
+    }
+
+type Pair snoc [type seq_elem s, type buffer b, type reuse3 u3, type elem x]
+    = match s -> type Pair {
+        | Empty -> Pair(Unit(x, 0, 0), b)
+        | Unit(y, _1, _2)   -> Pair(More0(y, Empty, One(x, 0, 0)), b)
+        | More0(u, q, one)  -> match one -> type Pair {
+            | One(y, _1, _2)    ->  Pair(More0(u, q, Two(y, x, 0)), BCons(b, 0, 0))
+            | Two(y, z, _1)     ->  Pair(More0(u, q, Three(y, z, x)), BCons(b, 0, 0))
+            | Three(y, z, w)    ->  match b -> type Pair {
+                | BCons(b_, _1, _2) -> 
+                    match snoc(q, b_, u3, PairElem(y, z, 0)) -> type Pair {
+                        | Pair(q_, b__) -> Pair(More0(u, q_, Two(w, x, 0)), b__)
+                    }
+            }
+        }
+        | More(u, q, one)   -> match one -> type Pair {
+            | One(y, _1, _2)    ->  Pair(More(u, q, Two(y, x, 0)), BCons(b, 0, 0))
+            | Two(y, z, _1)     ->  Pair(More(u, q, Three(y, z, x)), BCons(b, 0, 0))
+            | Three(y, z, w)    ->  match b -> type Pair {
+                | BCons(b_, _1, _2) -> 
+                    match snoc(q, b_, u3, PairElem(y, z, 0)) -> type Pair {
+                        | Pair(q_, b__) -> Pair(More(u, q_, Two(w, x, 0)), b__)
+                    }
+            }
+        }
+
+    }
+
+
+
+
+
+int main [int argc, char** argv] = 0
