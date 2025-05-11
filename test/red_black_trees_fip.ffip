@@ -75,8 +75,8 @@ fip type tree balance [type accum z, type tree t] = match! z -> type tree {
                                                         | Node(c, l, k, v, r)       ->     rebuild(z2, Node(0, Node(1,l1,k1,v1,l), k, v, Node(1,r,k2,v2,r2)))  
                                                     };
         };
-        else rebuild(z, t);
-    
+        else 
+            rebuild(z, t);
     | NodeL(c1, z1, k1, v1, r1) -> 
         if (c1 == 1)  match! z1 -> type tree  {
             | Done                      ->      Node(0, t, k1, v1, r1)
@@ -144,29 +144,27 @@ type list _traverse_tree [type tree t, int level] = match t -> type tree {
         )
 }
 
-type list log_tree [type tree t] = log(_traverse_tree(log_node(t, 0), 1), "Log Tree Done\n")
+type tree first_tree [type tree t, type list l] = t
 
-type tree make_tree [] = 
-    Node(0, 
-        Node(1,
-            Node(1,
-                Leaf,
-                Integer(1), 1,
-                Leaf
-            ),
-            Integer(5), 1,
-            Leaf
-        ), 
-        Integer(15), 1, 
-        Leaf
-    )
+type tree log_tree [type tree t] = first_tree( 
+        t, 
+        log(
+            _traverse_tree(
+                log_node(t, 0), 
+                1
+            ), 
+            "Log Tree Done\n"
+        ) 
+    ) 
 
-type tree make_start_node [int i] =
-    Node(0,
-        Leaf,
-        Integer(i), 1,
-        Leaf
-    )
+type tree make_n_tree_helper [int n, int cur, type tree acc ] = 
+    if (n <= cur)
+        acc;
+    else 
+        make_n_tree_helper(n, cur + 1, insert(acc, Integer(cur), (cur%10)==0) );
+
+type tree make_n_tree [int n] = 
+    make_n_tree_helper(n, 0, time(Leaf))
 
 int finish [type tree t] = 0
 
@@ -174,11 +172,12 @@ int finish [type tree t] = 0
 
 
 
-int main [int argc, char** argv] = finish( 
-    log_tree( 
-        log( 
-            insert(insert(make_start_node(15), Integer(5), 1), Integer(1), 1), 
-            "Insertions done\n"
+
+
+int main [int argc, char** argv] = 
+    finish( 
+        /*log_tree(*/  log( 
+                time(make_n_tree(13506)), 
+                "Insertions done\n"
             ) 
-        ) 
-    )
+        /*)*/  )

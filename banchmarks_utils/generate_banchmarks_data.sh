@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configuration
-TEST_REPETITIONS=100
+TEST_REPETITIONS=250
 BASE_DIR="./compiled_programs_data"
 RESULTS_FILE="$BASE_DIR/benchmark_results.csv"
 TEMP_FILE="temp.csv"

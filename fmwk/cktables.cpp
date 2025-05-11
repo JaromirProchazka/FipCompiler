@@ -701,5 +701,6 @@ namespace cecko
 		globtable_.declare_function("sprintf", module_, typetable_.get_function_type(t_int, {t_ptr_char, t_cptr_char}, true), "ckrt_sprintf");
 		globtable_.declare_function("sscanf", module_, typetable_.get_function_type(t_int, {t_cptr_char, t_cptr_char}, true), "ckrt_sscanf");
 		globtable_.declare_function("memset", module_, typetable_.get_function_type(t_ptr_void, {t_ptr_void, t_int, t_int}, false), "ckrt_memset");
+		globtable_.declare_function("measure_cpu_time", module_, typetable_.get_function_type(t_void, {}, false), "ckrt_measure_cpu_time");
 	}
 }

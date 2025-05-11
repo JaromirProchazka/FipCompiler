@@ -6,10 +6,6 @@ int _elem [type elem e] = match e -> int {
     | Elem(i) -> i
 }
 
-type unit2 {
-    Unit2(int _a, int _b);
-}
-
 type maybe2 {
     Nothing2;
     Just2(type elem a, int _b);
@@ -34,10 +30,10 @@ type list_elem {
 
 
 
-type sublist from_list [type elem x, type elem y, type unit2 u, type list_elem xs]
+type sublist from_list [type elem x, type elem y, type list_elem xs]
     = match xs -> type sublist {
         | Nil_elem         -> STuple(x, y)
-        | Cons_elem(z, zs) -> SCons(x, from_list(y, z, u, zs))
+        | Cons_elem(z, zs) -> SCons(x, from_list(y, z, zs))
 }
 
 type partition to_bundle [type list_elem xs, type partition bdl_]
@@ -45,13 +41,13 @@ type partition to_bundle [type list_elem xs, type partition bdl_]
         | Nil_elem           -> bdl_
         | Cons_elem(x, next) -> match next -> type partition {
             | Nil_elem          ->  Singleton(x, bdl_)
-            | Cons_elem(y, xs)  ->  Sublist(from_list(x, y, Unit2(0, 0), xs), bdl_)
+            | Cons_elem(y, xs)  ->  Sublist(from_list(x, y, xs), bdl_)
         }  
 }
 
 type list_elem quicksort_go [type partition bdl];
 
-type Pair partition [type elem p, type sublist xs, type unit2 u];
+type Pair partition [type elem p, type sublist xs];
 
 type list_elem quicksort [type list_elem xs] = quicksort_go(to_bundle(xs, End))
 
@@ -59,7 +55,7 @@ type list_elem quicksort_go [type partition bdl] = match bdl -> type list_elem {
         | End -> Nil_elem
         | Sublist(xs, bdl_) -> match xs -> type list_elem {
             | SCons(p, xs) -> 
-                match partition(p, xs, Unit2(0, 0)) -> type Pair {
+                match partition(p, xs) -> type Pair {
                     | Pair(lo, hi) -> quicksort_go(to_bundle(lo, Singleton(p, to_bundle(hi, bdl_))))
                 }
             | STuple(x, y) -> 
@@ -69,13 +65,13 @@ type list_elem quicksort_go [type partition bdl] = match bdl -> type list_elem {
         | Singleton(p, b) -> Cons_elem(p, quicksort_go(b))
 }
 
-type Pair partition [type elem p, type sublist xs, type unit2 u] 
+type Pair partition [type elem p, type sublist xs] 
     = match xs -> type Pair {
         | SCons(x, xx) -> 
-            if (_elem(p) <= _elem(x)) match partition(p, xx, u) -> type Pair {
+            if (_elem(p) <= _elem(x)) match partition(p, xx) -> type Pair {
                     | Pair(lo, hi) -> Pair(lo, Cons_elem(x, hi))
                 };
-            else match partition(p, xx, u) -> type Pair {
+            else match partition(p, xx) -> type Pair {
                     | Pair(lo, hi) -> Pair(Cons_elem(x, lo), hi)
                 };
         | STuple(x, y) -> 
@@ -103,7 +99,7 @@ fip type list_elem second [type elem x, type list_elem xx] = xx
 fip type list_elem second_first_int [int x, type list_elem xx] = xx
 
 fip type Elem log_elem [type elem e] = match! e -> type Elem {
-    | Elem(i)       ->  Elem(log(i, "->\n"))
+    | Elem(i)       ->  Elem(log(i, "-> "))
 }
 
 fip int _travers_list [type list_elem xs] = match xs -> int {
@@ -117,6 +113,25 @@ fip type list_elem log_list [type list_elem xs] = second_first_int( travers_list
 
 type list_elem make_list [] = Cons_elem(Elem(-1), Cons_elem(Elem(5), Cons_elem(Elem(3), Cons_elem(Elem(1), Cons_elem(Elem(2), Cons_elem(Elem(8), Cons_elem(Elem(-2), Cons_elem(Elem(-1), Nil_elem ))))))))
 
+type list_elem make_n_list_helper [int n, int cur, type list_elem acc] = 
+    if (n <= cur)
+        acc;
+    else 
+        make_n_list_helper(n, cur + 1, Cons_elem(Elem(cur), acc));
+
+type list_elem make_n_list [int n] = 
+    make_n_list_helper(n, 0, Nil_elem)
 
 
-int main [int argc, char** argv] = finish( log_list( quicksort( log_list( make_list() ))))
+
+int main [int argc, char** argv] = 
+    finish( 
+        /*log_list(*/ time(
+                quicksort( 
+                    time( 
+                        /*log_list(*/ 
+                            make_n_list(1116) 
+                        /*)*/ )
+                )
+            )
+        /*)*/ )

@@ -18,7 +18,7 @@
 #define assertm(exp, msg) assert((void(msg), exp))
 
 // A swith that says if we should log static compilation messages
-#define GENERATE_STATIC_DEBUG_LOG true
+#define GENERATE_STATIC_DEBUG_LOG false
 // A swith that says if we should generate dynamic runtime messages printf's
 #define GENERATE_DYNAMIC_DEBUG_LOG false
 
@@ -98,11 +98,16 @@ namespace casem
     /// @param tlabel name of the tagged type
     /// @return number of reuse tokens the type instance holds
     long find_ttype_size(const std::string &tlabel);
+    /// @brief maps subtypes tag to its label
+    /// @param tag tag of the looked for type
+    /// @return if found the label else label spelling "@UNKNOWN"
+    std::string find_type_label(int tag);
     long find_ttype_size(long tag);
     long fetch_ttype_size(cecko::context *ctx, cecko::CIName &label);
     /// @brief Checks if all subtipes of given type have the same size
     /// @return if they do, returns the size, else returns -1
     long check_subtypes_has_same_size(long first_tag, long end_tag);
+    bool ttype_is_object_abstract_type(const std::string &expected_parent_label);
     bool ttype_is_parent_of_subtype(const std::string &expected_parent_label, const std::string &expected_child_label);
 
     void log(const std::string &msgs);
@@ -177,7 +182,7 @@ namespace casem
         {
             if (!GENERATE_DYNAMIC_DEBUG_LOG)
                 return;
-            std::string text = "[DEBUG] -- line: " + std::to_string(ctx->line()) + " --\t" + label + " '";
+            std::string text = "[DEBUG] -- line: " + std::to_string(ctx->line()) + "\t-- " + label + " '";
             InstructionWrapper print_text;
             InstructionArray print_args;
             bool printable_type = false;
@@ -309,7 +314,7 @@ namespace casem
         }
         InstructionWrapper store(const InstructionWrapper &other)
         {
-            log("|store| \n");
+            // log("|store| \n");
             if (mode == RValue)
             {
                 ctx->message(cecko::errors::SYNTAX, ctx->line(), "Assigning to RValue!");
@@ -763,7 +768,7 @@ namespace casem
             }
             auto expected_tag = init_instruction_const(ctx, tag);
             auto &&this_tag = field(0, ctx->get_int_type());
-            this_tag.generate_debug_print("'.has_tag' expecting tag to be '" + std::to_string(tag) + "' and found tag is");
+            this_tag.generate_debug_print("'.has_tag' expecting tag to be {" + find_type_label(tag) + "}'" + std::to_string(tag) + "' and found tag is");
 
             log("|.has_tag| done, returning...\n");
 
@@ -970,7 +975,7 @@ namespace casem
         }
         InstructionWrapper to_tagged(const std::string &tagged_type_label) const
         {
-            log("|.to_tagged(const std::string &tagged_type_label)| started\n");
+            // log("|.to_tagged(const std::string &tagged_type_label)| started\n");
             auto struct_type = ctx->declare_struct_type(tagged_type_label, ctx->line());
             if (!struct_type->is_defined())
             {
@@ -979,9 +984,9 @@ namespace casem
             }
             cecko::CKTypeRefPack struct_type_pack(struct_type, false);
             cecko::CKTypeSafeObs tagged_type = ctx->get_pointer_type(struct_type_pack);
-            log("|.to_tagged(const std::string &tagged_type_label)| calling to_tagged(tagged_type)\n");
+            // log("|.to_tagged(const std::string &tagged_type_label)| calling to_tagged(tagged_type)\n");
             auto &&res = to_tagged(tagged_type);
-            log("|.to_tagged(const std::string &tagged_type_label)| done\n");
+            // log("|.to_tagged(const std::string &tagged_type_label)| done\n");
             return res;
         }
 
@@ -1043,10 +1048,16 @@ namespace casem
         /// @return Resulting enum (EOK means that cast is safe)
         tagged_cast_safety_result check_tagged_cast_safety(cecko::CKTypeSafeObs tagged_type) const
         {
-            log("|.check_tagged_cast_safety| started\n");
+            // log("|.check_tagged_cast_safety| started\n");
             auto to_type_label = InstructionWrapper::get_struct_type_name(tagged_type);
             auto from_type_label = InstructionWrapper::get_struct_type_name(type);
-            log(std::string("|.check_tagged_cast_safety| '") + from_type_label + "' casted to '" + to_type_label + "'\n");
+            // log(std::string("|.check_tagged_cast_safety| '") + from_type_label + "' casted to '" + to_type_label + "'\n");
+
+            // casting to and from abstract object type is allowed
+            if (ttype_is_object_abstract_type(to_type_label) || ttype_is_object_abstract_type(from_type_label))
+            {
+                return EOK;
+            }
 
             auto to_tags = find_ttype(to_type_label);
             auto from_tags = find_ttype(from_type_label);
@@ -1073,9 +1084,8 @@ namespace casem
                 if (from_tag_min <= to_tag && to_tag < from_tag_max)
                     return EOK; // to_tag is in bounds (necessary to check tag field)
                 else
-                    return EOK;
-                // FIXME: aloving to cast from different perent to subtype
-                // return FROM_NOT_TO_ITS_SUBTYPE; // to is not subtype of from type
+                    // FIXME: aloving to cast from different perent to subtype
+                    return FROM_NOT_TO_ITS_SUBTYPE; // to is not subtype of from type
             }
             else if (from_is_subtype)
             {                                 // from subtype -> to parent (to must be parrent type)
@@ -1083,13 +1093,11 @@ namespace casem
                 if (to_tag_min <= from_tag && from_tag < to_tag_max)
                     return EOK; // from_tag is in bounds (necessary to check tag field)
                 else
-                    // return TO_NOT_FROM_ITS_SUBTYPE; // from is not subtype of to type
-                    return EOK;
+                    return TO_NOT_FROM_ITS_SUBTYPE; // from is not subtype of to type
             }
             else
             { // both are parrent types
-                // return NOT_SAME_PARRENT_TYPES;
-                return EOK;
+                return NOT_SAME_PARRENT_TYPES;
             }
         }
     };
@@ -1450,6 +1458,11 @@ namespace casem
               fip_mod(mode),
               result(result_var)
         {
+            if (!_matched_var.type->is_pointer())
+            {
+                ctx->message(cecko::errors::SYNTAX, ctx->line(), std::string("") + "Matched type must be a pointer but '" + _matched_var.name + "' is not a pointer!");
+                matched_var = InstructionWrapper();
+            }
         }
         MatchWrapper()
             : is_destructive(false),
@@ -1525,7 +1538,7 @@ namespace casem
             if (expected_arg_count != actual_arg_count)
             {
                 ctx->message(cecko::errors::SYNTAX, ctx->line(), "In match binder, number of items of type '" + type_label + "' is wrong, should be '" + std::to_string(expected_arg_count) + "' but is '" + std::to_string(actual_arg_count) + "'!");
-                return *this;
+                // return *this;
             }
 
             for (std::size_t i = 0; i < actual_arg_count; i++)
@@ -1540,7 +1553,7 @@ namespace casem
         /// @brief inits the if statement and sets the InsertPoint to the if.then block end
         MatchBinderChackerData &create_if_statement(cecko::context *ctx, MatchWrapper &match_data)
         {
-            log("|MatchBinderChackerData::create_if_statement| started creating if statement");
+            // log("|MatchBinderChackerData::create_if_statement| started creating if statement");
             auto matched = match_data.matched_var;
             matched.generate_debug_print("'match binder' matched var pointer is");
             auto &type_tag_range = find_ttype(type_label);
@@ -1559,22 +1572,22 @@ namespace casem
             {
                 cond = !matched.to_bool();
             }
-            log("|MatchBinderChackerData::create_if_statement| initalizing if block\n");
+            // log("|MatchBinderChackerData::create_if_statement| initalizing if block\n");
             // cond.generate_debug_print("cond in match");
             if_data = init_if_data(ctx, cond);
 
             // auto match_than = ctx->create_basic_block(std::string("match_") + type_label + ".then");
             // ctx->builder()->SetInsertPoint(match_than);
 
-            log("|MatchBinderChackerData::create_if_statement| DONE\n");
+            // log("|MatchBinderChackerData::create_if_statement| DONE\n");
             return *this;
         }
         MatchBinderChackerData &init_binder_vars(cecko::context *ctx, MatchWrapper &match_data)
         {
-            log("|MatchBinderChackerData::init_binder_vars| started\n");
+            // log("|MatchBinderChackerData::init_binder_vars| started\n");
             auto matched = match_data.matched_var
                                .to_tagged(type_label);
-            log("|MatchBinderChackerData::init_binder_vars| casted matched to the binders type\n");
+            // log("|MatchBinderChackerData::init_binder_vars| casted matched to the binders type\n");
             for (std::size_t i = 0; i < declarations.size(); ++i)
             {
                 auto &decl = declarations[i];

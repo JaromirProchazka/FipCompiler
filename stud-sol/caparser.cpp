@@ -1462,7 +1462,7 @@ namespace cecko {
   case 23: // unary_expression: postfix_expression
 #line 387 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                         {
-        log("[unary_expression:]>");
+        // log("[unary_expression:]>");
         yylhs.value.as < casem::InstructionWrapper > () = yystack_[0].value.as < casem::InstructionWrapper > ();
     }
 #line 1469 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
@@ -1691,7 +1691,7 @@ namespace cecko {
   case 43: // assignment_expression: logical_or_expression
 #line 544 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                             {
-        // log("[assignment_expression:]>");
+        log(std::string("")+"[assignment_expression:]{"+(yystack_[0].value.as < casem::InstructionWrapper > ()).name+"}>");
         yylhs.value.as < casem::InstructionWrapper > () = yystack_[0].value.as < casem::InstructionWrapper > ();
     }
 #line 1698 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
@@ -1700,7 +1700,7 @@ namespace cecko {
   case 44: // assignment_expression: unary_expression assignment_operator assignment_expression
 #line 548 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                                                     {
-        log("[assignment_expression:] unary_expression assignment_operator assignment_expression\n");
+        log("[assignment_expression:] unary_expression assignment_operator assignment_expression");
         switch (yystack_[1].value.as < cecko::gt_cass > ()) {
         case cecko::gt_cass::MULA:
             yylhs.value.as < casem::InstructionWrapper > () = (yystack_[2].value.as < casem::InstructionWrapper > ()).store(yystack_[2].value.as < casem::InstructionWrapper > () * yystack_[0].value.as < casem::InstructionWrapper > ());
@@ -1721,38 +1721,39 @@ namespace cecko {
             // normal assignment =
             yylhs.value.as < casem::InstructionWrapper > () = (yystack_[2].value.as < casem::InstructionWrapper > ()).store(yystack_[0].value.as < casem::InstructionWrapper > ());
         }
+        log(std::string("")+" = "+(yystack_[2].value.as < casem::InstructionWrapper > ()).name+"\n");
         yylhs.value.as < casem::InstructionWrapper > () = yystack_[2].value.as < casem::InstructionWrapper > ();
     }
-#line 1727 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 1728 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 45: // assignment_operator: "="
-#line 575 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 576 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
           {
         yylhs.value.as < cecko::gt_cass > () = (cecko::gt_cass)1000;
     }
-#line 1735 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 1736 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 46: // match_head: "match" assignment_expression "->" declaration_specifiers
-#line 581 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 582 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                                               {
-        log("[match_head:] MATCH IDF ARROW declaration_specifiers\n");
+        log(std::string("")+"[match_head:] MATCH IDF{"+(yystack_[2].value.as < casem::InstructionWrapper > ()).name+"} ARROW declaration_specifiers\n");
         yylhs.value.as < casem::MatchWrapper > () = init_match_head(ctx, yystack_[3].value.as < cecko::match_type > (), yystack_[2].value.as < casem::InstructionWrapper > (), yystack_[0].value.as < casem::CKTypeRefDefPack > ());
     }
-#line 1744 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 1745 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 47: // match_expression: assignment_expression
-#line 588 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 589 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                             {
         yylhs.value.as < casem::InstructionWrapper > () = yystack_[0].value.as < casem::InstructionWrapper > ();
     }
-#line 1752 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 1753 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 48: // match_expression: match_binders_list block_end
-#line 591 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 592 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                       {
         log("[match_expression:] MATCH IDF ARROW declaration_specifiers block_start match_binders_list block_end\n");
         casem::MatchWrapper match_data = yystack_[1].value.as < casem::MatchWrapper > ();
@@ -1763,9 +1764,9 @@ namespace cecko {
             auto &null_pattern_if_data = (*match_data.first_pattern_null_check_data).if_data; 
             null_pattern_if_data.else_block_back = ctx->builder()->GetInsertBlock();
             exit_block(ctx);
-            log("SWITCHING to null pattern continue_block\n");
+            // log("SWITCHING to null pattern continue_block\n");
             ctx->builder()->SetInsertPoint(null_pattern_if_data.continue_block);
-            log("[match_expression:] making null check pattern controll flow\n");
+            // log("[match_expression:] making null check pattern control flow\n");
             create_if_control_flow(ctx, null_pattern_if_data);
         }
         log("[match_expression:] if (match_data.is_first_pattern_null_check) Done\n");
@@ -1779,127 +1780,127 @@ namespace cecko {
         // auto&& res = init_instruction_from_name(ctx, casem::match_result_template);
         yylhs.value.as < casem::InstructionWrapper > () = match_data.result;
     }
-#line 1783 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 1784 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 49: // match_binders_list: match_binders_list_head_start expression_body
-#line 620 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 621 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                                    {
         log("[match_binders_list:] match_binders_list_head_start expression_body\n");
         yylhs.value.as < casem::MatchWrapper > () = init_match_binders_list(ctx, yystack_[1].value.as < casem::MatchBinderListHeadData > (), yystack_[0].value.as < casem::InstructionWrapper > ());
     }
-#line 1792 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 1793 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 50: // match_binders_list: match_binders_list_head expression_body
-#line 624 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 625 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                                {
         log("[match_binders_list:] match_binders_list_head expression_body\n");
         yylhs.value.as < casem::MatchWrapper > () = init_match_binders_list(ctx, yystack_[1].value.as < casem::MatchBinderListHeadData > (), yystack_[0].value.as < casem::InstructionWrapper > ());
     }
-#line 1801 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 1802 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 51: // match_binders_list_head_start: match_head block_start match_binder_head
-#line 631 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 632 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                              {
         log("[match_binders_list_head_start:] match_head block_start match_binder_head\n");
         log(std::string("")+"[match_binders_list_head_start:] the checked label is "+(yystack_[0].value.as < casem::MatchBinderChackerData > ()).type_label+" which null ttype is "+std::to_string(casem::is_null_ttype((yystack_[0].value.as < casem::MatchBinderChackerData > ()).type_label))+"\n");
         yylhs.value.as < casem::MatchBinderListHeadData > () = MatchBinderListHeadData::init_match_binders_list_head(ctx, yystack_[2].value.as < casem::MatchWrapper > (), yystack_[0].value.as < casem::MatchBinderChackerData > (), casem::is_null_ttype((yystack_[0].value.as < casem::MatchBinderChackerData > ()).type_label));
     }
-#line 1811 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 1812 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 52: // match_binders_list_head: match_binders_list match_binder_head
-#line 639 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 640 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                          {
         log("[match_binders_list_head:] match_binders_list match_binder_head\n");
         yylhs.value.as < casem::MatchBinderListHeadData > () = MatchBinderListHeadData::init_match_binders_list_head(ctx, yystack_[1].value.as < casem::MatchWrapper > (), yystack_[0].value.as < casem::MatchBinderChackerData > ());
     }
-#line 1820 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 1821 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 53: // match_binder_head: "|" match_binder_definer "->"
-#line 646 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 647 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                         {
-        log("[match_binder_head:] VERT match_binder_definer ARROW\n");
+        log(std::string("")+"[match_binder_head:] VERT match_binder_definer{"+(yystack_[1].value.as < casem::MatchBinderChackerData > ()).type_label+"} ARROW\n");
         yylhs.value.as < casem::MatchBinderChackerData > () = yystack_[1].value.as < casem::MatchBinderChackerData > ();
     }
-#line 1829 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 1830 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 54: // match_binder_definer: "identifier" "(" match_binder_arguments_list ")"
-#line 653 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 654 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                                 {
         log("[match_binder_definer:] IDF LPAR match_binder_arguments_list RPAR\n");
         yylhs.value.as < casem::MatchBinderChackerData > () = casem::MatchBinderChackerData(yystack_[3].value.as < cecko::CIName > ()).set_args(ctx, yystack_[1].value.as < std::vector<cecko::CIName> > ());
     }
-#line 1838 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 1839 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 55: // match_binder_definer: "identifier"
-#line 657 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 658 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
             {
         log("[match_binder_definer:] IDF\n");
         yylhs.value.as < casem::MatchBinderChackerData > () = casem::MatchBinderChackerData(yystack_[0].value.as < cecko::CIName > ());
     }
-#line 1847 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 1848 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 56: // match_binder_arguments_list: "identifier"
-#line 664 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 665 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
            { // FIXME: switch for `match_binder_definer`
         log("[match_binder_arguments_list:] IDF\n");
         yylhs.value.as < std::vector<cecko::CIName> > () = { yystack_[0].value.as < cecko::CIName > () };
     }
-#line 1856 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 1857 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 57: // match_binder_arguments_list: match_binder_arguments_list "," "identifier"
-#line 668 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 669 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                             {
         log("[match_binder_arguments_list:] match_binder_arguments_list COMMA IDF\n");
         (yystack_[2].value.as < std::vector<cecko::CIName> > ()).push_back(yystack_[0].value.as < cecko::CIName > ());
         yylhs.value.as < std::vector<cecko::CIName> > () = yystack_[2].value.as < std::vector<cecko::CIName> > ();
     }
-#line 1866 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 1867 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 58: // expression_body: match_expression
-#line 676 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 677 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                       {
         yylhs.value.as < casem::InstructionWrapper > () = yystack_[0].value.as < casem::InstructionWrapper > ();
     }
-#line 1874 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 1875 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 59: // expression_body: flow_expression
-#line 679 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 680 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                       {
         yylhs.value.as < casem::InstructionWrapper > () = (yystack_[0].value.as < casem::IfExpressionData > ()).result;
     }
-#line 1882 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 1883 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 60: // expression: expression_body expression_end
-#line 685 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 686 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                    {
         yylhs.value.as < casem::InstructionWrapper > () = yystack_[1].value.as < casem::InstructionWrapper > ();
     }
-#line 1890 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 1891 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 61: // declaration_specifiers: declaration_specifier
-#line 695 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 696 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                             { 
             log("[declaration_specifiers:] ^ simply give refpack from declaration_specifier to the list\n");
             yylhs.value.as < casem::CKTypeRefDefPack > () = yystack_[0].value.as < casem::CKTypeRefDefPack > ();
         }
-#line 1899 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 1900 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 62: // declaration_specifiers: declaration_specifier declaration_specifiers
-#line 699 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 700 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                                     {
             log("[declaration_specifiers:] take the list and update its info by the new element\n");
             casem::CKTypeRefDefPack rfpack = yystack_[0].value.as < casem::CKTypeRefDefPack > ();
@@ -1923,11 +1924,11 @@ namespace cecko {
 
             yylhs.value.as < casem::CKTypeRefDefPack > () = rfpack;
         }
-#line 1927 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 1928 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 63: // declaration_specifier: type_specifier_qualifier
-#line 725 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 726 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                              {
             log("[declaration_specifier:] ^ Found type_specifier_qualifier ");
             casem::CKTypeRefDefPack rpack;
@@ -1949,22 +1950,22 @@ namespace cecko {
             log("\n");
             yylhs.value.as < casem::CKTypeRefDefPack > () = rpack;
         }
-#line 1953 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 1954 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 64: // declaration_specifier: "fip"
-#line 746 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 747 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
             {
         log("[declaration_specifier:] Found FIP\n");
         casem::CKTypeRefDefPack rfpack;
         rfpack.is_fip = true;
         yylhs.value.as < casem::CKTypeRefDefPack > () = rfpack;
     }
-#line 1964 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 1965 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 65: // type_specifier: "_Bool, char, or int"
-#line 755 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 756 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
           { 
         log("[type_specifier:] ^ Found ETYPE '"); 
         switch (yystack_[0].value.as < cecko::gt_etype > ()) {
@@ -1982,11 +1983,11 @@ namespace cecko {
                 break;
         }
      }
-#line 1986 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 1987 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 66: // type_specifier: declared_type_name
-#line 772 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 773 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                             {
         auto&& type = ctx->declare_struct_type(yystack_[0].value.as < cecko::CIName > (), ctx->line());
         if (type && type->is_defined())  {
@@ -1997,11 +1998,11 @@ namespace cecko {
             ctx->message(cecko::errors::SYNTAX, ctx->line(), e_msg);
         }
     }
-#line 2001 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2002 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 67: // type_specifier: typedef_name
-#line 782 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 783 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                     {
             log("[type_specifier:] ^ found typedef_name '%s'\n", (yystack_[0].value.as < cecko::CIName > ()).c_str());
             auto type_def_data = ctx->find_typedef(yystack_[0].value.as < cecko::CIName > ());
@@ -2013,97 +2014,97 @@ namespace cecko {
                 ctx->message(cecko::errors::SYNTAX, ctx->line(), e_msg);
             }
         }
-#line 2017 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2018 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 68: // declared_type_name: "type" "identifier"
-#line 796 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 797 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                     {
         log_name("[declared_type_name:] TYPEDEF IDF", yystack_[0].value.as < cecko::CIName > ());
         yylhs.value.as < cecko::CIName > () = yystack_[0].value.as < cecko::CIName > ();
     }
-#line 2026 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2027 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 69: // enumtype_decl_head: "type" "identifier"
-#line 803 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 804 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                     {
         casem::declare_support_functions(ctx);
         yylhs.value.as < casem::TaggedTypeDecl > () = declare_parent_ttype(ctx, yystack_[0].value.as < cecko::CIName > ());
     }
-#line 2035 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2036 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 74: // enumtype_decl_specifier: enumtype_decl_head block_start member_types_declaration_list block_end new_lines
-#line 820 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 821 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                                                                       {
         log("[enumtype_decl_specifier:] enumtype_decl_head block_start member_types_declaration_list block_end new_lines\n");
         yylhs.value.as < cecko::CKStructTypeSafeObs > () = TaggedTypeDecl::finish_parent_ttype(ctx, yystack_[4].value.as < casem::TaggedTypeDecl > ());
     }
-#line 2044 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2045 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 75: // member_types_declaration_list: member_types_declaration
-#line 827 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 828 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                  {
         log("[member_types_declaration_list:] member_types_declaration\n");
         StructObservers vec = { yystack_[0].value.as < cecko::CKStructTypeSafeObs > () };
         yylhs.value.as < casem::StructObservers > () = vec;
     }
-#line 2054 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2055 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 76: // member_types_declaration_list: member_types_declaration_list member_types_declaration
-#line 832 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 833 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                                                   {
         log("[member_types_declaration_list:] member_types_declaration_list member_types_declaration\n");
         auto&& vec = yystack_[1].value.as < casem::StructObservers > (); 
         vec.push_back(yystack_[0].value.as < cecko::CKStructTypeSafeObs > ());
         yylhs.value.as < casem::StructObservers > () = vec;
     }
-#line 2065 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2066 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 77: // member_types_declaration: "identifier" "(" member_declaration_list ")" ";"
-#line 841 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 842 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                                     {
         log_name("[member_types_declaration:] includes member_declaration_list", yystack_[4].value.as < cecko::CIName > ());
         yylhs.value.as < cecko::CKStructTypeSafeObs > () = casem::declare_child_ttype(ctx, yystack_[4].value.as < cecko::CIName > (), yystack_[2].value.as < cecko::CKStructItemArray > ());
     }
-#line 2074 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2075 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 78: // member_types_declaration: "identifier" ";"
-#line 845 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 846 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                    {
         log_name("[member_types_declaration:] found IDF SEMIC", yystack_[1].value.as < cecko::CIName > ());
         yylhs.value.as < cecko::CKStructTypeSafeObs > () = casem::declare_child_ttype(ctx, yystack_[1].value.as < cecko::CIName > ());
     }
-#line 2083 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2084 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 79: // member_declaration_list: member_declaration
-#line 852 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 853 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                             {
         log("[member_declaration_list:] member_declaration\n");
         yylhs.value.as < cecko::CKStructItemArray > () = yystack_[0].value.as < cecko::CKStructItemArray > ();
     }
-#line 2092 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2093 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 80: // member_declaration_list: member_declaration_list "," member_declaration
-#line 856 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 857 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                                           {
         log("[member_declaration_list:] member_declaration_list COMMA member_declaration\n");
         cecko::CKStructItemArray s_items = yystack_[2].value.as < cecko::CKStructItemArray > ();
         s_items.push_back(yystack_[0].value.as < cecko::CKStructItemArray > ()[0]);
         yylhs.value.as < cecko::CKStructItemArray > () = s_items;
     }
-#line 2103 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2104 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 81: // member_declaration: specifier_qualifier_list member_declarator
-#line 865 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 866 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                                  { 
         log("[member_declaration:] give refpack to member_declarator_list\n");
         casem::TypeRefPack_Action DEFINER_BODY = yystack_[0].value.as < casem::TypeRefPack_Action > ();
@@ -2115,20 +2116,20 @@ namespace cecko {
         cecko::CKStructItemArray s_items = { s_item };
         yylhs.value.as < cecko::CKStructItemArray > () = s_items;
      }
-#line 2119 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2120 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 82: // specifier_qualifier_list: type_specifier_qualifier
-#line 879 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 880 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                 { 
         log("[specifier_qualifier_list:] ^ type_specifier_qualifier\n");
         yylhs.value.as < casem::CKTypeRefDefPack > () = yystack_[0].value.as < casem::CKTypeRefDefPack > ();
      }
-#line 2128 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2129 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 83: // specifier_qualifier_list: type_specifier_qualifier specifier_qualifier_list
-#line 883 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 884 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                                         { 
         log("[specifier_qualifier_list:] ^ type_specifier_qualifier specifier_qualifier_list\n");
         auto t = yystack_[0].value.as < casem::CKTypeRefDefPack > ();
@@ -2145,29 +2146,29 @@ namespace cecko {
 
         yylhs.value.as < casem::CKTypeRefDefPack > () = t;
      }
-#line 2149 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2150 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 84: // type_specifier_qualifier: type_specifier
-#line 902 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 903 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                     { 
             log("[type_specifier_qualifier:] ^ Found type_specifier\n"); 
             casem::CKTypeRefDefPack t(yystack_[0].value.as < cecko::CKTypeSafeObs > (), false, false, false);
             yylhs.value.as < casem::CKTypeRefDefPack > () = t;
         }
-#line 2159 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2160 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 85: // member_declarator: declarator
-#line 910 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 911 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                     {
         yylhs.value.as < casem::TypeRefPack_Action > () = yystack_[0].value.as < casem::TypeRefPack_Action > ();
     }
-#line 2167 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2168 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 86: // declarator: pointer direct_declarator
-#line 916 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 917 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                               {
         log("[declarator:] >v found pointer direct_declarator define LAMBDA\n");
         auto DEFINER_F = yystack_[0].value.as < casem::TypeRefPack_Action > ();
@@ -2175,20 +2176,20 @@ namespace cecko {
 
         yylhs.value.as < casem::TypeRefPack_Action > () = GET_POINTER_ADDER(POINTER_F, DEFINER_F);
     }
-#line 2179 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2180 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 87: // declarator: direct_declarator
-#line 923 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 924 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                         {
             log("[declarator:] v found direct_declarator, gave refpack to it\n");
             yylhs.value.as < casem::TypeRefPack_Action > () = yystack_[0].value.as < casem::TypeRefPack_Action > ();    // giving the casem::CKTypeRefDefPack(type, is_const, has_typedef)
         }
-#line 2188 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2189 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 88: // pointer: "*" pointer
-#line 930 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 931 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                   {
         auto LOWER_POINTER = yystack_[0].value.as < casem::TypeRefPack_Convertor > ();
         std::function<casem::CKTypeRefDefPack(casem::CKTypeRefDefPack&)> 
@@ -2200,11 +2201,11 @@ namespace cecko {
 
         yylhs.value.as < casem::TypeRefPack_Convertor > () = POINTER_TO_DEFINER;
     }
-#line 2204 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2205 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 89: // pointer: "*"
-#line 941 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 942 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                 {
         std::function<casem::CKTypeRefDefPack(casem::CKTypeRefDefPack&)> 
             POINTER_TO_DEFINER = [this](casem::CKTypeRefDefPack rfpack) {
@@ -2215,31 +2216,31 @@ namespace cecko {
 
         yylhs.value.as < casem::TypeRefPack_Convertor > () = POINTER_TO_DEFINER;
     }
-#line 2219 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2220 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 90: // direct_declarator: "identifier"
-#line 954 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 955 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
         { 
         auto name = yystack_[0].value.as < cecko::CIName > ();
         log_name("[direct_declarator:] .() found IDF and define LAMBDA", name);
 
         yylhs.value.as < casem::TypeRefPack_Action > () = GET_DEFINER(ctx, name);
     }
-#line 2230 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2231 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 91: // direct_declarator: function_declarator
-#line 960 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 961 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                             {
         log("[direct_declarator:] v found function_declarator\n");
         yylhs.value.as < casem::TypeRefPack_Action > () = yystack_[0].value.as < casem::TypeRefPack_Action > ();
     }
-#line 2239 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2240 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 92: // function_declarator: direct_declarator "[" parameter_type_list "]"
-#line 967 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 968 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                                      {
         log("[function_declarator:] direct_declarator LBRA parameter_type_list RBRA -- v< wrap current lambdas rfpack in function\n");
         //ctx->get_function_type(CKTypeObs ret_type, CKTypeObsArray arg_types, bool variadic=false)
@@ -2260,29 +2261,29 @@ namespace cecko {
 
         yylhs.value.as < casem::TypeRefPack_Action > () = GET_FUNCTION_ADDER(ctx, yystack_[3].value.as < casem::TypeRefPack_Action > (), param_types, is_variadic, param_names);
     }
-#line 2264 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2265 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 93: // parameter_type_list: parameter_list
-#line 990 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 991 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                    {
         log("[parameter_type_list:] ^ parameter_list\n");
         yylhs.value.as < casem::TRDArray > () = yystack_[0].value.as < casem::TRDArray > ();
     }
-#line 2273 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2274 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 94: // parameter_type_list: %empty
-#line 994 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 995 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                   {
         std::vector<casem::CKTypeRefDefPack> empty_param_array;
         yylhs.value.as < casem::TRDArray > () = empty_param_array;
     }
-#line 2282 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2283 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 95: // parameter_list: parameter_declaration
-#line 1001 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 1002 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                             {
         log("[parameter_list:] ^ init parameter_list\n");
         if ((yystack_[0].value.as < casem::CKTypeRefDefPack > ()).type->is_void()) {
@@ -2294,11 +2295,11 @@ namespace cecko {
             yylhs.value.as < casem::TRDArray > () = param_array;
         }
     }
-#line 2298 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2299 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 96: // parameter_list: parameter_list "," parameter_declaration
-#line 1012 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 1013 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                                  {
         log("[parameter_list:] ^ push_back to parameter_list\n");
         if ((yystack_[0].value.as < casem::CKTypeRefDefPack > ()).type->is_void()) {
@@ -2317,11 +2318,11 @@ namespace cecko {
             }
         }
     }
-#line 2321 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2322 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 97: // parameter_declaration: declaration_specifiers declarator
-#line 1033 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 1034 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                         { 
         // FIXME: Send also the cecko::CKFunctionFormalPackArray to the function_definition 
         // and from it to declarator and up
@@ -2348,27 +2349,27 @@ namespace cecko {
 
         yylhs.value.as < casem::CKTypeRefDefPack > () = param_typepack;
     }
-#line 2352 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2353 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 98: // parameter_declaration: declaration_specifiers
-#line 1059 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 1060 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                                     {
         log("[parameter_declaration:] ^ found declaration_specifiers\n");
         casem::CKTypeRefDefPack rfpack = yystack_[0].value.as < casem::CKTypeRefDefPack > ();
         yylhs.value.as < casem::CKTypeRefDefPack > () = rfpack;
     }
-#line 2362 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2363 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 99: // typedef_name: "type identifier"
-#line 1067 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 1068 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                 { yylhs.value.as < cecko::CIName > () = yystack_[0].value.as < cecko::CIName > (); }
-#line 2368 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2369 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 100: // expression_statement: match_expression ";"
-#line 1076 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 1077 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                               {
         log("[expression_statement:] expression_opt SEMIC\n");
         IfExpressionData res;
@@ -2377,22 +2378,22 @@ namespace cecko {
 
         yylhs.value.as < casem::IfExpressionData > () = res;
     }
-#line 2381 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2382 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 101: // if_expression_head: "if" "(" expression_body ")"
-#line 1089 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 1090 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                      {
-        log("[if_expression_head:] IF LPAR expression RPAR\n");
+        log(std::string("")+"[if_expression_head:] IF LPAR expression{"+(yystack_[1].value.as < casem::InstructionWrapper > ()).name+"} RPAR\n");
         yylhs.value.as < casem::IfExpressionData > () = IfExpressionData::init_if_head(ctx, yystack_[1].value.as < casem::InstructionWrapper > ());
     }
-#line 2390 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2391 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 102: // if_non_split_expression: if_expression_head non_split_expression
-#line 1096 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 1097 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                               {
-        log("[if_non_split_expression:] if_expression_head non_split_statement\n");
+        log(std::string("")+"[if_non_split_expression:] if_expression_head non_split_statement\n");
         auto &&expression_data = yystack_[1].value.as < casem::IfExpressionData > ();
         auto &data = expression_data.if_data;
         data.if_block_back = ctx->builder()->GetInsertBlock();
@@ -2400,32 +2401,32 @@ namespace cecko {
         casem::exit_block(ctx);
         yylhs.value.as < casem::IfExpressionData > () = expression_data;
     }
-#line 2404 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2405 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 103: // if_non_split_expression_else: if_non_split_expression "else"
-#line 1108 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 1109 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                    {
         log("[if_non_split_expression_else:] if_non_split_expression ELSE: \n");
         yylhs.value.as < casem::IfExpressionData > () = IfExpressionData::init_if_else_head(ctx, yystack_[1].value.as < casem::IfExpressionData > ());
     }
-#line 2413 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2414 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 104: // flow_expression: non_split_expression
-#line 1115 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 1116 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
     { yylhs.value.as < casem::IfExpressionData > () = yystack_[0].value.as < casem::IfExpressionData > (); }
-#line 2419 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2420 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 105: // flow_expression: split_expression
-#line 1116 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 1117 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
       { yylhs.value.as < casem::IfExpressionData > () = yystack_[0].value.as < casem::IfExpressionData > (); }
-#line 2425 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2426 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 106: // non_split_expression: if_non_split_expression_else non_split_expression
-#line 1120 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 1121 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                                          {
         log("[non_split_expression:] if_non_split_expression_else non_split_expression: \n");
         auto &&expression_data = yystack_[1].value.as < casem::IfExpressionData > ();
@@ -2439,20 +2440,20 @@ namespace cecko {
 
         yylhs.value.as < casem::IfExpressionData > () = expression_data;
     }
-#line 2443 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2444 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 107: // non_split_expression: expression_statement
-#line 1133 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 1134 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                               {
         log("[non_split_statement:] expression_statement\n");
         yylhs.value.as < casem::IfExpressionData > () = yystack_[0].value.as < casem::IfExpressionData > ();
     }
-#line 2452 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2453 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 108: // split_expression: if_expression_head expression_body
-#line 1140 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 1141 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                            {
         log("[split_statement:] if_statement_head statement\n");
         auto &&expression_data = yystack_[1].value.as < casem::IfExpressionData > ();
@@ -2465,11 +2466,11 @@ namespace cecko {
         expression_data.block = create_if_control_flow(ctx, data);
         yylhs.value.as < casem::IfExpressionData > () = expression_data;
      }
-#line 2469 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2470 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
   case 109: // split_expression: if_non_split_expression_else split_expression
-#line 1152 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 1153 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
                                                         {
         log("[split_statement:] if_non_split_statement_else split_statement\n");
         auto &&expression_data = yystack_[1].value.as < casem::IfExpressionData > ();
@@ -2482,11 +2483,11 @@ namespace cecko {
         expression_data.block = create_if_control_flow(ctx, data);
         yylhs.value.as < casem::IfExpressionData > () = expression_data;
      }
-#line 2486 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2487 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
     break;
 
 
-#line 2490 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 2491 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
 
             default:
               break;
@@ -3055,13 +3056,13 @@ namespace cecko {
      218,   258,   264,   289,   322,   327,   332,   338,   341,   345,
      371,   375,   380,   387,   391,   414,   415,   416,   426,   430,
      437,   441,   445,   459,   463,   477,   481,   503,   507,   522,
-     526,   533,   537,   544,   548,   575,   581,   588,   591,   620,
-     624,   631,   639,   646,   653,   657,   664,   668,   676,   679,
-     685,   695,   699,   725,   746,   755,   772,   782,   796,   803,
-     810,   811,   815,   816,   820,   827,   832,   841,   845,   852,
-     856,   865,   879,   883,   902,   910,   916,   923,   930,   941,
-     954,   960,   967,   990,   994,  1001,  1012,  1033,  1059,  1067,
-    1076,  1089,  1096,  1108,  1115,  1116,  1120,  1133,  1140,  1152
+     526,   533,   537,   544,   548,   576,   582,   589,   592,   621,
+     625,   632,   640,   647,   654,   658,   665,   669,   677,   680,
+     686,   696,   700,   726,   747,   756,   773,   783,   797,   804,
+     811,   812,   816,   817,   821,   828,   833,   842,   846,   853,
+     857,   866,   880,   884,   903,   911,   917,   924,   931,   942,
+     955,   961,   968,   991,   995,  1002,  1013,  1034,  1060,  1068,
+    1077,  1090,  1097,  1109,  1116,  1117,  1121,  1134,  1141,  1153
   };
 
   void
@@ -3094,9 +3095,9 @@ namespace cecko {
 
 #line 7 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
 } // cecko
-#line 3098 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
+#line 3099 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol/caparser.cpp"
 
-#line 1169 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
+#line 1170 "/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/caparser.y"
 
 
 namespace cecko {

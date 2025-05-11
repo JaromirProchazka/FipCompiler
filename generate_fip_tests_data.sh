@@ -26,7 +26,7 @@ while [[ $# -gt 0 ]]; do
             ;;
         *)
             echo "[generate_fip_tests_data] Unknown option: $1"
-            echo "[generate_fip_tests_data] Usage: $0 [--replace] [--basics]"
+            echo "[generate_fip_tests_data] Usage: $0 [--replace] [--basics] [--no-test]"
             exit 1
             ;;
     esac
@@ -124,9 +124,8 @@ if [ $do_tests -eq 1 ]; then
         echo "====== [generate_fip_tests_data] Generate data for benchmarks ========"
         ./banchmarks_utils/generate_banchmarks_data.sh
         echo "============= [generate_fip_tests_data] BANCHMARKS DONE =============="
-    else
+    fi
 else
-
     echo "[generate_fip_tests_data] Benchmarks are disabled"
 fi
 

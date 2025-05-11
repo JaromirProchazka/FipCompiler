@@ -3,6 +3,8 @@
 #include <cstdio>
 #include <cstdarg>
 #include <iostream>
+#include <time.h>
+#include <stdio.h>
 
 #if defined _WIN32 || defined __CYGWIN__
 #ifdef __GNUC__
@@ -19,6 +21,7 @@
 #endif
 
 std::ostream *ckrt_out = &std::cout;
+static clock_t clock_start = 0;
 
 extern "C"
 {
@@ -56,6 +59,7 @@ extern "C"
 		return rv2;
 	}
 
+	static std::size_t already_allocated = 0;
 	void DLL_PUBLIC *ckrt_malloc(int size)
 	{
 		auto res = malloc((std::size_t)size);
@@ -65,9 +69,26 @@ extern "C"
 		}
 		else
 		{
-			ckrt_printf("					[ckrt_malloc] malloced '%p' of '%i' reuse tokens\n", res, (size / 8 - 1));
+			already_allocated += (std::size_t)size;
+			// ckrt_printf("					[ckrt_malloc] malloced '%p' of '%i' reuse tokens. Now malloced %uB.\n", res, (size / 8 - 1), already_allocated);
 		}
 		return res;
+	}
+
+	void DLL_PUBLIC ckrt_measure_cpu_time(void)
+	{
+		if (clock_start == 0)
+		{
+			clock_start = clock();
+		}
+		else
+		{
+			clock_t end = clock();
+			double elapsed_sec = (double)(end - clock_start) / CLOCKS_PER_SEC;
+			printf("Now already malloced in total %uB\n", (unsigned int)already_allocated);
+			printf("Elapsed CPU time: %.6f\n", elapsed_sec);
+			clock_start = 0;
+		}
 	}
 
 	int DLL_PUBLIC ckrt_scanf(const char *s, ...)

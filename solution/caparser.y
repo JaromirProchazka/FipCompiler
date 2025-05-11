@@ -385,7 +385,7 @@ argument_expression_list:
 
 unary_expression:
     postfix_expression  {
-        log("[unary_expression:]>");
+        // log("[unary_expression:]>");
         $$ = $1;
     } 
     | unary_operator cast_expression    {
@@ -542,11 +542,11 @@ logical_or_expression:
 
 assignment_expression:
     logical_or_expression   {
-        // log("[assignment_expression:]>");
+        log(std::string("")+"[assignment_expression:]{"+($1).name+"}>");
         $$ = $1;
     }
     | unary_expression assignment_operator assignment_expression    {
-        log("[assignment_expression:] unary_expression assignment_operator assignment_expression\n");
+        log("[assignment_expression:] unary_expression assignment_operator assignment_expression");
         switch ($2) {
         case cecko::gt_cass::MULA:
             $$ = ($1).store($1 * $3);
@@ -567,6 +567,7 @@ assignment_expression:
             // normal assignment =
             $$ = ($1).store($3);
         }
+        log(std::string("")+" = "+($1).name+"\n");
         $$ = $1;
     }
 ;
@@ -579,7 +580,7 @@ assignment_operator:
 
 match_head:
     MATCH assignment_expression ARROW declaration_specifiers  {
-        log("[match_head:] MATCH IDF ARROW declaration_specifiers\n");
+        log(std::string("")+"[match_head:] MATCH IDF{"+($2).name+"} ARROW declaration_specifiers\n");
         $$ = init_match_head(ctx, $1, $2, $4);
     }
 ;
@@ -598,9 +599,9 @@ match_expression:
             auto &null_pattern_if_data = (*match_data.first_pattern_null_check_data).if_data; 
             null_pattern_if_data.else_block_back = ctx->builder()->GetInsertBlock();
             exit_block(ctx);
-            log("SWITCHING to null pattern continue_block\n");
+            // log("SWITCHING to null pattern continue_block\n");
             ctx->builder()->SetInsertPoint(null_pattern_if_data.continue_block);
-            log("[match_expression:] making null check pattern controll flow\n");
+            // log("[match_expression:] making null check pattern control flow\n");
             create_if_control_flow(ctx, null_pattern_if_data);
         }
         log("[match_expression:] if (match_data.is_first_pattern_null_check) Done\n");
@@ -644,7 +645,7 @@ match_binders_list_head:
 
 match_binder_head:
     VERT match_binder_definer ARROW     {
-        log("[match_binder_head:] VERT match_binder_definer ARROW\n");
+        log(std::string("")+"[match_binder_head:] VERT match_binder_definer{"+($2).type_label+"} ARROW\n");
         $$ = $2;
     }
 ;
@@ -1087,14 +1088,14 @@ expression_statement:
 ///////////////////////////////////////////////////////
 if_expression_head:
     IF LPAR expression_body RPAR     {
-        log("[if_expression_head:] IF LPAR expression RPAR\n");
+        log(std::string("")+"[if_expression_head:] IF LPAR expression{"+($3).name+"} RPAR\n");
         $$ = IfExpressionData::init_if_head(ctx, $3);
     }
 ;
 
 if_non_split_expression:
     if_expression_head non_split_expression   {
-        log("[if_non_split_expression:] if_expression_head non_split_statement\n");
+        log(std::string("")+"[if_non_split_expression:] if_expression_head non_split_statement\n");
         auto &&expression_data = $1;
         auto &data = expression_data.if_data;
         data.if_block_back = ctx->builder()->GetInsertBlock();

@@ -14,6 +14,7 @@ namespace casem
 
     std::unordered_map<std::string, std::pair<int, int>> type_to_id;
     std::unordered_map<std::string, long> type_to_reuse_size;
+    std::unordered_map<int, std::string> id_to_type;
     std::unordered_map<long, long> id_to_reuse_size;
     std::unordered_map<std::string, bool> parents_null_type;
 
@@ -22,6 +23,7 @@ namespace casem
     const std::string constructor_name_template = "_const_";
     const std::string res_label = "_result";
     const std::string print_label = "log";
+    const std::string time_measure_label = "time";
     const std::string pair_type = "Pair";
     const std::string tupple3_type = "Tuple3";
     const std::string tupple4_type = "Tuple4";
@@ -72,6 +74,7 @@ namespace casem
     void insert_ttype(const std::string &tlabel, int tag, long reuse_size, bool is_empty_label_type)
     {
         type_to_id.emplace(tlabel, std::make_pair(tag, tag));
+        id_to_type.emplace(tag, tlabel);
         type_to_reuse_size.emplace(tlabel, (long)reuse_size);
         id_to_reuse_size.emplace(tag, (long)reuse_size);
         insert_null_ttype(tlabel, is_empty_label_type);
@@ -90,6 +93,13 @@ namespace casem
         if (it != type_to_reuse_size.end())
             return it->second;
         return -1;
+    }
+    std::string find_type_label(int tag)
+    {
+        auto it = id_to_type.find(tag);
+        if (it != id_to_type.end())
+            return it->second;
+        return "@UNFOUND";
     }
     long find_ttype_size(long tag)
     {
@@ -118,8 +128,18 @@ namespace casem
         return (same) ? found_size : -1;
     }
 
+    inline bool ttype_is_object_abstract_type(const std::string &expected_parent_label)
+    {
+        return expected_parent_label == tagged_parent_type || expected_parent_label == tagged_child_type;
+    }
     bool ttype_is_parent_of_subtype(const std::string &expected_parent_label, const std::string &expected_child_label)
     {
+        // object and Tagged are meant as parent of all types
+        if (ttype_is_object_abstract_type(expected_parent_label))
+        {
+            return true;
+        }
+
         auto p = find_ttype(expected_parent_label);
         auto c = find_ttype(expected_child_label);
 
@@ -187,7 +207,7 @@ namespace casem
     {
         // log("Started function call\n");
 
-        assertm(inst.type->is_function(), std::string("") + "given type of instruction " + inst.name + " to call is not a funcion");
+        assertm(inst.type->is_function(), (std::string("") + "given type of instruction " + inst.name + " to call is not a funcion").c_str());
         cecko::CKFunctionTypeSafeObs ftype((cecko::CKFunctionTypeObs)((cecko::CKTypeObs)(inst.type)));
         for (std::size_t i = 0; i < ftype->get_function_arg_count(); i++)
         {
@@ -202,7 +222,7 @@ namespace casem
             return InstructionWrapper();
         }
 
-        log("Init Function Call done\n");
+        // log("Init Function Call done\n");
         return InstructionWrapper(
             ctx,
             inst.mode,
@@ -292,7 +312,7 @@ namespace casem
      */
     cecko::CKIRBasicBlockObs create_if_control_flow(cecko::context *ctx, IfControllFlowData &data, bool make_if_unreachable)
     {
-        log("Entered create_if_control_flow\n");
+        // log("Entered create_if_control_flow\n");
         // cecko::CKIRBasicBlockObs continue_block = ctx->builder()->GetInsertBlock();
         auto condv = data.condition.to_bool();
         if (data.continue_block == NULL)
@@ -370,7 +390,7 @@ namespace casem
 
     MatchWrapper init_match_binders_list(cecko::context *ctx, MatchBinderListHeadData &data, InstructionWrapper &conditioned_result_value)
     {
-        log("|init_match_binders_list| init vars\n");
+        // log("|init_match_binders_list| init vars\n");
         auto &match_dt = data.head_data;
         auto &binder_data = data.binder_data;
         auto &if_data = binder_data.if_data;
@@ -393,10 +413,10 @@ namespace casem
         ctx->builder()->SetInsertPoint(if_data.continue_block);
         // log("|init_match_binders_list| setting if controll flow\n");
 
-        log("|init_match_binders_list| checking if this pattern check is null check\n");
+        // log("|init_match_binders_list| checking if this pattern check is null check\n");
         if (data.is_first_pattern_null_check)
         {
-            log("|init_match_binders_list| pattern check IS null check\n");
+            // log("|init_match_binders_list| pattern check IS null check\n");
             binder_data.if_data = IfExpressionData::init_if_else_head(ctx, if_data).if_data;
             if_data = binder_data.if_data;
             match_dt.first_pattern_null_check_data = std::make_shared<MatchBinderChackerData>(binder_data);
@@ -406,7 +426,7 @@ namespace casem
             create_if_control_flow(ctx, if_data);
         }
 
-        log("|init_match_binders_list| done\n");
+        // log("|init_match_binders_list| done\n");
         return match_dt;
     }
 
@@ -960,6 +980,13 @@ namespace casem
         DEFINER_BODY(rfpack, std::function(CHOOSE_AND_DEFINE));
         auto rfpack_ptr = std::make_shared<casem::CKTypeRefDefPack>(rfpack);
         auto res_var = init_instruction_from_name(ctx, casem::match_result_template);
+        // FIXME: STORE NULL TO EMPTY RESULT
+        // res_var.store(
+        //     InstructionWrapper::null_inst(
+        //         ctx,
+        //         cecko::CKPtrTypeSafeObs(
+        //             (cecko::CKPtrTypeObs)rfpack.type)));
+
         casem::MatchWrapper mw(ctx, matched, rfpack_ptr, match_ty, res_var);
         matched.generate_debug_print("'match_head' matched argument is");
         log("match head done\n");
@@ -1120,12 +1147,33 @@ namespace casem
         return init_instruction_const(ctx, 0);
     }
 
+    InstructionWrapper handle_time_measure(cecko::context *ctx, casem::InstructionArray params)
+    {
+        if (params.size() != 1)
+        {
+            ctx->message(cecko::errors::SYNTAX, ctx->line(), (std::string("") + "time function takes one expression as argument, got '" + std::to_string(params.size()) + "' arguments!").c_str());
+            return init_instruction_const(ctx, 0);
+        }
+
+        InstructionWrapper arg = params[0];
+        init_instruction_function_call(
+            ctx,
+            init_instruction_from_name(ctx, "measure_cpu_time"),
+            {});
+        return arg;
+    }
+
     InstructionWrapper handle_postfix_expression_fcall(cecko::context *ctx, cecko::CIName &label, casem::InstructionArray params)
     {
         if (label == print_label)
         {
             return handle_log_call(ctx, params);
         }
+        else if (label == time_measure_label)
+        {
+            return handle_time_measure(ctx, params);
+        }
+
         if (!casem::is_constructable_type_label(ctx, label))
         {
             generate_debug_print(ctx, std::string("") + "Entering '" + label + "(...)' call", params);
