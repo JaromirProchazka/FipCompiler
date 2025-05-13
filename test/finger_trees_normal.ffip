@@ -8,191 +8,100 @@ type afew_object {
     Three(type object a, type object b, type object c);
 }
 
+type seq_object {
+    Empty;
+    Unit(type object a);
+    More(type afew_object l, type seq_object s, type afew_object r);
+}
+
 type tuple_object {
     PairObject(type object a, type object b);
     TripleObject(type object a, type object b, type object c);
 }
 
-type seq_object {
-    Empty;
-    Unit(type object a);
-    More0(type object l, type seq_object s, type afew_object r);
-    More(type tuple_object l, type seq_object s, type afew_object r);
-}
-
-type buffer {
-    BNil;
-    BCons(type buffer next);
-}
-
-type bseq {
-    BSeq(type seq_object s, type buffer q);
-}
-
 type elem head [type seq_object s];
-
-type elem bhead [type bseq bs] 
-    = match bs -> type elem {
-        | BSeq(s, _1) -> head(s)
-    }
 
 type elem head [type seq_object s]
     = match s -> type elem {
         | Unit(x)            -> x
-        | More0(x, _1, _2)           -> x
         | More(p, _1, _2) -> 
             match p -> type elem {
-                | PairObject(x, _3)   ->  x
-            }
-        | More(t, _1, _2) -> 
-            match t -> type elem {
-                | TripleObject(x, _3, _4)   ->  x
+                | One(x)            ->  x
+                | Two(x, _3)        ->  x
+                | Three(x, _3, _4)  ->  x
             }
     }
 
-type BSeq cons [type object x, type seq_object s, type buffer b];
+type seq_object cons [type object x, type seq_object s];
 
-type bseq bcons [type elem x, type bseq bs]
-    = match bs -> type bseq {
-        | BSeq(s, b) -> 
-            match cons(x, s, b) -> type BSeq {
-                | BSeq(s_, b_) -> BSeq(s_, b_)
-            }
-    }
-
-type BSeq cons [type object x, type seq_object s, type buffer b]
-    = match s -> type BSeq {
-        | Empty                 -> BSeq(Unit(x), b)
-        | Unit(y)       -> BSeq(More0(x, Empty, One(y)), b)
-        | More0(y, q, u)        -> BSeq(More(PairObject(x, y), q, u), b)
+type seq_object cons [type object x, type seq_object s]
+    = match s -> type seq_object {
+        | Empty                 ->  Unit(x)
+        | Unit(y)               ->  More(One(x), Empty, One(y))
         | More(p, q, u)         -> 
-            match p -> type BSeq {
-                | PairObject(y, z)    ->  BSeq(More(TripleObject(x, y, z), q, u), BCons(b))
-            }
-        | More(t, q, u) -> 
-            match t -> type BSeq {
-                | TripleObject(y, z, w)   -> 
-                    match b -> type BSeq {
-                        | BCons(b_)   ->       
-                            match cons(PairObject(z, w), q, b_) -> type BSeq {
-                                | BSeq(q_, b__) -> BSeq(More(PairObject(x, y), q_, u), b__)
-                            }
-                    }
+            match p -> type seq_object {
+                | One(y)            ->  More(Two(x, y), q, u)
+                | Two(y, z)         ->  More(Three(x, y, z), q, u)
+                | Three(y, z, w)    ->  More(Two(x, y), cons(PairObject(z, w), q), u)
             }
     }
 
-type Tuple3 uncons [type seq_object s, type buffer b];
+type Pair uncons [type seq_object s];
 
-type Pair buncons [type bseq bs]
-    = match bs -> type Pair {
-        | BSeq(s, b) -> 
-            match uncons(s, b) -> type Pair {
-                | Tuple3(x, s_, b_) -> Pair(x, BSeq(s_, b_))
-            }
-    }
+type seq_object more0 [type seq_object q, type afew_object u];
 
-type Pair more0 [type seq_object q, type afew_object u, type buffer b];
-
-type Tuple3 uncons [type seq_object s, type buffer b]
-    = match s -> type Tuple3 {
-        | Unit(x)   ->  Tuple3(x, Empty, b)
-        | More(t, q, u)     -> 
-            match t -> type Tuple3 {
-                | TripleObject(x, y, z)   ->  match b -> type buffer {
-                    | BCons(b_) -> Tuple3(x, More(PairObject(y, z), q, u), b_)
-                }
-                | PairObject(x, y)    ->    Tuple3(x, More0(y, q, u), b)
-            }
-        | More0(x, q, u)    -> 
-            match more0(q, u, b) -> type Tuple3 {
-                | Pair(q_, b_) -> Tuple3(x, q_, b_)
-            }
-    }
-
-type Pair more0 [type seq_object q, type afew_object u, type buffer b]
-    = match q -> type Pair {
-        | Empty -> match u -> type Pair {
-            | One(x) -> Pair(Unit(x), b)
-            | Two(y, z) -> 
-                match b -> type Pair {
-                    | BCons(b_) -> Pair(More0(y, Empty, One(z)), b_)
-                }
-            | Three(y, z, w) -> 
-                match b -> type Pair {
-                    | BCons(b_) -> Pair(More0(y, Empty, Two(z, w)), b_)
-                }
-        }
-        | Unit(p) -> match p -> type Pair {
-            | PairObject(x, y) -> Pair(More(PairObject(x, y), Empty, u), b)
-            | TripleObject(x, y, z) -> 
-                match b -> type Pair {
-                    | BCons(b_) -> Pair(More0(x, Unit(PairObject(y,z)), u), b_)
-                }
-        }
-        | More0(p, q1, u1) -> match p -> type Pair {
-            | PairObject(x, y) -> 
-                match more0(q1, u1, b) -> type Pair {
-                    | Pair(q1_, b_) -> Pair(More(PairObject(x, y), q1_, u), b_)
-                }
-            | TripleObject(x, y, z) -> 
-                match b -> type Pair {
-                    | BCons(b_) -> Pair(More0(x, More0(PairObject(y,z), q1, u1), u), b_)
-                }
-        }
-        | More(pt, q1, u1) -> match pt -> type Pair {
-            | PairObject(p, y1) -> 
-                match p -> type Pair {
-                    | PairObject(x, y) -> Pair(More(PairObject(x, y), More0(y1, q1, u1), u), b)
-                    | TripleObject(x, y, z) -> 
-                        match b -> type Pair {
-                            | BCons(b_) -> Pair(More0(x, More(PairObject(PairObject(y,z), y1), q1, u1), u), b_)
-                        }
-                }
-            | TripleObject(p, y1, z1) -> 
-                match b -> type Pair {
-                    | BCons(b_) -> match p -> type Pair {
-                        | PairObject(x, y) -> Pair(More(PairObject(x, y), More(PairObject(y1, z1), q1, u1), u), b_)
-                        | TripleObject(x, y, z) -> Pair(More0(x, More(TripleObject(PairObject(y,z), y1, z1), q1, u1), u), b_)
-                    }
-                }
-        }
-    }
-
-type Pair snoc [type seq_object s, type buffer b, type object x];
-
-type bseq bsnoc [type bseq bs, type elem x]
-    = match bs -> type bseq {
-        | BSeq(s, b) -> 
-            match snoc(s, b, x) -> type bseq {
-                | Pair(s_, b_) -> BSeq(s_, b_)
-            }
-    }
-
-type Pair snoc [type seq_object s, type buffer b, type object x]
+type Pair uncons [type seq_object s]
     = match s -> type Pair {
-        | Empty -> Pair(Unit(x), b)
-        | Unit(y)   -> Pair(More0(y, Empty, One(x)), b)
-        | More0(u, q, one)  -> match one -> type Pair {
-            | One(y)    ->  Pair(More0(u, q, Two(y, x)), BCons(b))
-            | Two(y, z)     ->  Pair(More0(u, q, Three(y, z, x)), BCons(b))
-            | Three(y, z, w)    ->  match b -> type Pair {
-                | BCons(b_) -> 
-                    match snoc(q, b_, PairObject(y, z)) -> type Pair {
-                        | Pair(q_, b__) -> Pair(More0(u, q_, Two(w, x)), b__)
-                    }
+        | Unit(x)   ->  Pair(x, Empty)
+        | More(t, q, u)     -> 
+            match t -> type Pair {
+                | Three(x, y, z)    ->  Pair(x, More(Two(y, z), q, u))
+                | Two(x, y)         ->  Pair(x, More(One(y), q, u))
+                | One(x)            ->  Pair(x, more0(q, u))
             }
-        }
-        | More(u, q, one)   -> match one -> type Pair {
-            | One(y)    ->  Pair(More(u, q, Two(y, x)), BCons(b))
-            | Two(y, z)     ->  Pair(More(u, q, Three(y, z, x)), BCons(b))
-            | Three(y, z, w)    ->  match b -> type Pair {
-                | BCons(b_) -> 
-                    match snoc(q, b_, PairObject(y, z)) -> type Pair {
-                        | Pair(q_, b__) -> Pair(More(u, q_, Two(w, x)), b__)
-                    }
-            }
-        }
+    }
 
+type seq_object more0 [type seq_object q, type afew_object u]
+    = match q -> type seq_object {
+        | Empty             ->  match u -> type seq_object {
+            | One(y)                ->  Unit(y)
+            | Two(y, z)             ->  More(One(y), Empty, One(z))
+            | Three(y, z, w)        ->  More(One(y), Empty, Two(z, w))
+        }
+        | Unit(p)           ->      match p -> type seq_object {
+            | PairObject(x, y)      -> More(Two(x, y), Empty, u)
+            | TripleObject(x, y, z) -> More(One(x), Unit(PairObject(y,z)), u)
+        }
+        | More(pt, q1, u1)  ->  match pt -> type seq_object {
+            | One(p)                ->  
+                match p -> type seq_object {
+                    | PairObject(x, y)      ->  More(Two(x, y), more0(q1, u1), u)
+                    | TripleObject(x, y, z) ->  More(One(x), More(One(PairObject(y,z)), q1, u1), u)
+                }
+            | Two(p, y1)            ->  
+                match p -> type seq_object {
+                    | PairObject(x, y)      ->  More(Two(x, y), More(One(y1), q1, u1), u)
+                    | TripleObject(x, y, z) ->  More(One(x), More(Two(PairObject(y,z), y1), q1, u1), u) 
+                }
+            | Three(p, y1, z1)      ->  
+                match p -> type seq_object {
+                    | PairObject(x, y)      ->  More(Two(x, y), More(Two(y1, z1), q1, u1), u)
+                    | TripleObject(x, y, z) ->  More(One(x), More(Three(PairObject(y,z), y1, z1), q1, u1), u)
+                }
+        }
+    }
+
+type seq_object snoc [type seq_object s, type object x];
+
+type seq_object snoc [type seq_object s, type object x]
+    = match s -> type seq_object {
+        | Empty             -> Unit(x)
+        | Unit(y)           -> More(One(y), Empty, One(x))
+        | More(u, q, one)   -> match one -> type seq_object {
+            | One(y)            ->  More(u, q, Two(y, x))
+            | Two(y, z)         ->  More(u, q, Three(y, z, x))
+            | Three(y, z, w)    ->  More(u, snoc(q, PairObject(y, z)), Two(w, x))
+        }
     }
 
 
@@ -201,13 +110,13 @@ type Pair snoc [type seq_object s, type buffer b, type object x]
 
 
 
-type bseq iterate [type bseq s, int n] = if (n <= 0) s;
-    else match buncons(s) -> type bseq {
-        | Pair(x, s_) ->  iterate( bsnoc(s_, x), n-1 )
+type seq_object iterate [type seq_object s, int n] = if (n <= 0) s;
+    else match uncons(s) -> type seq_object {
+        | Pair(x, s_) ->  iterate( snoc(s_, x), n-1 )
     };
 
-type bseq build [int n, type bseq s] = if (n <= 0) s;
-    else build( n-1, bsnoc(s, Elem(n) ) );
+type seq_object build [int n, type seq_object s] = if (n <= 0) s;
+    else build( n-1, snoc(s, Elem(n) ) );
 
 fip type elem log_elem [type elem e] =
     match! e -> type elem {
@@ -216,9 +125,9 @@ fip type elem log_elem [type elem e] =
 
 type elem test [int n] = 
     log_elem(
-        bhead(
+        head(
             iterate(
-                build(n, time( BSeq(Empty, BNil) ) ), 
+                build(n, time( Empty ) ), 
                 n * 3
             )
         )
@@ -246,35 +155,19 @@ type seq_object three_in_order [type object inst1, type object inst2, type objec
 
 type object log_seq [type object s];
 
-type bseq log_bseq [type bseq bs] = 
-    match! bs -> type bseq {
-        | BSeq(s, q)        ->  BSeq(log_seq(s), q)
-    }
-
 type object log_seq_helper [type object s];
 
 
 type object log_seq [type object s] = firsto( log_seq_helper(s), printf("\n") )
 
 type object log_seq_helper [type object s] = 
-    match! s -> type bseq {
+    match! s -> type seq_object {
         | Empty                 ->  first(s, printf("<Empty>"))
         | Unit(a)       ->  
             firsto(
                 secondo(
                     printf("Unit< "),
                     log_seq_helper(a)
-                ),
-                printf(" >")
-            )
-        | More0(l, ss, ar)      ->  firsto(secondo(
-                printf("More0< "),
-                three_in_order(
-                    log_arrow(  log_seq_helper(l)),
-                    log_arrow(  log_seq_helper(ss)),
-                    log_seq_helper(ar),
-                    s
-                    )
                 ),
                 printf(" >")
             )
@@ -350,10 +243,8 @@ type object log_seq_helper [type object s] =
 
 
 
+/*finisho( log_seq( build(10, time( Empty ) ) ) )*/
 
-
-int main [int argc, char** argv] = /*finisho( log_bseq( build(10, time( BSeq(Empty, BNil) ) ) ) )*/ finisho(  
-        time( 
-            test(21935)
-        ) 
+int main [int argc, char** argv] = finisho(   
+        /*33193*/ test(time(20000))        
     )

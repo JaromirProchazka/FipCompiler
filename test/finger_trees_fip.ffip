@@ -368,10 +368,8 @@ type object log_seq_helper [type object s] =
 
 
 
+/*finisho( log_seq( build(10, time( Empty ) ) ) )*/
 
-
-int main [int argc, char** argv] = /* finisho( log_bseq( build(50, time( BSeq(Empty, BNil) ) ) ) ) */ finisho(  
-        time( 
-            test(21935)
-        ) 
+int main [int argc, char** argv] = finisho(   
+        test(time(33193))        
     )

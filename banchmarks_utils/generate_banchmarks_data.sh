@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configuration
-TEST_REPETITIONS=250
+TEST_REPETITIONS=300
 BASE_DIR="./compiled_programs_data"
 RESULTS_FILE="$BASE_DIR/benchmark_results.csv"
 TEMP_FILE="temp.csv"
@@ -39,12 +39,33 @@ find "$BASE_DIR" -type d -name "*_normal" -print0 | while IFS= read -r -d $'\0' 
             "$normal_exe" \
             "$fip_exe"
 
+        # Capture CPU times from both executables
+        times=""
+        for i in $(seq 1 $TEST_REPETITIONS); do
+            # Run normal_exe and extract its elapsed time
+            out=$($normal_exe 2>&1)
+            t=$(printf "%s\n" "$out" | awk '/Elapsed CPU time:/ {print $NF}')
+            times="$times $t"
+
+            # Run fip_exe and extract its elapsed time
+            out=$($fip_exe 2>&1)
+            t=$(printf "%s\n" "$out" | awk '/Elapsed CPU time:/ {print $NF}')
+            times="$times $t"
+        done
+
+        # Compute overall average of all captured times
+        avg=$(printf "%s\n" $times | awk '{s+=$1} END {if(NR>0) print s/NR}')
+        echo "Computed fetch_time (average): $avg"
+
         # Aggregate results
         if [[ ! -f "$RESULTS_FILE" ]]; then
-            cp "$TEMP_FILE" "$RESULTS_FILE"
+            #cp "$TEMP_FILE" "$RESULTS_FILE"
+            awk -v start="$avg" 'BEGIN{FS=OFS=","} {print (NR==1 ? "fetch_time" : start), $0}' "$TEMP_FILE" > "$RESULTS_FILE"
         else
-            tail -n +2 "$TEMP_FILE" >> "$RESULTS_FILE"
+            # tail -n +2 "$TEMP_FILE" >> "$RESULTS_FILE"
+            tail -n +2 "$TEMP_FILE" | awk -v start="$avg" 'BEGIN{FS=OFS=","} {print start , $0}' >> "$RESULTS_FILE"
         fi
+        
     else
         echo "[generate_banchmarks_data] Skipping incomplete pair for $base_name"
     fi

@@ -2,10 +2,6 @@ type number {
     Integer(int val);
 }
 
-int _int [type number n] = match n -> int {
-    | Integer(i)    -> i
-}
-
 /*
 // Red = 1, black = 0
 type color {
@@ -19,6 +15,10 @@ type tree {
     Leaf;
 }
 
+fip int _int [type number n] = match n -> int {
+    | Integer(i) -> i
+}
+
 _Bool is_red [type tree t] = match t -> _Bool {
     | Leaf      -> 0
     | Node(c, l, i, v, r)   -> match (if (c == 1) Boolean(1); else Boolean(0);) -> _Bool {
@@ -26,75 +26,99 @@ _Bool is_red [type tree t] = match t -> _Bool {
     }
 } 
 
-type accum {
-    Done;
-    NodeL(int _color, type accum lchild, type Integer key, _Bool value, type tree rchild);
-    NodeR(int _color, type tree lchild, type Integer key, _Bool value, type accum rchild);
-}
+type tree balance_left [type tree l, type number k, _Bool v, type tree r]
+    = match l -> type tree {
+        | Leaf  -> Leaf
+        | Node(_c, ly, ky, vy, ry) -> match ly -> type tree {
+            | Leaf                      ->  match ry -> type tree {
+                | Leaf                          ->  
+                    Node(0, Node(1, ly, ky, vy, ry), k, v, r)
+                | Node(cc, lx, kx, vx, rx)     ->  
+                    if (cc == 1)
+                        Node(1, Node(0, ly, ky, vy, lx), kx, vx, Node(0, rx, k, v, r));
+                    else
+                        Node(0, Node(1, ly, ky, vy, ry), k, v, r);
+            }
+            | Node(cc, lx, kx, vx, rx) ->  
+                if (cc == 1)
+                    Node(1, Node(0, lx, kx, vx, rx), ky, vy, Node(0, ry, k, v, r));
+                else
+                    match ry -> type tree {
+                        | Leaf                          ->  
+                            Node(0, Node(1, ly, ky, vy, ry), k, v, r)
+                        | Node(cc, lx, kx, vx, rx)     ->  
+                            if (cc == 1)
+                                Node(1, Node(0, ly, ky, vy, lx), kx, vx, Node(0, rx, k, v, r));
+                            else
+                                Node(0, Node(1, ly, ky, vy, ry), k, v, r);
+                    };
+        }
+    }
 
-type tree balance [type accum z, type tree t];
+type tree balance_right [type tree l, type number k, _Bool v, type tree r]
+    = match r -> type tree {
+        | Leaf -> Leaf
+        | Node(c, ly, ky, vy, ry) ->     match ly -> type tree {
+            | Leaf                          ->      match ry -> type tree {
+                | Leaf                          ->
+                    Node(0, l, k, v, Node(1, ly, ky, vy, ry))
+                | Node(cc, lx, kx, vx, rx)     ->
+                    if (cc == 1)
+                        Node(1, Node(0, l, k, v, ly), ky, vy, Node(0, lx, kx, vx, rx));
+                    else
+                        Node(0, l, k, v, Node(1, ly, ky, vy, ry));
+            }
+            | Node(cc, lx, kx, vx, rx)     ->
+                if (cc == 1)
+                    Node(1, Node(0, l, k, v, lx), kx, vx, Node(0, rx, ky, vy, ry));
+                else 
+                    match ry -> type tree {
+                        | Leaf                          ->
+                            Node(0, l, k, v, Node(1, ly, ky, vy, ry))
+                        | Node(cc, lx, kx, vx, rx)     ->
+                            if (cc == 1)
+                                Node(1, Node(0, l, k, v, ly), ky, vy, Node(0, lx, kx, vx, rx));
+                            else
+                                Node(0, l, k, v, Node(1, ly, ky, vy, ry));
+                    };
+        }
+    }
 
-type tree ins [type tree t, type Integer key, _Bool v, type accum z]
+type tree ins [type tree t, type number k, _Bool v]
     = match t -> type tree {
-        | Leaf                  ->  balance(z, Node(1, Leaf, key, v, Leaf))
-        | Node(c, l, kx, vx, r) ->  if (_int(key) < _int(kx)) 
-                                        ins(l, key, v, NodeL(c, z, kx, vx, r));
-                                    else 
-                                        if (_int(key) > _int(kx)) ins(r, key, v, NodeR(c, l, kx, vx, z));
-                                        else balance(z, Node(c, l, key, v, r));
+        | Leaf -> Node(1, Leaf, k, v, Leaf);
+        | Node(c, l, kx, vx, r)   ->  
+            if (c == 1)
+                if (_int(k) < _int(kx)) 
+                    Node(1, ins(l, k, v), kx, vx, r);
+                else 
+                    if (_int(k) > _int(kx)) 
+                        Node(1, l, kx, vx, ins(r, k, v));
+                    else 
+                        Node(1, l, k, v, r);
+            else
+                if (_int(k) < _int(kx)) 
+                    if (is_red(l)) 
+                        balance_left(ins(l,k,v), kx, vx, r);
+                    else 
+                        Node(0, ins(l, k, v), kx, vx, r);
+                else 
+                    if (_int(k) > _int(kx)) 
+                        if (is_red(r)) 
+                            balance_right(l, kx, vx, ins(r,k,v));
+                        else 
+                            Node(0, l, kx, vx, ins(r, k, v));
+                    else Node(0, l, k, v, r);
     }
 
 type tree set_black [type tree t]
     = match t -> type tree {
-        | Leaf                  ->  t
-        | Node(c, l, k, v, r)   ->  Node(0, l, k, v, r)
+        | Leaf -> t;
+        | Node(c, l, k, v, r) -> Node(0, l, k, v, r);
     }
 
-type tree rebuild [type accum z, type tree t]
-    = match z -> type tree {
-        | Done                      ->  t
-        | NodeR(c, l, k, v, z1)     ->  rebuild(z1, Node(c, l, k, v, t))
-        | NodeL(c, z1, k, v, r)     ->  rebuild(z1, Node(c, t, k, v, r))
-    }
-
-type tree insert [type tree t, type Integer k, _Bool v] = ins(t, k, v, Done)
-
-type tree balance [type accum z, type tree t] = match z -> type tree {
-    | Done                      -> rebuild(z, t)
-    | NodeR(c1, l1, k1, v1, z1) -> 
-        if (c1 == 1) match z1 -> type tree {
-            | Done                      ->      Node(0, l1, k1, v1, t)
-            | NodeR(c2,l2,k2,v2,z2)     ->      if (is_red(l2)) 
-                                                    balance(z2, Node(1, set_black(l2), k2, v2, Node(0, l1, k1, v1, t) ));
-                                                else 
-                                                    rebuild(z2, Node(0, Node(1,l2,k2,v2,l1), k1, v1, t));
-            | NodeL(c2,z2,k2,v2,r2)     ->      if (is_red(r2)) 
-                                                    balance(z2, Node(1, Node(0,l1,k1,v1,t), k2, v2, set_black(r2) ));
-                                                else 
-                                                    match t -> type tree {
-                                                        | Node(c, l, k, v, r)       ->     rebuild(z2, Node(0, Node(1,l1,k1,v1,l), k, v, Node(1,r,k2,v2,r2)))  
-                                                    };
-        };
-        else rebuild(z, t);
-    
-    | NodeL(c1, z1, k1, v1, r1) -> 
-        if (c1 == 1)  match z1 -> type tree  {
-            | Done                      ->      Node(0, t, k1, v1, r1)
-            | NodeL(c2,z2,k2,v2,r2)     ->      if (is_red(r2))     
-                                                    balance(z2, Node(1, Node(0, t, k1, v1, r1), k2, v2, set_black(r2) ));
-                                                else 
-                                                    rebuild(z2, Node(0, t, k1, v1, Node(1,r1,k2,v2,r2)));
-            | NodeR(c2,l2,k2,v2,z2)     ->      if
-                                                    (is_red(l2)) balance(z2, Node(1, set_black(l2), k2, v2, Node(0,t,k1,v1,r1) ));
-                                                else 
-                                                    match t -> type tree {
-                                                        | Node(c3, l, k, v, r)       ->      rebuild(z2, Node(0, Node(1,l2,k2,v2,l), k, v, Node(1,r,k1,v1,r1)))
-                                                    };
-        };
-        else rebuild(z, t);
-    
-}
-
+type tree insert [type tree t, type number k, _Bool v]
+    = set_black(ins(t, k, v));
 
 
 
@@ -173,11 +197,10 @@ int finish [type tree t] = 0
 
 
 
-
 int main [int argc, char** argv] = 
     finish( 
         /*log_tree(*/  log( 
-                time(make_n_tree(13506)), 
-                "Insertions done\n"
+                /*22379*/ make_n_tree(time(22379)), 
+                "Insertions done\n\n"
             ) 
         /*)*/  )

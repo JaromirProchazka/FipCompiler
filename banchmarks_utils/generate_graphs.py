@@ -14,7 +14,8 @@ def generate_graphs(csv_file):
         # Create pivot tables
         mean_pivot = df.pivot(index='Program', columns='Type', values='mean')
         stddev_pivot = df.pivot(index='Program', columns='Type', values='stddev')
-        speedup = mean_pivot['normal'] / mean_pivot['fip']
+        fetch_pivot = df.pivot(index='Program', columns='Type', values='fetch_time')
+        speedup = (mean_pivot['normal'] - fetch_pivot['fip']) / (mean_pivot['fip'] - fetch_pivot['fip'])
 
         # Set up visualization
         plt.figure(figsize=(12, 10))
@@ -31,6 +32,9 @@ def generate_graphs(csv_file):
                         error_kw=dict(capsize=5))
         rects2 = ax1.bar(x + width/2, mean_pivot['fip'], width,
                         label='FIP', yerr=stddev_pivot['fip'],
+                        error_kw=dict(capsize=5))
+        rects3 = ax1.bar(x, fetch_pivot['fip'], width * 2 - (width / 20),
+                        label='Data Fetch', color= (0.5, 0.5, 0.5),
                         error_kw=dict(capsize=5))
 
         ax1.set_title('Execution Time Comparison', pad=20)
@@ -51,6 +55,7 @@ def generate_graphs(csv_file):
                             ha='center', va='bottom', fontsize=8)
         autolabel(rects1)
         autolabel(rects2)
+        autolabel(rects3)
 
         # Second subplot: Speedup ratio
         ax2 = plt.subplot(2, 1, 2)
@@ -63,7 +68,7 @@ def generate_graphs(csv_file):
             ax2.text(rect.get_x() + rect.get_width()/2, height,
                     f'{height:.2f}x', ha='center', va='bottom', fontsize=9)
         
-        ax2.set_title('Speedup Ratio (Normal/FIP)', pad=20)
+        ax2.set_title('Speedup Ratio ( (Normal-Fetch)/(FIP-Fetch) )', pad=20)
         ax2.set_ylabel('Speedup Factor')
         ax2.set_xticks(x)
         ax2.set_xticklabels(programs, rotation=45, ha='right')

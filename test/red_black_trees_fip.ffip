@@ -173,11 +173,10 @@ int finish [type tree t] = 0
 
 
 
-
 int main [int argc, char** argv] = 
     finish( 
         /*log_tree(*/  log( 
-                time(make_n_tree(13506)), 
-                "Insertions done\n"
+                /*22379*/ make_n_tree(time(22379)), 
+                "Insertions done\n\n"
             ) 
         /*)*/  )

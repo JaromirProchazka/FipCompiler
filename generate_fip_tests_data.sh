@@ -8,6 +8,7 @@ set -e
 # Parse command line flags
 replace_flag=0
 basics_flag=0
+benchmarks_flag=0
 do_tests=1
 
 while [[ $# -gt 0 ]]; do
@@ -20,13 +21,17 @@ while [[ $# -gt 0 ]]; do
             basics_flag=1
             shift
             ;;
+        --benchmarks)
+            benchmarks_flag=1
+            shift
+            ;;
         --no-test)
             do_tests=0
             shift
             ;;
         *)
             echo "[generate_fip_tests_data] Unknown option: $1"
-            echo "[generate_fip_tests_data] Usage: $0 [--replace] [--basics] [--no-test]"
+            echo "[generate_fip_tests_data] Usage: $0 [--replace] [--basics] [--no-test] [--benchmarks]"
             exit 1
             ;;
     esac
@@ -53,6 +58,10 @@ set +e
 if [ $basics_flag -eq 1 ]; then
     file_pattern="./test/basic_*.ffip"
     echo "Processing only basic test files..."
+elif [ $benchmarks_flag -eq 1 ]; then
+    shopt -s extglob
+    file_pattern='./test/!(basic_*)*_@(fip|normal).ffip'
+    echo "Processing only benchmarked test files..."
 else
     file_pattern="./test/*.ffip"
     echo "Processing all test files..."
