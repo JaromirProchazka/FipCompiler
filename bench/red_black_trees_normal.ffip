@@ -1,0 +1,208 @@
+type number {
+    Integer(int val);
+}
+
+/*
+// Red = 1, black = 0
+type color {
+    Red;
+    Black;
+}
+*/
+
+type tree {
+    Node(int _color, type tree lchild, type Integer key, _Bool value, type tree rchild);
+    Leaf;
+}
+
+fip int _int [type number n] = match n -> int {
+    | Integer(i) -> i
+}
+
+_Bool is_red [type tree t] = match t -> _Bool {
+    | Leaf      -> 0
+    | Node(c, l, i, v, r)   -> match (if (c == 1) Boolean(1); else Boolean(0);) -> _Bool {
+        | Boolean(i)    -> i
+    }
+} 
+
+type tree balance_left [type tree l, type number k, _Bool v, type tree r]
+    = match l -> type tree {
+        | Leaf  -> Leaf
+        | Node(_c, ly, ky, vy, ry) -> match ly -> type tree {
+            | Leaf                      ->  match ry -> type tree {
+                | Leaf                          ->  
+                    Node(0, Node(1, ly, ky, vy, ry), k, v, r)
+                | Node(cc, lx, kx, vx, rx)     ->  
+                    if (cc == 1)
+                        Node(1, Node(0, ly, ky, vy, lx), kx, vx, Node(0, rx, k, v, r));
+                    else
+                        Node(0, Node(1, ly, ky, vy, ry), k, v, r);
+            }
+            | Node(cc, lx, kx, vx, rx) ->  
+                if (cc == 1)
+                    Node(1, Node(0, lx, kx, vx, rx), ky, vy, Node(0, ry, k, v, r));
+                else
+                    match ry -> type tree {
+                        | Leaf                          ->  
+                            Node(0, Node(1, ly, ky, vy, ry), k, v, r)
+                        | Node(cc, lx, kx, vx, rx)     ->  
+                            if (cc == 1)
+                                Node(1, Node(0, ly, ky, vy, lx), kx, vx, Node(0, rx, k, v, r));
+                            else
+                                Node(0, Node(1, ly, ky, vy, ry), k, v, r);
+                    };
+        }
+    }
+
+type tree balance_right [type tree l, type number k, _Bool v, type tree r]
+    = match r -> type tree {
+        | Leaf -> Leaf
+        | Node(c, ly, ky, vy, ry) ->     match ly -> type tree {
+            | Leaf                          ->      match ry -> type tree {
+                | Leaf                          ->
+                    Node(0, l, k, v, Node(1, ly, ky, vy, ry))
+                | Node(cc, lx, kx, vx, rx)     ->
+                    if (cc == 1)
+                        Node(1, Node(0, l, k, v, ly), ky, vy, Node(0, lx, kx, vx, rx));
+                    else
+                        Node(0, l, k, v, Node(1, ly, ky, vy, ry));
+            }
+            | Node(cc, lx, kx, vx, rx)     ->
+                if (cc == 1)
+                    Node(1, Node(0, l, k, v, lx), kx, vx, Node(0, rx, ky, vy, ry));
+                else 
+                    match ry -> type tree {
+                        | Leaf                          ->
+                            Node(0, l, k, v, Node(1, ly, ky, vy, ry))
+                        | Node(cc, lx, kx, vx, rx)     ->
+                            if (cc == 1)
+                                Node(1, Node(0, l, k, v, ly), ky, vy, Node(0, lx, kx, vx, rx));
+                            else
+                                Node(0, l, k, v, Node(1, ly, ky, vy, ry));
+                    };
+        }
+    }
+
+type tree ins [type tree t, type number k, _Bool v]
+    = match t -> type tree {
+        | Leaf -> Node(1, Leaf, k, v, Leaf);
+        | Node(c, l, kx, vx, r)   ->  
+            if (c == 1)
+                if (_int(k) < _int(kx)) 
+                    Node(1, ins(l, k, v), kx, vx, r);
+                else 
+                    if (_int(k) > _int(kx)) 
+                        Node(1, l, kx, vx, ins(r, k, v));
+                    else 
+                        Node(1, l, k, v, r);
+            else
+                if (_int(k) < _int(kx)) 
+                    if (is_red(l)) 
+                        balance_left(ins(l,k,v), kx, vx, r);
+                    else 
+                        Node(0, ins(l, k, v), kx, vx, r);
+                else 
+                    if (_int(k) > _int(kx)) 
+                        if (is_red(r)) 
+                            balance_right(l, kx, vx, ins(r,k,v));
+                        else 
+                            Node(0, l, kx, vx, ins(r, k, v));
+                    else Node(0, l, k, v, r);
+    }
+
+type tree set_black [type tree t]
+    = match t -> type tree {
+        | Leaf -> t;
+        | Node(c, l, k, v, r) -> Node(0, l, k, v, r);
+    }
+
+type tree insert [type tree t, type number k, _Bool v]
+    = set_black(ins(t, k, v));
+
+
+
+
+
+
+type list {
+    Cons(int i, type list l);
+    Nil;
+}
+
+fip type list _list_concat [type list a, type list b, type list res] = match! b -> type list {
+    | Nil           ->  match! a -> type list {
+        | Nil           ->  res
+        | Cons(i, na)   ->  _list_concat(na, Nil, Cons(i, res))
+    }
+    | Cons(i, nb)   ->  _list_concat(a, nb, Cons(i, res))
+}
+
+fip type list list_concat [type list a, type list b] =  _list_concat(a, b, Nil)
+
+fip int log_color [int c] = match! (if (c == 1) Boolean(log(c, "<Red color, ")); else Boolean(log(c, "<Black color, "));) -> int {
+    | Boolean(i)   ->   i
+}
+
+fip type tree first [type tree t, int i] = t
+
+fip type tree log_node [type tree t, int level] = match! t -> type tree {
+    | Leaf                  -> log( first( t, log(level, "level ") ), "<leaf>\n")
+    | Node(c, l, i, v, r)   ->  
+        match! i -> type tree { 
+            | Integer(i_val)    ->     Node(
+                    log_color(c), 
+                    first(l, log(level, "level, ")), 
+                    Integer( log(i_val, "node value>\n") ), 
+                    v, 
+                    r
+                )
+        }
+}
+
+type list _traverse_tree [type tree t, int level] = match t -> type tree {
+    | Leaf                  ->  Cons( -1, Nil)
+    | Node(c, l, i, v, r)   ->  Cons( 
+        _int(i), 
+        list_concat( _traverse_tree(log_node(l, level), level+1), _traverse_tree(log_node(r, level), level+1) )
+        )
+}
+
+type tree first_tree [type tree t, type list l] = t
+
+type tree log_tree [type tree t] = first_tree( 
+        t, 
+        log(
+            _traverse_tree(
+                log_node(t, 0), 
+                1
+            ), 
+            "Log Tree Done\n"
+        ) 
+    ) 
+
+type tree make_n_tree_helper [int n, int cur, type tree acc ] = 
+    if (n <= cur)
+        acc;
+    else 
+        make_n_tree_helper(n, cur + 1, insert(acc, Integer(cur), (cur%10)==0) );
+
+type tree make_n_tree [int n] = 
+    make_n_tree_helper(n, 0, time(time( Leaf )))
+
+int finish [type tree t] = 0
+
+
+
+
+
+
+int main [int argc, char** argv] = 
+    finish( 
+        time(
+            log( 
+                make_n_tree(time(22379)), 
+                    "Insertions done\n\n"
+            )
+        )
+    )

@@ -687,7 +687,7 @@ namespace casem
             store(res);
             return res;
         }
-        InstructionWrapper field(const cecko::CIName &field_name, cecko::CKTypeSafeObs field_type)
+        InstructionWrapper field(const cecko::CIName &field_name, cecko::CKTypeSafeObs field_type) const
         {
             cecko::CKTypeObs struct_type = (type->is_pointer()) ? type->get_pointer_points_to().type : type;
             if (!struct_type->is_struct())
@@ -720,7 +720,7 @@ namespace casem
 
             return result;
         }
-        InstructionWrapper field(unsigned int field_id, cecko::CKTypeSafeObs field_type)
+        InstructionWrapper field(unsigned int field_id, cecko::CKTypeSafeObs field_type) const
         {
             cecko::CKTypeObs struct_type = (type->is_pointer()) ? type->get_pointer_points_to().type : type;
             if (!struct_type->is_struct())
@@ -752,7 +752,7 @@ namespace casem
         /// @param tag the expected tag of this type
         /// @exception SYNTAX_ERROR: if this isn't Tagged type
         /// @return the tag of this type is equil to the given tag
-        InstructionWrapper has_tag(int tag)
+        InstructionWrapper has_tag(int tag) const
         {
             log("|.has_tag| \n");
             std::string label = name + "==" + std::to_string(tag);
@@ -781,6 +781,7 @@ namespace casem
                 label);
         }
 
+        // cast functions
         InstructionWrapper to_int() const
         {
             if (type->is_int())

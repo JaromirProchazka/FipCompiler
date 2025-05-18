@@ -1,0 +1,250 @@
+type elem {
+    Elem(int val);
+}
+
+type afew_object {
+    One(type object a);
+    Two(type object a, type object b);
+    Three(type object a, type object b, type object c);
+}
+
+type seq_object {
+    Empty;
+    Unit(type object a);
+    More(type afew_object l, type seq_object s, type afew_object r);
+}
+
+type tuple_object {
+    PairObject(type object a, type object b);
+    TripleObject(type object a, type object b, type object c);
+}
+
+type elem head [type seq_object s];
+
+type elem head [type seq_object s]
+    = match s -> type elem {
+        | Unit(x)            -> x
+        | More(p, _1, _2) -> 
+            match p -> type elem {
+                | One(x)            ->  x
+                | Two(x, _3)        ->  x
+                | Three(x, _3, _4)  ->  x
+            }
+    }
+
+type seq_object cons [type object x, type seq_object s];
+
+type seq_object cons [type object x, type seq_object s]
+    = match s -> type seq_object {
+        | Empty                 ->  Unit(x)
+        | Unit(y)               ->  More(One(x), Empty, One(y))
+        | More(p, q, u)         -> 
+            match p -> type seq_object {
+                | One(y)            ->  More(Two(x, y), q, u)
+                | Two(y, z)         ->  More(Three(x, y, z), q, u)
+                | Three(y, z, w)    ->  More(Two(x, y), cons(PairObject(z, w), q), u)
+            }
+    }
+
+type Pair uncons [type seq_object s];
+
+type seq_object more0 [type seq_object q, type afew_object u];
+
+type Pair uncons [type seq_object s]
+    = match s -> type Pair {
+        | Unit(x)   ->  Pair(x, Empty)
+        | More(t, q, u)     -> 
+            match t -> type Pair {
+                | Three(x, y, z)    ->  Pair(x, More(Two(y, z), q, u))
+                | Two(x, y)         ->  Pair(x, More(One(y), q, u))
+                | One(x)            ->  Pair(x, more0(q, u))
+            }
+    }
+
+type seq_object more0 [type seq_object q, type afew_object u]
+    = match q -> type seq_object {
+        | Empty             ->  match u -> type seq_object {
+            | One(y)                ->  Unit(y)
+            | Two(y, z)             ->  More(One(y), Empty, One(z))
+            | Three(y, z, w)        ->  More(One(y), Empty, Two(z, w))
+        }
+        | Unit(p)           ->      match p -> type seq_object {
+            | PairObject(x, y)      -> More(Two(x, y), Empty, u)
+            | TripleObject(x, y, z) -> More(One(x), Unit(PairObject(y,z)), u)
+        }
+        | More(pt, q1, u1)  ->  match pt -> type seq_object {
+            | One(p)                ->  
+                match p -> type seq_object {
+                    | PairObject(x, y)      ->  More(Two(x, y), more0(q1, u1), u)
+                    | TripleObject(x, y, z) ->  More(One(x), More(One(PairObject(y,z)), q1, u1), u)
+                }
+            | Two(p, y1)            ->  
+                match p -> type seq_object {
+                    | PairObject(x, y)      ->  More(Two(x, y), More(One(y1), q1, u1), u)
+                    | TripleObject(x, y, z) ->  More(One(x), More(Two(PairObject(y,z), y1), q1, u1), u) 
+                }
+            | Three(p, y1, z1)      ->  
+                match p -> type seq_object {
+                    | PairObject(x, y)      ->  More(Two(x, y), More(Two(y1, z1), q1, u1), u)
+                    | TripleObject(x, y, z) ->  More(One(x), More(Three(PairObject(y,z), y1, z1), q1, u1), u)
+                }
+        }
+    }
+
+type seq_object snoc [type seq_object s, type object x];
+
+type seq_object snoc [type seq_object s, type object x]
+    = match s -> type seq_object {
+        | Empty             -> Unit(x)
+        | Unit(y)           -> More(One(y), Empty, One(x))
+        | More(u, q, one)   -> match one -> type seq_object {
+            | One(y)            ->  More(u, q, Two(y, x))
+            | Two(y, z)         ->  More(u, q, Three(y, z, x))
+            | Three(y, z, w)    ->  More(u, snoc(q, PairObject(y, z)), Two(w, x))
+        }
+    }
+
+
+
+
+
+
+
+type seq_object iterate [type seq_object s, int n] = if (n <= 0) s;
+    else match uncons(s) -> type seq_object {
+        | Pair(x, s_) ->  iterate( snoc(s_, x), n-1 )
+    };
+
+type seq_object build [int n, type seq_object s] = if (n <= 0) s;
+    else build( n-1, snoc(s, Elem(n) ) );
+
+fip type elem log_elem [type elem e] =
+    match! e -> type elem {
+        | Elem(i)   ->  Elem( log(i,"head element\n") )
+    }
+
+type elem test [int n] = 
+    log_elem(
+        head(
+            iterate(
+                build(n, time(time( Empty )) ), 
+                n * 3
+            )
+        )
+    )
+
+int finish [type elem _e] = 0
+
+int finisho [type object _o] = 0
+
+int _elem [type elem e] = 
+    match! e -> int {
+        | Elem(i)           ->  i 
+    }
+
+type seq_object first [type seq_object s, int _i] = s
+
+type object firsto [type object s, int _i] = s
+type object secondo [int _i, type object s] = s
+
+type object log_arrow [type object o] =
+    firsto( o, printf(" -- ") )
+
+type seq_object three_in_order [type object inst1, type object inst2, type object inst3, type seq_object ret] = ret
+
+
+type object log_seq [type object s];
+
+type object log_seq_helper [type object s];
+
+
+type object log_seq [type object s] = firsto( log_seq_helper(s), printf("\n") )
+
+type object log_seq_helper [type object s] = 
+    match! s -> type seq_object {
+        | Empty                 ->  first(s, printf("<Empty>"))
+        | Unit(a)       ->  
+            firsto(
+                secondo(
+                    printf("Unit< "),
+                    log_seq_helper(a)
+                ),
+                printf(" >")
+            )
+                
+        | More(l, ss, ar)       ->  firsto(secondo(
+                printf("More< "),
+                three_in_order(
+                    log_arrow(  log_seq_helper(l)),
+                    log_arrow(  log_seq_helper(ss)),
+                    log_seq_helper(ar),
+                    s
+                    )
+                ),
+                printf(" >")
+            )
+        | Elem(i)               ->  first(s, printf("%i", i))
+        
+        | One(a)        ->  
+            firsto(
+                secondo(
+                    printf("One< "),
+                    log_seq_helper(a)
+                ),
+                printf(" >")
+            )
+        | Two(a, b)         ->  firsto(secondo(
+                printf("Two< "),
+                three_in_order(
+                    log_arrow(  log_seq_helper(a)),
+                    log_seq_helper(b),
+                    s,
+                    s
+                    )
+                ),
+                printf(" >")
+            )
+        | Three(a, b, c)        ->  firsto(secondo(
+                printf("Three< "),
+                three_in_order(
+                    log_arrow(  log_seq_helper(a)),
+                    log_arrow(  log_seq_helper(b)),
+                    log_seq_helper(c),
+                    s
+                    )
+                ),
+                printf(" >")
+            )
+
+        | PairObject(a, b)  ->  firsto(secondo(
+                printf("Pair< "),
+                three_in_order(
+                    log_arrow(  log_seq_helper(a)),
+                    log_seq_helper(b),
+                    s,
+                    s
+                    )
+                ),
+                printf(" >")
+            )
+        | TripleObject(a, b, c) ->  firsto(secondo(
+                printf("Triple< "),
+                three_in_order(
+                    log_arrow(  log_seq_helper(a)),
+                    log_arrow(  log_seq_helper(b)),
+                    log_seq_helper(c),
+                    s
+                    )
+                ),
+                printf(" >")
+            )
+    }
+
+
+
+
+/*finisho( log_seq( build(10, time( Empty ) ) ) )*/
+
+int main [int argc, char** argv] = finisho(   
+        time( test(time(33193)) )        
+    )

@@ -148,13 +148,10 @@ type tree first_tree [type tree t, type list l] = t
 
 type tree log_tree [type tree t] = first_tree( 
         t, 
-        log(
-            _traverse_tree(
-                log_node(t, 0), 
-                1
-            ), 
-            "Log Tree Done\n"
-        ) 
+        _traverse_tree(
+            log_node(t, 0), 
+            1
+        )
     ) 
 
 type tree make_n_tree_helper [int n, int cur, type tree acc ] = 
@@ -175,8 +172,6 @@ int finish [type tree t] = 0
 
 int main [int argc, char** argv] = 
     finish( 
-        /*log_tree(*/  log( 
-                /*22379*/ make_n_tree(time(22379)), 
-                "Insertions done\n\n"
-            ) 
-        /*)*/  )
+        log_tree( 
+                make_n_tree(50)
+        )  )

@@ -936,7 +936,7 @@ namespace casem
                                             {
             log("LAMBDA from [function_declarator:] ");
             // get_function_type(CKTypeObs ret_type, CKTypeObsArray arg_types)
-            auto f_type = ctx->get_function_type(rfpack.type, arg_types, is_variadic); // FIXME: All fns are variadic now
+            auto f_type = ctx->get_function_type(rfpack.type, arg_types, is_variadic); 
             log("wrap in function type with argument array, "); 
             CKTypeRefDefPack new_rf(f_type, rfpack.is_const, rfpack.has_typedef, rfpack.is_fip); 
             new_rf.optinonal_param_names = names_array;

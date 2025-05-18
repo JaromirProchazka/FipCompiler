@@ -1,0 +1,38 @@
+type number {
+    Integer(int i);
+}
+
+int to_int [type Integer val] = match val -> int {
+        | Integer(i) -> i
+    }
+
+type C {
+    A(int i, type C next);
+    B(int i);
+}
+
+type Integer match_c [type C _a];
+
+fip type Integer if_match [type C _a, type C _b, int i, type Integer ru] = 
+    match! ru -> type Integer { | Integer(_i) ->
+    if (i <= 5) match! _a -> type Integer {
+            | A(x, n)   ->  if_match(n, _b, x, ru)
+            | B(x)      ->  match! _b -> type Integer {
+                | A(xb, nb) ->  if_match(_b, _a, i, ru)
+                | B(xb)     ->  if (x >= xb) Integer(x);
+                                else Integer(xb);
+            }
+        };
+    else match! _a -> type Integer {
+            | A(x, n)   ->  Integer(x + 10)
+            | B(x)      ->  Integer(x + 20)
+        };
+    }
+
+
+
+type A make_a [] = A(4, A(3, A(7, B(1))))
+
+type B make_b [] = B(10)
+
+int main [int argc, char** argv] = printf("res = %i\n" , to_int(if_match( make_a(), make_b(), 3, Integer(0) )) )

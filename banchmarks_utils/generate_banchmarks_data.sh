@@ -1,10 +1,12 @@
 #!/bin/bash
 
+set -euo pipefail
+
 # Configuration
-TEST_REPETITIONS=300
+TEST_REPETITIONS=800 # 700 default
 BASE_DIR="./compiled_programs_data"
 RESULTS_FILE="$BASE_DIR/benchmark_results.csv"
-TEMP_FILE="temp.csv"
+TEMP_FILE="$BASE_DIR/temp.csv"
 
 # Clean previous results
 rm -f "$RESULTS_FILE" "$TEMP_FILE"
@@ -32,38 +34,124 @@ find "$BASE_DIR" -type d -name "*_normal" -print0 | while IFS= read -r -d $'\0' 
         echo "[generate_banchmarks_data]   FIP:    $fip_exe"
 
         # Run benchmarks
-        hyperfine \
-            --warmup 3 \
-            --runs "$TEST_REPETITIONS" \
-            --export-csv "$TEMP_FILE" \
-            "$normal_exe" \
-            "$fip_exe"
+        # hyperfine \
+        #     --warmup 3 \
+        #     --runs "$TEST_REPETITIONS" \
+        #     --export-csv "$TEMP_FILE" \
+        #     "$normal_exe" \
+        #     "$fip_exe"
+        touch "$TEMP_FILE"
 
         # Capture CPU times from both executables
-        times=""
+        total_fetch_normal=0
+        total_algo_normal=0
+        total_algo_sqrt_normal=0
+        total_fetch_fip=0
+        total_algo_fip=0
+        total_algo_sqrt_fip=0
+
+        avrg_fetch_normal=0
+        avrg_algo_normal=0
+        stddev_normal=0
+        avrg_fetch_fip=0
+        avrg_algo_fip=0
+        stddev_fip=0
         for i in $(seq 1 $TEST_REPETITIONS); do
             # Run normal_exe and extract its elapsed time
-            out=$($normal_exe 2>&1)
-            t=$(printf "%s\n" "$out" | awk '/Elapsed CPU time:/ {print $NF}')
-            times="$times $t"
+            # out=$($normal_exe 2>&1)
+            # t=$(printf "%s\n" "$out" | awk '/Elapsed CPU time:/ {print $NF}')
+            # times="$times $t"
 
             # Run fip_exe and extract its elapsed time
-            out=$($fip_exe 2>&1)
-            t=$(printf "%s\n" "$out" | awk '/Elapsed CPU time:/ {print $NF}')
-            times="$times $t"
+            # out=$($fip_exe 2>&1)
+            # t=$(printf "%s\n" "$out" | awk '/Elapsed CPU time:/ {print $NF}')
+            # times="$times $t"
+
+            # run normal_exe and capture both timings
+            mapfile -t normal_times < <( "$normal_exe" \
+                | grep "Elapsed CPU time:" \
+                | awk '{print $4}' )
+            # run fip_exe and capture both timings
+            mapfile -t fip_times < <( "$fip_exe" \
+                | grep "Elapsed CPU time:" \
+                | awk '{print $4}' )
+
+            if [[ ${#normal_times[@]} -ne 2 || ${#fip_times[@]} -ne 2 ]]; then
+                echo "ERROR: expected 2 timings, got ${#normal_times[@]} and ${#fip_times[@]}"
+                exit 1
+            fi
+
+
+            total_fetch_normal=$(awk -v nt="${normal_times[0]}" -v t="$total_fetch_normal" \
+                'BEGIN { printf("%.7f", nt + t ) }')
+            total_algo_normal=$(awk -v nt="${normal_times[1]}" -v t="$total_algo_normal" \
+                'BEGIN { printf("%.7f", nt + t ) }')
+            total_algo_sqrt_normal=$(awk -v nt="${normal_times[1]}" -v t="$total_algo_sqrt_normal" \
+                'BEGIN { printf("%.7f", (nt * nt) + t ) }')
+
+            total_fetch_fip=$(awk -v nt="${fip_times[0]}" -v t="$total_fetch_fip" \
+                'BEGIN { printf("%.7f", nt + t ) }')
+            total_algo_fip=$(awk -v nt="${fip_times[1]}" -v t="$total_algo_fip" \
+                'BEGIN { printf("%.7f", nt + t ) }')
+            total_algo_sqrt_fip=$(awk -v nt="${fip_times[1]}" -v t="$total_algo_sqrt_fip" \
+                'BEGIN { printf("%.7f", (nt * nt) + t ) }')
         done
 
-        # Compute overall average of all captured times
-        avg=$(printf "%s\n" $times | awk '{s+=$1} END {if(NR>0) print s/NR}')
-        echo "Computed fetch_time (average): $avg"
+        avrg_fetch_normal=$(awk -v t="$total_fetch_normal" -v c="$TEST_REPETITIONS" \
+                'BEGIN { printf("%.7f", t / c ) }')
+        echo "avrg_fetch_normal{$avrg_fetch_normal} = total_fetch_normal{$total_fetch_normal} / TEST_REPETITIONS{$TEST_REPETITIONS}"
 
-        # Aggregate results
+        avrg_algo_normal=$(awk -v t="$total_algo_normal" -v c="$TEST_REPETITIONS" \
+                'BEGIN { printf("%.7f", t / c ) }')
+        echo "avrg_algo_normal{$avrg_algo_normal} = total_algo_normal{$total_algo_normal} / TEST_REPETITIONS{$TEST_REPETITIONS}"
+
+        stddev_normal=$(awk -v es="${total_algo_sqrt_normal}" -v e="$avrg_algo_normal" -v c="$TEST_REPETITIONS" \
+            'BEGIN { printf("%.7f", sqrt( (es/c) - (e*e) ) ) }')  # sqrt( E[X^2] - E[X]^2 )
+        echo "stddev_normal{$stddev_normal} = sqrt( (total_algo_sqrt_normal{$total_algo_sqrt_normal}/TEST_REPETITIONS{$TEST_REPETITIONS}) - avrg_algo_normal^2{$avrg_algo_normal^2} ) -- sqrt( E[X^2] - E[X]^2 )"
+
+
+        avrg_fetch_fip=$(awk -v t="$total_fetch_fip" -v c="$TEST_REPETITIONS" \
+                'BEGIN { printf("%.7f", t / c ) }')
+        echo "avrg_fetch_fip{$avrg_fetch_fip} = total_fetch_fip{$total_fetch_fip} / TEST_REPETITIONS{$TEST_REPETITIONS}"
+
+        avrg_algo_fip=$(awk -v t="$total_algo_fip" -v c="$TEST_REPETITIONS" \
+                'BEGIN { printf("%.7f", t / c ) }')
+        echo "avrg_algo_fip{$avrg_algo_fip} = total_algo_fip{$total_algo_fip} / TEST_REPETITIONS{$TEST_REPETITIONS}"
+
+        stddev_fip=$(awk -v es="${total_algo_sqrt_fip}" -v e="$avrg_algo_fip" -v c="$TEST_REPETITIONS" \
+            'BEGIN { printf("%.7f", sqrt( (es/c) - (e*e) ) ) }')  # sqrt( E[X^2] - E[X]^2 )
+        echo "stddev_fip{$stddev_fip} = sqrt( (total_algo_sqrt_fip{$total_algo_sqrt_fip}/TEST_REPETITIONS{$TEST_REPETITIONS}) - avrg_algo_fip^2{$avrg_algo_fip^2} ) -- sqrt( E[X^2] - E[X]^2 )"
+        
+
+        # avrg_fetch_normal, avrg_algo_normal, stddev_normal, normal_exe
+        # avrg_fetch_fip,    avrg_algo_fip,    stddev_fip,    fip_exe
+        # TEMP_FILE, RESULTS_FILE
+        awk -v f="$avrg_fetch_normal" \
+            -v c="${base_name}_normal" \
+            -v m="$avrg_algo_normal" \
+            -v s="$stddev_normal" \
+        'BEGIN {
+            FS=OFS=","
+            print "command","fetch_time","mean","stddev"
+            print c, f, m, s
+            exit
+        }' > "$TEMP_FILE"
+
+        awk -v f="$avrg_fetch_fip" \
+            -v c="${base_name}_fip" \
+            -v m="$avrg_algo_fip" \
+            -v s="$stddev_fip" \
+        'BEGIN {
+            FS=OFS=","
+            print c, f, m, s
+            exit
+        }' >> "$TEMP_FILE"
+
+
         if [[ ! -f "$RESULTS_FILE" ]]; then
-            #cp "$TEMP_FILE" "$RESULTS_FILE"
-            awk -v start="$avg" 'BEGIN{FS=OFS=","} {print (NR==1 ? "fetch_time" : start), $0}' "$TEMP_FILE" > "$RESULTS_FILE"
+            cp "$TEMP_FILE" "$RESULTS_FILE"
         else
-            # tail -n +2 "$TEMP_FILE" >> "$RESULTS_FILE"
-            tail -n +2 "$TEMP_FILE" | awk -v start="$avg" 'BEGIN{FS=OFS=","} {print start , $0}' >> "$RESULTS_FILE"
+            tail -n +2 "$TEMP_FILE" >> "$RESULTS_FILE"
         fi
         
     else

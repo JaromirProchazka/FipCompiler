@@ -56,15 +56,15 @@ clang++ -c -fPIE compiled_programs_data/.lib/ck_utils.cpp -o compiled_programs_d
 set +e
 
 if [ $basics_flag -eq 1 ]; then
-    file_pattern="./test/basic_*.ffip"
+    file_pattern="./bench/basic_*.ffip"
     echo "Processing only basic test files..."
 elif [ $benchmarks_flag -eq 1 ]; then
     shopt -s extglob
-    file_pattern='./test/!(basic_*)*_@(fip|normal).ffip'
+    file_pattern='./bench/!(basic_*)*_@(fip|normal).ffip'
     echo "Processing only benchmarked test files..."
 else
-    file_pattern="./test/*.ffip"
-    echo "Processing all test files..."
+    file_pattern="./bench/*.ffip"
+    echo "Processing all benchmark files..."
 fi
 
 # Process each .ffip file in the test directory
@@ -82,7 +82,7 @@ for ffip_file in $file_pattern; do
     # compile the test file to LLVM IR code and data files (text of LLVM IR and a IR binary)
     ./stud-main/cecko5 -a "./compiled_programs_data/${base}/${base}.txt" \
         -o "./compiled_programs_data/${base}/${base}.ll" \
-        "./test/${base}.ffip" || {
+        "./bench/${base}.ffip" || {
         echo "[generate_fip_tests_data] Error: Compilation to LLVM IR failed for $base"
         error_occurred=1
     }

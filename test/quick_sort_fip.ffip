@@ -115,7 +115,7 @@ fip int _travers_list [type list_elem xs] = match xs -> int {
     | Cons_elem(x, xx)       -> _travers_list( second( log_elem(x), xx ))
 }
 
-fip int travers_list [type list_elem xs] = _travers_list( log(xs, "log started\n\n") )
+fip int travers_list [type list_elem xs] = _travers_list( xs )
 
 fip type list_elem log_list [type list_elem xs] = second_first_int( travers_list(xs), xs)
 
@@ -136,10 +136,9 @@ type list_elem rand_list [int n, int seed] = rand_list_helper(n, seed, 22695477*
 
 int main [int argc, char** argv] = 
     finish( 
-        /*log_list(*/ 
+        log_list(
                 quicksort( 
-                    time( 
-                        /*log_list(*/ rand_list(time(37000), 13) 
-                        /*)*/  )
+                        log_list( rand_list(100, 13) 
+                        )  
                 )
-        /*)*/ )
+        ) )

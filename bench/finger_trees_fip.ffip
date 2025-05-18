@@ -1,0 +1,375 @@
+type elem {
+    Elem(int val);
+}
+
+type reuse3 {
+    Reuse3(int _a, int _b, int _c);
+}
+
+type afew_object {
+    One(type object a, int _b, int _c);
+    Two(type object a, type object b, int _c);
+    Three(type object a, type object b, type object c);
+}
+
+type tuple_object {
+    PairObject(type object a, type object b, int c);
+    TripleObject(type object a, type object b, type object c);
+}
+
+type seq_object {
+    Empty;
+    Unit(type object a, int _b, int _c);
+    More0(type object l, type seq_object s, type afew_object r);
+    More(type tuple_object l, type seq_object s, type afew_object r);
+}
+
+type buffer {
+    BNil;
+    BCons(type buffer next, int _b, int _c);
+}
+
+type bseq {
+    BSeq(type seq_object s, type buffer q);
+}
+
+type elem head [type seq_object s];
+
+type elem bhead [type bseq bs] 
+    = match bs -> type elem {
+        | BSeq(s, _1) -> head(s)
+    }
+
+type elem head [type seq_object s]
+    = match s -> type elem {
+        | Unit(x, _1, _2)            -> x
+        | More0(x, _1, _2)           -> x
+        | More(p, _1, _2) -> 
+            match p -> type elem {
+                | PairObject(x, _3, _4)   ->  x
+            }
+        | More(t, _1, _2) -> 
+            match t -> type elem {
+                | TripleObject(x, _3, _4)   ->  x
+            }
+    }
+
+fip type Pair cons [type object x, type reuse3 u3, type seq_object s, type buffer b];
+
+fip type bseq bcons [type elem x, type reuse3 u3, type bseq bs]
+    = match! bs -> type bseq {
+        | BSeq(s, b) -> 
+            match cons(x, u3, s, b) -> type BSeq {
+                | Pair(s_, b_) -> BSeq(s_, b_)
+            }
+    }
+
+fip type Pair cons [type object x, type reuse3 u3, type seq_object s, type buffer b]
+    = match! u3 -> type Pair { 
+        | Reuse3(_h, _j, _k)    ->  
+        match! s -> type Pair {
+            | Empty                 -> Pair(Unit(x, 0, 0), b)
+            | More(t, q, u) -> 
+                match! t -> type Pair {
+                    | TripleObject(y, z, w)   -> 
+                        match! b -> type Pair {
+                            | BCons(b_, _1, _2)   ->       
+                                match cons(PairObject(z, w, 0), u3, q, b_) -> type Pair {
+                                    | Pair(q_, b__) -> Pair(More(PairObject(x, y, 0), q_, u), b__)
+                                }
+                        }
+                }
+            | More(p, q, u)         -> 
+                match! p -> type Pair {
+                    | PairObject(y, z, _1)    ->  Pair(More(TripleObject(x, y, z), q, u), BCons(b, 0, 0))
+                }
+            | More0(y, q, u)        -> Pair(More(PairObject(x, y, 0), q, u), b)
+            | Unit(y, _1, _2)       -> Pair(More0(x, Empty, One(y, 0, 0)), b)
+        }
+    }
+
+fip type Tuple4 uncons [type seq_object s, type buffer b];
+
+fip type Tuple3 buncons [type bseq bs]
+    = match! bs -> type Tuple3 {
+        | BSeq(s, b) -> 
+            match uncons(s, b) -> type Tuple3 {
+                | Tuple4(x, u3, s_, b_) -> Tuple3(x, u3, BSeq(s_, b_))
+            }
+    }
+
+fip type Pair more0 [type seq_object q, type afew_object u, type buffer b];
+
+fip type Tuple4 uncons [type seq_object s, type buffer b]
+    = match! s -> type Tuple4 {
+        | Unit(x, _1, _2)   ->  Tuple4(x, Reuse3(0,0,0), Empty, b)
+        | More(t, q, u)     -> 
+            match! t -> type Tuple4 {
+                | TripleObject(x, y, z)   ->    match! b -> type buffer {
+                    | BCons(b_, _1, _2) -> Tuple4(x, Reuse3(0,0,0), More(PairObject(y, z, 0), q, u), b_)
+                }
+                | PairObject(x, y, _1)    ->    Tuple4(x, Reuse3(0,0,0), More0(y, q, u), b)
+            }
+        | More0(x, q, u)    -> 
+            match more0(q, u, b) -> type Tuple4 {
+                | Pair(q_, b_) -> Tuple4(x, Reuse3(0,0,0), q_, b_)
+            }
+    }
+
+fip type Pair more0 [type seq_object q, type afew_object u, type buffer b]
+    = match! q -> type Pair {
+        | Empty -> match! u -> type Pair {
+            | One(x, y, z) -> Pair(Unit(x, y, z), b)
+            | Two(y, z, _1) -> 
+                match! b -> type Pair {
+                    | BCons(b_, _2, _3) -> Pair(More0(y, Empty, One(z, 0, 0)), b_)
+                }
+            | Three(y, z, w) -> 
+                match! b -> type Pair {
+                    | BCons(b_, _1, _2) -> Pair(More0(y, Empty, Two(z, w, 0)), b_)
+                }
+        }
+        | More(pt, q1, u1) -> match! pt -> type Pair {
+            | PairObject(p, y1, _1) -> 
+                match! p -> type Pair {
+                    | PairObject(x, y, _2) -> Pair(More(PairObject(x, y, 0), More0(y1, q1, u1), u), b)
+                    | TripleObject(x, y, z) -> 
+                        match! b -> type Pair {
+                            | BCons(b_, _3, _4) -> Pair(More0(x, More(PairObject(PairObject(y,z,0), y1, 0), q1, u1), u), b_)
+                        }
+                }
+            | TripleObject(p, y1, z1) -> 
+                match! b -> type Pair {
+                    | BCons(b_, _1, _2) -> match! p -> type Pair {
+                        | PairObject(x, y, _3) -> Pair(More(PairObject(x, y, 0), More(PairObject(y1, z1, 0), q1, u1), u), b_)
+                        | TripleObject(x, y, z) -> Pair(More0(x, More(TripleObject(PairObject(y,z,0), y1, z1), q1, u1), u), b_)
+                    }
+                }
+        }
+        | More0(p, q1, u1) -> match! p -> type Pair {
+            | PairObject(x, y, _1) -> 
+                match more0(q1, u1, b) -> type Pair {
+                    | Pair(q1_, b_) -> Pair(More(PairObject(x, y, 0), q1_, u), b_)
+                }
+            | TripleObject(x, y, z) -> 
+                match! b -> type Pair {
+                    | BCons(b_, _1, _2) -> Pair(More0(x, More0(PairObject(y,z,0), q1, u1), u), b_)
+                }
+        }
+        | Unit(p, _1, _2) -> match! p -> type Pair {
+            | PairObject(x, y, _3) -> Pair(More(PairObject(x, y, 0), Empty, u), b)
+            | TripleObject(x, y, z) -> 
+                match! b -> type Pair {
+                    | BCons(b_, _3, _4) -> Pair(More0(x, Unit(PairObject(y,z,0),0,0), u), b_)
+                }
+        }
+    }
+
+fip type Pair snoc [type seq_object s, type buffer b, type reuse3 u3, type object x];
+
+fip type bseq bsnoc [type bseq bs, type reuse3 u3, type elem x]
+    = match! bs -> type bseq {
+        | BSeq(s, b) -> 
+            match snoc(s, b, u3, x) -> type bseq {
+                | Pair(s_, b_) -> BSeq(s_, b_)
+            }
+        }
+
+fip type Pair snoc [type seq_object s, type buffer b, type reuse3 u3, type object x]
+    = match! s -> type Pair {
+        | Empty ->      match! u3 -> type Pair {  | Reuse3(_r1, _r2, _r3)     -> 
+            Pair(Unit(x, 0, 0), b)
+        }
+        | More(u, q, anum)   -> match! anum -> type Pair {
+            | Three(y, z, w)    ->  match! b -> type Pair {
+                | BCons(b_, _1, _2) -> 
+                    match snoc(q, b_, u3, PairObject(y, z, 0)) -> type Pair {
+                        | Pair(q_, b__) -> Pair(More(u, q_, Two(w, x, 0)), b__)
+                    }
+            }
+            | Two(y, z, _1)     ->  match! u3 -> type Pair {  | Reuse3(_r1, _r2, _r3)     -> 
+                Pair(More(u, q, Three(y, z, x)), BCons(b, 0, 0))
+            }
+            | One(y, _1, _2)    ->  match! u3 -> type Pair {  | Reuse3(_r1, _r2, _r3)     -> 
+                Pair(More(u, q, Two(y, x, 0)), BCons(b, 0, 0))
+            }
+        }
+        | More0(u, q, anum)  -> /*FIXME: should ! but sfault*/ match! anum -> type Pair {
+            | Three(y, z, w)    ->  match! b -> type Pair {
+                | BCons(b_, _1, _2) -> 
+                    match snoc(q, b_, u3, PairObject(y, z, 0)) -> type Pair {
+                        | Pair(q_, b__) -> Pair(More0(u, q_, Two(w, x, 0)), b__)
+                    }
+            }
+            | Two(y, z, _1)     ->  match! u3 -> type Pair {  | Reuse3(_r1, _r2, _r3)     -> 
+                Pair(More0(u, q, Three(y, z, x)), BCons(b, 0, 0))
+            }
+            | One(y, _1, _2)    ->  match! u3 -> type Pair {  | Reuse3(_r1, _r2, _r3)     -> 
+                Pair(More0(u, q, Two(y, x, 0)), BCons(b, 0, 0))
+            }
+        }
+        | Unit(y, _1, _2)   -> match! u3 -> type Pair {  | Reuse3(_r1, _r2, _r3)     -> 
+            Pair(More0(y, Empty, One(x, 0, 0)), b)
+        }
+    }
+
+
+
+
+
+
+
+type bseq iterate [type bseq s, int n] = if (n <= 0) s;
+    else match buncons(s) -> type bseq {
+        | Tuple3(x, u3, s_) ->  iterate( bsnoc(s_, u3, x), n-1 )
+    };
+
+type bseq build [int n, type bseq s] = if (n <= 0) s;
+    else build( n-1, bsnoc(s, Reuse3(0,0,0), Elem(n) ) );
+
+fip type elem log_elem [type elem e] =
+    match! e -> type elem {
+        | Elem(i)   ->  Elem( log(i,"head element\n") )
+    }
+
+type elem test [int n] = 
+    log_elem(
+        bhead(
+            iterate(
+                build(n, time(time( BSeq(Empty, BNil) )) ), 
+                n * 3
+            )
+        )
+    )
+
+int finish [type elem _e] = 0
+
+int finisho [type object _o] = 0
+
+int _elem [type elem e] = 
+    match! e -> int {
+        | Elem(i)           ->  i 
+    }
+
+type seq_object first [type seq_object s, int _i] = s
+
+type object firsto [type object s, int _i] = s
+type object secondo [int _i, type object s] = s
+
+type object log_arrow [type object o] =
+    firsto( o, printf(" -- ") )
+
+type seq_object three_in_order [type object inst1, type object inst2, type object inst3, type seq_object ret] = ret
+
+
+type object log_seq [type object s];
+
+type bseq log_bseq [type bseq bs] = 
+    match! bs -> type bseq {
+        | BSeq(s, q)        ->  BSeq(log_seq(s), q)
+    }
+
+type object log_seq_helper [type object s];
+
+
+type object log_seq [type object s] = firsto( log_seq_helper(s), printf("\n") )
+
+type object log_seq_helper [type object s] = 
+    match! s -> type bseq {
+        | Empty                 ->  first(s, printf("<Empty>"))
+        | Unit(a, _1, _2)       ->  
+            firsto(
+                secondo(
+                    printf("Unit< "),
+                    log_seq_helper(a)
+                ),
+                printf(" >")
+            )
+        | More0(l, ss, ar)      ->  firsto(secondo(
+                printf("More0< "),
+                three_in_order(
+                    log_arrow(  log_seq_helper(l)),
+                    log_arrow(  log_seq_helper(ss)),
+                    log_seq_helper(ar),
+                    s
+                    )
+                ),
+                printf(" >")
+            )
+                
+        | More(l, ss, ar)       ->  firsto(secondo(
+                printf("More< "),
+                three_in_order(
+                    log_arrow(  log_seq_helper(l)),
+                    log_arrow(  log_seq_helper(ss)),
+                    log_seq_helper(ar),
+                    s
+                    )
+                ),
+                printf(" >")
+            )
+        | Elem(i)               ->  first(s, printf("%i", i))
+        
+        | One(a, _1, _2)        ->  
+            firsto(
+                secondo(
+                    printf("One< "),
+                    log_seq_helper(a)
+                ),
+                printf(" >")
+            )
+        | Two(a, b, _2)         ->  firsto(secondo(
+                printf("Two< "),
+                three_in_order(
+                    log_arrow(  log_seq_helper(a)),
+                    log_seq_helper(b),
+                    s,
+                    s
+                    )
+                ),
+                printf(" >")
+            )
+        | Three(a, b, c)        ->  firsto(secondo(
+                printf("Three< "),
+                three_in_order(
+                    log_arrow(  log_seq_helper(a)),
+                    log_arrow(  log_seq_helper(b)),
+                    log_seq_helper(c),
+                    s
+                    )
+                ),
+                printf(" >")
+            )
+
+        | PairObject(a, b, _1)  ->  firsto(secondo(
+                printf("Pair< "),
+                three_in_order(
+                    log_arrow(  log_seq_helper(a)),
+                    log_seq_helper(b),
+                    s,
+                    s
+                    )
+                ),
+                printf(" >")
+            )
+        | TripleObject(a, b, c) ->  firsto(secondo(
+                printf("Triple< "),
+                three_in_order(
+                    log_arrow(  log_seq_helper(a)),
+                    log_arrow(  log_seq_helper(b)),
+                    log_seq_helper(c),
+                    s
+                    )
+                ),
+                printf(" >")
+            )
+    }
+
+
+
+
+/*finisho( log_seq( build(10, time( Empty ) ) ) )*/
+
+int main [int argc, char** argv] = finisho(   
+        time( test(time(33193)) )        
+    )

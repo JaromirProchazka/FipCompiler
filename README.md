@@ -31,11 +31,11 @@ To run benchmarks, use this default command:
 ```
 
 For generating Benchmarks, we have generate_fip_tests_data.sh script.
-It takes all files from the `./test/` folder and generates result in the
+It takes all files from the `./bench/` folder and generates result in the
 `./compiled_programs_data/` folder.
 
-In the `./test/` folder, files which names strart with "basic\_" substring
-are meant as test files and are not included in the benchmarks results. For
+In the `./bench/` folder, files which names strart with "basic\_" substring
+are meant as benchmark files and are not included in the benchmarks results. For
 other files, it is expeceted that they have a fip and non-fip version. The
 Fip version should should fit patern "<name>\_fip.ffip" and the non-fip
 version fits pattern "<name>\_normal.ffip".
@@ -53,6 +53,6 @@ The script `generate_fip_tests_data.sh` can be configured with these flags:
 - `--replace`: first cleans up the `./compiled_programs_data/` folder
 - `--basics`: only compiles the test files with fiting pattern "basic\_\*" and doesn't run benchmarks
 - `--no-test`: doesn't generate benchmark results
-- `--benchmarks`: only compiles the benchmarked test files with fiting pattern "./test/!(basic**)**@(fip|normal).ffip" and runs benchmarks
+- `--benchmarks`: only compiles the benchmarked test files with fiting pattern "./bench/!(basic**)**@(fip|normal).ffip" and runs benchmarks
 
 ## Thesis
