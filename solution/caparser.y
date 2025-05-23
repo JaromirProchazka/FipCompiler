@@ -299,7 +299,6 @@ function_definition_head:
             log("{FipState} function_definition_info - entering fip function '"+res_tpack.name.value()+"' declaration\n");
             fip_state.enter_fip_mode();
             fip_state.enter_fip_context();
-            // fip_state.insert_reusables_function_args(ctx, res_tpack.optinonal_param_names);
         }
         log("[function_definition_head:] function body entered\n");
 

@@ -1163,27 +1163,17 @@ namespace casem
         return arg;
     }
 
-    InstructionWrapper handle_postfix_expression_fcall(cecko::context *ctx, cecko::CIName &label, casem::InstructionArray params)
+    bool is_capeable_of_reusing(cecko::CIName &label)
     {
-        if (label == print_label)
-        {
-            return handle_log_call(ctx, params);
-        }
-        else if (label == time_measure_label)
-        {
-            return handle_time_measure(ctx, params);
-        }
+        auto type_rtoken_count = find_ttype_size(label);
+        return type_rtoken_count > 0 && !is_non_heap_type(label);
+    }
 
-        if (!casem::is_constructable_type_label(ctx, label))
-        {
-            generate_debug_print(ctx, std::string("") + "Entering '" + label + "(...)' call", params);
-            return init_instruction_function_call(ctx, init_instruction_from_name(ctx, label), params);
-        }
-
+    InstructionWrapper generate_ttype_construction(cecko::context *ctx, cecko::CIName &label, casem::InstructionArray params)
+    {
         cecko::CIName constructor_name;
         auto type_rtoken_count = find_ttype_size(label);
-        // FIXME: implement better the conditions for reusing
-        if (fip_state.is_in_fip_mode() && type_rtoken_count > 0 && !is_non_heap_type(label)) // Types with no reuse tokens are not reused
+        if (fip_state.is_in_fip_mode() && is_capeable_of_reusing(label)) 
         {
             auto &&to_be_reused = fip_state.reuse(type_rtoken_count);
             if (!to_be_reused.valid)
@@ -1208,5 +1198,25 @@ namespace casem
 
         generate_debug_print(ctx, std::string("") + "Entering '" + constructor_name + "(...)' call");
         return init_instruction_function_call(ctx, init_instruction_from_name(ctx, constructor_name), params);
+    }
+
+    InstructionWrapper handle_postfix_expression_fcall(cecko::context *ctx, cecko::CIName &label, casem::InstructionArray params)
+    {
+        if (label == print_label)
+        {
+            return handle_log_call(ctx, params);
+        }
+        else if (label == time_measure_label)
+        {
+            return handle_time_measure(ctx, params);
+        }
+
+        if (!casem::is_constructable_type_label(ctx, label))
+        {
+            generate_debug_print(ctx, std::string("") + "Entering '" + label + "(...)' call", params);
+            return init_instruction_function_call(ctx, init_instruction_from_name(ctx, label), params);
+        }
+
+        return generate_ttype_construction(ctx, label, params);
     }
 }

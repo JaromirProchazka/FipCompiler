@@ -1359,24 +1359,6 @@ namespace casem
 
             log_reusables("insert_reusable");
         }
-        void insert_reusables_function_args(cecko::context *ctx, cecko::CKFunctionFormalPackArray &args)
-        {
-            for (auto &&farg : args)
-            {
-                auto farg_wrapper = init_instruction_from_name(ctx, farg.name.value());
-                if (!is_tagged_type(farg_wrapper.type))
-                {
-                    log(std::string("Skipping ") + farg.name.value() + "\n");
-                    continue;
-                }
-
-                ReuseInstruction arg_reuse(ctx, farg_wrapper, farg_wrapper.type);
-                log(std::string("Inserting ") + farg.name.value() + "\n");
-                insert_reusable(arg_reuse);
-            }
-
-            log_reusables("after insert_reusables_function_args");
-        }
         /// @brief looks up a reusable instruction (pointer to heap space), removes it from the pool of reuseable instructions from the the closet possible context and returns it to caller
         /// @param required_size the targeted size of the reuser
         /// @return the reuse data including the instruction. If none was found, returns instance with valid field set to false.
@@ -1787,6 +1769,7 @@ namespace casem
     /// @return a string that is the longest prefix
     std::string num_prefix(const char *y, bool look_for_dec);
 
+    InstructionWrapper generate_ttype_construction(cecko::context *ctx, cecko::CIName &label, casem::InstructionArray params);
     InstructionWrapper handle_enumeration_constant(cecko::context *ctx, cecko::CIName &label);
     InstructionWrapper handle_postfix_expression_fcall(cecko::context *ctx, cecko::CIName &label, casem::InstructionArray params);
 }
