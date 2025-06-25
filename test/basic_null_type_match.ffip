@@ -37,12 +37,16 @@ fip type Elem log_elem [type elem e] = match! e -> type Elem {
     | Elem(i)       ->  Elem(log(i, "->\n"))
 }
 
+fip type Elem log_e [type elem e] = match! e -> type Elem {
+    | Elem(i)       ->  Elem(log(i, "\n"))
+}
+
 fip int _travers_list [type list_elem xs] = match xs -> int {
     | Nil_elem               -> printf("Nil\n")
     | Cons_elem(x, xx)       -> _travers_list( second( log_elem(x), xx ))
 }
 
-fip int travers_list [type list_elem xs] = _travers_list( log(xs, "log started\n") )
+fip int travers_list [type list_elem xs] = _travers_list( xs )
 
 fip type list_elem log_list [type list_elem xs] = second_first_int( travers_list(xs), xs)
 
@@ -50,4 +54,12 @@ type list_elem make_list [] = Cons_elem(Elem(1), Cons_elem(Elem(2), Cons_elem(El
 
 
 
-int main [int argc, char** argv] = finish( log_elem( eval( log_list( make_list() ), Elem(0))))
+int main [int argc, char** argv] = finish( 
+    log_e( 
+        eval( 
+            log_list( 
+                make_list() 
+            ), 
+        Elem(0)
+        )
+    ))

@@ -51,7 +51,7 @@ echo "Summary: $pass passed, $fail failed."
 
 # Clean-up
 
-# rm -rf "$TMP_DIR"
+rm -rf "$TMP_DIR"
 
 for ffip in "$TEST_DIR"/*.ffip; do
   name="$(basename "${ffip%.ffip}")"
