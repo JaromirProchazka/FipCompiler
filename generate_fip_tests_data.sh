@@ -10,6 +10,7 @@ replace_flag=0
 basics_flag=0
 benchmarks_flag=0
 do_tests=1
+results_destination="compiled_programs_data"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -46,15 +47,6 @@ if [ $replace_flag -eq 1 ]; then
     fi
 fi
 
-# Build the compiler
-cmake . && cmake --build .
-
-# Compile utils library
-clang++ -c -fPIE compiled_programs_data/.lib/ck_utils.cpp -o compiled_programs_data/.lib/ck_utils.o
-
-# Disable immediate exit for the loop processing
-set +e
-
 if [ $basics_flag -eq 1 ]; then
     file_pattern="./bench/basic_*.ffip"
     echo "Processing only basic test files..."
@@ -67,65 +59,8 @@ else
     echo "Processing all benchmark files..."
 fi
 
-# Process each .ffip file in the test directory
-for ffip_file in $file_pattern; do
-    base=$(basename "$ffip_file" .ffip)
-    
-    echo "[generate_fip_tests_data] Processing $base.ffip..."
-
-    error_occurred=0
-
-    mkdir -p ./compiled_programs_data/${base}/
-
-    echo "[generate_fip_tests_data] Folder ./compiled_programs_data/$base/ for results made"
-    
-    # compile the test file to LLVM IR code and data files (text of LLVM IR and a IR binary)
-    ./stud-main/cecko5 -a "./compiled_programs_data/${base}/${base}.txt" \
-        -o "./compiled_programs_data/${base}/${base}.ll" \
-        "./bench/${base}.ffip" || {
-        echo "[generate_fip_tests_data] Error: Compilation to LLVM IR failed for $base"
-        error_occurred=1
-    }
-    
-    # generate .s IR code file from the compiled .ll IR code file
-    if [ $error_occurred -eq 0 ]; then
-        llc -opaque-pointers -o "compiled_programs_data/${base}/${base}.s" \
-            "compiled_programs_data/${base}/${base}.ll" || {
-            echo "[generate_fip_tests_data] Error: Assembly generation failed for $base"
-            error_occurred=1
-        }
-    fi
-    
-    # create object file for the IR code
-    if [ $error_occurred -eq 0 ]; then
-        clang -c -fPIE "compiled_programs_data/${base}/${base}.s" \
-            -o "compiled_programs_data/${base}/${base}.o" || {
-            echo "[generate_fip_tests_data] Error: Object file creation failed for $base"
-            error_occurred=1
-        }
-    fi
-    
-    # compile test file for test linked with the util file
-    if [ $error_occurred -eq 0 ]; then
-        clang -no-pie -o "compiled_programs_data/${base}/${base}" \
-            "compiled_programs_data/${base}/${base}.o" \
-            "compiled_programs_data/.lib/ck_utils.o" -lstdc++ || {
-            echo "[generate_fip_tests_data] Error: Linking failed for $base"
-            error_occurred=1
-        }
-    fi
-
-    # Cleanup intermediate files for this test case
-    rm -f compiled_programs_data/${base}/${base}.s compiled_programs_data/${base}/${base}.ll "compiled_programs_data/${base}/${base}.o"
-
-    if [ $error_occurred -eq 1 ]; then
-        echo "Removing failed test directory: compiled_programs_data/${base}/"
-        rm -rf "compiled_programs_data/${base}/"
-    fi
-
-    echo "[generate_fip_tests_data] compiled_programs_data/$base/ successful"
-
-done
+# Process each .ffip file in the bench directory
+banchmarks_utils/compile_stafip_scripts_in.sh "$file_pattern" "${results_destination}"
 
 # Generate data for benchmarks
 if [ $do_tests -eq 1 ]; then

@@ -233,14 +233,13 @@ fip type elem log_elem [type elem e] =
     }
 
 type elem test [int n] = 
-    log_elem(
-        bhead(
+    /*log_elem(*/    bhead(
             iterate(
                 build(n, time(time( BSeq(Empty, BNil) )) ), 
                 n * 3
             )
         )
-    )
+    /*)*/
 
 int finish [type elem _e] = 0
 

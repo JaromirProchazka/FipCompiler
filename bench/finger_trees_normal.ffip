@@ -124,14 +124,13 @@ fip type elem log_elem [type elem e] =
     }
 
 type elem test [int n] = 
-    log_elem(
-        head(
+    /*log_elem(*/     head(
             iterate(
                 build(n, time(time( Empty )) ), 
                 n * 3
             )
         )
-    )
+    /*)*/
 
 int finish [type elem _e] = 0
 

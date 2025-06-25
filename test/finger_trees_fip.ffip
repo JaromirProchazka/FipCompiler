@@ -272,7 +272,7 @@ type bseq log_bseq [type bseq bs] =
 type object log_seq_helper [type object s];
 
 
-type object log_seq [type object s] = firsto( log_seq_helper(s), printf("\n") )
+type object log_seq [type object s] = firsto( log_seq_helper(s), printf("") )
 
 type object log_seq_helper [type object s] = 
     match! s -> type bseq {
