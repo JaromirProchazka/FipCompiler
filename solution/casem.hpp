@@ -17,14 +17,14 @@
 #include <ranges>
 #define assertm(exp, msg) assert((void(msg), exp))
 
-// A swith that says if we should log static compilation messages
+/// A swith that says if we should log static compilation messages
 #define GENERATE_STATIC_DEBUG_LOG true
-// A swith that says if we should generate dynamic runtime messages printf's
+/// A swith that says if we should generate dynamic runtime messages printf's
 #define GENERATE_DYNAMIC_DEBUG_LOG false
 
-// if false, on unsuccessful reuse (not enough reuse tokens) malloc is made
+/// if false, on unsuccessful reuse (not enough reuse tokens) malloc is made
 #define ENFORCE_FIP false
-// if matched variable doesn't enter any binder, create message and crash
+/// if matched variable doesn't enter any binder, create message and crash
 #define MANDATORY_BINDER_ENTRY_ON_MATCH false
 
 namespace casem
@@ -63,10 +63,15 @@ namespace casem
     using InstructionArray = std::vector<InstructionWrapper>;
     std::vector<cecko::CKIRValueObs> get_args_instructions(InstructionArray iargs);
 
+    /// @brief Builder mothod for InstructionWrapper, used for wrapping variables and funitons
     InstructionWrapper init_instruction_from_name(cecko::context *ctx, const cecko::CIName &name);
+    /// @brief Builder mothod for InstructionWrapper, used for wrapping function call result given a wrapped function
     InstructionWrapper init_instruction_function_call(cecko::context *ctx, const InstructionWrapper &inst, InstructionArray fargs);
+    /// @brief Builder mothod for InstructionWrapper, used for wrapping literals, int in this case
     InstructionWrapper init_instruction_const(cecko::context *ctx, int intlit);
+    /// @brief Builder mothod for InstructionWrapper, used for wrapping literals, string literal in this case
     InstructionWrapper init_instruction_const(cecko::context *ctx, const cecko::CIName &strlit);
+    /// @brief Builder mothod for InstructionWrapper, used for wrapping heap allocations of a given (enum) type
     InstructionWrapper init_instruction_malloca(cecko::context *ctx, cecko::CKTypeSafeObs type, const cecko::CIName &name);
 
     std::string get_constructor_label(const std::string &tname);
@@ -133,6 +138,7 @@ namespace casem
         RValue,
         LValue
     };
+    /// @brief Abstracts values and variables in LLVM IR. Provides constant wrappers for the LLVM instructions on the abstracted value which are appended to the current basic block present in the ctx (context) variable given at construction.
     class InstructionWrapper
     {
     public:

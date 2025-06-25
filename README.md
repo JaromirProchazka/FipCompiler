@@ -1,6 +1,6 @@
 # StaFip Compiler
 
-A small testing compiler of a functional language stafip. It
+A small testing compiler of a functional language StaFip. It
 implement the Fully In Place calculus (FIP) and is meant to test
 this calculus in space with no garbage collection.
 
@@ -22,7 +22,22 @@ You can then run any script with `.ffip` file extension with this command:
 ./stud-main/cecko5 -a ./DebugLog.txt <script>
 ```
 
-### Run Benchmark
+## Tests
+
+The StaFip compiler is tested throw a set of testing StaFip scripts. These scripts
+also include the benchmarked algorithms, both the FIP and non-FIP versions on some
+none-trivial data.
+
+These testing scritps are present in the `test` folder. For each there is also a
+corresponding `.gold` file with the expected results.
+
+Use this command to run the tests:
+
+```sh
+verify_stafip.sh
+```
+
+## Run Benchmarks
 
 To run benchmarks, use this default command:
 
@@ -54,5 +69,21 @@ The script `generate_fip_tests_data.sh` can be configured with these flags:
 - `--basics`: only compiles the test files with fiting pattern "basic\_\*" and doesn't run benchmarks
 - `--no-test`: doesn't generate benchmark results
 - `--benchmarks`: only compiles the benchmarked test files with fiting pattern "./bench/!(basic**)**@(fip|normal).ffip" and runs benchmarks
+
+## Documentation
+
+Documentation can be found in the `doc` folder. There the documentaiton is split
+to:
+
+- `developer_docs.md` documenting from the high level the `casem` library which abstracts the LLVM interface and provides specific data types for the StaFip language.
+- The `StaFip_specification.md` which describe the language its self, its semantics and syntax
+- and finaly the doxygen documentation of the `casem` library to which the `developer_docs.md` often links
+
+the doxymentation can be generated using the command bellow (from project root) and than accessed by opening the index.html file in the resulting `doc/html/` folder.
+
+```
+doxygen ./doc/doxyfile
+# than open the doc/html/index.html
+```
 
 ## Thesis
