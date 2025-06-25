@@ -36,6 +36,8 @@ int main [int argc, char** argv] =
     finish( freverse( make_list() ))
 ```
 
+This code uses FIP to sort a simple list in place.
+
 ## Build
 
 For the build and testing alown, use this command:
@@ -119,3 +121,9 @@ doxygen ./doc/doxyfile
 ```
 
 ## Thesis
+
+### reference
+
+This compiler builds on ideas presented in:
+
+- _Anton Lorenzen, Daan Leijen; Swierstra, Wouter. F P 2: Fully in-Place Functional Programming. Proceedings of the ACM on Programming Languages. 2023, vol. 7, no. 198, pp. 275–304._
