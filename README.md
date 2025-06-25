@@ -4,6 +4,38 @@ A small testing compiler of a functional language StaFip. It
 implement the Fully In Place calculus (FIP) and is meant to test
 this calculus in space with no garbage collection.
 
+## Example
+
+```ffip
+// List definition
+type list {
+    Nil;
+    Cons(int val, type list next);
+}
+
+// List reversal functions
+type list freverse [type list xs];
+
+fip type list freverse_acc [type list xs, type list acc]
+    = match! xs -> type list {
+        | Nil           -> acc
+        | Cons(x, xx)   -> freverse_acc(xx, Cons(x, acc))
+}
+
+type list freverse [type list xs] = freverse_acc(xs, Nil)
+
+
+// Util functions
+type list make_list [] = Cons(1, Cons(2, Cons(3, Nil )))
+
+int finish [type Tagged x] = 0
+
+
+// Main function
+int main [int argc, char** argv] =
+    finish( freverse( make_list() ))
+```
+
 ## Build
 
 For the build and testing alown, use this command:
