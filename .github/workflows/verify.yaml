@@ -7,4 +7,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: run verifying script
-        run: verify_stafip.sh
+        run: ./verify_stafip.sh
