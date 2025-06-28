@@ -38,12 +38,12 @@ int main [int argc, char** argv] =
 
 This code uses FIP to sort a simple list in place.
 
-## Build
+## Build and Run
 
 For the build and testing alown, use this command:
 
 ```sh
-cmake -DCMAKE_BUILD_TYPE=Debug . && cmake --build .
+cmake . && cmake --build .
 ```
 
 You can then run any script with `.ffip` file extension with this command:
@@ -65,7 +65,7 @@ none-trivial data.
 These testing scritps are present in the `test` folder. For each there is also a
 corresponding `.gold` file with the expected results.
 
-Use this command to run the tests:
+Use this command to build and run tests:
 
 ```sh
 verify_stafip.sh
@@ -73,7 +73,7 @@ verify_stafip.sh
 
 ## Run Benchmarks
 
-To run benchmarks, use this default command:
+To build and run benchmarks, use this default command:
 
 ```sh
 ./generate_fip_tests_data.sh --replace
