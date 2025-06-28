@@ -110,6 +110,7 @@ Documentation can be found in the `doc` folder. There the documentaiton is split
 to:
 
 - `developer_docs.md` documenting from the high level the `casem` library which abstracts the LLVM interface and provides specific data types for the StaFip language.
+- `StaFip_stdlib_docs` documents the implicitely defined function and types of the StaFip language
 - The `StaFip_specification.md` which describe the language its self, its semantics and syntax
 - and finaly the doxygen documentation of the `casem` library to which the `developer_docs.md` often links
 
