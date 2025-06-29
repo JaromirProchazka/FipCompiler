@@ -6,7 +6,7 @@ CXX_DEFINES = -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__
 
 CXX_INCLUDES = -I/usr/lib/llvm-15/include -I/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/solution/. -I/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/. -I/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk
 
-CXX_FLAGS = -g -Wall -std=gnu++20
+CXX_FLAGS = -Wall -std=gnu++20
 
 # Custom defines: stud-sol/CMakeFiles/solution_dump.dir/calexer_dump.cpp.o_DEFINES = BISON_HEADER=ckdumper.hpp
 

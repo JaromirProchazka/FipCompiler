@@ -25,7 +25,7 @@ CMAKE_AR:FILEPATH=/usr/bin/ar
 
 //Choose the type of build, options are: None Debug Release RelWithDebInfo
 // MinSizeRel ...
-CMAKE_BUILD_TYPE:STRING=Debug
+CMAKE_BUILD_TYPE:STRING=
 
 //Enable/Disable color output during build.
 CMAKE_COLOR_MAKEFILE:BOOL=ON
@@ -250,21 +250,6 @@ PKG_CONFIG_ARGN:STRING=
 
 //pkg-config executable
 PKG_CONFIG_EXECUTABLE:FILEPATH=PKG_CONFIG_EXECUTABLE-NOTFOUND
-
-//Test cecko1
-TEST_CECKO1:BOOL=TRUE
-
-//Test cecko2
-TEST_CECKO2:BOOL=TRUE
-
-//Test cecko3
-TEST_CECKO3:BOOL=TRUE
-
-//Test cecko4
-TEST_CECKO4:BOOL=FALSE
-
-//Test cecko5
-TEST_CECKO5:BOOL=TRUE
 
 //Path to a library.
 Terminfo_LIBRARIES:FILEPATH=/usr/lib/x86_64-linux-gnu/libtinfo.so
