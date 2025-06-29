@@ -1,10 +1,17 @@
 name: Test StaFip compiler
-on: push
+on:
+  push:
 
 jobs:
-  build:
+  run-verify:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - name: run verifying script
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Make verify.sh executable
+        run: chmod +x ./verify.sh
+
+      - name: Run verify script
         run: ./verify_stafip.sh
