@@ -11,7 +11,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Make verify.sh executable
-        run: chmod +x ./verify.sh
+        run: chmod +x ./verify_stafip.sh
 
       - name: Run verify script
         run: ./verify_stafip.sh
