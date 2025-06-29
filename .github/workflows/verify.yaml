@@ -13,6 +13,11 @@ jobs:
       - name: Make verify_stafip.sh executable
         run: chmod +x ./verify_stafip.sh
 
+      - name: Install LLVM (clang & llc)
+        run: |
+          sudo apt update
+          sudo apt install -y clang llvm
+
       - name: Make banchmarks_utils/compile_stafip_scripts_in.sh executable
         run: chmod +x ./banchmarks_utils/compile_stafip_scripts_in.sh
 

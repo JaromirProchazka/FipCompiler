@@ -38,6 +38,21 @@ int main [int argc, char** argv] =
 
 This code uses FIP to sort a simple list in place.
 
+## Requirements
+
+- CMake
+- BISON 3.4
+- FLEX 2.6.4
+- LLVM 19.1.0
+- Doxygen 1.10.0
+- bash
+- clang
+    - llc (to install:)
+    ```
+    sudo apt update
+    sudo apt install -y clang llvm
+    ```   
+
 ## Build and Run
 
 For the build and testing alown, use this command:
