@@ -31,8 +31,9 @@ namespace casem
     const std::string tagged_child_type = "Tagged";
     const std::string boolean_non_heap_type = "Boolean";
     bool support_functions_defined = false;
-    FipState fip_state;
     const int POINTER_BYTES_COUNT = 8;
+
+    FipState *_fip_state;
 
 #if GENERATE_STATIC_DEBUG_LOG
     void log(const char *msg, ...)
@@ -377,14 +378,16 @@ namespace casem
 
     void enter_block(cecko::context *ctx)
     {
+        auto fip_state = FipState::GetFipState();
         ctx->enter_block();
-        if (fip_state.is_in_fip_mode())
-            fip_state.enter_fip_context();
+        if (fip_state->is_in_fip_mode())
+            fip_state->enter_fip_context();
     }
     void exit_block(cecko::context *ctx)
     {
-        if (fip_state.is_in_fip_mode())
-            fip_state.exit_fip_context();
+        auto fip_state = FipState::GetFipState();
+        if (fip_state->is_in_fip_mode())
+            fip_state->exit_fip_context();
         ctx->exit_block();
     }
 
@@ -963,17 +966,18 @@ namespace casem
 
     MatchWrapper init_match_head(cecko::context *ctx, cecko::match_type match_ty, InstructionWrapper &matched, casem::CKTypeRefDefPack &rfpack)
     {
-        // if (match_ty == cecko::match_type::MATCH && fip_state.is_in_fip_mode())
+        auto fip_state = FipState::GetFipState();
+        // if (match_ty == cecko::match_type::MATCH && fip_state->is_in_fip_mode())
         // {
         //     ctx->message(cecko::errors::SYNTAX, ctx->line(), "Can't use regular match in fip expression!");
-        //     fip_state.enter_fip_mode();
+        //     fip_state->enter_fip_mode();
         // }
         // else
         if (match_ty == cecko::match_type::DMATCH)
         {
             log("{FipState} match_head - entering DMATCH\n");
-            fip_state.enter_fip_mode();
-            fip_state.enter_fip_context();
+            fip_state->enter_fip_mode();
+            fip_state->enter_fip_context();
         }
         log("[match_head:] MATCH IDF ARROW declaration_speci  fiers - define result var\n");
         casem::TypeRefPack_Action DEFINER_BODY = GET_DEFINER(ctx, casem::match_result_template);
@@ -1109,8 +1113,9 @@ namespace casem
         }
 
         assertm(false, "Calling type name! Should be handled by [postfix_expression: IDF LPAR argument_expression_list RPAR]!");
+        // auto fip_state = FipState::GetFipState();
         // cecko::CIName constructor_name;
-        // if (fip_state.is_in_fip_mode())
+        // if (fip_state->is_in_fip_mode())
         // {
         //     constructor_name = get_reuser_label(label);
         // }
@@ -1171,11 +1176,12 @@ namespace casem
 
     InstructionWrapper generate_ttype_construction(cecko::context *ctx, cecko::CIName &label, casem::InstructionArray params)
     {
+        auto fip_state = FipState::GetFipState();
         cecko::CIName constructor_name;
         auto type_rtoken_count = find_ttype_size(label);
-        if (fip_state.is_in_fip_mode() && is_capeable_of_reusing(label)) 
+        if (fip_state->is_in_fip_mode() && is_capeable_of_reusing(label))
         {
-            auto &&to_be_reused = fip_state.reuse(type_rtoken_count);
+            auto &&to_be_reused = fip_state->reuse(type_rtoken_count);
             if (!to_be_reused.valid)
             {
 #if ENFORCE_FIP
@@ -1220,3 +1226,4 @@ namespace casem
         return generate_ttype_construction(ctx, label, params);
     }
 }
+

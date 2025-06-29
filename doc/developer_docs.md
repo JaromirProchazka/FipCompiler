@@ -1,6 +1,30 @@
 The StaFip compiler is implemented using Flex for lexical analysis and Bison for semantic analysis. It is a single traversal, meaning that it is implemented in such a way that the input source code text is traversed only once before generating the final assembly code. The final code is generated using the LLVM library and C++ in the form of LLVM Intermediate Representation (IR), which is then compiled using \textit{Clang} compiler to a final executable file.
 
-The project does not use the LLVM library directly, but a framework by Bednárek, D., Yaghob, Cecko Skeleton \cite{CeckoFramework24}. This framework abstracts the LLVM library and provides other useful features like handling contexts and lookup tables for functions and variables.
+The project does not use the LLVM library directly, but a framework by Bednárek, D., Yaghob, Cecko Skeleton. This framework abstracts the LLVM library and provides other useful features like handling contexts and lookup tables for functions and variables.
+
+
+# Exmaple code
+
+You have this Code peace
+
+```
+i = 5 + 8
+```
+
+and you want to use the casem library to compile it ot LLVM IR:
+
+```cpp
+// create a simple set of literals and create an operation on them
+// in some rule in the caparser.y file with defined ct variable:
+
+// initialize literals
+InstructionWrapper five_literal = init_instruction_const(ctx, 5);
+InstructionWrapper eight_literal = init_instruction_const(ctx, 8);
+
+// store to i
+InstructionWrapper res = five_literal + eight_literal;
+init_instruction_from_name(ctx, "i").store(res);
+```
 
 # Declarations
 

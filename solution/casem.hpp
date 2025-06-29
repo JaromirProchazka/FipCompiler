@@ -39,6 +39,9 @@ namespace casem
     class MatchBinderChackerData;
     class FipState;
 
+    extern FipState *_fip_state;
+
+    /// @brief A delegate for declaring new types
     using DefinerFunction = std::function<CKTypeRefDefPack(cecko::context *, const cecko::CIName &, CKTypeRefDefPack &)>;
     /// @brief A function that takes TypeRefPack and does action with it
     // using CKTypeRefDefPackArray = std::vector<CKTypeRefDefPack>;
@@ -53,7 +56,6 @@ namespace casem
     extern int max_type_tag;
     extern const std::string ttype_tag_label;
     extern const std::string res_label;
-    extern FipState fip_state;
     extern const std::string pair_type;
     extern const std::string tupple3_type;
     extern const std::string tupple4_type;
@@ -61,6 +63,7 @@ namespace casem
     extern const std::string tagged_child_type;
 
     using InstructionArray = std::vector<InstructionWrapper>;
+    /// @brief converts InstructionArray to vector of cecko Value observers
     std::vector<cecko::CKIRValueObs> get_args_instructions(InstructionArray iargs);
 
     /// @brief Builder mothod for InstructionWrapper, used for wrapping variables and funitons
@@ -69,7 +72,7 @@ namespace casem
     InstructionWrapper init_instruction_function_call(cecko::context *ctx, const InstructionWrapper &inst, InstructionArray fargs);
     /// @brief Builder mothod for InstructionWrapper, used for wrapping literals, int in this case
     InstructionWrapper init_instruction_const(cecko::context *ctx, int intlit);
-    /// @brief Builder mothod for InstructionWrapper, used for wrapping literals, string literal in this case
+    /// @brief Builder mothod for InstructionWrapper, used for wrapping literals, string literal in this case.mode
     InstructionWrapper init_instruction_const(cecko::context *ctx, const cecko::CIName &strlit);
     /// @brief Builder mothod for InstructionWrapper, used for wrapping heap allocations of a given (enum) type
     InstructionWrapper init_instruction_malloca(cecko::context *ctx, cecko::CKTypeSafeObs type, const cecko::CIName &name);
@@ -107,16 +110,26 @@ namespace casem
     /// @param tag tag of the looked for type
     /// @return if found the label else label spelling "@UNKNOWN"
     std::string find_type_label(int tag);
+    /// @brief retrieves the reusalbe size in Bytes on the heap of the given enum type
     long find_ttype_size(long tag);
+    /// @brief retrieves the reusalbe size in Bytes on the heap of the given enum type
     long fetch_ttype_size(cecko::context *ctx, cecko::CIName &label);
     /// @brief Checks if all subtipes of given type have the same size
     /// @return if they do, returns the size, else returns -1
     long check_subtypes_has_same_size(long first_tag, long end_tag);
+    /// @brief checks if given type name represents an enum parrent type
     bool ttype_is_object_abstract_type(const std::string &expected_parent_label);
+    /// @brief checks if given type is placeable into parameter of the expected parent type
     bool ttype_is_parent_of_subtype(const std::string &expected_parent_label, const std::string &expected_child_label);
 
+    /// @brief compilation time log,
+    /// disabled using the GENERATE_STATIC_DEBUG_LOG static variable
     void log(const std::string &msgs);
+    /// @brief compilation time log,
+    /// disabled using the GENERATE_STATIC_DEBUG_LOG static variable
     void log(const char *msg, ...);
+    /// @brief compilation time log,
+    /// disabled using the GENERATE_STATIC_DEBUG_LOG static variable
     void log_name(const char *msg, const std::string &name);
 
     enum UnaryOperator
@@ -128,45 +141,54 @@ namespace casem
         EXCALMATION_MARK
     };
 
+    /// checks is given type is an enum type
     bool is_tagged_type(cecko::CKTypeSafeObs tagged_type);
+    /// checks is given type is an enum type
     bool is_tagged_type(cecko::CKTypeObs tagged_type);
 
+    /// @brief generates a runtime time log, it appends a call to printf library function to the current basic block
+    /// disabled using the GENERATE_DYNAMIC_DEBUG_LOG static variable
     void generate_debug_print(cecko::context *ctx, const cecko::CIName &label);
 
+    /// @brief denotes the clasic C like type of the variable where the RValue objects can't be written into unlike the LValue objects
     enum VarMode
     {
         RValue,
         LValue
     };
     /// @brief Abstracts values and variables in LLVM IR. Provides constant wrappers for the LLVM instructions on the abstracted value which are appended to the current basic block present in the ctx (context) variable given at construction.
+    ///
+    /// Can also be invalid initialized with an empty constructor, use the is_valid method to determin
     class InstructionWrapper
     {
-    public:
-        VarMode mode;
-        cecko::CIName name;
-        cecko::CKIRValueObs address;
-        cecko::CKIRValueObs value;
-        bool is_const;
-        cecko::CKTypeSafeObs type;
-        bool valid;
+        cecko::context *ctx;
 
+    public:
+        VarMode mode = LValue;
+        cecko::CIName name;
+        cecko::CKIRValueObs address = NULL;
+        cecko::CKIRValueObs value = NULL;
+        bool is_const;
+        bool valid;
+        cecko::CKTypeSafeObs type;
+
+        /// @brief Initilize an invlid instance, also used in case of use invalid opereration on an instance of InstructionWrapper. This can happen for instance when the instance has an uncompatible type with the operation.
         InstructionWrapper()
-            : mode(LValue),
+            : ctx(NULL),
+              mode(LValue),
               name("-"),
               is_const(false),
               valid(false),
-              ctx(NULL)
+              type((cecko::CIAbstractType *)NULL)
         {
-            cecko::CIAbstractType *null_type = NULL;
-            type = cecko::CKTypeSafeObs(null_type);
         }
         InstructionWrapper(cecko::context *vctx, VarMode vmode, cecko::CKIRValueObs instruction, cecko::CKTypeSafeObs vtype, bool vconst, const cecko::CIName &vname = "t")
-            : mode(vmode),
+            : ctx(vctx),
+              mode(vmode),
               name(vname),
               is_const(vconst),
-              type(vtype),
               valid(true),
-              ctx(vctx)
+              type(vtype)
         {
             switch (vmode)
             {
@@ -268,10 +290,15 @@ namespace casem
             init_instruction_function_call(ctx, init_instruction_from_name(ctx, "printf"), print_args);
         }
 
+        /// @brief determines if this holds valid instance of InstructionWrapper
+        /// @return
         bool is_valid()
         {
             return valid;
         }
+        /// @brief tries to dereference this instance.
+        /// If valid, places this operation to the end of current basic block in ctx
+        /// @return new InstructionWrapper representing the dereferenced value
         InstructionWrapper operator*() const
         {
             if (mode == RValue)
@@ -301,6 +328,9 @@ namespace casem
                 vconst,
                 vname);
         }
+        /// @brief tries to reference this instance.
+        /// If valid, places this operation to the end of current basic block in ctx
+        /// @return new InstructionWrapper representing the pointer to this value
         InstructionWrapper operator&() const
         {
             cecko::CIName vname = cecko::CIName("&") + name;
@@ -318,6 +348,9 @@ namespace casem
                 false,
                 vname);
         }
+        /// @brief tries to store to the address of this LValue instance.
+        /// If valid, places this operation to the end of current basic block in ctx
+        /// @return new InstructionWrapper representing this value changed by store
         InstructionWrapper store(const InstructionWrapper &other)
         {
             // log("|store| \n");
@@ -360,6 +393,7 @@ namespace casem
             // log("|store| DONE\n");
             return stored;
         }
+        /// @brief Unwrapps this InstructionWrapper to the cecko library representation (which wraps the LLVM representation)
         cecko::CKIRValueObs get_ir() const
         {
             switch (mode)
@@ -373,6 +407,10 @@ namespace casem
             // unreachable
             return address;
         }
+        /// @brief reads this instance and unwraps it to the cecko representation.
+        /// if this instance represents an LVaue, a load instruction is generated, in case of RValue simply gets the value.
+        /// If valid, places this operation to the end of current basic block in ctx.
+        /// @return new InstructionWrapper representing the pointer to this value
         cecko::CKIRValueObs read_ir(cecko::CKTypeSafeObs vtype) const
         {
             switch (mode)
@@ -386,6 +424,10 @@ namespace casem
             // unreachable
             return value;
         }
+        /// @brief reads this instance and unwraps it to the cecko representation.
+        /// if this instance represents an LVaue, a load instruction is generated, in case of RValue simply gets the value.
+        /// If valid, places this operation to the end of current basic block in ctx.
+        /// @return new InstructionWrapper representing the pointer to this value
         cecko::CKIRValueObs read_ir() const
         {
             switch (mode)
@@ -401,6 +443,10 @@ namespace casem
             return value;
         }
 
+        /// @brief tries to create a addition operation on this instance and other instance.
+        /// If valid, places this operation to the end of current basic block in ctx.
+        /// First tries to cast this to a numeric or pointer type.
+        /// @return new InstructionWrapper representing the summed value
         InstructionWrapper operator+(const InstructionWrapper &other) const
         {
             cecko::CKIRValueObs t0;
@@ -441,6 +487,10 @@ namespace casem
                     vname);
             }
         }
+        /// @brief tries to create a subtraction operation on this instance and other instance.
+        /// If valid, places this operation to the end of current basic block in ctx.
+        /// First tries to cast this to a numeric or pointer type.
+        /// @return new InstructionWrapper representing the subtracted value
         InstructionWrapper operator-(const InstructionWrapper &other) const
         {
             cecko::CKIRValueObs t0;
@@ -499,6 +549,10 @@ namespace casem
                     vname);
             }
         }
+        /// @brief tries to create a unary minus operation on this instance.
+        /// If valid, places this operation to the end of current basic block in ctx.
+        /// First tries to cast this to a numeric type.
+        /// @return new InstructionWrapper representing the negated value
         InstructionWrapper operator-() const
         {
             auto conv = to_num();
@@ -512,6 +566,10 @@ namespace casem
                 true,
                 vname);
         }
+        /// @brief tries to create a unary negation operation on this instance.
+        /// If valid, places this operation to the end of current basic block in ctx.
+        /// First tries to cast this to a bool type.
+        /// @return new InstructionWrapper representing the negated value
         InstructionWrapper operator!() const
         {
             auto instruction = to_bool().read_ir();
@@ -524,6 +582,10 @@ namespace casem
                 true,
                 vname);
         }
+        /// @brief tries to create a multiplication operation on this instance.
+        /// If valid, places this operation to the end of current basic block in ctx.
+        /// First tries to cast this to a numeric type.
+        /// @return new InstructionWrapper representing the multiplied value
         InstructionWrapper operator*(const InstructionWrapper &other) const
         {
             auto conv = to_num();
@@ -538,6 +600,10 @@ namespace casem
                 true,
                 vname);
         }
+        /// @brief tries to create a dividion operation on this instance and other instance.
+        /// If valid, places this operation to the end of current basic block in ctx.
+        /// First tries to cast this to a numeric type.
+        /// @return new InstructionWrapper representing the divided value
         InstructionWrapper operator/(const InstructionWrapper &other) const
         {
             auto conv = to_num();
@@ -552,6 +618,10 @@ namespace casem
                 true,
                 vname);
         }
+        /// @brief tries to create a modulo operation on this instance and other instance.
+        /// If valid, places this operation to the end of current basic block in ctx.
+        /// First tries to cast this to a numeric type.
+        /// @return new InstructionWrapper representing the modulod value
         InstructionWrapper operator%(const InstructionWrapper &other) const
         {
             auto conv = to_num();
@@ -566,6 +636,10 @@ namespace casem
                 true,
                 vname);
         }
+        /// @brief tries to create a less operation on this instance and other instance.
+        /// If valid, places this operation to the end of current basic block in ctx.
+        /// First tries to cast this to a numeric type.
+        /// @return new InstructionWrapper representing the comparison value
         InstructionWrapper operator<(const InstructionWrapper &other) const
         {
             auto conv = to_num();
@@ -581,6 +655,10 @@ namespace casem
                 true,
                 vname);
         }
+        /// @brief tries to create a greater operation on this instance and other instance.
+        /// If valid, places this operation to the end of current basic block in ctx.
+        /// First tries to cast this to a numeric type.
+        /// @return new InstructionWrapper representing the comparison value
         InstructionWrapper operator>(const InstructionWrapper &other) const
         {
             auto conv = to_num();
@@ -599,6 +677,10 @@ namespace casem
             log("|InstructionWrapper::operator>| made instruction\n");
             return res;
         }
+        /// @brief tries to create a greater or equil operation on this instance and other instance.
+        /// If valid, places this operation to the end of current basic block in ctx.
+        /// First tries to cast this to a numeric type.
+        /// @return new InstructionWrapper representing the comparison value
         InstructionWrapper operator>=(const InstructionWrapper &other) const
         {
             auto conv = to_num();
@@ -614,6 +696,10 @@ namespace casem
                 true,
                 vname);
         }
+        /// @brief tries to create a less or equil operation on this instance and other instance.
+        /// If valid, places this operation to the end of current basic block in ctx.
+        /// First tries to cast this to a numeric type.
+        /// @return new InstructionWrapper representing the comparison value
         InstructionWrapper operator<=(const InstructionWrapper &other) const
         {
             auto conv = to_num();
@@ -629,6 +715,10 @@ namespace casem
                 true,
                 vname);
         }
+        /// @brief tries to create a equil operation on this instance and other instance.
+        /// If valid, places this operation to the end of current basic block in ctx.
+        /// First tries to cast this to a numeric type.
+        /// @return new InstructionWrapper representing the comparison value
         InstructionWrapper operator==(const InstructionWrapper &other) const
         {
             auto conv = to_num();
@@ -643,6 +733,10 @@ namespace casem
                 true,
                 vname);
         }
+        /// @brief tries to create a not equil operation on this instance and other instance.
+        /// If valid, places this operation to the end of current basic block in ctx.
+        /// First tries to cast this to a numeric type.
+        /// @return new InstructionWrapper representing the comparison value
         InstructionWrapper operator!=(const InstructionWrapper &other) const
         {
             auto conv = to_num();
@@ -657,6 +751,9 @@ namespace casem
                 true,
                 vname);
         }
+        /// @brief tries to create a post incrementation operation on this instance and other instance.
+        /// If valid, places this operation to the end of current basic block in ctx.
+        /// @return new InstructionWrapper representing the incremented value
         InstructionWrapper operator++()
         {
             auto res = InstructionWrapper(
@@ -669,12 +766,18 @@ namespace casem
             store(*this + get_int_const(1));
             return res;
         }
+        /// @brief tries to create a pre-incrementation operation on this instance.
+        /// If valid, places this operation to the end of current basic block in ctx.
+        /// @return new InstructionWrapper representing the incremented value
         InstructionWrapper operator++(int)
         {
             auto res = *this + get_int_const(1);
             store(res);
             return res;
         }
+        /// @brief tries to create a post decrementation operation on this instance.
+        /// If valid, places this operation to the end of current basic block in ctx
+        /// @return new InstructionWrapper representing the decremented value
         InstructionWrapper operator--()
         {
             auto res = InstructionWrapper(
@@ -687,12 +790,18 @@ namespace casem
             store(*this - get_int_const(1));
             return res;
         }
+        /// @brief tries to create a pre decrementation operation on this instance.
+        /// If valid, places this operation to the end of current basic block in ctx
+        /// @return new InstructionWrapper representing the decremented value
         InstructionWrapper operator--(int)
         {
             auto res = *this - get_int_const(1);
             store(res);
             return res;
         }
+        /// @brief tries to get a field value on this instance (if it is of an composite type).
+        /// If valid, places this operation to the end of current basic block in ctx
+        /// @return new InstructionWrapper representing the multiplied value
         InstructionWrapper field(const cecko::CIName &field_name, cecko::CKTypeSafeObs field_type) const
         {
             cecko::CKTypeObs struct_type = (type->is_pointer()) ? type->get_pointer_points_to().type : type;
@@ -788,6 +897,10 @@ namespace casem
         }
 
         // cast functions
+
+        /// @brief tries to cast to an int32
+        /// If valid, places this operation to the end of current basic block in ctx
+        /// @return new instnce representing the result of the cast operation
         InstructionWrapper to_int() const
         {
             if (type->is_int())
@@ -810,6 +923,9 @@ namespace casem
                 true,
                 "(int)" + name);
         }
+        /// @brief tries to cast to an int8
+        /// If valid, places this operation to the end of current basic block in ctx
+        /// @return new instnce representing the result of the cast operation
         InstructionWrapper to_char() const
         {
             if (type->is_char())
@@ -832,6 +948,9 @@ namespace casem
                 true,
                 "(char)" + name);
         }
+        /// @brief tries to cast to a pointer
+        /// If valid, places this operation to the end of current basic block in ctx
+        /// @return new instnce representing the result of the cast operation
         InstructionWrapper to_ptr() const
         {
             if (type->is_pointer())
@@ -854,6 +973,9 @@ namespace casem
                 true,
                 "(ptr)" + name);
         }
+        /// @brief tries to cast to a numeric type, if it already is int8 or int32, the result is simply unchanged this instance, otherwise casts to int32.
+        /// If valid, places this operation to the end of current basic block in ctx
+        /// @return new instnce representing the result of the cast operation
         InstructionWrapper to_num() const
         {
             if (type->is_char() || type->is_int())
@@ -864,6 +986,9 @@ namespace casem
 
             return conv;
         }
+        /// @brief tries to cast to a int1 type
+        /// If valid, places this operation to the end of current basic block in ctx
+        /// @return new instnce representing the result of the cast operation
         InstructionWrapper to_bool() const
         {
             if (type->is_bool())
@@ -903,6 +1028,9 @@ namespace casem
                 true,
                 vname);
         }
+        /// @brief tries to cast to the given type.
+        /// If valid, places this operation to the end of current basic block in ctx
+        /// @return new instnce representing the result of the cast operation
         InstructionWrapper to_type(cecko::CKTypeSafeObs to_type) const
         {
             // log("|.to_type| \n");
@@ -937,6 +1065,9 @@ namespace casem
             }
             return *this;
         }
+        /// @brief tries to cast to the given enum type
+        /// If valid, places this operation to the end of current basic block in ctx
+        /// @return new instnce representing the result of the cast operation
         InstructionWrapper to_tagged(cecko::CKTypeSafeObs tagged_type) const
         {
             // log("|.to_tagged(cecko::CKTypeSafeObs tagged_type)| started\n");
@@ -980,6 +1111,9 @@ namespace casem
             // log("|.to_tagged(cecko::CKTypeSafeObs tagged_type)| done not OK");
             return *this;
         }
+        /// @brief tries to cast to the given enum type
+        /// If valid, places this operation to the end of current basic block in ctx
+        /// @return new instnce representing the result of the cast operation
         InstructionWrapper to_tagged(const std::string &tagged_type_label) const
         {
             // log("|.to_tagged(const std::string &tagged_type_label)| started\n");
@@ -1031,7 +1165,6 @@ namespace casem
         }
 
     private:
-        cecko::context *ctx;
         InstructionWrapper get_int_const(int i) const
         {
             return InstructionWrapper(
@@ -1109,6 +1242,8 @@ namespace casem
         }
     };
 
+    struct ReuseInstructionComparator;
+    /// @brief Wrapps an InstructionWrapper enqued to the reuseable enum value queue. In the queue is compared using the ReuseInstructionComparator
     class ReuseInstruction
     {
     public:
@@ -1147,8 +1282,10 @@ namespace casem
         {
         }
     };
+    /// @brief Used for comperion of the ReuseInstruction in the reusable instructions queue
     struct ReuseInstructionComparator
     {
+        // comperison operation
         bool operator()(const ReuseInstruction &lhs, const ReuseInstruction &rhs) const
         {
             if (lhs.size != rhs.size)
@@ -1179,6 +1316,7 @@ namespace casem
             return block;
         }
     };
+    /// @brief Wrapps data needed for compiling declaraiton of a new enum type
     class TaggedTypeDecl
     {
     public:
@@ -1189,11 +1327,13 @@ namespace casem
         TaggedTypeDecl() : struct_decl(nullptr), first_tag() {}
         // TaggedTypeDecl(const TaggedTypeDecl &other) : struct_decl(other.struct_decl), first_tag(other.first_tag) {}
 
+        /// @brief retrieve the name of the type
         std::string name() const
         {
             return struct_decl->get_name();
         }
 
+        /// @brief based on the given data and the data stored here finishes the enum type declaration
         static cecko::CKStructTypeSafeObs finish_parent_ttype(cecko::context *ctx, TaggedTypeDecl &type_data)
         {
             int enumtype_tag_end = max_type_tag;
@@ -1204,8 +1344,14 @@ namespace casem
             return type_data.struct_decl;
         }
     };
+    /// @brief fetches a TaggedTypeDecl instance with data for a enum type decalration
     TaggedTypeDecl declare_parent_ttype(cecko::context *ctx, cecko::CIName label);
+    /// @brief used for child type declaration in enum type declaration
+    /// @param struct_items a list of fields the child type holds
+    /// @param heap_type if the type is represented by a heap allocated block, expected that a type with more than zero field is a heap type
     cecko::CKStructTypeSafeObs declare_child_ttype(cecko::context *ctx, cecko::CIName label, cecko::CKStructItemArray struct_items = {}, bool heap_type = true);
+
+    /// @brief A data class with information needed for compiling the if-else head
     class ControllFlowData
     {
     public:
@@ -1213,6 +1359,8 @@ namespace casem
         cecko::CKIRBasicBlockObs continue_block = NULL;
         cecko::CKIRBasicBlockObs end_block = NULL;
     };
+    /// @brief A data class with information needed for compiling the if-else statements.
+    /// holds the basic block pointers that will be at the end of compilation connected through conditional jumps.
     class IfControllFlowData : public ControllFlowData
     {
     public:
@@ -1221,14 +1369,21 @@ namespace casem
         cecko::CKIRBasicBlockObs else_block = NULL;
         cecko::CKIRBasicBlockObs else_block_back = NULL;
     };
+    /// @brief using a condition InstructionWrapper (bool castable), initializes the if controll flow data class
     IfControllFlowData init_if_data(cecko::context *ctx, InstructionWrapper &cond);
+    /// @brief given the if control flow data connects the build basic blocks of the if-else statement using the conditional jumps
     cecko::CKIRBasicBlockObs create_if_control_flow(cecko::context *ctx, IfControllFlowData &data, bool make_if_unreachable = false);
 
+    /// @brief Wrapps the data class IfControllFlowData to implement the if-else expression implementation
+    ///
+    /// The if-else expression is implemented using the if-else statement, where the code `if (cond) if_then_statement; else else_then_statement;` representing the if-else statement is used like followed to implement the if-else expression: `auto res; if (cond) res=if_then_expression; else res=else_then_expression; forward res;`.
     class IfExpressionData
     {
     public:
         IfControllFlowData if_data;
+        /// @brief the variable representing the result of the evaluated expression
         InstructionWrapper result;
+        /// @brief The basic block the if-else expression result continues
         cecko::CKIRBasicBlockObs block;
 
         IfExpressionData(IfControllFlowData _if_data, InstructionWrapper _result)
@@ -1244,6 +1399,7 @@ namespace casem
         {
         }
 
+        /// @brief initializes the if expression head needed for if expression compilation
         static IfExpressionData init_if_head(cecko::context *ctx, InstructionWrapper &cond)
         {
             IfExpressionData new_data(init_if_data(ctx, cond));
@@ -1260,6 +1416,7 @@ namespace casem
             enter_block(ctx);
             return new_data;
         }
+        /// @brief initializes the if-else expression head needed for if expression compilation
         static IfExpressionData init_if_else_head(cecko::context *ctx, IfExpressionData &_data)
         {
             auto &&expression_data = _data;
@@ -1272,6 +1429,7 @@ namespace casem
             enter_block(ctx);
             return expression_data;
         }
+        /// @brief initializes the if-else expression head needed for if expression compilation
         static IfExpressionData init_if_else_head(cecko::context *ctx, IfControllFlowData &_data)
         {
             auto &data = _data;
@@ -1284,6 +1442,7 @@ namespace casem
             return IfExpressionData(data);
         }
 
+        /// @brief generates instructions to current basicblock that set the resutl of the evaluated if/if-else expression
         InstructionWrapper store_to_result(cecko::context *ctx, InstructionWrapper &stored)
         {
             if (!is_tagged_type(stored.type))
@@ -1294,25 +1453,43 @@ namespace casem
             return result.store(stored);
         }
 
+        /// @brief generates instructions to current basicblock that set the resutl of the evaluated if/if-else expression
         InstructionWrapper store_to_result(cecko::context *ctx, IfExpressionData &child_expression)
         {
             return store_to_result(ctx, child_expression.result);
         }
     };
 
+    /// @brief singleton implementing the FIP calculus and dkeeps track of the reuseable heap blocks at any point of the code compilation
     class FipState
     {
         using ContextReuseable = std::set<ReuseInstruction, ReuseInstructionComparator>;
 
         int fip_counter;
         std::vector<ContextReuseable> reusables;
-
-    public:
         FipState()
             : fip_counter(0), reusables({{}})
         {
         }
 
+    public:
+        /// @brief fetch the instance of the FipState Singleton
+        static FipState *GetFipState()
+        {
+            if (!_fip_state)
+            {
+                _fip_state = new FipState();
+            }
+            return _fip_state;
+        }
+
+        FipState(FipState &&other) = delete;
+        FipState(const FipState &other) = delete;
+        FipState &operator=(const FipState &other) = delete;
+        FipState &operator=(FipState &&other) = delete;
+
+        /// @brief a debugging function for logging the current state of queue of reausables
+        /// @param label an optional messege dislpayed in the log
         void log_reusables(const std::string &label = "")
         {
 
@@ -1325,17 +1502,22 @@ namespace casem
             log("}\n");
         }
 
+        /// @brief sets the compiler (FipState) into the FIP state.
+        /// implemented with the spin lock, the FIP state can be entered multiple times but to exit it, the exit_fip_mode must be called the same amount of time this method was called.
         void enter_fip_mode()
         {
             log("{FipState} enter_fip_mode\n");
             ++fip_counter;
         }
+        /// @brief unsets the compiler (FipState) from the FIP state.
+        /// If called when not is FIP mode, emits an ERROR.
         void exit_fip_mode()
         {
             log("{FipState} exit_fip_mode\n");
             --fip_counter;
             assertm(fip_counter >= 0, "FipState ERROR, fip_counter is negative!");
         }
+        /// @brief checks state of the spin lock to determine if compiler is in FIP state
         bool is_in_fip_mode()
         {
             return fip_counter > 0;
@@ -1427,13 +1609,19 @@ namespace casem
     };
 
     const std::string match_result_template = res_label;
+    /// @brief A data class holding information important for compiling a match expression
     class MatchWrapper
     {
     public:
+        /// @brief denotes if the match is using the FIP optimalization
         bool is_destructive;
+        /// @brief The expression thah is pattern matched
         InstructionWrapper matched_var;
+        /// @brief type of the evaluated match expression
         std::shared_ptr<casem::CKTypeRefDefPack> return_type;
+        /// @brief the mode of the match (destructive or sharing)
         cecko::match_type fip_mod;
+        /// @brief represents the value of the evaluated match expression
         casem::InstructionWrapper result;
 
         bool is_first_pattern_null_check = false;
@@ -1461,6 +1649,9 @@ namespace casem
               result()
         {
         }
+
+        /// @brief generates a code that checks in the match expression evaluation, that at least one branch of the mathing was entered
+        /// is disabled by the MANDATORY_BINDER_ENTRY_ON_MATCH static variable
         void generate_final_match_result_check(cecko::context *ctx)
         {
 #if MANDATORY_BINDER_ENTRY_ON_MATCH
@@ -1485,6 +1676,8 @@ namespace casem
 #endif
         }
     };
+
+    /// @brief Holds data neessary for compiling the match pattern information, the individual pattern variable
     class MatchBinderDeclarationData
     {
     public:
@@ -1499,6 +1692,7 @@ namespace casem
             ctx->define_var(label, type, ctx->line());
         }
     };
+    /// @brief Holds data neessary for compiling the match pattern information
     class MatchBinderChackerData
     {
     public:
@@ -1513,6 +1707,7 @@ namespace casem
         MatchBinderChackerData(const cecko::CIName &_type_label, const DefDataArray &data)
             : type_label(_type_label), declarations(data), if_data() {}
 
+        /// @brief given a list of labels of the pattern variables, it initializes these variables in the MatchBinderChackerData class
         MatchBinderChackerData &set_args(cecko::context *ctx, const std::vector<cecko::CIName> &param_names)
         {
             auto &&constructor = ctx->find(get_constructor_label(type_label));
@@ -1571,6 +1766,8 @@ namespace casem
             // log("|MatchBinderChackerData::create_if_statement| DONE\n");
             return *this;
         }
+
+        /// @brief given a list of labels of the pattern variables, it initializes these variables in the cecko library context and generates instructions to the current basic block end which set the values of these variables to the matched expression field values.
         MatchBinderChackerData &init_binder_vars(cecko::context *ctx, MatchWrapper &match_data)
         {
             // log("|MatchBinderChackerData::init_binder_vars| started\n");
@@ -1590,6 +1787,8 @@ namespace casem
             return *this;
         }
     };
+
+    /// @brief encapsulates data necessary for compiling match expression head
     class MatchBinderListHeadData
     {
     public:
@@ -1604,6 +1803,7 @@ namespace casem
         static inline MatchBinderListHeadData init_match_binders_list_head(cecko::context *ctx, MatchWrapper &match_dt, MatchBinderChackerData &binder_data, bool is_first_pattern_null_check = false)
         {
             binder_data.create_if_statement(ctx, match_dt);
+            auto fip_state = FipState::GetFipState();
 
             auto matched_type_label = InstructionWrapper::get_struct_type_name(match_dt.matched_var.type);
             if (!ttype_is_parent_of_subtype(matched_type_label, binder_data.type_label))
@@ -1622,7 +1822,7 @@ namespace casem
                     to_be_reused,
                     binder_data.type_label,
                     reuse_type_size);
-                fip_state.insert_reusable(inserted_inst);
+                fip_state->insert_reusable(inserted_inst);
             }
 
             binder_data.init_binder_vars(ctx, match_dt);
@@ -1642,8 +1842,10 @@ namespace casem
         }
     };
 
-    MatchWrapper init_match_binders_list(cecko::context *ctx, MatchBinderListHeadData &data, InstructionWrapper &conditioned_result_value);
+    /// @brief takes the match binder list head and the current pattern result expression and generates a code that given the matched expression fits the type pattern sets the result variable to the given conditional_result_value.
+    MatchWrapper init_match_binders_list(cecko::context *ctx, MatchBinderListHeadData &data, InstructionWrapper &conditional_result_value);
 
+    /// @brief a data calss used for compiling while block
     class WhileControllFlowData : public ControllFlowData
     {
     public:
@@ -1656,6 +1858,7 @@ namespace casem
     WhileControllFlowData init_do_data(cecko::context *ctx);
     cecko::CKIRBasicBlockObs create_do_control_flow(cecko::context *ctx, WhileControllFlowData &data, InstructionWrapper &cond);
 
+    /// @brief checks if given label corresponds to some declared struct type
     bool is_struct_label(cecko::context *ctx, const cecko::CIName &label);
 
     /// @brief A cecko::CKTypeRefPack with an information about wether the type is typedef.
@@ -1683,6 +1886,7 @@ namespace casem
     };
     CKTypeRefDefPack to_ckt(const cecko::CKStructItem &other);
 
+    /// @brief function wrapping the function declaration data
     struct FunctionDeclarationData
     {
         cecko::CKFunctionSafeObs fun_obs;
@@ -1705,7 +1909,9 @@ namespace casem
         }
     };
 
+    /// @brief function used in the enum type declaration, used for declaring the child types constructor based on its fields.
     void declare_type_constructor(cecko::context *ctx, const std::string &tname, const cecko::CKStructTypeSafeObs &type, const cecko::CKStructItemArray &params, bool heap_type = true, bool null_type = false);
+    /// @brief function used in the enum type declaration, used for declaring the child types reuser function based on its fields.
     void declare_type_reuser(cecko::context *ctx, const std::string &tname, const cecko::CKStructTypeSafeObs &type, const cecko::CKStructItemArray &params, bool heap_type = true);
     void declare_support_functions(cecko::context *ctx);
 

@@ -115,8 +115,9 @@ to:
 
 the doxymentation can be generated using the command bellow (from project root) and than accessed by opening the index.html file in the resulting `doc/html/` folder.
 
-```
-doxygen ./doc/doxyfile
+```sh
+cd ./doc/
+doxygen ./doxyfile
 # than open the doc/html/index.html
 ```
 

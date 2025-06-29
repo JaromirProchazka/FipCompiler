@@ -3,7 +3,7 @@
 set -euo pipefail
 
 # Configuration
-TEST_REPETITIONS=800 # 700 default
+TEST_REPETITIONS=1000 # 700 default
 BASE_DIR="./compiled_programs_data"
 RESULTS_FILE="$BASE_DIR/benchmark_results.csv"
 TEMP_FILE="$BASE_DIR/temp.csv"

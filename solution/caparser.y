@@ -250,11 +250,12 @@ function_definition:
             ctx->builder()-> CreateRetVoid();
         }
 
+        auto fip_state = casem::FipState::GetFipState();
         // if we are at this point in FIP-mod, it must mean the function is FIP
-        if (fip_state.is_in_fip_mode()) {
+        if (fip_state->is_in_fip_mode()) {
             log("{FipState} function_definition - exiting fip mod\n");
-            fip_state.exit_fip_mode();
-            fip_state.exit_fip_context();
+            fip_state->exit_fip_mode();
+            fip_state->exit_fip_context();
         }
         ctx->exit_function();
     }
@@ -295,10 +296,11 @@ function_definition_head:
         auto f_observer = ($1).fun_obs;
         auto rfpack = ($1).fun_rfpack;
         ctx->enter_function(f_observer, res_tpack.optinonal_param_names, ctx->line());
+        auto fip_state = casem::FipState::GetFipState();
         if (rfpack.is_fip) {
             log("{FipState} function_definition_info - entering fip function '"+res_tpack.name.value()+"' declaration\n");
-            fip_state.enter_fip_mode();
-            fip_state.enter_fip_context();
+            fip_state->enter_fip_mode();
+            fip_state->enter_fip_context();
         }
         log("[function_definition_head:] function body entered\n");
 
@@ -608,10 +610,11 @@ match_expression:
         }
         log("[match_expression:] if (match_data.is_first_pattern_null_check) Done\n");
         match_data.generate_final_match_result_check(ctx); // generates final if that check if result isn't tagged type set to null
+        auto fip_state = casem::FipState::GetFipState();
         if (match_data.is_destructive) {
             log("{FipState} match_expression - exiting DMATCH\n");
-            fip_state.exit_fip_mode();
-            fip_state.exit_fip_context();
+            fip_state->exit_fip_mode();
+            fip_state->exit_fip_context();
         }
 
         // auto&& res = init_instruction_from_name(ctx, casem::match_result_template);
