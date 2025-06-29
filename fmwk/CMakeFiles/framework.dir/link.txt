@@ -1,2 +1,0 @@
-/usr/bin/ar qc libframework.a CMakeFiles/framework.dir/ckir.cpp.o CMakeFiles/framework.dir/cktables.cpp.o CMakeFiles/framework.dir/ckcontext.cpp.o CMakeFiles/framework.dir/ckmain.cpp.o
-/usr/bin/ranlib libframework.a
