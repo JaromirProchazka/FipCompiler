@@ -10,8 +10,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Make verify.sh executable
+      - name: Make verify_stafip.sh executable
         run: chmod +x ./verify_stafip.sh
+
+      - name: Make banchmarks_utils/compile_stafip_scripts_in.sh executable
+        run: chmod +x ./banchmarks_utils/compile_stafip_scripts_in.sh
 
       - name: Run verify script
         run: ./verify_stafip.sh
