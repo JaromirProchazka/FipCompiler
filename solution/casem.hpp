@@ -18,7 +18,7 @@
 #define assertm(exp, msg) assert((void(msg), exp))
 
 /// A swith that says if we should log static compilation messages
-#define GENERATE_STATIC_DEBUG_LOG true
+#define GENERATE_STATIC_DEBUG_LOG false
 /// A swith that says if we should generate dynamic runtime messages printf's
 #define GENERATE_DYNAMIC_DEBUG_LOG false
 

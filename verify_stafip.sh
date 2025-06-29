@@ -24,11 +24,13 @@ for ffip in "$TEST_DIR"/*.ffip; do
 
   if [ ! -f "$gold" ]; then
     echo "⚠️  Missing gold file (${gold}) — skipping"
+    fail=$(($fail+1))
     continue
   fi
 
   if [ ! -x "$exe" ]; then
     echo "⚠️  Missing or non-executable target (${exe}) — skipping"
+    fail=$(($fail+1))
     continue
   fi
 
