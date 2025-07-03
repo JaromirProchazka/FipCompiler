@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler
+CMAKE_SOURCE_DIR = /mnt/c/Users/jarom/Desktop/FipCompiler
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler
+CMAKE_BINARY_DIR = /mnt/c/Users/jarom/Desktop/FipCompiler
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -97,14 +97,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/CMakeFiles /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-main//CMakeFiles/progress.marks
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-main/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/CMakeFiles 0
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/jarom/Desktop/FipCompiler/CMakeFiles /mnt/c/Users/jarom/Desktop/FipCompiler/stud-main//CMakeFiles/progress.marks
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-main/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/jarom/Desktop/FipCompiler/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-main/clean
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-main/clean
 .PHONY : clean
 
 # The main clean target
@@ -113,22 +113,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-main/preinstall
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-main/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-main/preinstall
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-main/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 stud-main/CMakeFiles/cecko5.dir/rule:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-main/CMakeFiles/cecko5.dir/rule
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-main/CMakeFiles/cecko5.dir/rule
 .PHONY : stud-main/CMakeFiles/cecko5.dir/rule
 
 # Convenience name for target.
@@ -137,7 +137,7 @@ cecko5: stud-main/CMakeFiles/cecko5.dir/rule
 
 # fast build rule for target.
 cecko5/fast:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko5.dir/build.make stud-main/CMakeFiles/cecko5.dir/build
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko5.dir/build.make stud-main/CMakeFiles/cecko5.dir/build
 .PHONY : cecko5/fast
 
 cecko5.o: cecko5.cpp.o
@@ -145,7 +145,7 @@ cecko5.o: cecko5.cpp.o
 
 # target to build an object file
 cecko5.cpp.o:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko5.dir/build.make stud-main/CMakeFiles/cecko5.dir/cecko5.cpp.o
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko5.dir/build.make stud-main/CMakeFiles/cecko5.dir/cecko5.cpp.o
 .PHONY : cecko5.cpp.o
 
 cecko5.i: cecko5.cpp.i
@@ -153,7 +153,7 @@ cecko5.i: cecko5.cpp.i
 
 # target to preprocess a source file
 cecko5.cpp.i:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko5.dir/build.make stud-main/CMakeFiles/cecko5.dir/cecko5.cpp.i
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko5.dir/build.make stud-main/CMakeFiles/cecko5.dir/cecko5.cpp.i
 .PHONY : cecko5.cpp.i
 
 cecko5.s: cecko5.cpp.s
@@ -161,7 +161,7 @@ cecko5.s: cecko5.cpp.s
 
 # target to generate assembly for a file
 cecko5.cpp.s:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko5.dir/build.make stud-main/CMakeFiles/cecko5.dir/cecko5.cpp.s
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-main/CMakeFiles/cecko5.dir/build.make stud-main/CMakeFiles/cecko5.dir/cecko5.cpp.s
 .PHONY : cecko5.cpp.s
 
 # Help Target
@@ -188,6 +188,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

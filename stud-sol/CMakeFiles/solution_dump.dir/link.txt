@@ -1,2 +1,0 @@
-/usr/bin/ar qc libsolution_dump.a CMakeFiles/solution_dump.dir/calexer_dump.cpp.o CMakeFiles/solution_dump.dir/casem.cpp.o
-/usr/bin/ranlib libsolution_dump.a

@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler
+CMAKE_SOURCE_DIR = /mnt/c/Users/jarom/Desktop/FipCompiler
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler
+CMAKE_BINARY_DIR = /mnt/c/Users/jarom/Desktop/FipCompiler
 
 # Include any dependencies generated for this target.
 include fmwk/CMakeFiles/framework_dump.dir/depend.make
@@ -70,8 +70,8 @@ include fmwk/CMakeFiles/framework_dump.dir/progress.make
 include fmwk/CMakeFiles/framework_dump.dir/flags.make
 
 fmwk/ckdumper.cpp: fmwk/ckdumper.y
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "[BISON][ckdumper.cpp] Building parser with bison 3.8.2"
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk && /usr/bin/bison --defines=/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.hpp -o /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.y
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/mnt/c/Users/jarom/Desktop/FipCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "[BISON][ckdumper.cpp] Building parser with bison 3.8.2"
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk && /usr/bin/bison --defines=/mnt/c/Users/jarom/Desktop/FipCompiler/fmwk/ckdumper.hpp -o /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk/ckdumper.cpp /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk/ckdumper.y
 
 fmwk/ckdumper.hpp: fmwk/ckdumper.cpp
 	@$(CMAKE_COMMAND) -E touch_nocreate fmwk/ckdumper.hpp
@@ -79,72 +79,72 @@ fmwk/ckdumper.hpp: fmwk/ckdumper.cpp
 fmwk/CMakeFiles/framework_dump.dir/ckdumper.cpp.o: fmwk/CMakeFiles/framework_dump.dir/flags.make
 fmwk/CMakeFiles/framework_dump.dir/ckdumper.cpp.o: fmwk/ckdumper.cpp
 fmwk/CMakeFiles/framework_dump.dir/ckdumper.cpp.o: fmwk/CMakeFiles/framework_dump.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object fmwk/CMakeFiles/framework_dump.dir/ckdumper.cpp.o"
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT fmwk/CMakeFiles/framework_dump.dir/ckdumper.cpp.o -MF CMakeFiles/framework_dump.dir/ckdumper.cpp.o.d -o CMakeFiles/framework_dump.dir/ckdumper.cpp.o -c /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/jarom/Desktop/FipCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object fmwk/CMakeFiles/framework_dump.dir/ckdumper.cpp.o"
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT fmwk/CMakeFiles/framework_dump.dir/ckdumper.cpp.o -MF CMakeFiles/framework_dump.dir/ckdumper.cpp.o.d -o CMakeFiles/framework_dump.dir/ckdumper.cpp.o -c /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk/ckdumper.cpp
 
 fmwk/CMakeFiles/framework_dump.dir/ckdumper.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/framework_dump.dir/ckdumper.cpp.i"
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp > CMakeFiles/framework_dump.dir/ckdumper.cpp.i
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk/ckdumper.cpp > CMakeFiles/framework_dump.dir/ckdumper.cpp.i
 
 fmwk/CMakeFiles/framework_dump.dir/ckdumper.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/framework_dump.dir/ckdumper.cpp.s"
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckdumper.cpp -o CMakeFiles/framework_dump.dir/ckdumper.cpp.s
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk/ckdumper.cpp -o CMakeFiles/framework_dump.dir/ckdumper.cpp.s
 
 fmwk/CMakeFiles/framework_dump.dir/ckir.cpp.o: fmwk/CMakeFiles/framework_dump.dir/flags.make
 fmwk/CMakeFiles/framework_dump.dir/ckir.cpp.o: fmwk/ckir.cpp
 fmwk/CMakeFiles/framework_dump.dir/ckir.cpp.o: fmwk/CMakeFiles/framework_dump.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object fmwk/CMakeFiles/framework_dump.dir/ckir.cpp.o"
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT fmwk/CMakeFiles/framework_dump.dir/ckir.cpp.o -MF CMakeFiles/framework_dump.dir/ckir.cpp.o.d -o CMakeFiles/framework_dump.dir/ckir.cpp.o -c /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckir.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/jarom/Desktop/FipCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object fmwk/CMakeFiles/framework_dump.dir/ckir.cpp.o"
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT fmwk/CMakeFiles/framework_dump.dir/ckir.cpp.o -MF CMakeFiles/framework_dump.dir/ckir.cpp.o.d -o CMakeFiles/framework_dump.dir/ckir.cpp.o -c /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk/ckir.cpp
 
 fmwk/CMakeFiles/framework_dump.dir/ckir.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/framework_dump.dir/ckir.cpp.i"
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckir.cpp > CMakeFiles/framework_dump.dir/ckir.cpp.i
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk/ckir.cpp > CMakeFiles/framework_dump.dir/ckir.cpp.i
 
 fmwk/CMakeFiles/framework_dump.dir/ckir.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/framework_dump.dir/ckir.cpp.s"
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckir.cpp -o CMakeFiles/framework_dump.dir/ckir.cpp.s
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk/ckir.cpp -o CMakeFiles/framework_dump.dir/ckir.cpp.s
 
 fmwk/CMakeFiles/framework_dump.dir/cktables.cpp.o: fmwk/CMakeFiles/framework_dump.dir/flags.make
 fmwk/CMakeFiles/framework_dump.dir/cktables.cpp.o: fmwk/cktables.cpp
 fmwk/CMakeFiles/framework_dump.dir/cktables.cpp.o: fmwk/CMakeFiles/framework_dump.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object fmwk/CMakeFiles/framework_dump.dir/cktables.cpp.o"
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT fmwk/CMakeFiles/framework_dump.dir/cktables.cpp.o -MF CMakeFiles/framework_dump.dir/cktables.cpp.o.d -o CMakeFiles/framework_dump.dir/cktables.cpp.o -c /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/cktables.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/jarom/Desktop/FipCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object fmwk/CMakeFiles/framework_dump.dir/cktables.cpp.o"
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT fmwk/CMakeFiles/framework_dump.dir/cktables.cpp.o -MF CMakeFiles/framework_dump.dir/cktables.cpp.o.d -o CMakeFiles/framework_dump.dir/cktables.cpp.o -c /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk/cktables.cpp
 
 fmwk/CMakeFiles/framework_dump.dir/cktables.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/framework_dump.dir/cktables.cpp.i"
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/cktables.cpp > CMakeFiles/framework_dump.dir/cktables.cpp.i
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk/cktables.cpp > CMakeFiles/framework_dump.dir/cktables.cpp.i
 
 fmwk/CMakeFiles/framework_dump.dir/cktables.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/framework_dump.dir/cktables.cpp.s"
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/cktables.cpp -o CMakeFiles/framework_dump.dir/cktables.cpp.s
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk/cktables.cpp -o CMakeFiles/framework_dump.dir/cktables.cpp.s
 
 fmwk/CMakeFiles/framework_dump.dir/ckcontext.cpp.o: fmwk/CMakeFiles/framework_dump.dir/flags.make
 fmwk/CMakeFiles/framework_dump.dir/ckcontext.cpp.o: fmwk/ckcontext.cpp
 fmwk/CMakeFiles/framework_dump.dir/ckcontext.cpp.o: fmwk/CMakeFiles/framework_dump.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object fmwk/CMakeFiles/framework_dump.dir/ckcontext.cpp.o"
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT fmwk/CMakeFiles/framework_dump.dir/ckcontext.cpp.o -MF CMakeFiles/framework_dump.dir/ckcontext.cpp.o.d -o CMakeFiles/framework_dump.dir/ckcontext.cpp.o -c /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckcontext.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/jarom/Desktop/FipCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object fmwk/CMakeFiles/framework_dump.dir/ckcontext.cpp.o"
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT fmwk/CMakeFiles/framework_dump.dir/ckcontext.cpp.o -MF CMakeFiles/framework_dump.dir/ckcontext.cpp.o.d -o CMakeFiles/framework_dump.dir/ckcontext.cpp.o -c /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk/ckcontext.cpp
 
 fmwk/CMakeFiles/framework_dump.dir/ckcontext.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/framework_dump.dir/ckcontext.cpp.i"
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckcontext.cpp > CMakeFiles/framework_dump.dir/ckcontext.cpp.i
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk/ckcontext.cpp > CMakeFiles/framework_dump.dir/ckcontext.cpp.i
 
 fmwk/CMakeFiles/framework_dump.dir/ckcontext.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/framework_dump.dir/ckcontext.cpp.s"
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckcontext.cpp -o CMakeFiles/framework_dump.dir/ckcontext.cpp.s
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk/ckcontext.cpp -o CMakeFiles/framework_dump.dir/ckcontext.cpp.s
 
 fmwk/CMakeFiles/framework_dump.dir/ckmain.cpp.o: fmwk/CMakeFiles/framework_dump.dir/flags.make
 fmwk/CMakeFiles/framework_dump.dir/ckmain.cpp.o: fmwk/ckmain.cpp
 fmwk/CMakeFiles/framework_dump.dir/ckmain.cpp.o: fmwk/CMakeFiles/framework_dump.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object fmwk/CMakeFiles/framework_dump.dir/ckmain.cpp.o"
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT fmwk/CMakeFiles/framework_dump.dir/ckmain.cpp.o -MF CMakeFiles/framework_dump.dir/ckmain.cpp.o.d -o CMakeFiles/framework_dump.dir/ckmain.cpp.o -c /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckmain.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/jarom/Desktop/FipCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object fmwk/CMakeFiles/framework_dump.dir/ckmain.cpp.o"
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT fmwk/CMakeFiles/framework_dump.dir/ckmain.cpp.o -MF CMakeFiles/framework_dump.dir/ckmain.cpp.o.d -o CMakeFiles/framework_dump.dir/ckmain.cpp.o -c /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk/ckmain.cpp
 
 fmwk/CMakeFiles/framework_dump.dir/ckmain.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/framework_dump.dir/ckmain.cpp.i"
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckmain.cpp > CMakeFiles/framework_dump.dir/ckmain.cpp.i
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk/ckmain.cpp > CMakeFiles/framework_dump.dir/ckmain.cpp.i
 
 fmwk/CMakeFiles/framework_dump.dir/ckmain.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/framework_dump.dir/ckmain.cpp.s"
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/ckmain.cpp -o CMakeFiles/framework_dump.dir/ckmain.cpp.s
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk/ckmain.cpp -o CMakeFiles/framework_dump.dir/ckmain.cpp.s
 
 # Object files for target framework_dump
 framework_dump_OBJECTS = \
@@ -164,20 +164,20 @@ fmwk/libframework_dump.a: fmwk/CMakeFiles/framework_dump.dir/ckcontext.cpp.o
 fmwk/libframework_dump.a: fmwk/CMakeFiles/framework_dump.dir/ckmain.cpp.o
 fmwk/libframework_dump.a: fmwk/CMakeFiles/framework_dump.dir/build.make
 fmwk/libframework_dump.a: fmwk/CMakeFiles/framework_dump.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX static library libframework_dump.a"
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk && $(CMAKE_COMMAND) -P CMakeFiles/framework_dump.dir/cmake_clean_target.cmake
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/framework_dump.dir/link.txt --verbose=$(VERBOSE)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/c/Users/jarom/Desktop/FipCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX static library libframework_dump.a"
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk && $(CMAKE_COMMAND) -P CMakeFiles/framework_dump.dir/cmake_clean_target.cmake
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/framework_dump.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
 fmwk/CMakeFiles/framework_dump.dir/build: fmwk/libframework_dump.a
 .PHONY : fmwk/CMakeFiles/framework_dump.dir/build
 
 fmwk/CMakeFiles/framework_dump.dir/clean:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk && $(CMAKE_COMMAND) -P CMakeFiles/framework_dump.dir/cmake_clean.cmake
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk && $(CMAKE_COMMAND) -P CMakeFiles/framework_dump.dir/cmake_clean.cmake
 .PHONY : fmwk/CMakeFiles/framework_dump.dir/clean
 
 fmwk/CMakeFiles/framework_dump.dir/depend: fmwk/ckdumper.cpp
 fmwk/CMakeFiles/framework_dump.dir/depend: fmwk/ckdumper.hpp
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/CMakeFiles/framework_dump.dir/DependInfo.cmake --color=$(COLOR)
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /mnt/c/Users/jarom/Desktop/FipCompiler /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk /mnt/c/Users/jarom/Desktop/FipCompiler /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk /mnt/c/Users/jarom/Desktop/FipCompiler/fmwk/CMakeFiles/framework_dump.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : fmwk/CMakeFiles/framework_dump.dir/depend
 
