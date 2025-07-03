@@ -13,14 +13,20 @@ jobs:
       - name: Make verify_stafip.sh executable
         run: chmod +x ./verify_stafip.sh
 
-      - name: Install LLVM (clang & llc)
+      - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install -y clang llvm
+          sudo apt install -y clang llvm cmake build-essential
+
+      - name: Verify installations
+        run: |
+          clang --version
+          llc --version
+          cmake --version
 
       - name: Make banchmarks_utils/compile_stafip_scripts_in.sh executable
         run: chmod +x ./banchmarks_utils/compile_stafip_scripts_in.sh
 
       - name: Run verify script
-        # run: ./verify_stafip.sh
-        run: cmake . && cmake --build . && ./stud-main/cecko5 -a ./DebugLog.txt ./test/finger_trees_fip.ffip
+        run: ./verify_stafip.sh
+        # run: cmake . && cmake --build . && ./stud-main/cecko5 -a ./DebugLog.txt ./test/finger_trees_fip.ffip
