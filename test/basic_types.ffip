@@ -10,7 +10,6 @@ type list {
 type stree {
     NodeL(type stree left, type Integer value, type stree right);
     Root;
-
     NodeR( type stree  left , type Integer value, type stree  up);
 }
 

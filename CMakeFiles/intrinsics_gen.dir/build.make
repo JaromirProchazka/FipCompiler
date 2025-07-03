@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler
+CMAKE_SOURCE_DIR = /mnt/c/Users/jarom/Desktop/FipCompiler
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler
+CMAKE_BINARY_DIR = /mnt/c/Users/jarom/Desktop/FipCompiler
 
 # Utility rule file for intrinsics_gen.
 
@@ -78,6 +78,6 @@ CMakeFiles/intrinsics_gen.dir/clean:
 .PHONY : CMakeFiles/intrinsics_gen.dir/clean
 
 CMakeFiles/intrinsics_gen.dir/depend:
-	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/CMakeFiles/intrinsics_gen.dir/DependInfo.cmake --color=$(COLOR)
+	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /mnt/c/Users/jarom/Desktop/FipCompiler /mnt/c/Users/jarom/Desktop/FipCompiler /mnt/c/Users/jarom/Desktop/FipCompiler /mnt/c/Users/jarom/Desktop/FipCompiler /mnt/c/Users/jarom/Desktop/FipCompiler/CMakeFiles/intrinsics_gen.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/intrinsics_gen.dir/depend
 

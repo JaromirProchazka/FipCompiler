@@ -215,7 +215,6 @@ type object log_seq_helper [type object s] =
                 ),
                 printf(" >")
             )
-
         | PairObject(a, b)  ->  firsto(secondo(
                 printf("Pair< "),
                 three_in_order(
