@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS
 
-CXX_INCLUDES = -I/usr/lib/llvm-15/include -I/mnt/c/Users/jarom/Desktop/FipCompiler/fmwk/. -I/mnt/c/Users/jarom/Desktop/FipCompiler/fmwk
+CXX_INCLUDES = -I/usr/lib/llvm-15/include -I/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk/. -I/mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/fmwk
 
 CXX_FLAGS = -Wall -std=gnu++20
 

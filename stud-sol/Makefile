@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/c/Users/jarom/Desktop/FipCompiler
+CMAKE_SOURCE_DIR = /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/c/Users/jarom/Desktop/FipCompiler
+CMAKE_BINARY_DIR = /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -97,14 +97,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/jarom/Desktop/FipCompiler/CMakeFiles /mnt/c/Users/jarom/Desktop/FipCompiler/stud-sol//CMakeFiles/progress.marks
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-sol/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/jarom/Desktop/FipCompiler/CMakeFiles 0
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/CMakeFiles /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/stud-sol//CMakeFiles/progress.marks
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-sol/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-sol/clean
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-sol/clean
 .PHONY : clean
 
 # The main clean target
@@ -113,22 +113,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-sol/preinstall
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-sol/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-sol/preinstall
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-sol/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 stud-sol/CMakeFiles/solution.dir/rule:
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-sol/CMakeFiles/solution.dir/rule
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-sol/CMakeFiles/solution.dir/rule
 .PHONY : stud-sol/CMakeFiles/solution.dir/rule
 
 # Convenience name for target.
@@ -137,12 +137,12 @@ solution: stud-sol/CMakeFiles/solution.dir/rule
 
 # fast build rule for target.
 solution/fast:
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution.dir/build.make stud-sol/CMakeFiles/solution.dir/build
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution.dir/build.make stud-sol/CMakeFiles/solution.dir/build
 .PHONY : solution/fast
 
 # Convenience name for target.
 stud-sol/CMakeFiles/solution_dump.dir/rule:
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-sol/CMakeFiles/solution_dump.dir/rule
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stud-sol/CMakeFiles/solution_dump.dir/rule
 .PHONY : stud-sol/CMakeFiles/solution_dump.dir/rule
 
 # Convenience name for target.
@@ -151,7 +151,7 @@ solution_dump: stud-sol/CMakeFiles/solution_dump.dir/rule
 
 # fast build rule for target.
 solution_dump/fast:
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution_dump.dir/build.make stud-sol/CMakeFiles/solution_dump.dir/build
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution_dump.dir/build.make stud-sol/CMakeFiles/solution_dump.dir/build
 .PHONY : solution_dump/fast
 
 calexer.o: calexer.cpp.o
@@ -159,7 +159,7 @@ calexer.o: calexer.cpp.o
 
 # target to build an object file
 calexer.cpp.o:
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution.dir/build.make stud-sol/CMakeFiles/solution.dir/calexer.cpp.o
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution.dir/build.make stud-sol/CMakeFiles/solution.dir/calexer.cpp.o
 .PHONY : calexer.cpp.o
 
 calexer.i: calexer.cpp.i
@@ -167,7 +167,7 @@ calexer.i: calexer.cpp.i
 
 # target to preprocess a source file
 calexer.cpp.i:
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution.dir/build.make stud-sol/CMakeFiles/solution.dir/calexer.cpp.i
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution.dir/build.make stud-sol/CMakeFiles/solution.dir/calexer.cpp.i
 .PHONY : calexer.cpp.i
 
 calexer.s: calexer.cpp.s
@@ -175,7 +175,7 @@ calexer.s: calexer.cpp.s
 
 # target to generate assembly for a file
 calexer.cpp.s:
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution.dir/build.make stud-sol/CMakeFiles/solution.dir/calexer.cpp.s
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution.dir/build.make stud-sol/CMakeFiles/solution.dir/calexer.cpp.s
 .PHONY : calexer.cpp.s
 
 calexer_dump.o: calexer_dump.cpp.o
@@ -183,7 +183,7 @@ calexer_dump.o: calexer_dump.cpp.o
 
 # target to build an object file
 calexer_dump.cpp.o:
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution_dump.dir/build.make stud-sol/CMakeFiles/solution_dump.dir/calexer_dump.cpp.o
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution_dump.dir/build.make stud-sol/CMakeFiles/solution_dump.dir/calexer_dump.cpp.o
 .PHONY : calexer_dump.cpp.o
 
 calexer_dump.i: calexer_dump.cpp.i
@@ -191,7 +191,7 @@ calexer_dump.i: calexer_dump.cpp.i
 
 # target to preprocess a source file
 calexer_dump.cpp.i:
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution_dump.dir/build.make stud-sol/CMakeFiles/solution_dump.dir/calexer_dump.cpp.i
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution_dump.dir/build.make stud-sol/CMakeFiles/solution_dump.dir/calexer_dump.cpp.i
 .PHONY : calexer_dump.cpp.i
 
 calexer_dump.s: calexer_dump.cpp.s
@@ -199,7 +199,7 @@ calexer_dump.s: calexer_dump.cpp.s
 
 # target to generate assembly for a file
 calexer_dump.cpp.s:
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution_dump.dir/build.make stud-sol/CMakeFiles/solution_dump.dir/calexer_dump.cpp.s
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution_dump.dir/build.make stud-sol/CMakeFiles/solution_dump.dir/calexer_dump.cpp.s
 .PHONY : calexer_dump.cpp.s
 
 caparser.o: caparser.cpp.o
@@ -207,7 +207,7 @@ caparser.o: caparser.cpp.o
 
 # target to build an object file
 caparser.cpp.o:
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution.dir/build.make stud-sol/CMakeFiles/solution.dir/caparser.cpp.o
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution.dir/build.make stud-sol/CMakeFiles/solution.dir/caparser.cpp.o
 .PHONY : caparser.cpp.o
 
 caparser.i: caparser.cpp.i
@@ -215,7 +215,7 @@ caparser.i: caparser.cpp.i
 
 # target to preprocess a source file
 caparser.cpp.i:
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution.dir/build.make stud-sol/CMakeFiles/solution.dir/caparser.cpp.i
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution.dir/build.make stud-sol/CMakeFiles/solution.dir/caparser.cpp.i
 .PHONY : caparser.cpp.i
 
 caparser.s: caparser.cpp.s
@@ -223,7 +223,7 @@ caparser.s: caparser.cpp.s
 
 # target to generate assembly for a file
 caparser.cpp.s:
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution.dir/build.make stud-sol/CMakeFiles/solution.dir/caparser.cpp.s
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution.dir/build.make stud-sol/CMakeFiles/solution.dir/caparser.cpp.s
 .PHONY : caparser.cpp.s
 
 casem.o: casem.cpp.o
@@ -231,8 +231,8 @@ casem.o: casem.cpp.o
 
 # target to build an object file
 casem.cpp.o:
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution.dir/build.make stud-sol/CMakeFiles/solution.dir/casem.cpp.o
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution_dump.dir/build.make stud-sol/CMakeFiles/solution_dump.dir/casem.cpp.o
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution.dir/build.make stud-sol/CMakeFiles/solution.dir/casem.cpp.o
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution_dump.dir/build.make stud-sol/CMakeFiles/solution_dump.dir/casem.cpp.o
 .PHONY : casem.cpp.o
 
 casem.i: casem.cpp.i
@@ -240,8 +240,8 @@ casem.i: casem.cpp.i
 
 # target to preprocess a source file
 casem.cpp.i:
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution.dir/build.make stud-sol/CMakeFiles/solution.dir/casem.cpp.i
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution_dump.dir/build.make stud-sol/CMakeFiles/solution_dump.dir/casem.cpp.i
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution.dir/build.make stud-sol/CMakeFiles/solution.dir/casem.cpp.i
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution_dump.dir/build.make stud-sol/CMakeFiles/solution_dump.dir/casem.cpp.i
 .PHONY : casem.cpp.i
 
 casem.s: casem.cpp.s
@@ -249,8 +249,8 @@ casem.s: casem.cpp.s
 
 # target to generate assembly for a file
 casem.cpp.s:
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution.dir/build.make stud-sol/CMakeFiles/solution.dir/casem.cpp.s
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution_dump.dir/build.make stud-sol/CMakeFiles/solution_dump.dir/casem.cpp.s
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution.dir/build.make stud-sol/CMakeFiles/solution.dir/casem.cpp.s
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(MAKE) $(MAKESILENT) -f stud-sol/CMakeFiles/solution_dump.dir/build.make stud-sol/CMakeFiles/solution_dump.dir/casem.cpp.s
 .PHONY : casem.cpp.s
 
 # Help Target
@@ -287,6 +287,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /mnt/c/Users/jarom/Desktop/FipCompiler && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /mnt/c/Users/jarom/Desktop/PG_EXER/baka_test_files/FipCompiler && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
