@@ -57,7 +57,7 @@ for ffip_file in "${files[@]}"; do
 
     # Generate .s IR code file
     if [ $error_occurred -eq 0 ]; then
-        llc -opaque-pointers -o "${destination_dir}/${base}/${base}.s" \
+        llc -o "${destination_dir}/${base}/${base}.s" \
             "${destination_dir}/${base}/${base}.ll" || {
             echo "[compile_stafip_scripts] Error: Assembly generation failed for $base"
             error_occurred=1
