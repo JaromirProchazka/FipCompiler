@@ -52,7 +52,7 @@ This project is meant for linux ubuntu environment and the CMake building this p
   - llc 15.0.0
   - clang 15.0.0
   - clang++ 15.0.0
-  - (installation command: `sudo apt-get install -y clang-15 lldb-15 lld-15 llvm-15 llvm-15-dev llvm-15-tools cmake build-essential`)
+  - (installation command: `sudo apt install -y llvm-15 clang-15 clang-tools-15`)
 
 ## Build and Run
 

@@ -2,7 +2,6 @@ The StaFip compiler is implemented using Flex for lexical analysis and Bison for
 
 The project does not use the LLVM library directly, but a framework by Bednárek, D., Yaghob, Cecko Skeleton. This framework abstracts the LLVM library and provides other useful features like handling contexts and lookup tables for functions and variables.
 
-
 # Exmaple code
 
 You have this Code peace
@@ -25,6 +24,11 @@ InstructionWrapper eight_literal = init_instruction_const(ctx, 8);
 InstructionWrapper res = five_literal + eight_literal;
 init_instruction_from_name(ctx, "i").store(res);
 ```
+
+# Also reference:
+
+- [`StaFip_stdlib_docs`](https://github.com/JaromirProchazka/FipCompiler/blob/master/doc/StasFip_stdlib_docs.md) documents the implicitely defined function and types of the StaFip language
+- [`StaFip_specification.md`](https://github.com/JaromirProchazka/FipCompiler/blob/master/doc/StaFip_specification.md) which describe the language its self, its semantics and syntax
 
 # Declarations
 
