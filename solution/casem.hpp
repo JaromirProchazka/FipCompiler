@@ -1403,14 +1403,15 @@ namespace casem
         static IfExpressionData init_if_head(cecko::context *ctx, InstructionWrapper &cond)
         {
             IfExpressionData new_data(init_if_data(ctx, cond));
+            auto if_result_label = res_label + "_if";
 
             new_data.block = ctx->builder()->GetInsertBlock();
             auto &&ret_type =
                 ctx->get_pointer_type(
                     cecko::CKTypeRefPack(ctx->declare_struct_type(tagged_parent_type, ctx->line()),
                                          false));
-            ctx->define_var(res_label, cecko::CKTypeRefPack(ret_type, false), ctx->line());
-            auto &&res = init_instruction_from_name(ctx, res_label);
+            ctx->define_var(if_result_label, cecko::CKTypeRefPack(ret_type, false), ctx->line());
+            auto &&res = init_instruction_from_name(ctx, if_result_label);
             new_data.result = res;
 
             enter_block(ctx);
@@ -1608,7 +1609,7 @@ namespace casem
         }
     };
 
-    const std::string match_result_template = res_label;
+    const std::string match_result_template = res_label + "match";
     /// @brief A data class holding information important for compiling a match expression
     class MatchWrapper
     {

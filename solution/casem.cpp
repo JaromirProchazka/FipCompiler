@@ -1226,4 +1226,3 @@ namespace casem
         return generate_ttype_construction(ctx, label, params);
     }
 }
-
