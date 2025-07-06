@@ -18,11 +18,10 @@ jobs:
           sudo apt update
           sudo apt-get install -y clang-15 lldb-15 lld-15 llvm-15 llvm-15-dev llvm-15-tools cmake build-essential
 
-      - name: Verify installations
+      - name: Use Clang-15
         run: |
-          clang --version
-          llc --version
-          cmake --version
+          echo "CC=clang-15" >> $GITHUB_ENV
+          echo "CXX=clang++-15" >> $GITHUB_ENV
 
       - name: Make banchmarks_utils/compile_stafip_scripts_in.sh executable
         run: chmod +x ./banchmarks_utils/compile_stafip_scripts_in.sh

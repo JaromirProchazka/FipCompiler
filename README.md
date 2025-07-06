@@ -40,6 +40,8 @@ This code uses FIP to sort a simple list in place.
 
 ## Requirements
 
+This project is meant for 
+
 - CMake
 - BISON 3.4
 - FLEX 2.6.4
