@@ -16,12 +16,15 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install llvm-15
+          sudo apt install -y llvm-15 clang-15 clang-tools-15
 
       - name: Use Clang-15
         run: |
-          echo "CC=clang-15" >> $GITHUB_ENV
-          echo "CXX=clang++-15" >> $GITHUB_ENV
+              which clang-15
+              which clang++-15
+              which llc-15
+              clang++-15 --version
+              llc-15 --version
 
       - name: Make banchmarks_utils/compile_stafip_scripts_in.sh executable
         run: chmod +x ./banchmarks_utils/compile_stafip_scripts_in.sh
