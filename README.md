@@ -43,15 +43,14 @@ This code uses FIP to sort a simple list in place.
 - CMake
 - BISON 3.4
 - FLEX 2.6.4
-- LLVM 19.1.0
+- LLVM 15.0.0
 - Doxygen 1.10.0
 - bash
-- clang
-    - llc (to install:)
-    ```
-    sudo apt update
-    sudo apt install -y clang llvm
-    ```   
+- clang 15.0.0
+  - llc 15.0.0
+  - clang 15.0.0
+  - clang++ 15.0.0
+  - (installation command: `sudo apt-get install -y clang-15 lldb-15 lld-15 llvm-15 llvm-15-dev llvm-15-tools cmake build-essential`)
 
 ## Build and Run
 

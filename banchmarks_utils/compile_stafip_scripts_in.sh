@@ -27,7 +27,7 @@ cmake . && cmake --build . || {
 
 # Compile utils library
 mkdir -p "${destination_dir}/.lib"
-clang++ -c -fPIE compiled_programs_data/.lib/ck_utils.cpp -o "${destination_dir}/.lib/ck_utils.o" || {
+clang++-15 -c -fPIE compiled_programs_data/.lib/ck_utils.cpp -o "${destination_dir}/.lib/ck_utils.o" || {
     echo "[compile_stafip_scripts] Error: Failed to compile utils library"
     exit 1
 }
@@ -57,7 +57,7 @@ for ffip_file in "${files[@]}"; do
 
     # Generate .s IR code file
     if [ $error_occurred -eq 0 ]; then
-        llc -o "${destination_dir}/${base}/${base}.s" \
+        llc-15 -o "${destination_dir}/${base}/${base}.s" \
             "${destination_dir}/${base}/${base}.ll" || {
             echo "[compile_stafip_scripts] Error: Assembly generation failed for $base"
             error_occurred=1
@@ -66,7 +66,7 @@ for ffip_file in "${files[@]}"; do
 
     # Create object file
     if [ $error_occurred -eq 0 ]; then
-        clang -c -fPIE "${destination_dir}/${base}/${base}.s" \
+        clang-15 -c -fPIE "${destination_dir}/${base}/${base}.s" \
             -o "${destination_dir}/${base}/${base}.o" || {
             echo "[compile_stafip_scripts] Error: Object file creation failed for $base"
             error_occurred=1
@@ -75,7 +75,7 @@ for ffip_file in "${files[@]}"; do
 
     # Compile final executable linked with util file
     if [ $error_occurred -eq 0 ]; then
-        clang -no-pie -o "${destination_dir}/${base}/${base}" \
+        clang-15 -no-pie -o "${destination_dir}/${base}/${base}" \
             "${destination_dir}/${base}/${base}.o" \
             "${destination_dir}/.lib/ck_utils.o" -lstdc++ || {
             echo "[compile_stafip_scripts] Error: Linking failed for $base"

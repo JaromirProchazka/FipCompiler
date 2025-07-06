@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install -y clang llvm cmake build-essential
+          sudo apt-get install -y clang-15 lldb-15 lld-15 llvm-15 llvm-15-dev llvm-15-tools cmake build-essential
 
       - name: Verify installations
         run: |
