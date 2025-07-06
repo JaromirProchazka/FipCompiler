@@ -29,6 +29,7 @@ init_instruction_from_name(ctx, "i").store(res);
 
 - [`StaFip_stdlib_docs`](https://github.com/JaromirProchazka/FipCompiler/blob/master/doc/StasFip_stdlib_docs.md) documents the implicitely defined function and types of the StaFip language
 - [`StaFip_specification.md`](https://github.com/JaromirProchazka/FipCompiler/blob/master/doc/StaFip_specification.md) which describe the language its self, its semantics and syntax
+- [cecko skeleton](https://www.ksi.mff.cuni.cz/teaching/nswi098-web/doxy/html/structcecko_1_1CKContext.html) frame work doxygen documentation. This is the framework the StaFip Compiler is made in.
 
 # Declarations
 
