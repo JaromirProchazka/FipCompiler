@@ -16,6 +16,11 @@
 /private/cecko-prs.hpp
 /private/cecko-prs.cpp
 /private/cecko-scn.cpp
+/stud-sol/*
+/stud-main/*
+/cmake_install.cmake
+/CTestTestfile.cmake
+/CMakeFiles/
 /.vs
 /out
 /CMakeSettings.json
