@@ -194,7 +194,7 @@ fip type Pair snoc [type seq_object s, type buffer b, type reuse3 u3, type objec
                 Pair(More(u, q, Two(y, x, 0)), BCons(b, 0, 0))
             }
         }
-        | More0(u, q, anum)  -> /*FIXME: should ! but sfault*/ match! anum -> type Pair {
+        | More0(u, q, anum)  -> match! anum -> type Pair {
             | Three(y, z, w)    ->  match! b -> type Pair {
                 | BCons(b_, _1, _2) -> 
                     match snoc(q, b_, u3, PairObject(y, z, 0)) -> type Pair {

@@ -1914,6 +1914,8 @@ namespace casem
     void declare_type_constructor(cecko::context *ctx, const std::string &tname, const cecko::CKStructTypeSafeObs &type, const cecko::CKStructItemArray &params, bool heap_type = true, bool null_type = false);
     /// @brief function used in the enum type declaration, used for declaring the child types reuser function based on its fields.
     void declare_type_reuser(cecko::context *ctx, const std::string &tname, const cecko::CKStructTypeSafeObs &type, const cecko::CKStructItemArray &params, bool heap_type = true);
+
+    /// @brief Declares the standart library types and functions that can be used in StaFip scripts without explicite declarations.
     void declare_support_functions(cecko::context *ctx);
 
     CKTypeRefDefPack get_variadic_type();

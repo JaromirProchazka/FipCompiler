@@ -3,7 +3,7 @@
 StaFip also implements a set of predefined functions often encapsulating some
 sideeffect like for example printing to standart output. These functions are then in
 the implementation of algoritms used for debugging and monitoring the runtime
-of the StaFip using scripts. 
+of the StaFip using scripts.
 
 ## Object type
 
@@ -18,6 +18,54 @@ type object {
     Tagged;
 }
 ```
+
+## Pair, Tuple3 and Tuple4 types
+
+```
+Pair ( type object first, type object second ) ;
+Tuple3 ( type object first, type object second, type object third ) ;
+Tuple4 ( type object first, type object second, type object third, type object forth ) ;
+```
+
+These types are only meant for returning multiple instances from a function to
+a caller without a need for reuse tokens in case of the FIP functions. Regarding
+the implementation, at the start of a StaFip script, a field in memory is allocated
+for each of these types. When constructing these types later in a script, they
+simply reuse their corresponding field. This can, in general, result in overwriting
+of still-used data. But since these types are in the testing scripts, only used in
+cases of returning from a function (and unboxing of the returned instance by the
+caller), and since each script is only single-threaded, these fields are overwritten
+only when no other function is using them. An example of Tupple4 type is shown
+in Figure bellow.
+
+This implementation is not ideal for the production-ready implementation of
+StaFip, since in a multi-threaded environment, this implementation might create
+race conditions. A better implementation would entail storing instances of these
+types on the stack and copying them to the caller.
+
+```
+fip type Tuple3 buncons [ type bseq bs ]
+    = match ! bs -> type Tuple3 {
+        | BSeq (s , b ) ->
+            match uncons (s , b ) -> type Tuple3 {
+                | Tuple4 (x , u3 , s_ , b_ ) -> Tuple3 (x , u3 , BSeq (s_ , b_ ) )
+            }
+    }
+```
+
+This is an example use of Tuple4 library type. Notes that although the buncons
+function is FIP and there is only one reuse token of size 2 (from bs parameter), the
+Tuple4 type is constructed and returned since it does not need any reuse tokens.
+
+## Boolean ( int value ) ;
+
+The Boolean type is an implicitly defined enum type used for returning a
+Boolean type instance from a function to the caller. As the Tuple type, it uses a
+statically allocated heap field which is reused at each construction of type Boolean
+type. This type is defined because the match expression must return an enum type
+instance, and in some instances, we want a function to return a _Bool. For this
+purpose, we make the function return through a match expression an instance of
+type Boolean.
 
 ## int printf [char * format, ...]
 
@@ -34,13 +82,12 @@ reference documentation [6].
 
 This function as another function for printing runtime values to standart
 output. Hoever unlike the printf which returns the object, object e it was given
-to it as an argument. 
+to it as an argument.
 
 The T type can either match to type Object or any other primitive type like an
 int or a string. If the given type is a string, it also prints its address in memory.
-After that, a the \lstinline|msg| string argument is printed. 
+After that, a the \lstinline|msg| string argument is printed.
 In code bellow is an example of list printing implementation using the \lstinline|log| method.
-
 
 ```ffip
 type list {
@@ -84,9 +131,9 @@ void ckrt_measure_cpu_time(void)
     else
     {
         clock_t end = clock();
-        double elapsed_sec = (double)(end - clock_start) 
+        double elapsed_sec = (double)(end - clock_start)
             / CLOCKS_PER_SEC;
-        printf("Now already malloced in total %uB\n", 
+        printf("Now already malloced in total %uB\n",
             (unsigned int)already_allocated);
         printf("Elapsed CPU time: %.6f\n", elapsed_sec);
         clock_start = 0;

@@ -81,6 +81,20 @@ reuse it. In the StaFip implementation, for any type allocation, we allocate the
 number_of_field \* ptr_size bytes since in the StaFip implementation, no field can
 take up more space than pointer size.
 
+Finally, there are also implicitly declared library types. These types include
+the parent type of all enum types called object and its child type Tagged. Then
+there are special types like Pair, Tuple3, Tuple4. These are types that hold several
+instances of any type (defined with object type parameters). These types are
+special because their construction/reusing does not allocate on the heap and thus
+they do not need any reuse tokens. These types are used for returning multiple
+instances from a single function.
+There is also a Boolean implicitly declared type which simply holds an int
+instance representing a boolean.
+
+There is also a Boolean implicitly declared type which simply holds an int
+instance representing a boolean. These standard library types are declared in the
+compiler using the casem library function declare_support_functions().
+
 # Expressions
 
 ## Literals, Data types and Arithmetics
