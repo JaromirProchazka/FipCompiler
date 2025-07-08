@@ -3,7 +3,7 @@
 set -euo pipefail
 
 # Configuration
-TEST_REPETITIONS=1000 # 700 default
+TEST_REPETITIONS=700 # 700 default
 BASE_DIR="./compiled_programs_data"
 RESULTS_FILE="$BASE_DIR/benchmark_results.csv"
 TEMP_FILE="$BASE_DIR/temp.csv"
@@ -13,7 +13,6 @@ rm -f "$RESULTS_FILE" "$TEMP_FILE"
 
 # Find all program pairs
 find "$BASE_DIR" -type d -name "*_normal" -print0 | while IFS= read -r -d $'\0' normal_dir; do
-    # Extract base name from directory
     base_name=$(basename "$normal_dir" "_normal")
     
     # Skip basic_* programs
@@ -22,27 +21,17 @@ find "$BASE_DIR" -type d -name "*_normal" -print0 | while IFS= read -r -d $'\0' 
         continue
     fi
 
-    # Construct paths
     fip_dir="${normal_dir%_normal}_fip"
     normal_exe="$normal_dir/${base_name}_normal"
     fip_exe="$fip_dir/${base_name}_fip"
 
-    # Verify both executables exist
     if [[ -x "$normal_exe" && -x "$fip_exe" ]]; then
         echo "[generate_banchmarks_data] Benchmarking pair:"
         echo "[generate_banchmarks_data]   Normal: $normal_exe"
         echo "[generate_banchmarks_data]   FIP:    $fip_exe"
 
-        # Run benchmarks
-        # hyperfine \
-        #     --warmup 3 \
-        #     --runs "$TEST_REPETITIONS" \
-        #     --export-csv "$TEMP_FILE" \
-        #     "$normal_exe" \
-        #     "$fip_exe"
         touch "$TEMP_FILE"
 
-        # Capture CPU times from both executables
         total_fetch_normal=0
         total_algo_normal=0
         total_algo_sqrt_normal=0
@@ -56,17 +45,8 @@ find "$BASE_DIR" -type d -name "*_normal" -print0 | while IFS= read -r -d $'\0' 
         avrg_fetch_fip=0
         avrg_algo_fip=0
         stddev_fip=0
+
         for i in $(seq 1 $TEST_REPETITIONS); do
-            # Run normal_exe and extract its elapsed time
-            # out=$($normal_exe 2>&1)
-            # t=$(printf "%s\n" "$out" | awk '/Elapsed CPU time:/ {print $NF}')
-            # times="$times $t"
-
-            # Run fip_exe and extract its elapsed time
-            # out=$($fip_exe 2>&1)
-            # t=$(printf "%s\n" "$out" | awk '/Elapsed CPU time:/ {print $NF}')
-            # times="$times $t"
-
             # run normal_exe and capture both timings
             mapfile -t normal_times < <( "$normal_exe" \
                 | grep "Elapsed CPU time:" \
@@ -125,7 +105,6 @@ find "$BASE_DIR" -type d -name "*_normal" -print0 | while IFS= read -r -d $'\0' 
 
         # avrg_fetch_normal, avrg_algo_normal, stddev_normal, normal_exe
         # avrg_fetch_fip,    avrg_algo_fip,    stddev_fip,    fip_exe
-        # TEMP_FILE, RESULTS_FILE
         awk -v f="$avrg_fetch_normal" \
             -v c="${base_name}_normal" \
             -v m="$avrg_algo_normal" \
@@ -159,7 +138,6 @@ find "$BASE_DIR" -type d -name "*_normal" -print0 | while IFS= read -r -d $'\0' 
     fi
 done
 
-# Final cleanup and reporting
 rm -f "$TEMP_FILE"
 echo -e "\n[generate_banchmarks_data] Benchmarking complete. Results saved to: $RESULTS_FILE"
 

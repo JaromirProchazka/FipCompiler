@@ -44,7 +44,7 @@ def generate_graphs(csv_file):
                 height = rect.get_height()
                 ax1.annotate(f'{height:.4f}',
                             xy=(rect.get_x() + rect.get_width() / 2, height),
-                            xytext=(0, 3),  # 3 points vertical offset
+                            xytext=(0, 3),
                             textcoords="offset points",
                             ha='center', va='bottom', fontsize=8)
         autolabel(rects1)

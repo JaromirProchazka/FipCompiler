@@ -29,7 +29,7 @@ for ffip in "$TEST_DIR"/*.ffip; do
   fi
 
   if [ ! -x "$exe" ]; then
-    echo "⚠️  Missing or non-executable target (${exe}) — skipping"
+    echo "⚠️  Failed to compile target (${exe}) — skipping"
     fail=$(($fail+1))
     continue
   fi

@@ -1,12 +1,10 @@
 #!/bin/bash
 
-# Check arguments
 if [ "$#" -ne 2 ]; then
     echo "Usage: $0 <file_pattern> <destination_directory>"
     exit 1
 fi
 
-# Enable extended globbing
 shopt -s extglob
 
 # Expand pattern into actual files
@@ -15,7 +13,6 @@ files=( $file_pattern )
 file_pattern="$1"
 destination_dir="$2"
 
-# Enable extended globbing
 shopt -s extglob
 files=( $file_pattern )
 
@@ -32,10 +29,8 @@ clang++-15 -c -fPIE compiled_programs_data/.lib/ck_utils.cpp -o "${destination_d
     exit 1
 }
 
-# Disable immediate exit for the loop processing
 set +e
 
-# Process each matching file
 for ffip_file in "${files[@]}"; do
     base=$(basename "$ffip_file" .ffip)
 
@@ -48,12 +43,12 @@ for ffip_file in "${files[@]}"; do
     echo "[compile_stafip_scripts] Folder ${destination_dir}/${base}/ for results made"
 
     # Compile the test file to LLVM IR code and data files
-    ./stud-main/cecko5 -a "${destination_dir}/${base}/${base}.txt" \
+    (./stud-main/cecko5 -a "${destination_dir}/${base}/${base}.txt" \
         -o "${destination_dir}/${base}/${base}.ll" \
         "$ffip_file" || {
         echo "[compile_stafip_scripts] Error: Compilation to LLVM IR failed for $base"
         error_occurred=1
-    }
+    }) | grep "error"
 
     # Generate .s IR code file
     if [ $error_occurred -eq 0 ]; then
@@ -83,7 +78,7 @@ for ffip_file in "${files[@]}"; do
         }
     fi
 
-    # Cleanup intermediate files
+    # Cleanup
     rm -f "${destination_dir}/${base}/${base}.s" "${destination_dir}/${base}/${base}.ll" "${destination_dir}/${base}/${base}.o"
 
     if [ $error_occurred -eq 1 ]; then
