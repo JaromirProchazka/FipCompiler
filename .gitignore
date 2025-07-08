@@ -21,6 +21,7 @@
 /cmake_install.cmake
 /CTestTestfile.cmake
 /CMakeFiles/
+/fmwk/CMakeFiles/*
 /.vs
 /out
 /CMakeSettings.json

@@ -1102,8 +1102,8 @@ namespace casem
                                  error_start + "Casting subtype not to its parent type!");
                     break;
                 case NOT_SAME_PARRENT_TYPES:
-                    ctx->message(cecko::errors::SYNTAX, ctx->line(),
-                                 error_start + "They are both different parent types!");
+                    // ctx->message(cecko::errors::SYNTAX, ctx->line(),
+                    //              error_start + "They are both different parent types!");
                     break;
                 }
             }
