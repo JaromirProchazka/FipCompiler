@@ -145,3 +145,4 @@ doxygen ./doxyfile
 This compiler builds on ideas presented in:
 
 - _Anton Lorenzen, Daan Leijen; Swierstra, Wouter. F P 2: Fully in-Place Functional Programming. Proceedings of the ACM on Programming Languages. 2023, vol. 7, no. 198, pp. 275–304._
+- _Bednárek D., Yaghob. Cecko Skeleton. Charles University, Prague, 2024. Available also from: https://gitlab.mff.cuni.cz/teaching/nswi098/cecko/skeleton_
