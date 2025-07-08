@@ -20,12 +20,13 @@
 /stud-main/*
 /cmake_install.cmake
 /CTestTestfile.cmake
-/*/cmake_install.cmake
-/*/CTestTestfile.cmake
+**/cmake_install.cmake
+**/CTestTestfile.cmake
 /CMakeFiles/*
 /fmwk/CMakeFiles/*
-/*/CMakeFiles/*
+**/CMakeFiles/*
 /Makefile
+**/Makefile
 /.vs
 /out
 /CMakeSettings.json
