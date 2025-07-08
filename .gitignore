@@ -25,6 +25,7 @@
 /CMakeFiles/*
 /fmwk/CMakeFiles/*
 /*/CMakeFiles/*
+/Makefile
 /.vs
 /out
 /CMakeSettings.json
