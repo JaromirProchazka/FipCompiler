@@ -152,35 +152,6 @@ using namespace casem;
 
 %%
 
-// TODO: Move those you want to use up above "%%"
-// %type<casem::InstructionWrapper>        unboxing_rule
-// %type<casem::InstructionWrapper>        application_rule
-// %type<cecko::CKTypeObs>                 type_name
-
-// %type<casem::TypeRefPack_Action>        init_declarator_list
-// %type<casem::TypeRefPack_Action>        init_declarator
-// %type<casem::TypeRefPack_Action>        array_declarator
-// %type<cecko::CIName>                    enumeration_constant
-
-
-// %type<casem::TypeRefPack_Action>        abstract_declarator
-// %type<casem::TypeRefPack_Action>        direct_abstract_declarator
-// %type<casem::TypeRefPack_Action>        function_abstract_declarator
-// %type<casem::TypeRefPack_Action>        array_abstract_declarator
-
-
-// %type<casem::InstructionWrapper>        expression_opt
-
-// %type<cecko::CKIRBasicBlockObs>         compound_statement
-// %type<cecko::CKIRBasicBlockObs>         compound_statement_body
-// %type<cecko::CKIRBasicBlockObs>         block_item_list
-// %type<cecko::CKIRBasicBlockObs>         block_item
-// %type<cecko::CKIRBasicBlockObs>         statement
-// %type<cecko::CKIRBasicBlockObs>         jump_statement
-
-// %type<casem::WhileControllFlowData>     while_statement_head
-// %type<casem::WhileControllFlowData>     do_statement_head
-
 /*
 %type<T> a // nonterminal with type T
 
@@ -307,16 +278,6 @@ function_definition_head:
         $$ = $1;
     }
 ;
-
-//////////////////////////////////////////////////////////////////////////////////
-// Notes
-//////////////////////////////////////////////////////////////////////////////////
-// Types: Built-in, TYPEIDF, const
-// Pointer, Function
-// Declarations: Variable, Function
-// Expressions: Integer literals
-// Statements: Return
-//////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////
 // Create rules for expressions 
@@ -598,7 +559,6 @@ match_expression:
         casem::MatchWrapper match_data = $1;
         log("[match_expression:] if (match_data.is_first_pattern_null_check)\n");
         if (match_data.is_first_pattern_null_check) {
-            // FIXME: implement first pattern null check if-else block
             log("[match_expression:] first pattern is null check. Finishing if-else block\n");
             auto &null_pattern_if_data = (*match_data.first_pattern_null_check_data).if_data; 
             null_pattern_if_data.else_block_back = ctx->builder()->GetInsertBlock();
@@ -667,7 +627,7 @@ match_binder_definer:
 ;
 
 match_binder_arguments_list:
-    IDF    { // FIXME: switch for `match_binder_definer`
+    IDF    { 
         log("[match_binder_arguments_list:] IDF (line: %i)\n", (int)ctx->line());
         $$ = { $1 };
     }
@@ -928,7 +888,7 @@ declarator:
     }
     | direct_declarator {
         log("[declarator:] v found direct_declarator, gave refpack to it (line: %i)\n", (int)ctx->line());
-        $$ = $1;    // giving the casem::CKTypeRefDefPack(type, is_const, has_typedef)
+        $$ = $1;   
     }
 ;
 
@@ -972,8 +932,6 @@ direct_declarator:
 function_declarator: 
     direct_declarator LBRA parameter_type_list RBRA  {
         log("[function_declarator:] direct_declarator LBRA parameter_type_list RBRA -- v< wrap current lambdas rfpack in function (line: %i)\n", (int)ctx->line());
-        //ctx->get_function_type(CKTypeObs ret_type, CKTypeObsArray arg_types, bool variadic=false)
-        // GET_FUNCTION_ADDER(cecko::context *ctx, TypeRefPack_Action old_action, CKTypeObsArray arg_types);
         bool is_variadic = (($3).empty()) ? false : ($3).back().is_variadic;
         if (is_variadic) log("FOUND VARIADIC ... on args len = %d\n", (int)($3).size());
         cecko::CKFunctionFormalPackArray param_names;
@@ -1037,16 +995,11 @@ parameter_list:
 
 parameter_declaration:
     declaration_specifiers declarator   { 
-        // FIXME: Send also the cecko::CKFunctionFormalPackArray to the function_definition 
-        // and from it to declarator and up
 
         log("[parameter_declaration:] ^ found declaration_specifiers declarator, sent up the type observer (line: %i)\n", (int)ctx->line());
         casem::TypeRefPack_Action DEFINER_BODY = $2;
         casem::CKTypeRefDefPack rfpack = $1;
-
-        // TODO: Add the param name to the rfpack.optinonal_param_names
-        // We give declarator a definer, that just adds to the 
-        // rfpack.optinonal_param_names the name and returs the rfpack back 
+         
         DefinerFunction PARAM_NAME_ADDER([](cecko::context *ctx, const cecko::CIName &name, CKTypeRefDefPack &rfpack) {
             log("lambda from [parameter_declaration:] add named param to rfpack.optinonal_param_names and return it (line: %i)\n", (int)ctx->line());
             CKFunctionFormalPack param(std::make_optional(name), rfpack.is_const, ctx->line());
