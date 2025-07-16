@@ -49,8 +49,9 @@ This project is meant for Linux ubuntu environment and the CMake building this p
 - FLEX 2.6.4 
 - LLVM 15.0.0 
 - Doxygen 1.10.0 
-- bash 
-- clang 15.0.0 
+- GNU bash, version 5.1.16(1)-release
+- Python 3.10.12
+- clang 15.0.0
   - llc 15.0.0 
   - clang 15.0.0 
   - clang++ 15.0.0 
