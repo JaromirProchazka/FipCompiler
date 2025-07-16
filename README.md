@@ -44,7 +44,7 @@ This code uses FIP to sort a simple list in place.
 
 This project is meant for Linux ubuntu environment and the CMake building this project needs to be instructed where to find the LLVM (15.0.0) directory. Use command `cmake -DLLVM_DIR=<llvm-install-folder>/lib/cmake/llvm <...other-arguments...>` to do so. 
 
-- CMake 
+- CMake version 3.22.1
 - BISON 3.4 
 - FLEX 2.6.4 
 - LLVM 15.0.0 
