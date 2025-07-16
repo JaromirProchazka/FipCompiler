@@ -32,6 +32,10 @@
 /CMakeSettings.json
 /CMakeCache.txt
 /.vscode
+/fmwk/libframework_dump.a
+/fmwk/libframework.a
+/fmwk/stIQMCj6
+/fmwk/stK0g2lt
 
 doc/html/
 html/
