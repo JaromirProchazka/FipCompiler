@@ -1,0 +1,146 @@
+type elem {
+    Elem(int val);
+}
+
+int _elem [type elem e] = match e -> int {
+    | Elem(i) -> i
+}
+
+type unit2 {
+    Unit2(int a, int b);
+}
+
+type maybe2 {
+    Nothing2;
+    Just2(type elem a, int b);
+}
+
+type sublist {
+    SCons(type elem a, type sublist cs);
+    STuple(type elem a, type elem b);
+}
+
+type partition {
+    Sublist(type sublist c, type partition bdl);
+    Singleton(type elem c, type partition bdl);
+    End;
+}
+
+type list_elem {
+    Nil_elem;
+    Cons_elem(type elem val, type list_elem next);
+}
+
+type sublist from_list [type elem x, type elem y, type unit2 u, type list_elem xs]
+    = match xs -> type sublist {
+        | Nil_elem         -> match u ->  type sublist { 
+            | Unit2(_1, _2)   -> STuple(x, y)
+        }
+        | Cons_elem(z, zs) -> SCons(x, from_list(y, z, u, zs))
+    }
+
+type partition to_bundle [type list_elem xs, type partition bdl_]
+    = match xs -> type partition {
+        | Nil_elem                       -> bdl_
+        | Cons_elem(x, next) -> match next -> type partition {
+            | Nil_elem          ->  Singleton(x, bdl_)
+            | Cons_elem(y, yy)  ->  Sublist(from_list(x, y, Unit2(0, 0), yy), bdl_)
+        }  
+}
+
+type list_elem quicksort_go [type partition bdl];
+
+type Pair partition [type elem p, type sublist xs, type unit2 u];
+
+type list_elem quicksort [type list_elem xs] = quicksort_go(to_bundle(xs, End))
+
+type list_elem quicksort_go [type partition bdl] = match bdl -> type list_elem {
+        | End -> Nil_elem
+        | Sublist(xs, bdl_) -> 
+            match xs -> type list_elem {
+                | SCons(p, xx) -> 
+                    match partition(p, xx, Unit2(0, 0)) -> type Pair {
+                        | Pair(lo, hi) -> quicksort_go(to_bundle(lo, Singleton(p, to_bundle(hi, bdl_))))
+                    }
+                | STuple(x, y) -> 
+                    if (_elem(x) <= _elem(y))   
+                        Cons_elem(x, Cons_elem(y, quicksort_go(bdl_)));
+                    else                        
+                        Cons_elem(y, Cons_elem(x, quicksort_go(bdl_)));
+            }
+        | Singleton(p, b) -> Cons_elem(p, quicksort_go(b))
+}
+
+type Pair partition [type elem p, type sublist xs, type unit2 u] 
+    = match xs -> type Pair {
+        | SCons(x, xx) -> 
+            if (_elem(p) <= _elem(x)) 
+                match partition(p, xx, u) -> type Pair {
+                    | Pair(lo, hi) -> Pair(lo, Cons_elem(x, hi))
+                };
+            else 
+                match partition(p, xx, u) -> type Pair {
+                    | Pair(lo, hi) -> Pair(Cons_elem(x, lo), hi)
+                };
+        | STuple(x, y) -> match u -> type Pair { | Unit2(_1, _2) ->
+            if (_elem(p) <= _elem(x)) 
+                if (_elem(p) <= _elem(y)) 
+                    Pair(Nil_elem, Cons_elem(x, Cons_elem(y, Nil_elem)));
+                else 
+                    Pair(Cons_elem(y, Nil_elem), Cons_elem(x, Nil_elem));
+            else 
+                if (_elem(p) <= _elem(y)) 
+                    Pair(Cons_elem(x, Nil_elem), Cons_elem(y, Nil_elem));
+                else 
+                    Pair(Cons_elem(x, Cons_elem(y, Nil_elem)), Nil_elem);
+        }
+    }
+
+
+
+
+
+int finish [type Tagged x] = 0
+
+type list_elem second [type elem x, type list_elem xx] = xx
+
+type list_elem second_first_int [int x, type list_elem xx] = xx
+
+type Elem log_elem [type elem e] = match e -> type Elem {
+    | Elem(i)       ->  Elem(log(i, "-> "))
+}
+
+int _travers_list [type list_elem xs] = match xs -> int {
+    | Nil_elem               -> printf("Nil\n")
+    | Cons_elem(x, xx)       -> _travers_list( second( log_elem(x), xx ))
+}
+
+int travers_list [type list_elem xs] = _travers_list( log(xs, "log started\n\n") )
+
+type list_elem log_list [type list_elem xs] = second_first_int( travers_list(xs), xs)
+
+type list_elem make_list [] = Cons_elem(Elem(-1), Cons_elem(Elem(5), Cons_elem(Elem(3), Cons_elem(Elem(1), Cons_elem(Elem(2), Cons_elem(Elem(8), Cons_elem(Elem(-2), Cons_elem(Elem(-1), Nil_elem ))))))))
+
+type list_elem rand_list [int n, int seed];
+
+type list_elem rand_list_helper [int n, int seed, int next] =     
+    if (n >= 0)
+        Cons_elem(Elem(next), rand_list( n-1, next));
+    else
+        Nil_elem;
+
+type list_elem rand_list [int n, int seed] = rand_list_helper(n, seed, 22695477*seed + 1)
+
+
+
+
+int main [int argc, char** argv] = 
+    finish( 
+        time(
+            quicksort( 
+                time(   
+                    time(rand_list(time(37000), 13))
+                )  
+            )
+        )
+    )

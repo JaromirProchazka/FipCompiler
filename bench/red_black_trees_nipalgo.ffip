@@ -1,0 +1,184 @@
+type number {
+    Integer(int val);
+}
+
+int _int [type number n] = match n -> int {
+    | Integer(i)    -> i
+}
+
+/*
+// Red = 1, black = 0
+type color {
+    Red;
+    Black;
+}
+*/
+
+type tree {
+    Node(int _color, type tree lchild, type Integer key, _Bool value, type tree rchild);
+    Leaf;
+}
+
+_Bool is_red [type tree t] = match t -> _Bool {
+    | Leaf      -> 0
+    | Node(c, l, i, v, r)   -> match (if (c == 1) Boolean(1); else Boolean(0);) -> _Bool {
+        | Boolean(i)    -> i
+    }
+} 
+
+type accum {
+    Done;
+    NodeL(int _color, type accum lchild, type Integer key, _Bool value, type tree rchild);
+    NodeR(int _color, type tree lchild, type Integer key, _Bool value, type accum rchild);
+}
+
+type tree balance [type accum z, type tree t];
+
+type tree ins [type tree t, type Integer key, _Bool v, type accum z]
+    = match t -> type tree {
+        | Leaf                  ->  balance(z, Node(1, Leaf, key, v, Leaf))
+        | Node(c, l, kx, vx, r) ->  if (_int(key) < _int(kx)) 
+                                        ins(l, key, v, NodeL(c, z, kx, vx, r));
+                                    else 
+                                        if (_int(key) > _int(kx)) ins(r, key, v, NodeR(c, l, kx, vx, z));
+                                        else balance(z, Node(c, l, key, v, r));
+    }
+
+type tree set_black [type tree t]
+    = match t -> type tree {
+        | Leaf                  ->  t
+        | Node(c, l, k, v, r)   ->  Node(0, l, k, v, r)
+    }
+
+type tree rebuild [type accum z, type tree t]
+    = match z -> type tree {
+        | Done                      ->  t
+        | NodeR(c, l, k, v, z1)     ->  rebuild(z1, Node(c, l, k, v, t))
+        | NodeL(c, z1, k, v, r)     ->  rebuild(z1, Node(c, t, k, v, r))
+    }
+
+type tree insert [type tree t, type Integer k, _Bool v] = ins(t, k, v, Done)
+
+type tree balance [type accum z, type tree t] = match z -> type tree {
+    | Done                      -> rebuild(z, t)
+    | NodeR(c1, l1, k1, v1, z1) -> 
+        if (c1 == 1) match z1 -> type tree {
+            | Done                      ->      Node(0, l1, k1, v1, t)
+            | NodeR(c2,l2,k2,v2,z2)     ->      if (is_red(l2)) 
+                                                    balance(z2, Node(1, set_black(l2), k2, v2, Node(0, l1, k1, v1, t) ));
+                                                else 
+                                                    rebuild(z2, Node(0, Node(1,l2,k2,v2,l1), k1, v1, t));
+            | NodeL(c2,z2,k2,v2,r2)     ->      if (is_red(r2)) 
+                                                    balance(z2, Node(1, Node(0,l1,k1,v1,t), k2, v2, set_black(r2) ));
+                                                else 
+                                                    match t -> type tree {
+                                                        | Node(c, l, k, v, r)       ->     rebuild(z2, Node(0, Node(1,l1,k1,v1,l), k, v, Node(1,r,k2,v2,r2)))  
+                                                    };
+        };
+        else 
+            rebuild(z, t);
+    | NodeL(c1, z1, k1, v1, r1) -> 
+        if (c1 == 1)  match z1 -> type tree  {
+            | Done                      ->      Node(0, t, k1, v1, r1)
+            | NodeL(c2,z2,k2,v2,r2)     ->      if (is_red(r2))     
+                                                    balance(z2, Node(1, Node(0, t, k1, v1, r1), k2, v2, set_black(r2) ));
+                                                else 
+                                                    rebuild(z2, Node(0, t, k1, v1, Node(1,r1,k2,v2,r2)));
+            | NodeR(c2,l2,k2,v2,z2)     ->      if
+                                                    (is_red(l2)) balance(z2, Node(1, set_black(l2), k2, v2, Node(0,t,k1,v1,r1) ));
+                                                else 
+                                                    match t -> type tree {
+                                                        | Node(c3, l, k, v, r)       ->      rebuild(z2, Node(0, Node(1,l2,k2,v2,l), k, v, Node(1,r,k1,v1,r1)))
+                                                    };
+        };
+        else rebuild(z, t);
+    
+}
+
+
+
+
+
+
+
+type list {
+    Cons(int i, type list l);
+    Nil;
+}
+
+type list _list_concat [type list a, type list b, type list res] = match b -> type list {
+    | Nil           ->  match a -> type list {
+        | Nil           ->  res
+        | Cons(i, na)   ->  _list_concat(na, Nil, Cons(i, res))
+    }
+    | Cons(i, nb)   ->  _list_concat(a, nb, Cons(i, res))
+}
+
+type list list_concat [type list a, type list b] =  _list_concat(a, b, Nil)
+
+int log_color [int c] = match (if (c == 1) Boolean(log(c, "<Red color, ")); else Boolean(log(c, "<Black color, "));) -> int {
+    | Boolean(i)   ->   i
+}
+
+type tree first [type tree t, int i] = t
+
+type tree log_node [type tree t, int level] = match t -> type tree {
+    | Leaf                  -> log( first( t, log(level, "level ") ), "<leaf>\n")
+    | Node(c, l, i, v, r)   ->  
+        match i -> type tree { 
+            | Integer(i_val)    ->     Node(
+                    log_color(c), 
+                    first(l, log(level, "level, ")), 
+                    Integer( log(i_val, "node value>\n") ), 
+                    v, 
+                    r
+                )
+        }
+}
+
+type list _traverse_tree [type tree t, int level] = match t -> type tree {
+    | Leaf                  ->  Cons( -1, Nil)
+    | Node(c, l, i, v, r)   ->  Cons( 
+        _int(i), 
+        list_concat( _traverse_tree(log_node(l, level), level+1), _traverse_tree(log_node(r, level), level+1) )
+        )
+}
+
+type tree first_tree [type tree t, type list l] = t
+
+type tree log_tree [type tree t] = first_tree( 
+        t, 
+        log(
+            _traverse_tree(
+                log_node(t, 0), 
+                1
+            ), 
+            "Log Tree Done\n"
+        ) 
+    ) 
+
+type tree make_n_tree_helper [int n, int cur, type tree acc ] = 
+    if (n <= cur)
+        acc;
+    else 
+        make_n_tree_helper(n, cur + 1, insert(acc, Integer(cur), (cur%10)==0) );
+
+type tree make_n_tree [int n] = 
+    make_n_tree_helper(n, 0, time(time( Leaf )))
+
+int finish [type tree t] = 0
+
+
+
+
+
+
+int main [int argc, char** argv] = 
+    finish( 
+        time(
+            log( 
+                make_n_tree(time(22379)), 
+                    "Insertions done\n\n"
+            )
+        )
+    )

@@ -50,7 +50,7 @@ static std::size_t already_allocated = 0;
 void *ckrt_malloc(int size)
 {
     auto res = malloc((std::size_t)size);
-    already_allocated += (std::size_t)size;
+    // already_allocated += (std::size_t)size;
     // if (!res)
     // {
     //     // ckrt_printf("[ckrt_malloc] malloc returned NULL!\n");

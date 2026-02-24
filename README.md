@@ -103,7 +103,11 @@ In the `./bench/` folder, files which names strart with "basic\_" substring
 are meant as benchmark files and are not included in the benchmarks results. For 
 other files, it is expected that they have a fip and non-fip version. The 
 Fip version should fit pattern "<name>\_fip.ffip" and the non-fip 
-version fits pattern "<name>\_normal.ffip". 
+version fits pattern "<name>\_normal.ffip". There are also scripts which fit 
+pattern "<name>\_nipalgo.ffip". These files are equivalent to the fip algorithms
+but the reusing mechanism is turned off. This benchmark measures, how much overhead 
+to the normal sollution does the fip algorithms produce if the reuse mechanism 
+wasn't present.
 
 After Benchmarks are generated, for each script there is folder of its name 
 with compiled executable and the generated IR instructions. Than 
